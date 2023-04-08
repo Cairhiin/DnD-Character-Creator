@@ -1,0 +1,24 @@
+@import './variables.modules';
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+
+    .logo {
+        span {
+            color: $secondary-color;
+        }
+    }
+
+    .auth {
+        li {
+            display: inline;
+            padding: 1rem;
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+}

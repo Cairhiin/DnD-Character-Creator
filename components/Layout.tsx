@@ -1,8 +1,5 @@
 import { ReactNode } from "react";
-import styles from '../styles/Layout.module.scss';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import styles from '@/styles/Layout.module.scss';
 
 type Props = {
     children: ReactNode
@@ -10,7 +7,7 @@ type Props = {
 
 const Layout = ({ children }: Props): JSX.Element => {
     return (
-        <div className={ inter.className }>
+        <div>
             <main className={ styles.main }>
                 { children }
             </main>

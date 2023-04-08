@@ -1,0 +1,26 @@
+$primary-color-900: hsl(0, 9%, 9%);
+$primary-color-800: hsl(0, 2%, 17%);
+$primary-color-700: hsl(0, 3%, 26%);
+$primary-color-600: hsl(0, 2%, 49%);
+$primary-color-500: hsl(0, 2%, 60%);
+$primary-color-400: hsl(0, 3%, 70%);
+$primary-color-300: hsl(12, 5%, 81%);
+$primary-color-200: hsl(12, 10%, 90%);
+$primary-color-100: hsl(15, 22%, 96%);
+
+$secondary-color: hsl(198, 72, 50, 100%);
+$on-background-color: hsl(0, 0%, 98%);
+
+:export {
+    primaryColor-900: $primary-color-900;
+    primaryColor-800: $primary-color-800;
+    primaryColor-700: $primary-color-700;
+    primaryColor-600: $primary-color-600;
+    primaryColor-500: $primary-color-500;
+    primaryColor-400: $primary-color-400;
+    primaryColor-300: $primary-color-300;
+    primaryColor-200: $primary-color-200;
+    primaryColor-100: $primary-color-100;
+    secondaryColor: $secondary-color;
+    onBackgroundColor: $on-background-color;
+  }
