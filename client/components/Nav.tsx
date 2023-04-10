@@ -1,6 +1,10 @@
 import styles from '@/styles/Nav.module.scss';
 
-const Nav = () => {
+type Props = {
+    isLoggedIn: boolean;
+};
+
+const Nav = ({ isLoggedIn }: Props): JSX.Element => {
     return (
         <nav className={styles.nav}>
             <div className={styles.logo}>
@@ -11,8 +15,18 @@ const Nav = () => {
             </div>
             <div className={styles.auth}>
                 <ul>
-                    <li>Log in</li>
-                    <li>Register</li>
+                    { isLoggedIn 
+                        ?
+                            <>
+                                <li>Settings</li>
+                                <li>Logout</li>
+                            </>
+                        :
+                            <>
+                                <li>Log in</li>
+                                <li>Register</li>
+                            </>
+                    }
                 </ul>
             </div>
         </nav>
