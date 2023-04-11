@@ -4,7 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-router.get('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
     let user = new User({
         name: req.body.name,
         username: req.body.username,
@@ -12,13 +12,12 @@ router.get('/register', (req, res, next) => {
         password: req.body.password
     });
 
-    User.addUser(user, (err, user) => {
-        if (err) {
-            res.json({ success: false, message: 'Failed to register user' });
-        } else {
-            res,json({ success: true, message: 'User registered successfully'});
-        }
-    });
+    try {
+        await User.addUser(user);
+        res.json({ success: true, message: 'User registered successfully' });
+    } catch (err) {
+        res.json({ success: false, message: 'Failed to register user' });
+    }
 });
 
 router.get('/authenticate', (req, res, next) => {

@@ -31,12 +31,9 @@ module.exports.getUserByUsername = function(username, callback) {
     User.findOne({ username: username }, callback);
 }
 
-module.exports.addUser = function(user, callback) {
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-            user.save(this.callback);
-        });
-    });
+module.exports.addUser = async function(user) {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(user.password, salt);
+    user.password = hash;
+    await user.save();
 };

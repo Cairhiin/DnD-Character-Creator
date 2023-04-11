@@ -1,7 +1,7 @@
 {
   "main": "app.js",
   "scripts": {
-    "start": "node index"
+    "start": "nodemon index"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -14,5 +14,8 @@
     "passport-jwt": "^4.0.1"
   },
   "author": "Frank van de Voorde",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
