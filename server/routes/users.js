@@ -34,7 +34,9 @@ router.post('/authenticate', async (req, res, next) => {
         User.comparePassword(password, user.password, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
-                const token = jwt.sign(user.toJSON(), process.env.DATABASE_SECRET, {
+                const token = jwt.sign(
+                    { username: user.username, email: user.email }, 
+                    process.env.DATABASE_SECRET, {
                     expiresIn: 604800
                 });
 
