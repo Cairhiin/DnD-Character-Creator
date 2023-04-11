@@ -4,7 +4,8 @@ const config = require('../config/database');
 
 const UserSchema = mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     username: {
         type: String,
@@ -29,3 +30,13 @@ module.exports.getUserById = function(id, callback) {
 module.exports.getUserByUsername = function(username, callback) {
     User.findOne({ username: username }, callback);
 }
+
+module.exports.addUser = function(user, callback) {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) throw err;
+            user.password = hash;
+            user.save(this.callback);
+        });
+    });
+};
