@@ -27,8 +27,9 @@ module.exports.getUserById = function(id, callback) {
     User.findById(id, callback);
 };
 
-module.exports.getUserByUsername = function(username, callback) {
-    User.findOne({ username: username }, callback);
+module.exports.getUserByUsername = async function(username) {
+    const user = await User.findOne({ username: username });
+    return user;
 }
 
 module.exports.addUser = async function(user) {
@@ -37,3 +38,10 @@ module.exports.addUser = async function(user) {
     user.password = hash;
     await user.save();
 };
+
+module.exports.comparePassword = async function(candidatePassword, hash, callback) {
+    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+        if (err) throw err;
+        callback(null, isMatch);
+    });
+}

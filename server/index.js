@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -21,6 +22,11 @@ const port = 3000;
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+
+app.use(session({ secret: 'Elminster', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 app.use('/api/users', users);
 
