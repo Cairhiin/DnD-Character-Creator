@@ -1,4 +1,7 @@
 import styles from '@/styles/Nav.module.scss';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 type Props = {
     isLoggedIn: boolean;
@@ -6,7 +9,7 @@ type Props = {
 
 const Nav = ({ isLoggedIn }: Props): JSX.Element => {
     return (
-        <nav className={styles.nav}>
+        <nav className={`${styles.nav} ${inter.className}`}>
             <div className={styles.logo}>
                 <h1>
                     D<span className={styles.secondaryColor__highlight}>&</span>D Character 
