@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb://localhost:27017/dndcharmanager',
+    database: 'mongodb://0.0.0.0:27017/dndcharmanager',
     secret: 'Elminster'
 };
