@@ -6,16 +6,16 @@ module.exports = function(passport) {
     let opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
     opts.secretOrKey = config.secret;
-    passport.use(new Strategy(opts, (jwt_payload, done) => {
-        User.getUserById(jwt_payload._id, (err, user) => {
-            if (err) {
-                return done(err, false);
-            }  
+    passport.use(new Strategy(opts, async (jwt_payload, done) => {
+        try {
+            const user = await User.getUserById(jwt_payload._id);
             if (user) {
                 return done(null, user);
             } else {
                 return done(null, false);
             }
-        });   
+        } catch (err) {
+            return done(err, false);
+        }
     }));
 }
