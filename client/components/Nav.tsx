@@ -21,7 +21,7 @@ const Nav = (): JSX.Element => {
                     { isLoggedIn 
                         ?
                             <>
-                                <li>Settings</li>
+                                <li><Link href='/auth/profile'>Settings</Link></li>
                                 <li onClick={() => signOut()}>Logout</li>
                             </>
                         :

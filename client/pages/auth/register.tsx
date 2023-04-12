@@ -16,7 +16,7 @@ type FormData = {
 const schema = yup.object({
     username: yup.string().required(),
     name: yup.string().required(),
-    email: yup.string().required(),
+    email: yup.string().email().required(),
     password: yup.string().required(),
     passwordConfirmation: yup.string().required().oneOf([yup.ref('password')], 'Passwords must match'),
 }).required();

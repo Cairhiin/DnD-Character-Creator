@@ -18,7 +18,8 @@ export const authOptions = {
                     })
                 });
 
-                const user = await res.json();
+                const data = await res.json();
+                const { user } = data;
                 if (res.ok && user) return user;
                 return null;
             }

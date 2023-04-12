@@ -13,7 +13,7 @@ type Props = {
 
 const Layout = ({ children }: Props): JSX.Element => {
     return (
-        <div className={roboto.className}>
+        <div className={ roboto.className }>
             <main className={ styles.main }>
                 { children }
             </main>
