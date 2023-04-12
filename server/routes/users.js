@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 router.post('/register', async (req, res, next) => {
@@ -26,7 +24,7 @@ router.post('/authenticate', async (req, res, next) => {
 
     try {
         const user = await User.getUserByUsername(username);
-        
+     
         if (!user) {
             return res.json({ success: false, message: 'No such user'} );
         } 
@@ -34,15 +32,8 @@ router.post('/authenticate', async (req, res, next) => {
         User.comparePassword(password, user.password, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
-                const token = jwt.sign(
-                    { username: user.username, email: user.email }, 
-                    process.env.DATABASE_SECRET, {
-                    expiresIn: 604800
-                });
-
                 return res.json({
                     success: true,
-                    token: `JWT ${token}`,
                     user: {
                         id: user._id,
                         name: user.name,
@@ -62,7 +53,7 @@ router.post('/authenticate', async (req, res, next) => {
     } 
 });
 
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.get('/profile', (req, res, next) => {
     return res.json({ user: req.user });
 });
 
