@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from '@/styles/auth/Profile.module.scss';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
@@ -26,7 +27,6 @@ export default function Profile() {
 
     if (session) {
         const { user } = session;
-        console.log("USER: ", user)
         return (
             <>
                 <Head>
@@ -35,8 +35,12 @@ export default function Profile() {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <h1 className={styles.main}>Profile</h1>
-                <p>{ user?.name }</p>
+                <div className={styles.main}>
+                    <h1 className={styles.header}>Profile</h1>
+                    <p>{ user?.name }</p>
+                    <p>{ user?.email }</p>
+                    <p>{ user?.username }</p>
+                </div>
             </>
         );
     }
@@ -49,7 +53,11 @@ export default function Profile() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className={styles.main}>Access Denied</div>
+            <div className={styles.main}>
+                <h2 className={styles.header}>Access Denied. </h2>
+                <p>Have an account already? <Link href="/auth/login">Login</Link>.</p>
+                <p>Don't have an account yet? <Link href="/auth/register">Register</Link>.</p>
+            </div>
         </>
     );
 }
