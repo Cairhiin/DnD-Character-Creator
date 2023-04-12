@@ -8,7 +8,7 @@ import Nav from '@/components/Nav';
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={ session }>
-      <Nav isLoggedIn={ true } />
+      <Nav />
       <Layout>
         <Component {...pageProps} />
       </Layout>

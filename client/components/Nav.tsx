@@ -1,13 +1,13 @@
+import Link from 'next/link';
 import styles from '@/styles/Nav.module.scss';
 import { Inter } from 'next/font/google';
+import { useSession, signOut } from "next-auth/react"
 
 const inter = Inter({ subsets: ['latin'] });
 
-type Props = {
-    isLoggedIn: boolean;
-};
-
-const Nav = ({ isLoggedIn }: Props): JSX.Element => {
+const Nav = (): JSX.Element => {
+    const { data: session, status } = useSession();
+    const isLoggedIn = status === "authenticated";
     return (
         <nav className={`${styles.nav} ${inter.className}`}>
             <div className={styles.logo}>
@@ -22,12 +22,12 @@ const Nav = ({ isLoggedIn }: Props): JSX.Element => {
                         ?
                             <>
                                 <li>Settings</li>
-                                <li>Logout</li>
+                                <li onClick={() => signOut()}>Logout</li>
                             </>
                         :
                             <>
-                                <li>Log in</li>
-                                <li>Register</li>
+                                <li><Link href='/auth/login'>Log in</Link></li>
+                                <li><Link href='/auth/register'>Register</Link></li>
                             </>
                     }
                 </ul>
