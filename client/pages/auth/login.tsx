@@ -3,6 +3,7 @@ import styles from '@/styles/auth/Login.module.scss';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { getProviders, getSession, signIn } from 'next-auth/react';
 
 type FormData = {
     password: string;
@@ -16,7 +17,12 @@ const schema = yup.object({
 
 export default function Login() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({resolver: yupResolver(schema)});
-    const onSubmit = handleSubmit(data => console.log(data));
+    const onSubmit = (data: FormData) => {
+        signIn("credentials", {
+            username: data.username,
+            password: data.password
+        });
+    };
   
     return (
         <>
@@ -28,7 +34,7 @@ export default function Login() {
             </Head>
             <div className={styles.main}>
                 <div>
-                    <form onSubmit={onSubmit} className={styles.form}>
+                    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                         <div className={styles.form__row}>
                             <label className={styles.form__label}>Username</label>
                             <input {...register("username")} className={styles.form__input}></input>
@@ -48,4 +54,22 @@ export default function Login() {
             </div>
         </>
     )
+}
+
+export async function getServerSideProps(context: any) {
+    const { req } = context;
+    const session = await getSession({ req });
+    const providers = await getProviders()
+
+    if (session) {
+        return {
+            redirect: { destination: '/' }
+        };
+    }
+
+    return {
+        props: {
+            providers
+        }
+    }
 }
