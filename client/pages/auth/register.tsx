@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '@/styles/auth/Auth.module.scss';
 import { useForm } from 'react-hook-form';
@@ -58,7 +59,7 @@ export default function Login() {
                 <div className={styles.auth}>
                     <h2 className={styles.header}>Register</h2>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                        <div className={styles.form__image}>
+                        <div className={styles.form__image__register}>
 
                         </div>
                         <div className={styles.form__content}>
@@ -93,7 +94,7 @@ export default function Login() {
                                 <button type="submit" className={`${styles.btn} ${styles.primary} ${roboto.className}`}>
                                     Submit
                                 </button>
-                                <p>Already have an account yet? Login</p>
+                                <p>Already have an account yet? <Link href="/auth/login">Login</Link></p>
                             </div>
                         </div>
                     </form>
