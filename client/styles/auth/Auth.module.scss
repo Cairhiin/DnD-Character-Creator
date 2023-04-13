@@ -1,0 +1,96 @@
+@import '../variables.modules';
+
+
+.main {
+    display: grid;
+    min-height: calc(100svh - 50px - 64px);
+
+    .auth {
+        width: 800px;
+        place-self: center;     
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.15);
+
+        .header {
+            background-color: $tertiary-color;
+            padding: 0.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .form {      
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        
+            .form__image {
+                background-image: url('/images/background1.jpg');
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        
+            .form__content {
+                background: radial-gradient(65.8% 65.8% at 50% 50%, rgba(10, 46, 64, 0) 0%, rgba(10, 46, 64, 0.2) 0%, rgba(55, 2, 15, 0.17) 100%), #171717;
+                padding: 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 5rem;
+        
+                .form__buttons {
+                    
+                    .btn {
+                        width: 100%;
+                        margin-bottom: 1rem;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        border-radius: 4px;
+                        padding: 0.6rem 1.2rem;
+                        border: 0;
+                        transition: all 500ms ease-in;
+                        font-size: 1rem;
+                    
+                        &.primary {
+                            background-color: $secondary-color;
+                            color: $on-background-color;
+                    
+                            &:hover {
+                                background-color: darken($secondary-color, 15);
+                            }
+                        }
+                    }
+                }
+        
+                .form__data {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+        
+                    .form__row {
+                        text-transform: uppercase;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 1rem;
+                    }
+                    
+                    .form__input {
+                        flex: 1;
+                        height: 2rem;
+                        border-radius: 4px;
+                        border: 0;
+                    }
+                    
+                    .form__label {
+                        min-width: 75px;
+                        flex: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include mediaSm {
+    .form {
+        max-width: 450px;
+    }
+}

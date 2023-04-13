@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import styles from '@/styles/auth/Login.module.scss';
+import styles from '@/styles/auth/Auth.module.scss';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { Roboto_Condensed } from 'next/font/google';
 
 type FormData = {
     username: string;
@@ -12,6 +13,11 @@ type FormData = {
     password: string;
     passwordConfirmation: string;
 };
+
+const roboto = Roboto_Condensed({
+    subsets: ['latin'],
+    weight: ['400', '700']
+});
 
 const schema = yup.object({
     username: yup.string().required(),
@@ -49,37 +55,47 @@ export default function Login() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className={styles.main}>
-                <div>
+                <div className={styles.auth}>
+                    <h2 className={styles.header}>Register</h2>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                        <div className={styles.form__row}>
-                            <label className={styles.form__label}>Username</label>
-                            <input {...register("username")} className={styles.form__input}></input>
+                        <div className={styles.form__image}>
+
                         </div>
-                        <p>{errors.username?.message}</p>
-                        <div className={styles.form__row}>
-                            <label className={styles.form__label}>Name</label>
-                            <input {...register("name")} className={styles.form__input}></input>
+                        <div className={styles.form__content}>
+                            <div className={styles.form__data}>
+                                <div className={styles.form__row}>
+                                    <label className={styles.form__label}>Username</label>
+                                    <input {...register("username")} className={styles.form__input}></input>
+                                </div>
+                                <p>{errors.username?.message}</p>
+                                <div className={styles.form__row}>
+                                    <label className={styles.form__label}>Name</label>
+                                    <input {...register("name")} className={styles.form__input}></input>
+                                </div>
+                                <p>{errors.name?.message}</p>
+                                <div className={styles.form__row}>
+                                    <label className={styles.form__label}>Email</label>
+                                    <input {...register("email")} className={styles.form__input}></input>
+                                </div>
+                                <p>{errors.email?.message}</p>
+                                <div className={styles.form__row}>
+                                    <label className={styles.form__label}>Password</label>
+                                    <input type="password" {...register("password")} className={styles.form__input}></input>
+                                </div>
+                                <p>{errors.password?.message}</p>
+                                <div className={styles.form__row}>
+                                    <label className={styles.form__label}>Password</label>
+                                    <input type="password" {...register("passwordConfirmation")} className={styles.form__input}></input>
+                                </div>
+                            </div>
+                            <div className={styles.form__buttons}>
+                                <p>{errors.passwordConfirmation?.message}</p>
+                                <button type="submit" className={`${styles.btn} ${styles.primary} ${roboto.className}`}>
+                                    Submit
+                                </button>
+                                <p>Already have an account yet? Login</p>
+                            </div>
                         </div>
-                        <p>{errors.name?.message}</p>
-                        <div className={styles.form__row}>
-                            <label className={styles.form__label}>Email</label>
-                            <input {...register("email")} className={styles.form__input}></input>
-                        </div>
-                        <p>{errors.email?.message}</p>
-                        <div className={styles.form__row}>
-                            <label className={styles.form__label}>Password</label>
-                            <input type="password" {...register("password")} className={styles.form__input}></input>
-                        </div>
-                        <p>{errors.password?.message}</p>
-                        <div className={styles.form__row}>
-                            <label className={styles.form__label}>Password</label>
-                            <input type="password" {...register("passwordConfirmation")} className={styles.form__input}></input>
-                        </div>
-                        <p>{errors.passwordConfirmation?.message}</p>
-                        <button type="submit" className={`${styles.btn} ${styles.primary}`}>
-                            Register
-                        </button>
-                        <p>Already have an account yet? Login</p>
                     </form>
                 </div>
             </div>
