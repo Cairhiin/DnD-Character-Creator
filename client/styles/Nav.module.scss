@@ -14,6 +14,7 @@
     .nav__left {
         display: flex;
         align-items: center;
+
         .logo {
             font-size: 1.2rem; 
             
@@ -27,7 +28,8 @@
             margin: 0 0 0 1rem;
 
             li {
-                width: 10rem;
+                width: 7rem;
+                padding: 0 0.5rem;
             }
         }
     }

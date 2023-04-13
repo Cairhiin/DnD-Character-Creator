@@ -21,7 +21,8 @@ const Nav = (): JSX.Element => {
                 </div>
                 <div className={styles.menu}>
                     <ul>
-                        <li>Create Character</li>
+                        <li>Create</li>
+                        <li>Manage</li>
                     </ul>
                 </div>
             </div>
