@@ -70,18 +70,18 @@
                         justify-content: space-between;
                         align-items: center;
                         gap: 1rem;
-                    }
-                    
-                    .form__input {
-                        flex: 1;
-                        height: 2rem;
-                        border-radius: 4px;
-                        border: 0;
-                    }
-                    
-                    .form__label {
-                        min-width: 75px;
-                        flex: 0;
+
+                        .form__input {
+                            flex: 1;
+                            height: 2rem;
+                            border-radius: 4px;
+                            border: 0;
+                        }
+                        
+                        .form__label {
+                            min-width: 75px;
+                            flex: 0;
+                        }
                     }
                 }
             }
@@ -89,8 +89,34 @@
     }
 }
 
-@include mediaSm {
-    .form {
-        max-width: 450px;
+@include mediaLg {
+    .main {
+        .auth {
+            max-width: 500px;
+
+            .form {
+                grid-template-columns: 1fr;
+
+                .form__image {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@include mediaMd {
+    .main {
+        .auth {
+            width: 400px;
+
+            .form {
+                grid-template-columns: 1fr;
+
+                .form__image {
+                    display: none;
+                }
+            }
+        }
     }
 }
