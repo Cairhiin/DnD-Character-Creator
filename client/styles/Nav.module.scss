@@ -10,31 +10,39 @@
     padding: 0 0 0 1rem;
     color: $on-background-color;
     height: 60px;
-    
-    .logo {
-       font-size: 1.2rem; 
-        
-       .secondaryColor__highlight {
-            color: $secondary-color;
-            font-weight: 800;
+
+    .nav__left {
+        display: flex;
+        align-items: center;
+        .logo {
+            font-size: 1.2rem; 
+            
+            .secondaryColor__highlight {
+                color: $secondary-color;
+                font-weight: 800;
+            }
+        }
+
+        .menu {
+            margin: 0 0 0 1rem;
+
+            li {
+                width: 10rem;
+            }
         }
     }
 
-    .auth {
-        ul {
-            li {
-                height: 60px;
-                line-height: 60px;
-                font-size: 0.9rem;
-                display: inline-block;
-                padding: 0 1rem;
-                width: 6rem;
-                text-align: center;
-                
-                &:hover {
-                    background-color: $primary-color-800;
-                }
-            }
+    li {
+        height: 60px;
+        line-height: 60px;
+        font-size: 0.9rem;
+        display: inline-block;
+        padding: 0 1rem;
+        width: 6rem;
+        text-align: center;
+        
+        &:hover {
+            background-color: $primary-color-800;
         }
     }
 }

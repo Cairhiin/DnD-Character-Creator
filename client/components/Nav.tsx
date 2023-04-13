@@ -12,11 +12,18 @@ const Nav = (): JSX.Element => {
     const isLoggedIn = status === "authenticated";
     return (
         <nav className={`${styles.nav} ${inter.className}`}>
-            <div className={styles.logo}>
-                <h1>
-                    D<span className={styles.secondaryColor__highlight}>&</span>D Character 
-                    <span className={styles.secondaryColor__highlight}>Manager</span>
-                </h1>
+            <div className={styles.nav__left}>
+                <div className={styles.logo}>
+                    <h1>
+                        D<span className={styles.secondaryColor__highlight}>&</span>D Character 
+                        <span className={styles.secondaryColor__highlight}>Manager</span>
+                    </h1>
+                </div>
+                <div className={styles.menu}>
+                    <ul>
+                        <li>Create Character</li>
+                    </ul>
+                </div>
             </div>
             <div className={styles.auth}>
                 <ul>
