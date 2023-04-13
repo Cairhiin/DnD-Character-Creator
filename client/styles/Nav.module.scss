@@ -1,8 +1,7 @@
 @import './variables.modules';
 
 .nav {
-    background-color: $primary-color-900;
-    border-bottom: 1px solid transparentize($primary-color-700, 0.3);
+    background-color: darken($primary-color-900, 2);
     display: flex;
     position: sticky;
     top: 0;
