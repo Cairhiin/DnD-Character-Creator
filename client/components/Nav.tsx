@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from '@/styles/Nav.module.scss';
 import { Inter } from 'next/font/google';
 import { useSession, signOut } from "next-auth/react"
@@ -6,6 +7,7 @@ import { useSession, signOut } from "next-auth/react"
 const inter = Inter({ subsets: ['latin'] });
 
 const Nav = (): JSX.Element => {
+    const router = useRouter();
     const { data: session, status } = useSession();
     const isLoggedIn = status === "authenticated";
     return (
@@ -21,13 +23,21 @@ const Nav = (): JSX.Element => {
                     { isLoggedIn 
                         ?
                             <>
-                                <li><Link href='/auth/profile'>Settings</Link></li>
-                                <li onClick={() => signOut()}>Logout</li>
+                                <li className={router.pathname === "/auth/profile" ? "active-nav-link" : ""}>
+                                    <Link href='/auth/profile'>Settings</Link>
+                                </li>
+                                <li 
+                                    onClick={() => signOut()}>Logout
+                                </li>
                             </>
                         :
                             <>
-                                <li><Link href='/auth/login'>Log in</Link></li>
-                                <li><Link href='/auth/register'>Register</Link></li>
+                                <li className={router.pathname === "/auth/login" ? "active-nav-link" : ""}>
+                                    <Link href='/auth/login'>Log in</Link>
+                                </li>
+                                <li className={router.pathname === "/auth/register" ? "active-nav-link" : ""}>
+                                    <Link href='/auth/register'>Register</Link>
+                                </li>
                             </>
                     }
                 </ul>
