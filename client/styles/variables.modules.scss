@@ -13,40 +13,28 @@ $on-background-color: hsl(0, 0%, 98%);
 
 $tertiary-color: hsl(200, 73%, 15%);
 
-:export {
-    primaryColor-900: $primary-color-900;
-    primaryColor-800: $primary-color-800;
-    primaryColor-700: $primary-color-700;
-    primaryColor-600: $primary-color-600;
-    primaryColor-500: $primary-color-500;
-    primaryColor-400: $primary-color-400;
-    primaryColor-300: $primary-color-300;
-    primaryColor-200: $primary-color-200;
-    primaryColor-100: $primary-color-100;
-    secondaryColor: $secondary-color;
-    onBackgroundColor: $on-background-color;
-  }
 
-  @mixin mediaSm {
-    @media screen and (max-width: 500px) {
-      @content;
-    }
+
+@mixin mediaSm {
+  @media screen and (max-width: 500px) {
+    @content;
   }
-  
-  @mixin mediaMd {
-    @media screen and (max-width: 768px) {
-      @content;
-    }
+}
+
+@mixin mediaMd {
+  @media screen and (max-width: 768px) {
+    @content;
   }
-  
-  @mixin mediaLg {
-    @media screen and (min-width: 769px) and (max-width: 1170px) {
-      @content;
-    }
+}
+
+@mixin mediaLg {
+  @media screen and (min-width: 769px) and (max-width: 1170px) {
+    @content;
   }
-  
-  @mixin mediaXL {
-    @media screen and (min-width: 1171px) {
-      @content;
-    }
+}
+
+@mixin mediaXL {
+  @media screen and (min-width: 1171px) {
+    @content;
   }
+}

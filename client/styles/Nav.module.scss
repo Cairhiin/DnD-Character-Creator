@@ -1,27 +1,34 @@
 @import './variables.modules';
 
-.secondaryColor__highlight {
-    color: $secondary-color;
-    font-weight: 800;
-}
-
 .nav {
+    background-color: $primary-color-900;
+    border-bottom: 1px solid transparentize($primary-color-700, 0.3);
     display: flex;
+    position: sticky;
+    top: 0;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 0 0 1rem;
     color: $on-background-color;
-
+    height: 60px;
+    
     .logo {
        font-size: 1.2rem; 
+        
+       .secondaryColor__highlight {
+            color: $secondary-color;
+            font-weight: 800;
+        }
     }
 
     .auth {
         ul {
             li {
+                height: 60px;
+                line-height: 60px;
                 font-size: 0.9rem;
                 display: inline-block;
-                padding: 1rem;
+                padding: 0 1rem;
                 width: 6rem;
                 text-align: center;
                 
