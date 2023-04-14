@@ -11,7 +11,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.main}>
-        <div className={styles.create__topbar}></div>
+        <div className={styles.create__topbar}>
+          <ul>
+            <li>1. Race</li>
+            <li>2. Class</li>
+            <li>3. Abilities</li>
+            <li>4. Description</li>
+            <li>5.Equipment</li>
+          </ul>
+        </div>
       </div>
     </>
   )

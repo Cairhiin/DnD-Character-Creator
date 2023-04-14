@@ -21,8 +21,12 @@ const Nav = (): JSX.Element => {
                 </div>
                 <div className={styles.menu}>
                     <ul>
-                        <li>Create</li>
-                        <li>Manage</li>
+                        <li className={router.pathname === "/create" ? "active-nav-link" : ""}>
+                            <Link href="/create">Create</Link>
+                        </li>
+                        <li className={router.pathname === "/manage" ? "active-nav-link" : ""}>
+                            <Link href="/manage">Manage</Link>
+                        </li>
                     </ul>
                 </div>
             </div>
