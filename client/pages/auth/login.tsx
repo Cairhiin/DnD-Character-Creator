@@ -39,7 +39,7 @@ export default function Login() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className={styles.main}>
+            <section className={styles.main}>
                 <div className={styles.auth}>
                     <h2 className={styles.header}>Login</h2>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -68,7 +68,7 @@ export default function Login() {
                         </div>
                     </form>
                 </div>
-            </div>
+            </section>
         </>
     )
 }
