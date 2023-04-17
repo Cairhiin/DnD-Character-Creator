@@ -1,3 +1,4 @@
+// Colors
 $primary-color-900: hsl(0, 9%, 9%);
 $primary-color-800: hsl(0, 2%, 17%);
 $primary-color-700: hsl(0, 3%, 26%);
@@ -12,6 +13,15 @@ $secondary-color: hsl(198, 72, 50, 100%);
 $on-background-color: hsl(0, 0%, 98%);
 
 $tertiary-color: hsl(200, 73%, 15%);
+
+// Borders
+@mixin roundedBorder {
+  border-radius: 8px;
+}
+
+@mixin transitionAll {
+  transition: all 500ms ease-in;
+}
 
 @mixin mediaSm {
   @media screen and (max-width: 500px) {
