@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  min-height: 100svh;
+  background:  radial-gradient(circle, rgba(10, 46, 64, 0.3) 0%, rgba(55, 2, 15, 0.17) 100%), #171717;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.active-nav-link {
+  background-color: hsl(0, 2%, 17%);
+  color: hsl(12, 5%, 81%);
+}
+
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
