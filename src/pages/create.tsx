@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Create.module.scss';
 import RaceCard from '@/components/RaceCard';
-import { RACES, CLASSES } from '@/constants';
+import CreateCharacterTabs from '@/components/CreateCharacterTabs';
 
 const raceMock = {
   "index": "dragonborn",
@@ -69,8 +69,8 @@ export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<string>("1");
   const setActiveIndex = (e: any) => {
     setActiveTabIndex(e.dataset.tabId);
-    console.log(e.dataset.tabId)
   }
+
   return (
     <>
       <Head>
@@ -96,26 +96,7 @@ export default function Home() {
           <aside className={styles.create__chardata}></aside>
           <aside className={styles.create__choices}>
             <div className={styles.create__tabs}>
-            { 
-              activeTabIndex === "1" &&
-                <div className={styles.create__tabs__tab}>
-                  { 
-                    RACES.map((race: string) => <div key={race} className={styles.create__choices__race}>
-                      <h3 className={styles.create__choices__header}>{race}</h3>
-                    </div>)
-                  }
-                </div>
-            }
-            { 
-              activeTabIndex === "2" &&
-              <div className={styles.create__tabs__tab}>
-                { 
-                  CLASSES.map((dndClass: string) => <div key={dndClass} className={styles.create__choices__race}>
-                    <h3 className={styles.create__choices__header}>{dndClass}</h3>
-                  </div>)
-                }
-              </div>
-            }
+              <CreateCharacterTabs activeIndex={activeTabIndex} />           
             </div>
           </aside>
           <div></div>

@@ -33,17 +33,6 @@
             @include roundedBorder;
             background-color: $primary-color-800;
             padding: 0.5rem 1rem;
-            
-            .create__choices__header {
-                text-transform: capitalize;
-            }
-
-            .create__tabs {
-
-                .create__tabs__tab {
-                    display: block;
-                }
-            }
         }
     }
 }
