@@ -17,7 +17,7 @@ const RaceCard = ({ race }: Props): JSX.Element => {
     return (
         <div className={styles.create__raceComponent}>
             <h2>{ name }</h2>
-            <p>{ name } Traits: { traits.map((trait: Trait): JSX.Element => <span>{ trait.name } </span>) }</p>
+            <p>{ name } Traits: { traits.map((trait: Trait): JSX.Element => <span key={trait.name}>{ trait.name } </span>) }</p>
             <div className={styles.racial__traits}>
               <div className={styles.racial__traits__score}>
                 <h4>Ability Score Increase</h4>

@@ -19,7 +19,31 @@
         }
     }
 
-    .create__chardata {
-        padding: 1rem;
+    .create__main {
+        display: grid;
+        grid-template-columns: 1fr 6fr 6fr 1fr;
+        gap: 2rem;
+
+        .create__chardata {
+            @include roundedBorder; 
+            background-color: $primary-color-800;  
+        }
+
+        .create__choices {       
+            @include roundedBorder;
+            background-color: $primary-color-800;
+            padding: 0.5rem 1rem;
+            
+            .create__choices__header {
+                text-transform: capitalize;
+            }
+
+            .create__tabs {
+
+                .create__tabs__tab {
+                    display: block;
+                }
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ $tertiary-color: hsl(200, 73%, 15%);
 
 // Borders
 @mixin roundedBorder {
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 @mixin transitionAll {

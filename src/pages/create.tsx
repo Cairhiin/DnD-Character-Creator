@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Create.module.scss';
 import RaceCard from '@/components/RaceCard';
+import { RACES, CLASSES } from '@/constants';
 
 const raceMock = {
   "index": "dragonborn",
@@ -64,6 +66,11 @@ const raceMock = {
 };
 
 export default function Home() {
+  const [activeTabIndex, setActiveTabIndex] = useState<string>("1");
+  const setActiveIndex = (e: any) => {
+    setActiveTabIndex(e.dataset.tabId);
+    console.log(e.dataset.tabId)
+  }
   return (
     <>
       <Head>
@@ -75,21 +82,44 @@ export default function Home() {
       <div className={styles.main}>
         <nav className={styles.nav}>
           <div className={styles.create__topbar}>
-            <ul>
-              <li>1. Race</li>
-              <li>2. Class</li>
-              <li>3. Abilities</li>
-              <li>4. Description</li>
-              <li>5. Equipment</li>
+            <ul onClick={(e: React.MouseEvent<HTMLElement>) => setActiveIndex(e.target as any)}>
+              <li data-tab-id="1">1. Race</li>
+              <li data-tab-id="2">2. Class</li>
+              <li data-tab-id="3">3. Abilities</li>
+              <li data-tab-id="4">4. Description</li>
+              <li data-tab-id="5">5. Equipment</li>
             </ul>
           </div>
         </nav>
-        <div className={styles.create__main}>
-          <section className={styles.create__description}></section>
-          <section className={styles.create__choices}>
-            <RaceCard race={raceMock} />
-          </section>
-        </div>
+        <section className={styles.create__main}>
+          <div></div>
+          <aside className={styles.create__chardata}></aside>
+          <aside className={styles.create__choices}>
+            <div className={styles.create__tabs}>
+            { 
+              activeTabIndex === "1" &&
+                <div className={styles.create__tabs__tab}>
+                  { 
+                    RACES.map((race: string) => <div key={race} className={styles.create__choices__race}>
+                      <h3 className={styles.create__choices__header}>{race}</h3>
+                    </div>)
+                  }
+                </div>
+            }
+            { 
+              activeTabIndex === "2" &&
+              <div className={styles.create__tabs__tab}>
+                { 
+                  CLASSES.map((dndClass: string) => <div key={dndClass} className={styles.create__choices__race}>
+                    <h3 className={styles.create__choices__header}>{dndClass}</h3>
+                  </div>)
+                }
+              </div>
+            }
+            </div>
+          </aside>
+          <div></div>
+        </section>
       </div>
     </>
   )
