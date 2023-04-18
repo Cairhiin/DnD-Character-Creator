@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Create.module.scss';
 import RaceCard from '@/components/RaceCard';
-import CreateCharacterTabs from '@/components/CreateCharacterTabs';
+import CreateCharacterTabs from '@/components/CreateCharacter/CreateCharacterTabs';
 
 const raceMock = {
   "index": "dragonborn",
