@@ -1,17 +1,18 @@
-import { ReactNode } from "react";
 import RaceSelection from "./RaceSelectionForm";
 import styles from '@/styles/CreateCharacter/CreateCharacterTabs.module.scss';
 
 type TabsProps = {
-    activeIndex: string
+    activeIndex: string,
+    nextTab: () => void,
+    previousTab: () => void
 };
 
-export default function CreateCharacterTabs({ activeIndex }: TabsProps) {
-    return (
-        <div className={styles.create__tabs}>
-              { 
-                activeIndex === "1" && <RaceSelection />
-              }            
-        </div>
-    );
+export default function CreateCharacterTabs({ activeIndex, nextTab, previousTab }: TabsProps) {
+  return (
+      <div className={styles.create__tabs}>
+            { 
+              activeIndex === "1" && <RaceSelection nextTab={ nextTab } />
+            }            
+      </div>
+  );
 };

@@ -67,8 +67,19 @@ const raceMock = {
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<string>("1");
+
   const setActiveIndex = (e: any) => {
     setActiveTabIndex(e.dataset.tabId);
+  }
+
+  const nextTab = (): void => {
+    const tabIndex: number = parseInt(activeTabIndex) < 5 ? parseInt(activeTabIndex) + 1 : parseInt(activeTabIndex);
+    setActiveTabIndex(tabIndex.toString());
+  }
+
+  const previousTab = (): void => {
+    const tabIndex: number = parseInt(activeTabIndex) > 1 ? parseInt(activeTabIndex) - 1 : parseInt(activeTabIndex);
+    setActiveTabIndex(tabIndex.toString());
   }
 
   return (
@@ -96,7 +107,11 @@ export default function Home() {
           <aside className={styles.create__chardata}></aside>
           <aside className={styles.create__choices}>
             <div className={styles.create__tabs}>
-              <CreateCharacterTabs activeIndex={activeTabIndex} />           
+              <CreateCharacterTabs 
+                activeIndex={activeTabIndex}
+                nextTab={nextTab}
+                previousTab={previousTab} 
+              />           
             </div>
           </aside>
           <div></div>

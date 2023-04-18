@@ -1,9 +1,18 @@
-import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { RACES } from "@/constants";
 import { characterStore } from "@/store";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
-export default function RaceSelection() {
+interface RaceFormInput {
+    race: string;
+};
+
+interface Props {
+    nextTab: () => void
+};
+
+export default function RaceSelection({ nextTab }: Props) {
     const race = characterStore((state) => state.race);
     const setRace = characterStore((state: any) => state.setRace);
     const {
@@ -11,12 +20,13 @@ export default function RaceSelection() {
         register,
         watch,
         formState: { errors },
-    } = useForm({ defaultValues: { race: race }, mode: "onSubmit" });
+    } = useForm<RaceFormInput>({ defaultValues: { race: race }, mode: "onSubmit" });
 
-    // Save the form state to Zustand 
-    const saveData = (data: any): void => {
+    // Save the form state to Zustand and go to next tab
+    const saveData: SubmitHandler<RaceFormInput> = (data): void => {
         setRace(data.race);
-    }
+        nextTab();
+    };
 
     return (
         <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
