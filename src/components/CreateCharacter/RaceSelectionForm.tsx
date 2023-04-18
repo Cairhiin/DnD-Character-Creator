@@ -46,7 +46,7 @@ export default function RaceSelection({ nextTab }: Props) {
                     }
                 </div>
               }
-              <div className="styles.create__form__buttonRow">
+              <div className={styles.create__form__buttonRow}>
                 <button>Next</button>
               </div>
         </form>
