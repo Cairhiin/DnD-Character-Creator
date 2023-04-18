@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { RACES } from "@/constants";
 import { characterStore } from "@/store";
@@ -23,8 +22,8 @@ export default function RaceSelection({ nextTab }: Props) {
     } = useForm<RaceFormInput>({ defaultValues: { race: race }, mode: "onSubmit" });
 
     // Save the form state to Zustand and go to next tab
-    const saveData: SubmitHandler<RaceFormInput> = (data): void => {
-        setRace(data.race);
+    const saveData: SubmitHandler<RaceFormInput> = ({ race }: { race: string }): void => {
+        setRace(race);
         nextTab();
     };
 
@@ -47,8 +46,9 @@ export default function RaceSelection({ nextTab }: Props) {
                     }
                 </div>
               }
-              <div className="styles.create__form__buttonRow"></div>
-              <button>Next</button>
+              <div className="styles.create__form__buttonRow">
+                <button>Next</button>
+              </div>
         </form>
     ); 
 }

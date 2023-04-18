@@ -7,6 +7,7 @@ interface CharacterFormState {
     equipment: string[],
     description: string[],
     setRace: (race: string) => void
+    setClass: (dndClass: string) => void
 };
 
 export const characterStore = create<CharacterFormState>((set) => ({
@@ -16,4 +17,5 @@ export const characterStore = create<CharacterFormState>((set) => ({
     equipment: [],
     description: [],
     setRace: (race) => set((state) => ({ race: race })),
+    setClass: (dndClass) => set((state) => ({ dndClass: dndClass })),
 }));

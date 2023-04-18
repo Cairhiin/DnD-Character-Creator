@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Create.module.scss';
-import RaceCard from '@/components/RaceCard';
 import CreateCharacterTabs from '@/components/CreateCharacter/CreateCharacterTabs';
 
 const raceMock = {
@@ -111,7 +110,7 @@ export default function Home() {
                 activeIndex={activeTabIndex}
                 nextTab={nextTab}
                 previousTab={previousTab} 
-              />           
+              />            
             </div>
           </aside>
           <div></div>
