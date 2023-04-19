@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
@@ -18,7 +19,6 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     const {
         handleSubmit,
         register,
-        watch,
         formState: { errors },
     } = useForm<ClassFormInput>({ defaultValues: { dndClass: dndClass }, mode: "onSubmit" });
 
@@ -47,7 +47,8 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                     }
                 </div>
               }
-              <div className="styles.create__form__buttonRow">
+              <div className={styles.create__form__buttonRow}>
+                <div onClick={previousTab}>Previous</div>
                 <button>Next</button>
               </div>
         </form>

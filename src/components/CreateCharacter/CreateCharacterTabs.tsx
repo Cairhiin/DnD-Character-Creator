@@ -2,13 +2,13 @@ import RaceSelection from "./RaceSelectionForm";
 import ClassSelection from "./ClassSelectionForm";
 import styles from '@/styles/CreateCharacter/CreateCharacterTabs.module.scss';
 
-type TabsProps = {
+type Props = {
     activeIndex: number,
     nextTab: () => void,
     previousTab: () => void
 };
 
-export default function CreateCharacterTabs({ activeIndex, nextTab, previousTab }: TabsProps) {
+export default function CreateCharacterTabs({ activeIndex, nextTab, previousTab }: Props) {
   return (
       <div className={styles.create__tabs}>
             { 

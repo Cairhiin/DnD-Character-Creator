@@ -17,7 +17,6 @@ export default function RaceSelection({ nextTab }: Props) {
     const {
         handleSubmit,
         register,
-        watch,
         formState: { errors },
     } = useForm<RaceFormInput>({ defaultValues: { race: race }, mode: "onSubmit" });
 

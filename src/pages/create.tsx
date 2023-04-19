@@ -13,11 +13,11 @@ export default function Home() {
   }
 
   const nextTab = (): void => {
-    setActiveTabIndex(activeTabIndex < 5 ? activeTabIndex + 1 : activeTabIndex);
+    setActiveTabIndex(prevIndex => prevIndex < 5 ? prevIndex + 1 : prevIndex);
   }
 
   const previousTab = (): void => {
-    setActiveTabIndex(activeTabIndex > 1 ? activeTabIndex - 1 : activeTabIndex);
+    setActiveTabIndex(prevIndex => prevIndex > 1 ? prevIndex - 1 : prevIndex);
   }
 
   return (
