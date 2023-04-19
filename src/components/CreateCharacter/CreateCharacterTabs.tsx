@@ -1,5 +1,6 @@
 import RaceSelection from "./RaceSelectionForm";
 import ClassSelection from "./ClassSelectionForm";
+import AbilitySelection from "./AbilitySelectionForm";
 import styles from '@/styles/CreateCharacter/CreateCharacterTabs.module.scss';
 
 type Props = {
@@ -16,7 +17,10 @@ export default function CreateCharacterTabs({ activeIndex, nextTab, previousTab 
             }
             { 
               activeIndex === 2 && <ClassSelection nextTab={ nextTab } previousTab={ previousTab } />
-            }             
+            }
+            { 
+              activeIndex === 3 && <AbilitySelection nextTab={ nextTab } previousTab={ previousTab } />
+            }                          
       </div>
   );
 };

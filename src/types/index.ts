@@ -35,3 +35,23 @@ export interface Race {
     "subraces": Array<string>,
     "url": string
 };
+
+export interface AbilityScores {
+    STR: number,
+    DEX: number,
+    CON: number,
+    INT: number,
+    WIS: number,
+    CHA: number
+};
+
+export interface CharacterFormState {
+    race: string,
+    dndClass: string,
+    abilityScores: AbilityScores,
+    equipment: string[],
+    description: string[],
+    setRace: (race: string) => void
+    setClass: (dndClass: string) => void
+    setAbilityScores: (scores: AbilityScores) => void
+};
