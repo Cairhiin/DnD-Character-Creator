@@ -1,10 +1,10 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 const rollRandomScore = () => console.log(Math.random() * 24 + 4);
 
-interface ClassFormInput {  
+interface AbiltyFormInput {  
     method: string;
     STR: number;
     DEX: number;
@@ -22,12 +22,13 @@ interface Props {
 interface RollButtonProps {
     abilityScore: string;
     rollRandomScore: () => void;
-    register: () => void;
+    register: (e: any) => any;
 }
 
 interface StandardArrayProps {
     abilityScore: string;
-    register: () => void;
+    availableScores: number[];
+    register: (e: any) => any;
 }
 
 const RollButton = ({ abilityScore, register }: RollButtonProps) => (
@@ -36,14 +37,12 @@ const RollButton = ({ abilityScore, register }: RollButtonProps) => (
     </div>
 );
 
-const StandardArrayInput = ({ abilityScore, register }: StandardArrayProps) => (
-    <select className={styles.create__form__abilities__dropdown}  {...register(abilityScore)} >
-        <option value="15">15</option>
-        <option value="14">14</option>
-        <option value="13">13</option>
-        <option value="12">12</option>
-        <option value="10">10</option>
-        <option value="8">8</option>
+const StandardArrayInput = ({ abilityScore, availableScores, register }: StandardArrayProps) => (
+    <select 
+        className={styles.create__form__abilities__dropdown}  
+        {...register(abilityScore)}        
+    >
+        {availableScores.map((score: number) => <option value={score}>{score}</option>)}
     </select>
 );
 
@@ -55,7 +54,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         register,
         watch,
         formState: { errors },
-    } = useForm<ClassFormInput>({ defaultValues: 
+    } = useForm<AbiltyFormInput>({ defaultValues: 
         {   
             method: "array",
             STR: abilityScores.STR,
@@ -68,9 +67,13 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         mode: "onSubmit" });
 
     // Save the form state to Zustand and go to next tab
-    const saveData: SubmitHandler<ClassFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
-        setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
-        nextTab();
+    const saveData: SubmitHandler<AbiltyFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
+        // Checking if all values are unique
+        const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
+        if (new Set(abilities).size === abilities.length) {
+            setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
+            nextTab();
+        }
     };
 
     return (
@@ -105,7 +108,11 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                         <div className={styles.create__form_abilities__roll}>
                             {
                                 Object.keys(abilityScores).map((ability) => 
-                                    <StandardArrayInput register={register} abilityScore={ability} />)    
+                                    <StandardArrayInput 
+                                        register={register} 
+                                        abilityScore={ability}
+                                        availableScores={[8, 10, 12, 13, 14, 15]} 
+                                    />)    
                             }
                         </div>
                     )
