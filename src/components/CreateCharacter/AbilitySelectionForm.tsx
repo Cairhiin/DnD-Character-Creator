@@ -2,12 +2,12 @@ import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
-const rollRandomScore = (): number => {
+export const rollRandomScore = (): number => {
     let diceRolls: number[] = [];
-    for (let i=1; i <= 3; i++) {
-        diceRolls.push(Math.random() * 6 + 1);
+    for (let i=1; i <= 4; i++) {
+        diceRolls.push(Math.floor(Math.random() * 6 + 1));
     }
-    
+
     // sort and remove lowest roll
     diceRolls.sort().pop();
     return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
