@@ -2,7 +2,16 @@ import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
-const rollRandomScore = () => console.log(Math.random() * 24 + 4);
+const rollRandomScore = (): number => {
+    let diceRolls: number[] = [];
+    for (let i=1; i <= 3; i++) {
+        diceRolls.push(Math.random() * 6 + 1);
+    }
+    
+    // sort and remove lowest roll
+    diceRolls.sort().pop();
+    return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
+}
 
 interface AbiltyFormInput {  
     method: string;
@@ -21,7 +30,7 @@ interface Props {
 
 interface RollButtonProps {
     abilityScore: string;
-    rollRandomScore: () => void;
+    rollRandomScore: () => number;
     register: (e: any) => any;
 }
 
