@@ -1,17 +1,7 @@
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
+import RolledAbilityScores from "./AbilitySelection/RolledAbilityScores";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
-
-export const rollRandomScore = (): number => {
-    let diceRolls: number[] = [];
-    for (let i=1; i <= 4; i++) {
-        diceRolls.push(Math.floor(Math.random() * 6 + 1));
-    }
-
-    // sort and remove lowest roll
-    diceRolls.sort().pop();
-    return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
-}
 
 interface AbiltyFormInput {  
     method: string;
@@ -39,12 +29,6 @@ interface StandardArrayProps {
     availableScores: number[];
     register: (e: any) => any;
 }
-
-const RollButton = ({ abilityScore, register }: RollButtonProps) => (
-    <div className={styles.create__form__abilities__button} onClick={rollRandomScore} {...register(abilityScore)}>
-        { abilityScore }
-    </div>
-);
 
 const StandardArrayInput = ({ abilityScore, availableScores, register }: StandardArrayProps) => (
     <select 
@@ -102,18 +86,11 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                     <div>Charisma</div>
                 </div>
                 { 
-                // Check what method is selected to determine how to assign the attributes
-                watch("method") === "roll" && (
-                        <div className={styles.create__form_abilities__roll}>
-                            {
-                                Object.keys(abilityScores).map((ability) => 
-                                    <RollButton rollRandomScore={rollRandomScore} register={register} abilityScore={ability} />)    
-                            }
-                        </div>
-                    )
+                    // Check which method is selected to determine how to assign the attributes
+                    watch("method") === "roll" && <RolledAbilityScores />
                 }
                 { 
-                watch("method") === "array" && (
+                    watch("method") === "array" && (
                         <div className={styles.create__form_abilities__roll}>
                             {
                                 Object.keys(abilityScores).map((ability) => 
