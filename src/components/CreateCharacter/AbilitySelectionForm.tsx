@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
-import RolledAbilityScores from "./AbilitySelection/RolledAbilityScores";
+import Rolled from "./AbilitySelection/Rolled";
+import StandardArray from "./AbilitySelection/StandardArray";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface AbiltyFormInput {  
@@ -23,21 +24,6 @@ interface RollButtonProps {
     rollRandomScore: () => number;
     register: (e: any) => any;
 }
-
-interface StandardArrayProps {
-    abilityScore: string;
-    availableScores: number[];
-    register: (e: any) => any;
-}
-
-const StandardArrayInput = ({ abilityScore, availableScores, register }: StandardArrayProps) => (
-    <select 
-        className={styles.create__form__abilities__dropdown}  
-        {...register(abilityScore)}        
-    >
-        {availableScores.map((score: number) => <option value={score}>{score}</option>)}
-    </select>
-);
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
     const abilityScores = characterStore((state) => state.abilityScores);
@@ -87,17 +73,18 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 </div>
                 { 
                     // Check which method is selected to determine how to assign the attributes
-                    watch("method") === "roll" && <RolledAbilityScores />
+                    watch("method") === "roll" && <Rolled />
                 }
                 { 
                     watch("method") === "array" && (
                         <div className={styles.create__form_abilities__roll}>
                             {
                                 Object.keys(abilityScores).map((ability) => 
-                                    <StandardArrayInput 
+                                    <StandardArray
+                                        key={ability}                                    
                                         register={register} 
                                         abilityScore={ability}
-                                        availableScores={[8, 10, 12, 13, 14, 15]} 
+                                        watch={watch}
                                     />)    
                             }
                         </div>
