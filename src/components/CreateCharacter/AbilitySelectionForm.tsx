@@ -55,12 +55,16 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         }
     };
 
+    const validateScore = (value: string): void => {
+
+    };
+
     return (
         <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>
             <select {...register("method")}>
-                  <option value="array">Standard Array</option>
-                  <option value="buy">Point Buy</option> 
-                  <option value="roll">Roll</option>   
+                <option value="array">Standard Array</option>
+                <option value="buy">Point Buy</option> 
+                <option value="roll">Roll</option>   
             </select>
             <div>
                 <div className={styles.create__form__abilities}>
@@ -78,15 +82,59 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 { 
                     watch("method") === "array" && (
                         <div className={styles.create__form_abilities__roll}>
-                            {
-                                Object.keys(abilityScores).map((ability) => 
-                                    <StandardArray
-                                        key={ability}                                    
-                                        register={register} 
-                                        abilityScore={ability}
-                                        watch={watch}
-                                    />)    
-                            }
+                            <select {...register("STR")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+
+                            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+
+                            <select {...register("CON")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+
+                            <select {...register("INT")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+
+                            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+
+                            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value)}>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
                         </div>
                     )
                 }
