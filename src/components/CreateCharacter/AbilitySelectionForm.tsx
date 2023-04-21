@@ -1,3 +1,4 @@
+import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import Rolled from "./AbilitySelection/Rolled";
@@ -26,6 +27,14 @@ interface RollButtonProps {
 }
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
+    const [usedScores, setUsedScores] = useImmer({
+        STR: 0,
+        DEX: 0,
+        CON: 0,
+        INT: 0,
+        WIS: 0,
+        CHA: 0,
+    });
     const abilityScores = characterStore((state) => state.abilityScores);
     const setAbilityScores = characterStore((state: any) => state.setAbilityScores);
     const {
@@ -55,9 +64,12 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         }
     };
 
-    const validateScore = (value: string): void => {
-
-    };
+    const validateScore = (value: string, ability: string): void => {
+        console.log(usedScores);
+        setUsedScores(draft => { 
+           (draft as any)[ability] = value 
+        });
+    }
 
     return (
         <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>
@@ -82,7 +94,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 { 
                     watch("method") === "array" && (
                         <div className={styles.create__form_abilities__roll}>
-                            <select {...register("STR")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
@@ -91,7 +103,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 <option value="15">15</option>
                             </select>
 
-                            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value, "DEX")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
@@ -100,7 +112,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 <option value="15">15</option>
                             </select>
 
-                            <select {...register("CON")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("CON")} onChange={(e) => validateScore(e.target.value, "CON")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
@@ -109,7 +121,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 <option value="15">15</option>
                             </select>
 
-                            <select {...register("INT")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("INT")} onChange={(e) => validateScore(e.target.value, "INT")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
@@ -118,7 +130,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 <option value="15">15</option>
                             </select>
 
-                            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value, "WIS")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
@@ -127,7 +139,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 <option value="15">15</option>
                             </select>
 
-                            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value)}>
+                            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value, "CHA")}>
                                 <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="12">12</option>
