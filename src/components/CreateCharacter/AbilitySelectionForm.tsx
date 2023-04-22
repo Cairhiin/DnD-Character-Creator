@@ -65,10 +65,13 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
     };
 
     const validateScore = (value: string, ability: string): void => {
-        console.log(usedScores);
-        setUsedScores(draft => { 
-           (draft as any)[ability] = value 
-        });
+        if (Object.values(usedScores).indexOf(value) > -1) {
+            console.log("NUMBER ALREADY TAKEN");
+        } else {
+            setUsedScores(draft => { 
+            (draft as any)[ability] = value 
+            });
+        }
     }
 
     return (
