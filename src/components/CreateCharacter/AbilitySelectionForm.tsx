@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
@@ -27,6 +28,8 @@ interface RollButtonProps {
 }
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
+    const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15]; 
+    const [abilityError, setAbilityError] = useState<boolean>(false);
     const [usedScores, setUsedScores] = useImmer({
         STR: 0,
         DEX: 0,
@@ -65,12 +68,16 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
     };
 
     const validateScore = (value: string, ability: string): void => {
-        if (Object.values(usedScores).indexOf(value) > -1) {
-            console.log("NUMBER ALREADY TAKEN");
+        const indexOfAbility = Object.values(usedScores).indexOf(parseInt(value));
+        if ((indexOfAbility > -1) &&
+            (Object.keys(usedScores).indexOf(ability) !== indexOfAbility))
+        {
+            setAbilityError(true);
         } else {
             setUsedScores(draft => { 
-            (draft as any)[ability] = value 
+                (draft as any)[ability] = parseInt(value)
             });
+            setAbilityError(false);
         }
     }
 
@@ -98,58 +105,55 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                     watch("method") === "array" && (
                         <div className={styles.create__form_abilities__roll}>
                             <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
 
                             <select {...register("DEX")} onChange={(e) => validateScore(e.target.value, "DEX")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
 
                             <select {...register("CON")} onChange={(e) => validateScore(e.target.value, "CON")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
 
                             <select {...register("INT")} onChange={(e) => validateScore(e.target.value, "INT")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
 
                             <select {...register("WIS")} onChange={(e) => validateScore(e.target.value, "WIS")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
 
                             <select {...register("CHA")} onChange={(e) => validateScore(e.target.value, "CHA")}>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
+                                { 
+                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
                             </select>
+                            <div>
+                                { abilityError && <p>That ability score has already been used.</p> }
+                            </div>
                         </div>
                     )
                 }
