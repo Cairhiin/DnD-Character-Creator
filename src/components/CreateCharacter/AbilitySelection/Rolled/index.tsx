@@ -1,26 +1,40 @@
-import { AbilityScores } from "@/types";
+import { useImmer } from "use-immer";
+import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
-
-export const rollRandomScore = (): number => {
-    let diceRolls: number[] = [];
-    for (let i=1; i <= 4; i++) {
-        diceRolls.push(Math.floor(Math.random() * 6 + 1));
-    }
-
-    // sort and remove lowest roll
-    diceRolls.sort().pop();
-    return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
-}
+import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 export default function RolledAbilityScores(): JSX.Element {
+    const [usedScores, setUsedScores] = useImmer({
+        STR: 0,
+        DEX: 0,
+        CON: 0,
+        INT: 0,
+        WIS: 0,
+        CHA: 0,
+    });
+
+    const rollScore = (ability: string): void => {
+        const randomScore = rollRandomScore();
+        setUsedScores(draft => { 
+            (draft as any)[ability] = randomScore
+        });
+    }
+
     return (
         <div>
             { 
                 ABILITIES.map((ability: string) => 
                     (
-                        <div>
+                        <div key={ability}>
                             <div><h3>{ ability }</h3></div>
-                            <div><button>Roll</button></div>
+                            <div>
+                                { 
+                                    (usedScores as any)[ability] !== 0 
+                                        ? <button onClick={(e) => rollScore(ability)} disabled>Roll</button>
+                                        : <button onClick={(e) => rollScore(ability)}>Roll</button>
+                                }
+                            </div>
+                            <div>{(usedScores as any)[ability]}</div>
                         </div>
                     )
                 )

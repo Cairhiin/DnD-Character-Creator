@@ -1,13 +1,12 @@
 import {describe, expect, test} from '@jest/globals';
-import { rollRandomScore } from '@/components/CreateCharacter/AbilitySelection/RolledAbilityScores';
+import rollRandomScore from '@/utils';
 
 beforeEach(() => {
   jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
 });
 
-
-describe('roll random score function', () => {
-  test('Roll four dice and drop lowest', () => {
+describe('Roll Random Score Function', () => {
+  test('Use the function with random as 0.5, and expect result to be 12', () => {
     expect(rollRandomScore()).toBe(12);
   });
 });

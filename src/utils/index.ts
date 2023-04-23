@@ -4,3 +4,14 @@ export const calculateAbilityBuyCost = (abilityScore: number): number | null => 
     if (abilityScore < 15 )return abilityScore - 7;
     return abilityScore - 6;
 }
+
+export const rollRandomScore = (): number => {
+    let diceRolls: number[] = [];
+    for (let i=1; i <= 4; i++) {
+        diceRolls.push(Math.floor(Math.random() * 6 + 1));
+    }
+
+    // sort and remove lowest roll
+    diceRolls.sort().pop();
+    return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useImmer } from "use-immer";
 import { calculateAbilityBuyCost } from "@/utils";
+import { ABILITIES } from "@/constants";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
@@ -43,53 +44,19 @@ export default function PointBuy({ register }: Props): JSX.Element {
     return (
         <div>
             <div>AVAILABLE POINTS: { 27 - totalScore }</div>
-            <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
+                {
+                    ABILITIES.map((ability: string) => 
+                        (
+                            <select {...register(ability)} onChange={(e) => validateScore(e.target.value, ability)}>
+                                { 
+                                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
+                                        <option value={score}>{score}</option>
+                                    ) 
+                                }
+                            </select>
+                        )
+                    )
                 }
-            </select>
-
-            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value, "DEX")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("CON")} onChange={(e) => validateScore(e.target.value, "CON")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("INT")} onChange={(e) => validateScore(e.target.value, "INT")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value, "WIS")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value, "CHA")}>
-                { 
-                    AVAILABLE_SCORES.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
             <div>
                 { abilityError && <p>You currently have { 27 - totalScore } too many points used.</p> }
             </div>
