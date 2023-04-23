@@ -99,68 +99,17 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 </div>
                 { 
                     // Check which method is selected to determine how to assign the attributes
-                    watch("method") === "roll" && <Rolled />
+                    watch("method") === "roll" 
+                        && <Rolled />
                 }
                 { 
-                    watch("method") === "array" && (
-                        <div className={styles.create__form_abilities__roll}>
-                            <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-
-                            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value, "DEX")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-
-                            <select {...register("CON")} onChange={(e) => validateScore(e.target.value, "CON")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-
-                            <select {...register("INT")} onChange={(e) => validateScore(e.target.value, "INT")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-
-                            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value, "WIS")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-
-                            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value, "CHA")}>
-                                { 
-                                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                                        <option value={score}>{score}</option>
-                                    ) 
-                                }
-                            </select>
-                            <div>
-                                { abilityError && <p>That ability score has already been used.</p> }
-                            </div>
-                        </div>
-                    )
+                    watch("method") === "array" 
+                        && <StandardArray register={register} />
                 }
             </div>
             <div className={styles.create__form__buttonRow}>
-            <div onClick={previousTab}>Previous</div>
-            <button>Next</button>
+                <div onClick={previousTab}>Previous</div>
+                <button>Next</button>
             </div>
         </form>
     ); 
