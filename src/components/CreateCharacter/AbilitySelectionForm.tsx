@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
+import PointBuy from "./AbilitySelection/PointBuy";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface AbilityFormInput {  
@@ -75,6 +74,10 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 { 
                     watch("method") === "array" 
                         && <StandardArray register={register} />
+                }
+                { 
+                    watch("method") === "buy" 
+                        && <PointBuy register={register} />
                 }
             </div>
             <div className={styles.create__form__buttonRow}>
