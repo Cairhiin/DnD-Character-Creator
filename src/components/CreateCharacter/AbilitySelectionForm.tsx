@@ -6,7 +6,7 @@ import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
-interface AbiltyFormInput {  
+interface AbilityFormInput {  
     method: string;
     STR: number;
     DEX: number;
@@ -21,23 +21,7 @@ interface Props {
     previousTab: () => void;
 };
 
-interface RollButtonProps {
-    abilityScore: string;
-    rollRandomScore: () => number;
-    register: (e: any) => any;
-}
-
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
-    const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15]; 
-    const [abilityError, setAbilityError] = useState<boolean>(false);
-    const [usedScores, setUsedScores] = useImmer({
-        STR: 0,
-        DEX: 0,
-        CON: 0,
-        INT: 0,
-        WIS: 0,
-        CHA: 0,
-    });
     const abilityScores = characterStore((state) => state.abilityScores);
     const setAbilityScores = characterStore((state: any) => state.setAbilityScores);
     const {
@@ -45,7 +29,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         register,
         watch,
         formState: { errors },
-    } = useForm<AbiltyFormInput>({ defaultValues: 
+    } = useForm<AbilityFormInput>({ defaultValues: 
         {   
             method: "array",
             STR: abilityScores.STR,
@@ -58,7 +42,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         mode: "onSubmit" });
 
     // Save the form state to Zustand and go to next tab
-    const saveData: SubmitHandler<AbiltyFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
+    const saveData: SubmitHandler<AbilityFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
         // Checking if all values are unique
         const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
         if (new Set(abilities).size === abilities.length) {
@@ -66,20 +50,6 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
             nextTab();
         }
     };
-
-    const validateScore = (value: string, ability: string): void => {
-        const indexOfAbility = Object.values(usedScores).indexOf(parseInt(value));
-        if ((indexOfAbility > -1) &&
-            (Object.keys(usedScores).indexOf(ability) !== indexOfAbility))
-        {
-            setAbilityError(true);
-        } else {
-            setUsedScores(draft => { 
-                (draft as any)[ability] = parseInt(value)
-            });
-            setAbilityError(false);
-        }
-    }
 
     return (
         <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>

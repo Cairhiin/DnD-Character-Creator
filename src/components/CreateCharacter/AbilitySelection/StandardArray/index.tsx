@@ -21,8 +21,7 @@ export default function StandardArray({ register  }: StandardArrayProps) {
     const validateScore = (value: string, ability: string): void => {
         const indexOfAbility = Object.values(usedScores).indexOf(parseInt(value));
         if ((indexOfAbility > -1) &&
-            (Object.keys(usedScores).indexOf(ability) !== indexOfAbility))
-        {
+            (Object.keys(usedScores).indexOf(ability) !== indexOfAbility)) {
             setAbilityError(true);
         } else {
             setUsedScores(draft => { 
