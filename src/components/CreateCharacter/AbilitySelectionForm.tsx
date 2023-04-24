@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
+import { ABILITIES } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/PointBuy";
+import { rollRandomScore } from "@/utils";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface AbilityFormInput {  
@@ -21,12 +24,14 @@ interface Props {
 };
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
+    const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
     const abilityScores = characterStore((state) => state.abilityScores);
     const setAbilityScores = characterStore((state: any) => state.setAbilityScores);
     const {
         handleSubmit,
         register,
         watch,
+        setValue,
         formState: { errors },
     } = useForm<AbilityFormInput>({ defaultValues: 
         {   
@@ -38,15 +43,17 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
             WIS: abilityScores.WIS, 
             CHA: abilityScores.CHA
         }, 
-        mode: "onSubmit" });
+        mode: "onSubmit" }); 
 
     // Save the form state to Zustand and go to next tab
     const saveData: SubmitHandler<AbilityFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
-        // Checking if all values are unique
-        const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
-        if (new Set(abilities).size === abilities.length) {
-            setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
-            nextTab();
+        if (watch("method") === "array") {
+            // Checking if all values are unique
+            const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
+            if (new Set(abilities).size === abilities.length) {
+                setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
+                nextTab();
+            }
         }
     };
 
@@ -69,7 +76,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 { 
                     // Check which method is selected to determine how to assign the attributes
                     watch("method") === "roll" 
-                        && <Rolled />
+                        && <Rolled  register={register} />
                 }
                 { 
                     watch("method") === "array" 
@@ -77,7 +84,11 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 }
                 { 
                     watch("method") === "buy" 
-                        && <PointBuy register={register} />
+                        && <PointBuy 
+                                register={register} 
+                                updateTotalPointsUsed={setTotalScorePointBuy}
+                                totalPointsUsed={totalScorePointBuy}
+                            />
                 }
             </div>
             <div className={styles.create__form__buttonRow}>

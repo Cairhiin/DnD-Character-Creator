@@ -3,7 +3,11 @@ import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
-export default function RolledAbilityScores(): JSX.Element {
+interface Props {
+    register: (e: any) => any;
+}
+
+export default function RolledAbilityScores({ register }: Props): JSX.Element {
     const [usedScores, setUsedScores] = useImmer({
         STR: 0,
         DEX: 0,
@@ -31,7 +35,7 @@ export default function RolledAbilityScores(): JSX.Element {
                                 { 
                                     (usedScores as any)[ability] !== 0 
                                         ? <button onClick={(e) => rollScore(ability)} disabled>Roll</button>
-                                        : <button onClick={(e) => rollScore(ability)}>Roll</button>
+                                        : <button {...register(ability)} onClick={(e) => rollScore(ability)}>Roll</button>
                                 }
                             </div>
                             <div>{(usedScores as any)[ability]}</div>

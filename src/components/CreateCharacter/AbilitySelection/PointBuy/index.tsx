@@ -6,11 +6,11 @@ import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
     register: (e: any) => any;
+    updateTotalPointsUsed: (e: any) => void;
+    totalPointsUsed: (number);
 }
 
-export default function PointBuy({ register }: Props): JSX.Element {
-    const [totalScore, setTotalScore] = useState<number>(0);
-    const [abilityError, setAbilityError] = useState<boolean>(false);
+export default function PointBuy({ register, updateTotalPointsUsed, totalPointsUsed }: Props): JSX.Element {
     const [usedScores, setUsedScores] = useImmer({
         STR: 0,
         DEX: 0,
@@ -22,19 +22,15 @@ export default function PointBuy({ register }: Props): JSX.Element {
     const AVAILABLE_SCORES = Array(8).fill(1).map((_: number, i: number) => i + 8); 
 
     const validateScore = (value: string, ability: string): void => {     
+        
         // Check if the ability already has been set and substract the old score from the total
         if ((usedScores as any)[ability] !== 0) {
-            setTotalScore(totalScore => totalScore - (calculateAbilityBuyCost((usedScores as any)[ability]) ?? 0));
+            updateTotalPointsUsed((totalPointsUsed: number) => totalPointsUsed - (calculateAbilityBuyCost((usedScores as any)[ability]) ?? 0));
         } 
 
-        const newScore = totalScore + (calculateAbilityBuyCost(parseInt(value)) ?? 0);
-        setTotalScore(totalScore => totalScore + (calculateAbilityBuyCost(parseInt(value)) ?? 0));
-        if (newScore <= 27) {
-            setAbilityError(false);
-        } else {
-            setAbilityError(true);
-        }
+        updateTotalPointsUsed((totalPointsUsed: number) => totalPointsUsed + (calculateAbilityBuyCost(parseInt(value)) ?? 0));
 
+        // Update the ability score
         setUsedScores(draft => { 
             (draft as any)[ability] = parseInt(value)
         });
@@ -43,7 +39,7 @@ export default function PointBuy({ register }: Props): JSX.Element {
 
     return (
         <div>
-            <div>AVAILABLE POINTS: { 27 - totalScore }</div>
+            <div>AVAILABLE POINTS: { 27 - totalPointsUsed }</div>
                 {
                     ABILITIES.map((ability: string) => 
                         (
@@ -58,7 +54,7 @@ export default function PointBuy({ register }: Props): JSX.Element {
                     )
                 }
             <div>
-                { abilityError && <p>You currently have { 27 - totalScore } too many points used.</p> }
+                { totalPointsUsed > 27 && <p>You currently have { totalPointsUsed - 27 } too many points used.</p> }
             </div>
         </div>
     );

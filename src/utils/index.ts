@@ -8,10 +8,10 @@ export const calculateAbilityBuyCost = (abilityScore: number): number | null => 
 export const rollRandomScore = (): number => {
     let diceRolls: number[] = [];
     for (let i=1; i <= 4; i++) {
-        diceRolls.push(Math.floor(Math.random() * 6 + 1));
+        diceRolls.push(Math.floor(Math.random() * 6) + 1);
     }
 
-    // sort and remove lowest roll
-    diceRolls.sort().pop();
+    // sort descending and remove lowest roll
+    diceRolls.sort((a: number, b: number): number => b - a).pop();
     return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
 }
