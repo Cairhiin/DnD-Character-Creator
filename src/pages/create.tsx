@@ -6,7 +6,7 @@ import CreateCharacterTabs from '@/components/CreateCharacter/CreateCharacterTab
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
-  const { race, dndClass } = characterStore((state) => state);
+  const { race, dndClass, abilityScores } = characterStore((state) => state);
 
   const setActiveIndex = (e: any) => {
     setActiveTabIndex(parseInt(e.dataset.tabId));
@@ -48,6 +48,14 @@ export default function Home() {
           </div>
           <div>
             { dndClass }
+          </div>
+          <div>
+            <div>STR: { abilityScores.STR }</div>
+            <div>DEX: { abilityScores.DEX }</div>
+            <div>CON: { abilityScores.CON }</div>
+            <div>INT: { abilityScores.INT }</div>
+            <div>WIS: { abilityScores.WIS }</div>
+            <div>CHA: { abilityScores.CHA }</div>
           </div>
           </aside>
           <aside className={styles.create__choices}>

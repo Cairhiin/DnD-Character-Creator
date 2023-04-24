@@ -25,6 +25,7 @@ interface Props {
 };
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
+    const [formError, setFormError] = useState<string | null>(null);
     const [usedScores, setUsedScores] = useImmer<AbilityScores>({
         STR: 0,
         DEX: 0,
@@ -55,23 +56,35 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
             }, 
         mode: "onSubmit" }); 
 
-    // Save the form state to Zustand and go to next tab
+    // Save the form state to Zustand and go to next tab if the form has no errors
     const saveData: SubmitHandler<AbilityFormInput> = ({ STR, DEX, CON, INT, WIS, CHA }): void => {
+        setFormError(error => null);
+        let formHasError = false;
+
         if (watch("method") === "array") {
-            // Checking if all values are unique
+            // Checking if all ability scores are unique in standard array method
             const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
-            if (new Set(abilities).size === abilities.length) {
-                setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
-                nextTab();
+            if (new Set(abilities).size !== abilities.length) {
+                setFormError(error => "Please make certain you use all the ability scores in the standard array!");
+                formHasError = true;
             }
         }
         
+        // Check if the user has used exactly all points in point buy method
         if (watch("method") === "buy" && totalScorePointBuy !== POINT_BUY_TOTAL) {
-            console.log("PLEASE MAKE CERTAIN YOU SPEND EXACTLY ALL AVAILABLE POINTS!")
+            setFormError(error => "Please make certain you spend exactly all available points!");
+            formHasError = true;
         }
         
+        // Check if all ability scores have been set
         if (Object.values(usedScores).filter((score: number) => score === 0 || score === undefined).length !==0) {
-            console.log("NOT ALL SCORES SET!")
+            setFormError(error => "Not all ability scores are set!")
+            formHasError = true;
+        }
+
+        if (!formHasError) {
+            setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
+            nextTab();
         }
     };
 
@@ -136,6 +149,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                             />
                 }
             </div>
+            { formError && <div>{ formError }</div> }
             <div className={styles.create__form__buttonRow}>
                 <div onClick={previousTab}>Previous</div>
                 <button>Next</button>
