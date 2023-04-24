@@ -1,25 +1,19 @@
-import { useImmer } from "use-immer";
 import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
+import { AbilityScores } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
     register: (e: any) => any;
+    setUsedScores: (e: any) => void;
+    usedScores: AbilityScores;
 }
 
-export default function RolledAbilityScores({ register }: Props): JSX.Element {
-    const [usedScores, setUsedScores] = useImmer({
-        STR: 0,
-        DEX: 0,
-        CON: 0,
-        INT: 0,
-        WIS: 0,
-        CHA: 0,
-    });
+export default function RolledAbilityScores({ register, usedScores, setUsedScores }: Props): JSX.Element {
 
     const rollScore = (ability: string): void => {
         const randomScore = rollRandomScore();
-        setUsedScores(draft => { 
+        setUsedScores((draft: any) => { 
             (draft as any)[ability] = randomScore
         });
     }

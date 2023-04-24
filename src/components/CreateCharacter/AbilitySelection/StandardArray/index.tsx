@@ -1,22 +1,16 @@
 import { useState } from 'react';
-import { useImmer } from 'use-immer';
+import { AbilityScores } from '@/types';
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface StandardArrayProps {
     register: (e: any) => any;
+    setUsedScores: (e: any) => void;
+    usedScores: AbilityScores;
 }
 
-export default function StandardArray({ register  }: StandardArrayProps) {
+export default function StandardArray({ register, usedScores, setUsedScores }: StandardArrayProps) {
     const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15]; 
     const [abilityError, setAbilityError] = useState<boolean>(false);
-    const [usedScores, setUsedScores] = useImmer({
-        STR: 0,
-        DEX: 0,
-        CON: 0,
-        INT: 0,
-        WIS: 0,
-        CHA: 0,
-    });
     
     const validateScore = (value: string, ability: string): void => {
         const indexOfAbility = Object.values(usedScores).indexOf(parseInt(value));
@@ -24,7 +18,7 @@ export default function StandardArray({ register  }: StandardArrayProps) {
             (Object.keys(usedScores).indexOf(ability) !== indexOfAbility)) {
             setAbilityError(true);
         } else {
-            setUsedScores(draft => { 
+            setUsedScores((draft: any) => { 
                 (draft as any)[ability] = parseInt(value)
             });
             setAbilityError(false);
@@ -33,6 +27,7 @@ export default function StandardArray({ register  }: StandardArrayProps) {
 
     return (
         <div className={styles.create__form_abilities__roll}>
+            
             <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
                 { 
                     STANDARD_ARRAY.map((score: number): JSX.Element => 

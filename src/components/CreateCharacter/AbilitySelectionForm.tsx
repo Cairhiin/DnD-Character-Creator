@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
-import { ABILITIES } from "@/constants";
+import { AbilityScores } from "@/types";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/PointBuy";
-import { rollRandomScore } from "@/utils";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface AbilityFormInput {  
@@ -24,6 +24,14 @@ interface Props {
 };
 
 export default function AbilitySelection({ nextTab, previousTab }: Props) {
+    const [usedScores, setUsedScores] = useImmer<AbilityScores>({
+        STR: 0,
+        DEX: 0,
+        CON: 0,
+        INT: 0,
+        WIS: 0,
+        CHA: 0,
+    });
     const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
     const abilityScores = characterStore((state) => state.abilityScores);
     const setAbilityScores = characterStore((state: any) => state.setAbilityScores);
@@ -94,11 +102,19 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 { 
                     // Check which method is selected to determine how to assign the attributes
                     watch("method") === "roll" 
-                        && <Rolled  register={register} />
+                        && <Rolled 
+                                register={register} 
+                                usedScores={usedScores}
+                                setUsedScores={setUsedScores}
+                            />
                 }
                 { 
                     watch("method") === "array" 
-                        && <StandardArray register={register} />
+                        && <StandardArray 
+                                register={register} 
+                                usedScores={usedScores}
+                                setUsedScores={setUsedScores}
+                        />
                 }
                 { 
                     watch("method") === "buy" 
@@ -106,6 +122,8 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                                 register={register} 
                                 updateTotalPointsUsed={setTotalScorePointBuy}
                                 totalPointsUsed={totalScorePointBuy}
+                                usedScores={usedScores}
+                                setUsedScores={setUsedScores}
                             />
                 }
             </div>

@@ -1,25 +1,22 @@
-import { useState } from "react";
-import { useImmer } from "use-immer";
 import { calculateAbilityBuyCost } from "@/utils";
 import { ABILITIES } from "@/constants";
+import { AbilityScores } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
     register: (e: any) => any;
     updateTotalPointsUsed: (e: any) => void;
     totalPointsUsed: (number);
+    setUsedScores: (e: any) => void;
+    usedScores: AbilityScores;
 }
 
-export default function PointBuy({ register, updateTotalPointsUsed, totalPointsUsed }: Props): JSX.Element {
-    const [usedScores, setUsedScores] = useImmer({
-        STR: 0,
-        DEX: 0,
-        CON: 0,
-        INT: 0,
-        WIS: 0,
-        CHA: 0,
-    });
-    const AVAILABLE_SCORES = Array(8).fill(1).map((_: number, i: number) => i + 8); 
+export default function PointBuy(
+        { register, updateTotalPointsUsed, totalPointsUsed, setUsedScores, usedScores }: Props
+    ): JSX.Element {
+
+    // Set the available ability scores from 8 to 15    
+    const AVAILABLE_SCORES = Array(8).fill(0).map((_: number, i: number) => i + 8); 
 
     const validateScore = (value: string, ability: string): void => {     
         
@@ -31,7 +28,7 @@ export default function PointBuy({ register, updateTotalPointsUsed, totalPointsU
         updateTotalPointsUsed((totalPointsUsed: number) => totalPointsUsed + (calculateAbilityBuyCost(parseInt(value)) ?? 0));
 
         // Update the ability score
-        setUsedScores(draft => { 
+        setUsedScores((draft: any) => { 
             (draft as any)[ability] = parseInt(value)
         });
 
