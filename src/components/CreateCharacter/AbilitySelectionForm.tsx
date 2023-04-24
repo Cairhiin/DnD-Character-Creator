@@ -31,18 +31,19 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         handleSubmit,
         register,
         watch,
-        setValue,
+        reset,    
         formState: { errors },
-    } = useForm<AbilityFormInput>({ defaultValues: 
-        {   
-            method: "array",
-            STR: abilityScores.STR,
-            DEX: abilityScores.DEX, 
-            CON: abilityScores.CON, 
-            INT: abilityScores.INT, 
-            WIS: abilityScores.WIS, 
-            CHA: abilityScores.CHA
-        }, 
+    } = useForm<AbilityFormInput>({ 
+        defaultValues: 
+            {   
+                method: "array",
+                STR: abilityScores.STR,
+                DEX: abilityScores.DEX, 
+                CON: abilityScores.CON, 
+                INT: abilityScores.INT, 
+                WIS: abilityScores.WIS, 
+                CHA: abilityScores.CHA
+            }, 
         mode: "onSubmit" }); 
 
     // Save the form state to Zustand and go to next tab
@@ -57,9 +58,26 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         }
     };
 
+    // Reset ability scores and total points used in case of point buy on method change
+    const resetForm = (e: string): void => {
+        setTotalScorePointBuy(0);
+        reset({
+            method: e,
+            STR: abilityScores.STR,
+            DEX: abilityScores.DEX, 
+            CON: abilityScores.CON, 
+            INT: abilityScores.INT, 
+            WIS: abilityScores.WIS, 
+            CHA: abilityScores.CHA
+        })
+    }
+
     return (
         <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>
-            <select {...register("method")}>
+            <select 
+                {...register("method")} 
+                onChange={(e) => resetForm(e.target.value)}
+            >
                 <option value="array">Standard Array</option>
                 <option value="buy">Point Buy</option> 
                 <option value="roll">Roll</option>   
