@@ -1,5 +1,5 @@
 import { calculateAbilityBuyCost } from "@/utils";
-import { ABILITIES } from "@/constants";
+import { ABILITIES, POINT_BUY_TOTAL } from "@/constants";
 import { AbilityScores } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
@@ -36,7 +36,7 @@ export default function PointBuy(
 
     return (
         <div>
-            <div>AVAILABLE POINTS: { 27 - totalPointsUsed }</div>
+            <div>AVAILABLE POINTS: { POINT_BUY_TOTAL - totalPointsUsed }</div>
                 {
                     ABILITIES.map((ability: string) => 
                         (
@@ -51,7 +51,7 @@ export default function PointBuy(
                     )
                 }
             <div>
-                { totalPointsUsed > 27 && <p>You currently have { totalPointsUsed - 27 } too many points used.</p> }
+                { totalPointsUsed > POINT_BUY_TOTAL && <p>You currently have { totalPointsUsed - POINT_BUY_TOTAL } too many points used.</p> }
             </div>
         </div>
     );

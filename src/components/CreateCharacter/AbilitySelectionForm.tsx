@@ -3,6 +3,7 @@ import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
 import { AbilityScores } from "@/types";
+import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/PointBuy";
@@ -63,6 +64,14 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                 setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
                 nextTab();
             }
+        }
+        
+        if (watch("method") === "buy" && totalScorePointBuy !== POINT_BUY_TOTAL) {
+            console.log("PLEASE MAKE CERTAIN YOU SPEND EXACTLY ALL AVAILABLE POINTS!")
+        }
+        
+        if (Object.values(usedScores).filter((score: number) => score === 0 || score === undefined).length !==0) {
+            console.log("NOT ALL SCORES SET!")
         }
     };
 
