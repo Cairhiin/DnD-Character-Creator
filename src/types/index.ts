@@ -55,3 +55,13 @@ export interface CharacterFormState {
     setClass: (dndClass: string) => void
     setAbilityScores: (scores: AbilityScores) => void
 };
+
+export interface AbilityFormInput {  
+    method: string;
+    STR: number;
+    DEX: number;
+    CON: number;
+    INT: number;
+    WIS: number;
+    CHA: number;
+};

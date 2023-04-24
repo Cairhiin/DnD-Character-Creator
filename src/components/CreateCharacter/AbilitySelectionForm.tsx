@@ -2,22 +2,12 @@ import { useState } from "react";
 import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
-import { AbilityScores } from "@/types";
+import { AbilityScores, AbilityFormInput } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/PointBuy";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
-
-interface AbilityFormInput {  
-    method: string;
-    STR: number;
-    DEX: number;
-    CON: number;
-    INT: number;
-    WIS: number;
-    CHA: number;
-};
 
 interface Props {
     nextTab: () => void;
@@ -61,8 +51,8 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         setFormError(error => null);
         let formHasError = false;
 
+        // Check if all ability scores are unique in standard array method
         if (watch("method") === "array") {
-            // Checking if all ability scores are unique in standard array method
             const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
             if (new Set(abilities).size !== abilities.length) {
                 setFormError(error => "Please make certain you use all the ability scores in the standard array!");
@@ -82,6 +72,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
             formHasError = true;
         }
 
+        // If the form has no errors, save the ability scores to the store and go to next tab
         if (!formHasError) {
             setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
             nextTab();
