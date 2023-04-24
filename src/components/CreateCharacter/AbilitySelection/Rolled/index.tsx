@@ -24,15 +24,15 @@ export default function RolledAbilityScores({ register, usedScores, setUsedScore
                 ABILITIES.map((ability: string) => 
                     (
                         <div key={ability}>
-                            <div><h3>{ ability }</h3></div>
+                            <div><h3>{ ability }: { (usedScores as any)[ability] }</h3></div>
                             <div>
                                 { 
-                                    (usedScores as any)[ability] !== 0 
-                                        ? <button onClick={(e) => rollScore(ability)} disabled>Roll</button>
-                                        : <button {...register(ability)} onClick={(e) => rollScore(ability)}>Roll</button>
+                                    ((usedScores as any)[ability] === 0 || (usedScores as any)[ability] === undefined)
+                                        ? <button onClick={(e) => rollScore(ability)}>Roll</button>
+                                        : <button disabled>Roll</button>
                                 }
                             </div>
-                            <div>{(usedScores as any)[ability]}</div>
+                            <input type="text" {...register(ability)} value={(usedScores as any)[ability]} disabled />
                         </div>
                     )
                 )

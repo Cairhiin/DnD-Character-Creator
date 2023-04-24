@@ -77,7 +77,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         }
         
         // Check if all ability scores have been set
-        if (Object.values(usedScores).filter((score: number) => score === 0 || score === undefined).length !==0) {
+        if (Object.values(usedScores).filter((score: number) => score === 0 || score === undefined).length !== 0) {
             setFormError(error => "Not all ability scores are set!")
             formHasError = true;
         }
@@ -99,7 +99,15 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
             INT: abilityScores.INT, 
             WIS: abilityScores.WIS, 
             CHA: abilityScores.CHA
-        })
+        });
+        setUsedScores((draft: any) => { 
+            draft.STR = 0;
+            draft.DEX = 0;
+            draft.CON = 0;
+            draft.INT = 0;
+            draft.WIS = 0;
+            draft.CHA = 0;
+        });
     }
 
     return (
