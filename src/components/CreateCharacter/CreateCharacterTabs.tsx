@@ -1,7 +1,7 @@
 import RaceSelection from "./RaceSelectionForm";
 import ClassSelection from "./ClassSelectionForm";
 import AbilitySelection from "./AbilitySelectionForm";
-import CharacterDescription from "./CharacterDescriptionForm";
+import CharacterDescription from "./DescriptionForm";
 import styles from '@/styles/CreateCharacter/CreateCharacterTabs.module.scss';
 
 type Props = {

@@ -31,9 +31,9 @@ export default function RaceSelection({ nextTab }: Props) {
             <h2>Race</h2>
             <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
                 { 
-                    <div className={styles.race__selection__radio}>
+                    <div className={styles.create__character__radio}>
                         { 
-                        RACES.map((race: string) => (
+                            RACES.map((race: string) => (
                                 <div key={race}>
                                     <input
                                         type="radio" 
