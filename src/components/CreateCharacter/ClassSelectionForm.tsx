@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
@@ -29,28 +28,31 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     };
 
     return (
-        <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
-            { 
-                <div className={styles.race__selection__radio}>
-                    { 
-                      CLASSES.map((dndClass: string) => (
-                            <div key={dndClass}>
-                                <input
-                                    type="radio" 
-                                    id={dndClass} 
-                                    value={dndClass} 
-                                    {...register("dndClass")}
-                                />
-                                <label htmlFor={dndClass}>{dndClass}</label>
-                            </div>
-                        ))
-                    }
+        <div>
+            <h2>Class</h2>
+            <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
+                { 
+                    <div className={styles.race__selection__radio}>
+                        { 
+                        CLASSES.map((dndClass: string) => (
+                                <div key={dndClass}>
+                                    <input
+                                        type="radio" 
+                                        id={dndClass} 
+                                        value={dndClass} 
+                                        {...register("dndClass")}
+                                    />
+                                    <label htmlFor={dndClass}>{dndClass}</label>
+                                </div>
+                            ))
+                        }
+                    </div>
+                }
+                <div className={styles.create__form__buttonRow}>
+                    <div onClick={previousTab}>Previous</div>
+                    <button>Next</button>
                 </div>
-              }
-              <div className={styles.create__form__buttonRow}>
-                <div onClick={previousTab}>Previous</div>
-                <button>Next</button>
-              </div>
-        </form>
+            </form>
+        </div>
     ); 
 }

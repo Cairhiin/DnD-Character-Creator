@@ -102,57 +102,60 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
     }
 
     return (
-        <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>
-            <select 
-                {...register("method")} 
-                onChange={(e) => resetForm(e.target.value)}
-            >
-                <option value="array">Standard Array</option>
-                <option value="buy">Point Buy</option> 
-                <option value="roll">Roll</option>   
-            </select>
-            <div>
-                <div className={styles.create__form__abilities}>
-                    <div>Strength</div>
-                    <div>Dexterity</div>
-                    <div>Constitution</div>
-                    <div>Intelligence</div>
-                    <div>Wisdom</div>
-                    <div>Charisma</div>
+        <div>
+            <h2>Ability Scores</h2>
+            <form className={styles.create__form__ability_score} onSubmit={handleSubmit(saveData)}>
+                <select 
+                    {...register("method")} 
+                    onChange={(e) => resetForm(e.target.value)}
+                >
+                    <option value="array">Standard Array</option>
+                    <option value="buy">Point Buy</option> 
+                    <option value="roll">Roll</option>   
+                </select>
+                <div>
+                    <div className={styles.create__form__abilities}>
+                        <div>Strength</div>
+                        <div>Dexterity</div>
+                        <div>Constitution</div>
+                        <div>Intelligence</div>
+                        <div>Wisdom</div>
+                        <div>Charisma</div>
+                    </div>
+                    { 
+                        // Check which method is selected to determine how to assign the attributes
+                        watch("method") === "roll" 
+                            && <Rolled 
+                                    register={register} 
+                                    usedScores={usedScores}
+                                    setUsedScores={setUsedScores}
+                                />
+                    }
+                    { 
+                        watch("method") === "array" 
+                            && <StandardArray 
+                                    register={register} 
+                                    usedScores={usedScores}
+                                    setUsedScores={setUsedScores}
+                            />
+                    }
+                    { 
+                        watch("method") === "buy" 
+                            && <PointBuy 
+                                    register={register} 
+                                    updateTotalPointsUsed={setTotalScorePointBuy}
+                                    totalPointsUsed={totalScorePointBuy}
+                                    usedScores={usedScores}
+                                    setUsedScores={setUsedScores}
+                                />
+                    }
                 </div>
-                { 
-                    // Check which method is selected to determine how to assign the attributes
-                    watch("method") === "roll" 
-                        && <Rolled 
-                                register={register} 
-                                usedScores={usedScores}
-                                setUsedScores={setUsedScores}
-                            />
-                }
-                { 
-                    watch("method") === "array" 
-                        && <StandardArray 
-                                register={register} 
-                                usedScores={usedScores}
-                                setUsedScores={setUsedScores}
-                        />
-                }
-                { 
-                    watch("method") === "buy" 
-                        && <PointBuy 
-                                register={register} 
-                                updateTotalPointsUsed={setTotalScorePointBuy}
-                                totalPointsUsed={totalScorePointBuy}
-                                usedScores={usedScores}
-                                setUsedScores={setUsedScores}
-                            />
-                }
-            </div>
-            { formError && <div>{ formError }</div> }
-            <div className={styles.create__form__buttonRow}>
-                <div onClick={previousTab}>Previous</div>
-                <button>Next</button>
-            </div>
-        </form>
+                { formError && <div>{ formError }</div> }
+                <div className={styles.create__form__buttonRow}>
+                    <div onClick={previousTab}>Previous</div>
+                    <button>Next</button>
+                </div>
+            </form>
+        </div>
     ); 
 }

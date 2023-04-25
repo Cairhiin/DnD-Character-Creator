@@ -27,27 +27,30 @@ export default function RaceSelection({ nextTab }: Props) {
     };
 
     return (
-        <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
-            { 
-                <div className={styles.race__selection__radio}>
-                    { 
-                      RACES.map((race: string) => (
-                            <div key={race}>
-                                <input
-                                    type="radio" 
-                                    id={race} 
-                                    value={race} 
-                                    {...register("race")}
-                                />
-                                <label htmlFor={race}>{race}</label>
-                            </div>
-                        ))
-                    }
+        <div>
+            <h2>Race</h2>
+            <form className={styles.race__selection} onSubmit={handleSubmit(saveData)}>
+                { 
+                    <div className={styles.race__selection__radio}>
+                        { 
+                        RACES.map((race: string) => (
+                                <div key={race}>
+                                    <input
+                                        type="radio" 
+                                        id={race} 
+                                        value={race} 
+                                        {...register("race")}
+                                    />
+                                    <label htmlFor={race}>{race}</label>
+                                </div>
+                            ))
+                        }
+                    </div>
+                }
+                <div className={styles.create__form__buttonRow}>
+                    <button>Next</button>
                 </div>
-              }
-              <div className={styles.create__form__buttonRow}>
-                <button>Next</button>
-              </div>
-        </form>
+            </form>
+        </div>
     ); 
 }
