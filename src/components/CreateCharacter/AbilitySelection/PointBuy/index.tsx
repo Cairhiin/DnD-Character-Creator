@@ -1,15 +1,17 @@
+import { Dispatch, SetStateAction } from "react";
+import { UseFormRegister } from "react-hook-form/dist/types";
 import { calculateAbilityBuyCost } from "@/utils";
 import { 
     ABILITIES, POINT_BUY_TOTAL, AVAILABLE_SCORES 
 } from "@/constants";
-import { AbilityScores } from "@/types";
+import { AbilityScores, AbilityFormInput } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
-    register: (e: any) => any;
-    updateTotalPointsUsed: (e: any) => void;
+    register: UseFormRegister<AbilityFormInput>;
+    updateTotalPointsUsed: Dispatch<SetStateAction<number>>;
     totalPointsUsed: (number);
-    setUsedScores: (e: any) => void;
+    setUsedScores: (e: any) => any;
     usedScores: AbilityScores;
 }
 
@@ -41,7 +43,7 @@ export default function PointBuy(
                 {
                     ABILITIES.map((ability: string): JSX.Element => 
                         (
-                            <select {...register(ability)} onChange={(e) => validateScore(e.target.value, ability)}>
+                            <select {...register(ability as any)} onChange={(e) => validateScore(e.target.value, ability)}>
                                 { 
                                     AVAILABLE_SCORES.map((score: number): JSX.Element => 
                                         <option value={score}>{score}</option>

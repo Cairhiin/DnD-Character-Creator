@@ -1,12 +1,12 @@
-import { UseFormSetValue } from "react-hook-form";
+import { UseFormSetValue, UseFormRegister } from "react-hook-form";
 import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
-    register: (e: any) => any;
-    setUsedScores: (e: any) => void;
+    register: UseFormRegister<AbilityFormInput>;
+    setUsedScores:(e: any) => any;
     setValue: UseFormSetValue<AbilityFormInput>;
     usedScores: AbilityScores;
 }
@@ -36,7 +36,7 @@ export default function RolledAbilityScores({ register, usedScores, setValue, se
                                         : <button disabled>Roll</button>
                                 }
                             </div>
-                            <input type="text" {...register(ability)} disabled />
+                            <input type="text" {...register(ability as any)} disabled />
                         </div>
                     )
                 )

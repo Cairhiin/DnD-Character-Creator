@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { AbilityScores } from '@/types';
+import { UseFormRegister } from 'react-hook-form/dist/types';
+import { AbilityScores, AbilityFormInput } from '@/types';
 import { ABILITIES, STANDARD_ARRAY } from '@/constants';
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface StandardArrayProps {
-    register: (e: any) => any;
+    register: UseFormRegister<AbilityFormInput>;
     setUsedScores: (e: any) => void;
     usedScores: AbilityScores;
 }
@@ -31,7 +32,7 @@ export default function StandardArray({ register, usedScores, setUsedScores }: S
             {
                 ABILITIES.map((ability: string): JSX.Element => 
                     (
-                        <select {...register(ability)} onChange={(e) => validateScore(e.target.value, ability)}>
+                        <select {...register(ability as any)} onChange={(e) => validateScore(e.target.value, ability)}>
                             { 
                                 STANDARD_ARRAY.map((score: number): JSX.Element => 
                                     <option value={score}>{score}</option>
