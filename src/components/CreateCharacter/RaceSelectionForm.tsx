@@ -13,7 +13,7 @@ interface Props {
 
 export default function RaceSelection({ nextTab }: Props) {
     const race = characterStore((state) => state.race);
-    const setRace = characterStore((state: any) => state.setRace);
+    const setRace = characterStore((state) => state.setRace);
     const {
         handleSubmit,
         register,

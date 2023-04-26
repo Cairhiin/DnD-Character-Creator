@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { characterStore } from "@/store";
 import { BACKGROUNDS, ALIGNMENT } from '@/constants';
+import { CharacterDescription } from '@/types';
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
@@ -8,24 +10,9 @@ interface Props {
     previousTab: () => void
 };
 
-interface DescriptionFormInput {
-    background: string;
-    details: {    
-        alignment: string;
-        faith: string;
-    }
-    physical: {
-        hair: string;
-        skin: string;
-        eyes: string;
-        height: string;
-        weight: string;
-        age: string;
-        gender: string;
-    }
-};
-
 export default function CharacterDescription ({ nextTab, previousTab }: Props) {
+    const description = characterStore((state) => state.description);
+    const setDescription = characterStore((state) => state.setDescription);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const {
         handleSubmit,
@@ -43,13 +30,27 @@ export default function CharacterDescription ({ nextTab, previousTab }: Props) {
                 weight: "",
                 age: "",
                 gender: ""
+            },
+            personal: {
+                traits: "",
+                ideals: "",
+                bonds: "",
+                flaws: ""
+            },
+            notes: {
+                organizations: "",
+                allies: "",
+                enemies: "",
+                backstory: "",
+                other: ""
             }
         }
         , mode: "onSubmit" }
     );
 
     // Save the form state to Zustand and go to next tab
-    const saveData: SubmitHandler<DescriptionFormInput> = ({  }): void => {
+    const saveData: SubmitHandler<CharacterDescription> = (description): void => {
+        setDescription(description);
         nextTab();
     };
 
@@ -108,7 +109,10 @@ export default function CharacterDescription ({ nextTab, previousTab }: Props) {
                             <input type="text" {...register("physical.age")} />
                             <label htmlFor="gender">Gender</label>
                             <select {...register("physical.gender")}>
-                                
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                                <option value="nonbinary">Non-binariy</option>
+                                <option value="other">Other</option>
                             </select>
                         </div> 
                     }
@@ -116,12 +120,40 @@ export default function CharacterDescription ({ nextTab, previousTab }: Props) {
                 <div onClick={() => setActiveIndex(3)}>
                     <h3>Personal Characteristics</h3>
                     <p>Personality | Ideals | Bonds | Flaws</p>
-                    { activeIndex === 3 && <div>OPENED</div> }
+                    { activeIndex === 3 && 
+                        <div>
+                            <label htmlFor="traits">Personality Traits</label>
+                            <input type="text" {...register("personal.traits")} />
+                            <label htmlFor="ideals">Ideals</label>
+                            <input type="text" {...register("personal.ideals")} />
+                            <label htmlFor="bonds">Bonds</label>
+                            <input type="text" {...register("personal.bonds")} />
+                            <label htmlFor="flaws">Flaws</label>
+                            <input type="text" {...register("personal.flaws")} />
+                        </div> 
+                    }
                 </div>
                 <div onClick={() => setActiveIndex(4)}>
                     <h3>Notes</h3>
                     <p>Organization | Allies | Enemies | Backstory | Other</p>
-                    { activeIndex === 4 && <div>OPENED</div> }
+                    { activeIndex === 4 && 
+                        <div>
+                            <label htmlFor="organizations">Organizations</label>
+                            <input type="text" {...register("notes.organizations")} />
+                            <label htmlFor="allies">Allies</label>
+                            <input type="text" {...register("notes.allies")} />
+                            <label htmlFor="enemies">Enemies</label>
+                            <input type="text" {...register("notes.enemies")} />
+                            <label htmlFor="backstory">Backstory</label>
+                            <textarea  {...register("notes.backstory")}></textarea>
+                            <label htmlFor="other">Other</label>
+                            <textarea {...register("notes.other")}></textarea>
+                        </div> 
+                    }
+                </div>
+                <div className={styles.create__form__buttonRow}>
+                    <div onClick={previousTab}>Previous</div>
+                    <button>Next</button>
                 </div>
             </form>
         </div>
