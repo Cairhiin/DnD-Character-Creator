@@ -31,7 +31,8 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         handleSubmit,
         register,
         watch,
-        reset,    
+        reset,
+        setValue,    
         formState: { errors },
     } = useForm<AbilityFormInput>({ 
         defaultValues: 
@@ -84,12 +85,12 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
         setTotalScorePointBuy(0);
         reset({
             method: e,
-            STR: abilityScores.STR,
-            DEX: abilityScores.DEX, 
-            CON: abilityScores.CON, 
-            INT: abilityScores.INT, 
-            WIS: abilityScores.WIS, 
-            CHA: abilityScores.CHA
+            STR: 0,
+            DEX: 0, 
+            CON: 0, 
+            INT: 0, 
+            WIS: 0, 
+            CHA: 0
         });
         setUsedScores((draft: any) => { 
             draft.STR = 0;
@@ -126,9 +127,10 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
                         // Check which method is selected to determine how to assign the attributes
                         watch("method") === "roll" 
                             && <Rolled 
-                                    register={register} 
-                                    usedScores={usedScores}
+                                    register={register}                                
                                     setUsedScores={setUsedScores}
+                                    setValue={setValue}
+                                    usedScores={usedScores}
                                 />
                     }
                     { 

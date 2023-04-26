@@ -6,16 +6,19 @@ import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 interface Props {
     register: (e: any) => any;
     setUsedScores: (e: any) => void;
+    setValue: (field: string, value: number) => void;
     usedScores: AbilityScores;
 }
 
-export default function RolledAbilityScores({ register, usedScores, setUsedScores }: Props): JSX.Element {
-
+export default function RolledAbilityScores({ register, usedScores, setValue, setUsedScores }: Props): JSX.Element {
     const rollScore = (ability: string): void => {
         const randomScore = rollRandomScore();
         setUsedScores((draft: any) => { 
             (draft as any)[ability] = randomScore
         });
+
+        // Set the value of the ability score because the button initiating is different from the register element
+        setValue(ability, randomScore);
     }
 
     return (
@@ -24,7 +27,7 @@ export default function RolledAbilityScores({ register, usedScores, setUsedScore
                 ABILITIES.map((ability: string) => 
                     (
                         <div key={ability}>
-                            <div><h3>{ ability }: { (usedScores as any)[ability] }</h3></div>
+                            <div><h3>{ ability }</h3></div>
                             <div>
                                 { 
                                     ((usedScores as any)[ability] === 0 || (usedScores as any)[ability] === undefined)
@@ -32,7 +35,7 @@ export default function RolledAbilityScores({ register, usedScores, setUsedScore
                                         : <button disabled>Roll</button>
                                 }
                             </div>
-                            <input type="text" {...register(ability)} value={(usedScores as any)[ability]} disabled />
+                            <input type="text" {...register(ability)} disabled />
                         </div>
                     )
                 )
