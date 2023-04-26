@@ -25,7 +25,7 @@ export default function RolledAbilityScores({ register, usedScores, setValue, se
     return (
         <div>
             { 
-                ABILITIES.map((ability: string) => 
+                ABILITIES.map((ability: string): JSX.Element => 
                     (
                         <div key={ability}>
                             <div><h3>{ ability }</h3></div>

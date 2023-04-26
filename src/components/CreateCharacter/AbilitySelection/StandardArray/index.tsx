@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AbilityScores } from '@/types';
+import { ABILITIES } from '@/constants';
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface StandardArrayProps {
@@ -27,54 +28,19 @@ export default function StandardArray({ register, usedScores, setUsedScores }: S
 
     return (
         <div className={styles.create__form_abilities__roll}>
-            
-            <select {...register("STR")} onChange={(e) => validateScore(e.target.value, "STR")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("DEX")} onChange={(e) => validateScore(e.target.value, "DEX")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("CON")} onChange={(e) => validateScore(e.target.value, "CON")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("INT")} onChange={(e) => validateScore(e.target.value, "INT")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("WIS")} onChange={(e) => validateScore(e.target.value, "WIS")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
-
-            <select {...register("CHA")} onChange={(e) => validateScore(e.target.value, "CHA")}>
-                { 
-                    STANDARD_ARRAY.map((score: number): JSX.Element => 
-                        <option value={score}>{score}</option>
-                    ) 
-                }
-            </select>
+            {
+                ABILITIES.map((ability: string): JSX.Element => 
+                    (
+                        <select {...register(ability)} onChange={(e) => validateScore(e.target.value, ability)}>
+                            { 
+                                STANDARD_ARRAY.map((score: number): JSX.Element => 
+                                    <option value={score}>{score}</option>
+                                ) 
+                            }
+                        </select>
+                    )
+                )
+            }
             <div>
                 { abilityError && <p>That ability score has already been used.</p> }
             </div>

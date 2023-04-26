@@ -38,7 +38,7 @@ export default function PointBuy(
         <div>
             <div>AVAILABLE POINTS: { POINT_BUY_TOTAL - totalPointsUsed }</div>
                 {
-                    ABILITIES.map((ability: string) => 
+                    ABILITIES.map((ability: string): JSX.Element => 
                         (
                             <select {...register(ability)} onChange={(e) => validateScore(e.target.value, ability)}>
                                 { 
