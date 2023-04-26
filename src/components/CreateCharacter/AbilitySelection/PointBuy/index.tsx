@@ -1,5 +1,7 @@
 import { calculateAbilityBuyCost } from "@/utils";
-import { ABILITIES, POINT_BUY_TOTAL } from "@/constants";
+import { 
+    ABILITIES, POINT_BUY_TOTAL, AVAILABLE_SCORES 
+} from "@/constants";
 import { AbilityScores } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
@@ -15,8 +17,7 @@ export default function PointBuy(
         { register, updateTotalPointsUsed, totalPointsUsed, setUsedScores, usedScores }: Props
     ): JSX.Element {
 
-    // Set the available ability scores from 8 to 15    
-    const AVAILABLE_SCORES = Array(8).fill(0).map((_: number, i: number) => i + 8); 
+    
 
     const validateScore = (value: string, ability: string): void => {     
         

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AbilityScores } from '@/types';
-import { ABILITIES } from '@/constants';
+import { ABILITIES, STANDARD_ARRAY } from '@/constants';
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface StandardArrayProps {
@@ -10,7 +10,7 @@ interface StandardArrayProps {
 }
 
 export default function StandardArray({ register, usedScores, setUsedScores }: StandardArrayProps) {
-    const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15]; 
+    
     const [abilityError, setAbilityError] = useState<boolean>(false);
     
     const validateScore = (value: string, ability: string): void => {

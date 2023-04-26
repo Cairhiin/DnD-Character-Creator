@@ -16,3 +16,8 @@ export const ALIGNMENT: string[] = [
 ]
 
 export const POINT_BUY_TOTAL: number = 27;
+
+export const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15]; 
+
+// Set the available ability scores from 8 to 15    
+export const AVAILABLE_SCORES = Array(8).fill(0).map((_: number, i: number) => i + 8); 
