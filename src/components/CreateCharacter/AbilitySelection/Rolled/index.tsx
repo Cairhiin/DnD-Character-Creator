@@ -1,12 +1,13 @@
+import { UseFormSetValue } from "react-hook-form";
 import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
-import { AbilityScores } from "@/types";
+import { AbilityScores, AbilityFormInput } from "@/types";
 import styles from '@/styles/CreateCharacter/CharacterForm.module.scss';
 
 interface Props {
     register: (e: any) => any;
     setUsedScores: (e: any) => void;
-    setValue: (field: string, value: number) => void;
+    setValue: UseFormSetValue<AbilityFormInput>;
     usedScores: AbilityScores;
 }
 
@@ -18,7 +19,7 @@ export default function RolledAbilityScores({ register, usedScores, setValue, se
         });
 
         // Set the value of the ability score because the button initiating is different from the register element
-        setValue(ability, randomScore);
+        setValue(ability as any, randomScore);
     }
 
     return (
