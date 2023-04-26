@@ -45,15 +45,46 @@ export interface AbilityScores {
     CHA: number
 };
 
+export interface CharacterDescription {
+    background: string;
+    details: {    
+        alignment: string;
+        faith: string;
+    }
+    physical: {
+        hair: string;
+        skin: string;
+        eyes: string;
+        height: string;
+        weight: string;
+        age: string;
+        gender: string;
+    },
+    personal: {
+        traits: string;
+        ideals: string;
+        bonds: string;
+        flaws: string;
+    },
+    notes: {
+        organizations: string;
+        allies: string;
+        enemies: string;
+        backstory: string;
+        other: string;
+    }
+}
+
 export interface CharacterFormState {
     race: string,
     dndClass: string,
     abilityScores: AbilityScores,
     equipment: string[],
-    description: string[],
+    description: CharacterDescription,
     setRace: (race: string) => void
     setClass: (dndClass: string) => void
-    setAbilityScores: (scores: AbilityScores) => void
+    setAbilityScores: (scores: AbilityScores) => void,
+    setDescription: (description: CharacterDescription) => void,
 };
 
 export interface AbilityFormInput {  
