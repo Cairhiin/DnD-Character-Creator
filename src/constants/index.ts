@@ -1,8 +1,82 @@
+import { DndClass } from "@/types";
+
 export const RACES: string[] = 
     ["dragonborn", "dwarf", "elf", "gnome", "half-elf", "half-orc", "halfling", "human", "tiefling"];
 
-export const CLASSES: string[] =
-    ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"];
+export const BARBARIAN = {
+    id: "barbarian",
+    name: "Barbarian",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const BARD = {
+    id: "bard",
+    name: "Bard",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const CLERIC = {
+    id: "cleric",
+    name: "Cleric",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const DRUID = {
+    id: "druid",
+    name: "Druid",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const FIGHTER = {
+    id: "fighter",
+    name: "Fighter",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const MONK = {
+    id: "monk",
+    name: "Monk",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const PALADIN = {
+    id: "paladin",
+    name: "Paladin",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const RANGER = {
+    id: "ranger",
+    name: "Ranger",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const ROGUE = {
+    id: "rogue",
+    name: "Rogue",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const SORCERER = {
+    id: "sorcerer",
+    name: "Sorcerer",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const WARLOCK = {
+    id: "warlock",
+    name: "Warlock",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const WIZARD = {
+    id: "wizard",
+    name: "Wizard",
+    skills: ["animal-handling", "athletics", "intimidation", "nature", "perception", "survival"]
+};
+
+export const CLASSES: DndClass[] =
+    [BARBARIAN, BARD, CLERIC, DRUID, FIGHTER, MONK, PALADIN, RANGER, ROGUE, SORCERER, WARLOCK, WIZARD];
 
 export const ABILITIES: string[] = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
 

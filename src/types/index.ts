@@ -119,3 +119,9 @@ export interface Skills {
     stealth: number; 
     survival: number;
 }
+
+export interface DndClass {
+    id: string,
+    name: string,
+    skills: string[]
+}
