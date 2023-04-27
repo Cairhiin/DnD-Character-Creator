@@ -77,13 +77,13 @@ export interface CharacterDescription {
 
 export interface CharacterFormState {
     race: string,
-    dndClass: string,
+    dndClass: ApiClass,
     abilityScores: AbilityScores,
     equipment: string[],
     description: CharacterDescription,
     skills: Skills,
     setRace: (race: string) => void
-    setClass: (dndClass: string) => void
+    setClass: (dndClass: ApiClass) => void
     setAbilityScores: (scores: AbilityScores) => void,
     setDescription: (description: CharacterDescription) => void,
     setSkills: (skills: Skills) => void
@@ -118,6 +118,54 @@ export interface Skills {
     sleightOfHand: number; 
     stealth: number; 
     survival: number;
+}
+
+export interface ApiClass {
+    class_levels?: string;
+    hit_die?: number;
+    name: string;
+    index: string;
+    multi_classing?: {
+        prerequisites: [
+            { 
+                ability_score: {index: string; name: string; url: string; },
+                minimum_score: number; 
+            } 
+        ];
+        proficiencies: [
+            { index: string; name: string; url: string; }
+        ];
+    };
+    proficiencies?: [ 
+        { index: string; name: string; url: string; }
+    ];
+    proficiency_choices?: [
+        { desc: string }
+    ];
+    saving_throws?: [
+        { index: string; name: string; url: string; }
+    ];
+    starting_equipment?: [
+        { 
+            equipment: {
+                index: string;
+                name: string;
+                url: string;
+            };
+            quantity: number;
+        }
+    ];
+    starting_equipment_options?: [
+        { desc: string; choose: number; type: string, from: 
+            { option_set_type: string; options: [
+                { option_type: string; count: number; of: { index: string; name: string; url: string; }} 
+            ]}
+        }
+    ];
+    subclasses?: [
+        { index: string, name: string, url: string }
+    ];
+    url?: string;
 }
 
 export interface DndClass {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function ClassSelection({ nextTab, previousTab }: Props) {
+  const [isLoading, setLoading] = useState(false);
   const dndClass = characterStore((state) => state.dndClass);
   const setClass = characterStore((state: any) => state.setClass);
   const {
@@ -26,7 +28,14 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
 
   // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<ClassFormInput> = ({ dndClass }): void => {
-    setClass(dndClass);
+    setLoading(true);
+    // Call the free SRD api to retrieve class data
+    fetch(`https://www.dnd5eapi.co/api/classes/${dndClass}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setClass(data);
+        setLoading(false);
+      });
     nextTab();
   };
 

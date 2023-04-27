@@ -67,7 +67,7 @@ export default function Home() {
             </div>
             <div>
               <h3>CLASS</h3>
-              <p>{dndClass}</p>
+              <p>{dndClass.name}</p>
             </div>
             <div>
               <p>STR: {abilityScores.STR}</p>

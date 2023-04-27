@@ -4,11 +4,12 @@ import {
   CharacterDescription,
   AbilityScores,
   Skills,
+  ApiClass,
 } from "@/types";
 
 export const characterStore = create<CharacterFormState>((set) => ({
   race: "",
-  dndClass: "",
+  dndClass: { name: "", index: "" },
   abilityScores: { STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 },
   equipment: [],
   description: {
@@ -61,7 +62,7 @@ export const characterStore = create<CharacterFormState>((set) => ({
     survival: 0,
   },
   setRace: (race: string) => set((state) => ({ race: race })),
-  setClass: (dndClass: string) => set((state) => ({ dndClass: dndClass })),
+  setClass: (dndClass: ApiClass) => set((state) => ({ dndClass: dndClass })),
   setAbilityScores: (scores: AbilityScores) =>
     set((state) => ({ abilityScores: scores })),
   setDescription: (description: CharacterDescription) =>
