@@ -63,7 +63,7 @@ export default function Home() {
           <aside className={styles.create__chardata}>
             <div>
               <h3>RACE</h3>
-              <p>{race}</p>
+              <p>{race.name}</p>
             </div>
             <div>
               <h3>CLASS</h3>

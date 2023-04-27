@@ -76,13 +76,13 @@ export interface CharacterDescription {
 }
 
 export interface CharacterFormState {
-    race: string,
+    race: ApiRace,
     dndClass: ApiClass,
     abilityScores: AbilityScores,
     equipment: string[],
     description: CharacterDescription,
     skills: Skills,
-    setRace: (race: string) => void
+    setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
     setAbilityScores: (scores: AbilityScores) => void,
     setDescription: (description: CharacterDescription) => void,
@@ -165,6 +165,43 @@ export interface ApiClass {
     subclasses?: [
         { index: string, name: string, url: string }
     ];
+    url?: string;
+}
+
+export interface ApiRace {
+    ability_bonuses?: [
+        { 
+            ability_score: { index: string; name: string; url: string; }
+            bonus: number;
+        }
+    ];
+    age?: string;
+    alignment?: string;
+    index: string;
+    language_desc?: string;
+    languages?: [ 
+        { index: string; name: string; url: string; }
+    ];
+    name: string;
+    size?: string;
+    size_description?: string;
+    speed?: number;
+    starting_proficiencies?: [
+        { index: string; name: string; url: string; }
+    ];
+    starting_proficiencies_options?: [
+        { desc: string; choose: number; type: string, from: 
+            { option_set_type: string; options: [
+                { option_type: string; item: { index: string, name: string, url: string }} 
+            ]}
+        }
+    ];
+    subraces?: [
+        { index: string, name: string, url: string }
+    ];
+    traits?: [
+        { index: string, name: string, url: string }
+    ]
     url?: string;
 }
 
