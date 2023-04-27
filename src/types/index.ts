@@ -81,10 +81,12 @@ export interface CharacterFormState {
     abilityScores: AbilityScores,
     equipment: string[],
     description: CharacterDescription,
+    skills: Skills,
     setRace: (race: string) => void
     setClass: (dndClass: string) => void
     setAbilityScores: (scores: AbilityScores) => void,
     setDescription: (description: CharacterDescription) => void,
+    setSkills: (skills: Skills) => void
 };
 
 export interface AbilityFormInput {  
@@ -96,3 +98,24 @@ export interface AbilityFormInput {
     WIS: number;
     CHA: number;
 };
+
+export interface Skills {
+    acrobatics: number; 
+    animalHandling: number;
+    arcana: number;
+    athletics: number; 
+    deception: number; 
+    history: number;
+    insight: number;
+    intimidation: number; 
+    investigation: number;
+    medicine: number;
+    nature: number;
+    perception: number;
+    performance: number;
+    persuasion: number;
+    religion: number; 
+    sleightOfHand: number; 
+    stealth: number; 
+    survival: number;
+}

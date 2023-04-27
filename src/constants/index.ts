@@ -21,3 +21,9 @@ export const STANDARD_ARRAY = [8, 10, 12, 13, 14, 15];
 
 // Set the available ability scores from 8 to 15    
 export const AVAILABLE_SCORES = Array(8).fill(0).map((_: number, i: number) => i + 8); 
+
+export const SKILLS = [ 
+    "acrobatics", "animal-handling", "arcana", "athletics", "deception", "history", 
+    "insight", "intimidation", "investigation", "medicine", "nature", "perception", 
+    "performance", "persuasion", "religion", "sleight-of-hand", "stealth", "survival"
+];
