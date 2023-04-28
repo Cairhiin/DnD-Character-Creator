@@ -16,13 +16,13 @@ interface Props {
 export default function ClassSelection({ nextTab, previousTab }: Props) {
   const [isLoading, setLoading] = useState(false);
   const dndClass = characterStore((state) => state.dndClass);
-  const setClass = characterStore((state: any) => state.setClass);
+  const setClass = characterStore((state) => state.setClass);
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<ClassFormInput>({
-    defaultValues: { dndClass: dndClass },
+    defaultValues: { dndClass: dndClass.name },
     mode: "onSubmit",
   });
 

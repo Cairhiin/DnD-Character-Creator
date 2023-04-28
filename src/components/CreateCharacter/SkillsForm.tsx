@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
 import { SKILLS } from "@/constants";
-import { Skills } from "@/types";
+import type { Skills } from "@/types";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface Props {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
 import { BACKGROUNDS, ALIGNMENT } from "@/constants";
-import { CharacterDescription } from "@/types";
+import type { CharacterDescription } from "@/types";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import {
+import type {
   CharacterFormState,
   CharacterDescription,
   AbilityScores,
@@ -62,7 +62,7 @@ export const characterStore = create<CharacterFormState>((set) => ({
     stealth: 0,
     survival: 0,
   },
-  setRace: (race: string) => set((state) => ({ race: race })),
+  setRace: (race: ApiRace) => set((state) => ({ race: race })),
   setClass: (dndClass: ApiClass) => set((state) => ({ dndClass: dndClass })),
   setAbilityScores: (scores: AbilityScores) =>
     set((state) => ({ abilityScores: scores })),

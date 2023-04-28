@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Head from "next/head";
 import { characterStore } from "@/store";
-import { CharacterDescription } from "@/types";
+import type { CharacterDescription } from "@/types";
 import styles from "@/styles/Create.module.scss";
 import CreateCharacterTabs from "@/components/CreateCharacter/CreateCharacterTabs";
 
