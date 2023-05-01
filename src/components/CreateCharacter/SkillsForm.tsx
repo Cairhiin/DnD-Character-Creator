@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
 import { SKILLS } from "@/constants";
@@ -13,8 +14,10 @@ export default function SkillsForm({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const skills = characterStore((state) => state.skills);
   const setSkills = characterStore((state) => state.setSkills);
+
   const {
     handleSubmit,
     register,
@@ -28,15 +31,30 @@ export default function SkillsForm({
 
   // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<Skills> = (skills): void => {
-    nextTab();
+    // Check if the correct number of skills have been selected!
+    if (selectedSkills.length >= 4) {
+      nextTab();
+    }
+  };
+
+  const handleChange = (skill: string) => {
+    if (selectedSkills.indexOf(skill) < 0) {
+      setSelectedSkills((state) => [...state, skill]);
+    } else {
+      setSelectedSkills((state) => state.filter((s: string) => s !== skill));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(saveData)}>
-      <fieldset>
+      <fieldset name="skills">
         {SKILLS.map((skill: string) => (
           <div key={skill}>
-            <input type="checkbox" {...register(skill as any)} />
+            <input
+              type="checkbox"
+              {...register(skill as any)}
+              onChange={() => handleChange(skill)}
+            />
             <label htmlFor={skill}>{skill}</label>
           </div>
         ))}
