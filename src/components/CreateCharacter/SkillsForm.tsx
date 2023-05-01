@@ -39,8 +39,10 @@ export default function SkillsForm({
 
   const handleChange = (skill: string) => {
     if (selectedSkills.indexOf(skill) < 0) {
+      // Add the skill to the list of selected skills
       setSelectedSkills((state) => [...state, skill]);
     } else {
+      // If the skill is already in the list remove it instead
       setSelectedSkills((state) => state.filter((s: string) => s !== skill));
     }
   };
