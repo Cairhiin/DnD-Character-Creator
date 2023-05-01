@@ -14,9 +14,14 @@ export default function SkillsForm({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const skills = characterStore((state) => state.skills);
   const setSkills = characterStore((state) => state.setSkills);
+
+  // In case the user comes back to the page filter the chosen skills and set as initial state
+  const skillsInStore: string[] = Object.keys(skills).filter(
+    (skill: string) => (skills as any)[skill] === true
+  );
+  const [selectedSkills, setSelectedSkills] = useState<string[]>(skillsInStore);
 
   const {
     handleSubmit,
@@ -33,10 +38,12 @@ export default function SkillsForm({
   const saveData: SubmitHandler<Skills> = (skills): void => {
     // Check if the correct number of skills have been selected!
     if (selectedSkills.length >= 4) {
+      setSkills(skills);
       nextTab();
     }
   };
 
+  // Keep track of the selected skills
   const handleChange = (skill: string) => {
     if (selectedSkills.indexOf(skill) < 0) {
       // Add the skill to the list of selected skills

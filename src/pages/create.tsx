@@ -7,7 +7,7 @@ import CreateCharacterTabs from "@/components/CreateCharacter";
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
-  const { race, dndClass, abilityScores, description } = characterStore(
+  const { race, dndClass, abilityScores, description, skills } = characterStore(
     (state) => state
   );
   const {
@@ -78,6 +78,13 @@ export default function Home() {
               <p>CHA: {abilityScores.CHA}</p>
             </div>
             <div>
+              {Object.keys(skills).map((skill: string) => (
+                <p>
+                  {skill}: {(skills as any)[skill] === true ? "1" : "0"}
+                </p>
+              ))}
+            </div>
+            <div>
               <div>
                 <div>
                   <h3>BACKGROUND</h3>
@@ -85,32 +92,35 @@ export default function Home() {
                 </div>
                 <div>
                   <h3>DETAILS</h3>
-                  <p>{details.alignment}</p>
-                  <p>{details.faith}</p>
+                  <p>
+                    {Object.keys(details).map((attr: string) => (
+                      <p>{(details as any)[attr]}</p>
+                    ))}
+                  </p>
                 </div>
                 <div>
                   <h3>PHYSICAL APPEARANCE</h3>
-                  <p>{physical.hair}</p>
-                  <p>{physical.skin}</p>
-                  <p>{physical.eyes}</p>
-                  <p>{physical.height}</p>
-                  <p>{physical.weight}</p>
-                  <p>{physical.gender}</p>
+                  <p>
+                    {Object.keys(physical).map((attr: string) => (
+                      <p>{(physical as any)[attr]}</p>
+                    ))}
+                  </p>
                 </div>
                 <div>
                   <h3>PERSONAL CHARACTERISTICS</h3>
-                  <p>{personal.traits}</p>
-                  <p>{personal.ideals}</p>
-                  <p>{personal.bonds}</p>
-                  <p>{personal.flaws}</p>
+                  <p>
+                    {Object.keys(personal).map((attr: string) => (
+                      <p>{(personal as any)[attr]}</p>
+                    ))}
+                  </p>
                 </div>
                 <div>
                   <h3>NOTES</h3>
-                  <p>{notes.allies}</p>
-                  <p>{notes.enemies}</p>
-                  <p>{notes.organizations}</p>
-                  <p>{notes.backstory}</p>
-                  <p>{notes.other}</p>
+                  <p>
+                    {Object.keys(notes).map((attr: string) => (
+                      <p>{(notes as any)[attr]}</p>
+                    ))}
+                  </p>
                 </div>
               </div>
             </div>

@@ -68,5 +68,5 @@ export const characterStore = create<CharacterFormState>((set) => ({
     set((state) => ({ abilityScores: scores })),
   setDescription: (description: CharacterDescription) =>
     set((state) => ({ description: description })),
-  setSkills: (state) => (skills: Skills) => ({ skills: skills }),
+  setSkills: (skills: Skills) => set((state) => ({ skills: skills })),
 }));
