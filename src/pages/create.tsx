@@ -3,7 +3,7 @@ import Head from "next/head";
 import { characterStore } from "@/store";
 import type { CharacterDescription } from "@/types";
 import styles from "@/styles/Create.module.scss";
-import CreateCharacterTabs from "@/components/CreateCharacter/CreateCharacterTabs";
+import CreateCharacterTabs from "@/components/CreateCharacter";
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
