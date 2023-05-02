@@ -3,7 +3,7 @@ import ClassSelection from "./ClassSelectionForm";
 import AbilitySelection from "./AbilitySelectionForm";
 import CharacterDescription from "./DescriptionForm";
 import SkillsSelection from "./SkillsForm";
-import styles from "@/styles/CreateCharacter/CreateCharacterTabs.module.scss";
+import styles from "@/styles/Create.module.scss";
 
 type Props = {
   activeIndex: number;

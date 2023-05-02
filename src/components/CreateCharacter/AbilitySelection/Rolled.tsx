@@ -2,7 +2,7 @@ import { UseFormSetValue, UseFormRegister } from "react-hook-form";
 import { rollRandomScore } from "@/utils";
 import { ABILITIES } from "@/constants";
 import { AbilityScores, AbilityFormInput } from "@/types";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   register: UseFormRegister<AbilityFormInput>;

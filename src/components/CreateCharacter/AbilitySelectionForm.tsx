@@ -7,7 +7,7 @@ import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/Pointbuy";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;

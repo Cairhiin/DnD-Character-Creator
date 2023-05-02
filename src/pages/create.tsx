@@ -61,8 +61,8 @@ export default function Home() {
         <section className={styles.create__main}>
           <div></div>
           <aside className={styles.create__chardata}>
-            <div>
-              <h3>RACE</h3>
+            {/*<div>
+              <h3>{race.name}</h3>
               <p>{race.name}</p>
             </div>
             <div>
@@ -79,7 +79,7 @@ export default function Home() {
             </div>
             <div>
               {Object.keys(skills).map((skill: string) => (
-                <p>
+                <p key={skill}>
                   {skill}: {(skills as any)[skill] === true ? "1" : "0"}
                 </p>
               ))}
@@ -123,7 +123,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </aside>
           <aside className={styles.create__choices}>
             <div className={styles.create__tabs}>

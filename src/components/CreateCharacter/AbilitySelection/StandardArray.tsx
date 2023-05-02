@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UseFormRegister } from "react-hook-form/dist/types";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { ABILITIES, STANDARD_ARRAY } from "@/constants";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface StandardArrayProps {
   register: UseFormRegister<AbilityFormInput>;

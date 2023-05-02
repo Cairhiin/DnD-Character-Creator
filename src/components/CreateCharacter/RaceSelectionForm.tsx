@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { RACES } from "@/constants";
 import { characterStore } from "@/store";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface RaceFormInput {
   race: string;

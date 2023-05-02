@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { characterStore } from "@/store";
 import { BACKGROUNDS, ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;

@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
 import { ApiClass } from "@/types";
-import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
+import styles from "@/styles/CharacterForm.module.scss";
 
 interface ClassFormInput {
   dndClass: string;
@@ -55,8 +55,11 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div>
-      <h2>Class</h2>
+    <div className={styles.create__layout}>
+      <div></div>
+      <aside>
+        <h2>{dndClass.name}</h2>
+      </aside>
       <form
         className={styles.race__selection}
         onSubmit={handleSubmit(saveData)}
@@ -84,6 +87,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
           <button>Next</button>
         </div>
       </form>
+      <div></div>
     </div>
   );
 }
