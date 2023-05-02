@@ -1,7 +1,7 @@
 import { DndClass } from "@/types";
 
 export const RACES: string[] = 
-    ["dragonborn", "dwarf", "elf", "gnome", "half-elf", "half-orc", "halfling", "human", "tiefling"];
+    ["Dragonborn", "Dwarf", "Elf", "Gnome", "Half-Elf", "Half-Orc", "Halfling", "Human", "Tiefling"];
 
 export const BARBARIAN = {
     id: "barbarian",

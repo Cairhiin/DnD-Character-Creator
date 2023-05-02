@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
-import { CreateClassCard } from "@/pages/create";
+import { CreateCharacterCard } from "@/pages/create";
 import { formatAttribute } from "@/utils";
 import styles from "@/styles/CharacterForm.module.scss";
 
@@ -49,7 +49,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     if (!dndClass) {
       return setError("Please choose a class before continuing.");
     }
-    console.log(dndClassFromStore);
+
     if (!isLoading) {
       nextTab();
     }
@@ -60,14 +60,14 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
       <div></div>
       <aside>
         {dndClassFromStore.name && (
-          <CreateClassCard header={dndClassFromStore.name}>
-            <p>
+          <CreateCharacterCard header={dndClassFromStore.name}>
+            <div>
               Hitdie:{" "}
               <span className={styles.create__layout__content}>
                 1d{dndClassFromStore.hit_die}
               </span>
-            </p>
-            <p>
+            </div>
+            <div>
               Armors:{" "}
               <ul className={styles.create__layout__content}>
                 {/* Filter the proficiences to include only armors */}
@@ -87,8 +87,8 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                       )
                     )}
               </ul>
-            </p>
-            <p>
+            </div>
+            <div>
               Weapons: {/* Filter the proficiences to include only weapons */}
               <ul className={styles.create__layout__content}>
                 {dndClassFromStore.proficiencies &&
@@ -108,8 +108,8 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                       )
                     )}
               </ul>
-            </p>
-            <p>
+            </div>
+            <div>
               Saving Throws:{" "}
               <ul>
                 {dndClassFromStore.saving_throws &&
@@ -122,16 +122,16 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                     )
                   )}
               </ul>
-            </p>
-            <p>
+            </div>
+            <div>
               Skills:{" "}
               <ul>
                 {dndClassFromStore.proficiency_choices?.map((choice) => (
                   <li key={choice.desc}>{choice.desc}. </li>
                 ))}
               </ul>
-            </p>
-          </CreateClassCard>
+            </div>
+          </CreateCharacterCard>
         )}
       </aside>
       <form

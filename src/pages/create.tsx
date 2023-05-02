@@ -10,7 +10,7 @@ interface CardProps {
   header: string;
 }
 
-export const CreateClassCard = ({ children, header }: CardProps) => {
+export const CreateCharacterCard = ({ children, header }: CardProps) => {
   return (
     <div className={styles.create__card}>
       <h2 className={styles.create__card__header}>{header}</h2>

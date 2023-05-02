@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { RACES } from "@/constants";
 import { characterStore } from "@/store";
+import { ErrorField } from "./ClassSelectionForm";
+import { CreateCharacterCard } from "@/pages/create";
+import { formatAttribute } from "@/utils";
 import styles from "@/styles/CharacterForm.module.scss";
 
 interface RaceFormInput {
@@ -13,15 +16,28 @@ interface Props {
 }
 
 export default function RaceSelection({ nextTab }: Props) {
-  const race = characterStore((state) => state.race);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+  const raceFromStore = characterStore((state) => state.race);
   const setRace = characterStore((state) => state.setRace);
-  const [isLoading, setLoading] = useState(false);
+
+  const handleClick = (race: string) => {
+    setLoading(true);
+    // Call the free SRD api to retrieve class data
+    fetch(`https://www.dnd5eapi.co/api/races/${race.toLowerCase()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setRace(data);
+        setLoading(false);
+      });
+  };
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<RaceFormInput>({
-    defaultValues: { race: race.name },
+    defaultValues: { race: raceFromStore.name },
     mode: "onSubmit",
   });
 
@@ -31,45 +47,100 @@ export default function RaceSelection({ nextTab }: Props) {
   }: {
     race: string;
   }): void => {
-    setLoading(true);
-    // Call the free SRD api to retrieve class data
-    fetch(`https://www.dnd5eapi.co/api/races/${race}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setRace(data);
-        setLoading(false);
-      });
-    nextTab();
+    if (!race) {
+      return setError("Please choose a race before continuing.");
+    }
+
+    if (!isLoading) {
+      nextTab();
+    }
   };
 
   return (
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <form
-          className={styles.race__selection}
-          onSubmit={handleSubmit(saveData)}
-        >
-          {
-            <div className={styles.create__character__radio}>
-              {RACES.map((race: string) => (
-                <div key={race}>
-                  <input
-                    type="radio"
-                    id={race}
-                    value={race}
-                    {...register("race")}
-                  />
-                  <label htmlFor={race}>{race}</label>
-                </div>
-              ))}
+        {raceFromStore.name && (
+          <CreateCharacterCard header={raceFromStore.name}>
+            <div>
+              Ability Score Increase:{" "}
+              <ul className={styles.create__layout__content}>
+                {raceFromStore.ability_bonuses?.map(
+                  (ability, i, arr): JSX.Element => (
+                    <li key={ability.ability_score.name}>
+                      {formatAttribute(ability.ability_score.name)} +
+                      {ability.bonus}
+                      {i < arr.length - 1 ? ", " : ""}
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
-          }
-          <div className={styles.create__form__buttonRow}>
-            <button>Next</button>
-          </div>
-        </form>
+            <div>
+              Size: <span>{raceFromStore.size}</span>
+            </div>
+            <div>
+              Speed:{" "}
+              <span>
+                {raceFromStore.speed} ft/round ({raceFromStore.speed || 0 / 5}{" "}
+                squares)
+              </span>
+              <div>
+                Languages:{" "}
+                <ul className={styles.create__layout__content}>
+                  {raceFromStore.languages?.map(
+                    (language, i, arr): JSX.Element => (
+                      <li key={language.index}>
+                        {language.name}
+                        {i < arr.length - 1 ? ", " : ""}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+              <div>
+                Traits:{" "}
+                <ul className={styles.create__layout__content}>
+                  {raceFromStore.traits?.map(
+                    (trait, i, arr): JSX.Element => (
+                      <li key={trait.index}>
+                        {trait.name}
+                        {i < arr.length - 1 ? ", " : ""}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            </div>
+          </CreateCharacterCard>
+        )}
       </aside>
+      <form
+        className={styles.race__selection}
+        onSubmit={handleSubmit(saveData)}
+      >
+        {
+          <div className={styles.create__character__radio}>
+            {RACES.map((race: string) => (
+              <div key={race}>
+                <input
+                  type="radio"
+                  id={race}
+                  value={race}
+                  checked={race === raceFromStore.name}
+                  {...register("race")}
+                  onClick={() => handleClick(race)}
+                />
+                <label htmlFor={race}>{race}</label>
+              </div>
+            ))}
+            {error && <ErrorField error={error} />}
+          </div>
+        }
+        <div className={styles.create__form__buttonRow}>
+          <button>Next</button>
+        </div>
+      </form>
       <div></div>
     </div>
   );
