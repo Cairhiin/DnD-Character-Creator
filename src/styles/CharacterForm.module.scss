@@ -2,5 +2,6 @@
 
 .create__layout {
     display: grid;
-    grid-template-columns: 1fr 2fr 8fr 1fr;
+    grid-template-columns: 1fr 4fr 6fr 1fr;
+    gap: 2rem;
 }

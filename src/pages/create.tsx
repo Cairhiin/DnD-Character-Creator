@@ -1,9 +1,23 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Head from "next/head";
 import { characterStore } from "@/store";
 import type { CharacterDescription } from "@/types";
 import styles from "@/styles/Create.module.scss";
 import CreateCharacterTabs from "@/components/CreateCharacter";
+
+interface CardProps {
+  children: ReactNode;
+  header: string;
+}
+
+export const CreateClassCard = ({ children, header }: CardProps) => {
+  return (
+    <div className={styles.create__card}>
+      <h2 className={styles.create__card__header}>{header}</h2>
+      <div className={styles.create__card__content}>{children}</div>
+    </div>
+  );
+};
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);

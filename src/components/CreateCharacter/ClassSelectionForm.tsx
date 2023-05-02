@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
-import { ApiClass } from "@/types";
+import { CreateClassCard } from "@/pages/create";
+import { formatAttribute } from "@/utils";
 import styles from "@/styles/CharacterForm.module.scss";
 
 interface ClassFormInput {
@@ -21,14 +22,14 @@ export const ErrorField = ({ error }: { error: string }) => (
 export default function ClassSelection({ nextTab, previousTab }: Props) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const dndClass = characterStore((state) => state.dndClass);
+  const dndClassFromStore = characterStore((state) => state.dndClass);
   const setClass = characterStore((state) => state.setClass);
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<ClassFormInput>({
-    defaultValues: { dndClass: dndClass.name },
+    defaultValues: { dndClass: dndClassFromStore.name },
     mode: "onSubmit",
   });
 
@@ -48,7 +49,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     if (!dndClass) {
       return setError("Please choose a class before continuing.");
     }
-
+    console.log(dndClassFromStore);
     if (!isLoading) {
       nextTab();
     }
@@ -58,7 +59,80 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <h2>{dndClass.name}</h2>
+        {dndClassFromStore.name && (
+          <CreateClassCard header={dndClassFromStore.name}>
+            <p>
+              Hitdie:{" "}
+              <span className={styles.create__layout__content}>
+                1d{dndClassFromStore.hit_die}
+              </span>
+            </p>
+            <p>
+              Armors:{" "}
+              <ul className={styles.create__layout__content}>
+                {/* Filter the proficiences to include only armors */}
+                {dndClassFromStore.proficiencies &&
+                  dndClassFromStore.proficiencies
+                    .filter(
+                      (item) =>
+                        item.name.includes("Shield") ||
+                        item.name.includes("Armor")
+                    )
+                    .map(
+                      (item, i, arr): JSX.Element => (
+                        <li key={item.name}>
+                          {item.name}
+                          {i < arr.length - 1 ? ", " : ""}
+                        </li>
+                      )
+                    )}
+              </ul>
+            </p>
+            <p>
+              Weapons: {/* Filter the proficiences to include only weapons */}
+              <ul className={styles.create__layout__content}>
+                {dndClassFromStore.proficiencies &&
+                  dndClassFromStore.proficiencies
+                    .filter(
+                      (item) =>
+                        !item.name.includes("Shield") &&
+                        !item.name.includes("Armor") &&
+                        !item.name.includes("Saving Throw")
+                    )
+                    .map(
+                      (item, i, arr): JSX.Element => (
+                        <li key={item.index}>
+                          {item.name}
+                          {i < arr.length - 1 ? ", " : ""}
+                        </li>
+                      )
+                    )}
+              </ul>
+            </p>
+            <p>
+              Saving Throws:{" "}
+              <ul>
+                {dndClassFromStore.saving_throws &&
+                  dndClassFromStore.saving_throws.map(
+                    (st, i, arr): JSX.Element => (
+                      <li key={st.index}>
+                        {formatAttribute(st.name)}
+                        {i < arr.length - 1 ? ", " : ""}
+                      </li>
+                    )
+                  )}
+              </ul>
+            </p>
+            <p>
+              Skills:{" "}
+              <ul>
+                {dndClassFromStore.proficiency_choices?.map((choice) => (
+                  <li key={choice.desc}>{choice.desc}. </li>
+                ))}
+              </ul>
+            </p>
+          </CreateClassCard>
+        )}
       </aside>
       <form
         className={styles.race__selection}
@@ -72,7 +146,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                   type="radio"
                   id={id}
                   value={id}
-                  checked={name === dndClass.name}
+                  checked={name === dndClassFromStore.name}
                   {...register("dndClass")}
                   onClick={() => handleClick(name)}
                 />

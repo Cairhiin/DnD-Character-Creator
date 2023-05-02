@@ -15,3 +15,22 @@ export const rollRandomScore = (): number => {
     diceRolls.sort((a: number, b: number): number => b - a).pop();
     return diceRolls.reduce((acc: number, current: number) => acc + current, 0);
 }
+
+export const formatAttribute = (attr: string): string => {
+    switch (attr) {
+      case "STR":
+        return "Strength";
+      case "DEX":
+        return "Dexterity";
+      case "CON":
+        return "Constitution";
+      case "INT":
+        return "Intellect";
+      case "WIS":
+        return "Wisdom";
+      case "CHA":
+        return "Charisma";
+      default:
+        return "";
+    }
+  };
