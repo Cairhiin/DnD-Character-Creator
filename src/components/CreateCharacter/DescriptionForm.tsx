@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { characterStore } from "@/store";
 import { BACKGROUNDS, ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
@@ -9,6 +11,36 @@ interface Props {
   nextTab: () => void;
   previousTab: () => void;
 }
+const schema = yup
+  .object({
+    background: yup.string().required(),
+    details: yup.object({
+      alignment: yup.string().required(),
+      faith: yup.string(),
+    }),
+    physical: yup.object({
+      hair: yup.string().required(),
+      skin: yup.string().required(),
+      eyes: yup.string().required(),
+      weight: yup.number().required(),
+      height: yup.number().required(),
+      age: yup.number().required(),
+      gender: yup.string().required(),
+    }),
+    personal: yup.object({
+      traits: yup.string().required(),
+      ideals: yup.string().required(),
+      bonds: yup.string().required(),
+      flaws: yup.string().required(),
+    }),
+    notes: yup.object({
+      organizations: yup.string(),
+      allies: yup.string(),
+      enemies: yup.string(),
+      other: yup.string(),
+    }),
+  })
+  .required();
 
 export default function CharacterDescription({ nextTab, previousTab }: Props) {
   const description = characterStore((state) => state.description);
@@ -19,6 +51,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     register,
     formState: { errors },
   } = useForm({
+    resolver: yupResolver(schema),
     defaultValues: {
       ...description,
     },
@@ -48,6 +81,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 {...register("background")}
               />
               <label htmlFor={background}>{background}</label>
+              <p>{errors.background?.message}</p>
             </div>
           ))}
         </div>
@@ -63,8 +97,10 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                   <option value={alignment}>{alignment}</option>
                 ))}
               </select>
+              <p>{errors.details?.alignment?.message}</p>
               <label htmlFor="faith">Faith</label>
               <input type="text" {...register("details.faith")} />
+              <p>{errors.details?.faith?.message}</p>
             </div>
           )}
         </div>
@@ -75,16 +111,22 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             <div>
               <label htmlFor="hair">Hair</label>
               <input type="text" {...register("physical.hair")} />
+              <p>{errors.physical?.hair?.message}</p>
               <label htmlFor="skin">Skin</label>
               <input type="text" {...register("physical.skin")} />
+              <p>{errors.physical?.skin?.message}</p>
               <label htmlFor="eyes">Eyes</label>
               <input type="text" {...register("physical.eyes")} />
+              <p>{errors.physical?.eyes?.message}</p>
               <label htmlFor="height">Height</label>
               <input type="text" {...register("physical.height")} />
+              <p>{errors.physical?.height?.message}</p>
               <label htmlFor="weight">Weight</label>
               <input type="text" {...register("physical.weight")} />
+              <p>{errors.physical?.weight?.message}</p>
               <label htmlFor="age">Age</label>
               <input type="text" {...register("physical.age")} />
+              <p>{errors.physical?.age?.message}</p>
               <label htmlFor="gender">Gender</label>
               <select {...register("physical.gender")}>
                 <option value="female">Female</option>
@@ -92,6 +134,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 <option value="nonbinary">Non-binariy</option>
                 <option value="other">Other</option>
               </select>
+              <p>{errors.physical?.gender?.message}</p>
             </div>
           )}
         </div>
@@ -102,12 +145,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             <div>
               <label htmlFor="traits">Personality Traits</label>
               <input type="text" {...register("personal.traits")} />
+              <p>{errors.personal?.traits?.message}</p>
               <label htmlFor="ideals">Ideals</label>
               <input type="text" {...register("personal.ideals")} />
+              <p>{errors.personal?.ideals?.message}</p>
               <label htmlFor="bonds">Bonds</label>
               <input type="text" {...register("personal.bonds")} />
+              <p>{errors.personal?.bonds?.message}</p>
               <label htmlFor="flaws">Flaws</label>
               <input type="text" {...register("personal.flaws")} />
+              <p>{errors.personal?.flaws?.message}</p>
             </div>
           )}
         </div>
@@ -118,14 +165,19 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             <div>
               <label htmlFor="organizations">Organizations</label>
               <input type="text" {...register("notes.organizations")} />
+              <p>{errors.notes?.organizations?.message}</p>
               <label htmlFor="allies">Allies</label>
               <input type="text" {...register("notes.allies")} />
+              <p>{errors.notes?.allies?.message}</p>
               <label htmlFor="enemies">Enemies</label>
               <input type="text" {...register("notes.enemies")} />
+              <p>{errors.notes?.enemies?.message}</p>
               <label htmlFor="backstory">Backstory</label>
               <textarea {...register("notes.backstory")}></textarea>
+              <p>{errors.notes?.backstory?.message}</p>
               <label htmlFor="other">Other</label>
               <textarea {...register("notes.other")}></textarea>
+              <p>{errors.notes?.other?.message}</p>
             </div>
           )}
         </div>
