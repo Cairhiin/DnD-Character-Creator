@@ -11,6 +11,7 @@ interface Props {
   nextTab: () => void;
   previousTab: () => void;
 }
+
 const schema = yup
   .object({
     background: yup.string().required(),

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
+import { ApiClass } from "@/types";
 import styles from "@/styles/CreateCharacter/CharacterForm.module.scss";
 
 interface ClassFormInput {
@@ -13,8 +14,13 @@ interface Props {
   previousTab: () => void;
 }
 
+export const ErrorField = ({ error }: { error: string }) => (
+  <div className="error">{error}</div>
+);
+
 export default function ClassSelection({ nextTab, previousTab }: Props) {
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
   const dndClass = characterStore((state) => state.dndClass);
   const setClass = characterStore((state) => state.setClass);
   const {
@@ -26,17 +32,26 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
     mode: "onSubmit",
   });
 
-  // Save the form state to Zustand and go to next tab
-  const saveData: SubmitHandler<ClassFormInput> = ({ dndClass }): void => {
+  const handleClick = (dndClass: string) => {
     setLoading(true);
     // Call the free SRD api to retrieve class data
-    fetch(`https://www.dnd5eapi.co/api/classes/${dndClass}`)
+    fetch(`https://www.dnd5eapi.co/api/classes/${dndClass.toLowerCase()}`)
       .then((res) => res.json())
       .then((data) => {
         setClass(data);
         setLoading(false);
       });
-    nextTab();
+  };
+
+  // Save the form state to Zustand and go to next tab
+  const saveData: SubmitHandler<ClassFormInput> = ({ dndClass }): void => {
+    if (!dndClass) {
+      return setError("Please choose a class before continuing.");
+    }
+
+    if (!isLoading) {
+      nextTab();
+    }
   };
 
   return (
@@ -54,11 +69,14 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                   type="radio"
                   id={id}
                   value={id}
+                  checked={name === dndClass.name}
                   {...register("dndClass")}
+                  onClick={() => handleClick(name)}
                 />
                 <label htmlFor={id}>{name}</label>
               </div>
             ))}
+            {error && <ErrorField error={error} />}
           </div>
         }
         <div className={styles.create__form__buttonRow}>
