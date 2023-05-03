@@ -25,7 +25,7 @@ export const formatAttribute = (attr: string): string => {
       case "CON":
         return "Constitution";
       case "INT":
-        return "Intellect";
+        return "Intelligence";
       case "WIS":
         return "Wisdom";
       case "CHA":
