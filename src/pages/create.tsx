@@ -21,16 +21,6 @@ export const CreateCharacterCard = ({ children, header }: CardProps) => {
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
-  const { race, dndClass, abilityScores, description, skills } = characterStore(
-    (state) => state
-  );
-  const {
-    background,
-    details,
-    physical,
-    personal,
-    notes,
-  }: CharacterDescription = description;
 
   const setActiveIndex = (e: any) => {
     setActiveTabIndex(parseInt(e.dataset.tabId));
@@ -38,7 +28,7 @@ export default function Home() {
 
   const nextTab = (): void => {
     setActiveTabIndex((prevIndex) =>
-      prevIndex < 6 ? prevIndex + 1 : prevIndex
+      prevIndex < 7 ? prevIndex + 1 : prevIndex
     );
   };
 
@@ -74,71 +64,7 @@ export default function Home() {
         </nav>
         <section className={styles.create__main}>
           <div></div>
-          <aside className={styles.create__chardata}>
-            {/*<div>
-              <h3>{race.name}</h3>
-              <p>{race.name}</p>
-            </div>
-            <div>
-              <h3>CLASS</h3>
-              <p>{dndClass.name}</p>
-            </div>
-            <div>
-              <p>STR: {abilityScores.STR}</p>
-              <p>DEX: {abilityScores.DEX}</p>
-              <p>CON: {abilityScores.CON}</p>
-              <p>INT: {abilityScores.INT}</p>
-              <p>WIS: {abilityScores.WIS}</p>
-              <p>CHA: {abilityScores.CHA}</p>
-            </div>
-            <div>
-              {Object.keys(skills).map((skill: string) => (
-                <p key={skill}>
-                  {skill}: {(skills as any)[skill] === true ? "1" : "0"}
-                </p>
-              ))}
-            </div>
-            <div>
-              <div>
-                <div>
-                  <h3>BACKGROUND</h3>
-                  <p>{background}</p>
-                </div>
-                <div>
-                  <h3>DETAILS</h3>
-                  <p>
-                    {Object.keys(details).map((attr: string) => (
-                      <p>{(details as any)[attr]}</p>
-                    ))}
-                  </p>
-                </div>
-                <div>
-                  <h3>PHYSICAL APPEARANCE</h3>
-                  <p>
-                    {Object.keys(physical).map((attr: string) => (
-                      <p>{(physical as any)[attr]}</p>
-                    ))}
-                  </p>
-                </div>
-                <div>
-                  <h3>PERSONAL CHARACTERISTICS</h3>
-                  <p>
-                    {Object.keys(personal).map((attr: string) => (
-                      <p>{(personal as any)[attr]}</p>
-                    ))}
-                  </p>
-                </div>
-                <div>
-                  <h3>NOTES</h3>
-                  <p>
-                    {Object.keys(notes).map((attr: string) => (
-                      <p>{(notes as any)[attr]}</p>
-                    ))}
-                  </p>
-                </div>
-              </div>
-            </div> */}
-          </aside>
+          <aside className={styles.create__chardata}></aside>
           <aside className={styles.create__choices}>
             <div className={styles.create__tabs}>
               <CreateCharacterTabs

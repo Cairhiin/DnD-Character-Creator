@@ -1,52 +1,60 @@
 export interface Ability {
     "ability_score": {
-        "index": string,
-        "name": string,
-        "url": string
-    },
-    "bonus": number
+        "index": string;
+        "name": string;
+        "url": string;
+    };
+    "bonus": number;
 };
 
 export interface Language {
-    "index": string,
-    "name": string,
-    "url": string
+    "index": string;
+    "name": string;
+    "url": string;
 }
 
 export interface Trait {
-    "index": string,
-    "name": string,
-    "url": string
+    "index": string;
+    "name": string;
+    "url": string;
 }
 
 export interface Race {
-    "index": string,
-    "name": string,
-    "speed": number,
-    "ability_bonuses": Array<Ability>,
-    "alignment": string,
-    "age": string,
-    "size": string,
-    "size_description": string,
-    "starting_proficiencies": Array<string>,
-    "languages": Array<Language>,
-    "language_desc": string,
-    "traits": Array<Trait>,
-    "subraces": Array<string>,
-    "url": string
+    "index": string;
+    "name": string;
+    "speed": number;
+    "ability_bonuses": Array<Ability>;
+    "alignment": string;
+    "age": string;
+    "size": string;
+    "size_description": string;
+    "starting_proficiencies": Array<string>;
+    "languages": Array<Language>;
+    "language_desc": string;
+    "traits": Array<Trait>;
+    "subraces": Array<string>;
+    "url": string;
 };
 
+export interface Background {
+    id: string;
+    name: string;
+    skill_proficiencies: string[];
+    languages: number;
+    tool_proficiencies: string[];
+    feature: string;
+}
+
 export interface AbilityScores {
-    STR: number,
-    DEX: number,
-    CON: number,
-    INT: number,
-    WIS: number,
-    CHA: number
+    STR: number;
+    DEX: number;
+    CON: number;
+    INT: number;
+    WIS: number;
+    CHA: number;
 };
 
 export interface CharacterDescription {
-    background: string;
     details: {    
         alignment: string;
         faith: string;
@@ -59,13 +67,13 @@ export interface CharacterDescription {
         weight: string;
         age: string;
         gender: string;
-    },
+    };
     personal: {
         traits: string;
         ideals: string;
         bonds: string;
         flaws: string;
-    },
+    };
     notes: {
         organizations: string;
         allies: string;
@@ -76,16 +84,17 @@ export interface CharacterDescription {
 }
 
 export interface CharacterFormState {
-    race: ApiRace,
-    dndClass: ApiClass,
-    abilityScores: AbilityScores,
-    equipment: string[],
-    description: CharacterDescription,
-    skills: Skills,
+    race: ApiRace;
+    dndClass: ApiClass;
+    background: Background;
+    abilityScores: AbilityScores;
+    equipment: string[];
+    description: CharacterDescription;
+    skills: Skills;
     setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
-    setAbilityScores: (scores: AbilityScores) => void,
-    setDescription: (description: CharacterDescription) => void,
+    setAbilityScores: (scores: AbilityScores) => void;
+    setDescription: (description: CharacterDescription) => void;
     setSkills: (skills: Skills) => void
 };
 
@@ -128,7 +137,7 @@ export interface ApiClass {
     multi_classing?: {
         prerequisites: [
             { 
-                ability_score: {index: string; name: string; url: string; },
+                ability_score: {index: string; name: string; url: string; };
                 minimum_score: number; 
             } 
         ];
@@ -140,7 +149,7 @@ export interface ApiClass {
         { index: string; name: string; url: string; }
     ];
     proficiency_choices?: [
-        { desc: string }
+        { desc: string; }
     ];
     saving_throws?: [
         { index: string; name: string; url: string; }
@@ -156,14 +165,14 @@ export interface ApiClass {
         }
     ];
     starting_equipment_options?: [
-        { desc: string; choose: number; type: string, from: 
+        { desc: string; choose: number; type: string; from: 
             { option_set_type: string; options: [
                 { option_type: string; count: number; of: { index: string; name: string; url: string; }} 
             ]}
         }
     ];
     subclasses?: [
-        { index: string, name: string, url: string }
+        { index: string; name: string; url: string; }
     ];
     url?: string;
 }
@@ -190,23 +199,23 @@ export interface ApiRace {
         { index: string; name: string; url: string; }
     ];
     starting_proficiencies_options?: [
-        { desc: string; choose: number; type: string, from: 
+        { desc: string; choose: number; type: string; from: 
             { option_set_type: string; options: [
-                { option_type: string; item: { index: string, name: string, url: string }} 
+                { option_type: string; item: { index: string; name: string; url: string }} 
             ]}
         }
     ];
     subraces?: [
-        { index: string, name: string, url: string }
+        { index: string; name: string; url: string }
     ];
     traits?: [
-        { index: string, name: string, url: string }
+        { index: string; name: string; url: string }
     ]
     url?: string;
 }
 
 export interface DndClass {
-    id: string,
-    name: string,
+    id: string;
+    name: string;
     skills: string[]
 }

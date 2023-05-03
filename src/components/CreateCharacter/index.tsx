@@ -1,8 +1,9 @@
-import RaceSelection from "./RaceSelectionForm";
-import ClassSelection from "./ClassSelectionForm";
-import AbilitySelection from "./AbilitySelectionForm";
-import CharacterDescription from "./DescriptionForm";
-import SkillsSelection from "./SkillsForm";
+import RaceSelectionForm from "./RaceSelectionForm";
+import ClassSelectionForm from "./ClassSelectionForm";
+import BackgroundSelectionForm from "./BackgroundSelectionForm";
+import AbilitySelectionForm from "./AbilitySelectionForm";
+import CharacterDescriptionForm from "./DescriptionForm";
+import SkillsSelectionForm from "./SkillsForm";
 import styles from "@/styles/Create.module.scss";
 
 type Props = {
@@ -18,18 +19,21 @@ export default function CreateCharacterTabs({
 }: Props) {
   return (
     <div className={styles.create__tabs}>
-      {activeIndex === 1 && <RaceSelection nextTab={nextTab} />}
+      {activeIndex === 1 && <RaceSelectionForm nextTab={nextTab} />}
       {activeIndex === 2 && (
-        <ClassSelection nextTab={nextTab} previousTab={previousTab} />
+        <ClassSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 3 && (
-        <AbilitySelection nextTab={nextTab} previousTab={previousTab} />
+        <AbilitySelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 4 && (
-        <CharacterDescription nextTab={nextTab} previousTab={previousTab} />
+        <BackgroundSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 5 && (
-        <SkillsSelection nextTab={nextTab} previousTab={previousTab} />
+        <CharacterDescriptionForm nextTab={nextTab} previousTab={previousTab} />
+      )}
+      {activeIndex === 6 && (
+        <SkillsSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
     </div>
   );

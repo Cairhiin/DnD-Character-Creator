@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { characterStore } from "@/store";
-import { BACKGROUNDS, ALIGNMENT } from "@/constants";
+import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
 import styles from "@/styles/CharacterForm.module.scss";
 
@@ -71,20 +71,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         className={styles.create__form__ability_score}
         onSubmit={handleSubmit(saveData)}
       >
-        <div className={styles.create__character__radio}>
-          {BACKGROUNDS.map((background: string) => (
-            <div key={background}>
-              <input
-                type="radio"
-                id={background}
-                value={background}
-                {...register("background")}
-              />
-              <label htmlFor={background}>{background}</label>
-              <p>{errors.background?.message}</p>
-            </div>
-          ))}
-        </div>
         <div onClick={() => setActiveIndex(1)}>
           <h3>Character Details</h3>
           <p>Alignment | Faith</p>
