@@ -7,13 +7,17 @@ import styles from "@/styles/CharacterForm.module.scss";
 interface StandardArrayProps {
   register: UseFormRegister<AbilityFormInput>;
   setUsedScores: (e: any) => void;
+  setAbilityScores: (e: any) => void;
   usedScores: AbilityScores;
+  abilityScores: AbilityScores;
 }
 
 export default function StandardArray({
   register,
   usedScores,
   setUsedScores,
+  setAbilityScores,
+  abilityScores,
 }: StandardArrayProps) {
   const [abilityError, setAbilityError] = useState<string[]>([]);
   const validateScore = (value: string, ability: string): void => {
@@ -39,6 +43,9 @@ export default function StandardArray({
           prev.filter((abilityScore) => abilityScore !== ability)
         );
       }
+
+      // Update the store with the new ability value
+      setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
     }
   };
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
 import { characterStore } from "@/store";
@@ -43,7 +43,7 @@ export default function AbilitySelection({
       (bonus) => bonus.ability_score.name === key
     );
     if (ab?.length !== 0) {
-      abilityBonusPerAttribute.push(ab![0].bonus);
+      abilityBonusPerAttribute.push(ab ? ab[0].bonus : 0);
     } else {
       abilityBonusPerAttribute.push(0);
     }
@@ -113,7 +113,7 @@ export default function AbilitySelection({
 
     // If the form has no errors, save the ability scores to the store and go to next tab
     if (!formHasError) {
-      setAbilityScores({ STR, DEX, CON, INT, WIS, CHA });
+      setUsedScores({ STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 });
       nextTab();
     }
   };
@@ -155,7 +155,9 @@ export default function AbilitySelection({
               <div>Charisma</div>
             </div>
             <div className={styles.create__attributes__card__score}>
-              {Object.values(usedScores).map((ability: number) => (
+              {/* Bit of a convoluted way to check if the user has edited the ability scores
+              and if not it gets preexisting data from the store instead */}
+              {Object.values(abilityScores).map((ability: number) => (
                 <div>
                   <span>{ability}</span>
                 </div>
@@ -169,7 +171,7 @@ export default function AbilitySelection({
               ))}
             </div>
             <div className={styles.create__attributes__card__bonus}>
-              {Object.values(usedScores).map(
+              {Object.values(abilityScores).map(
                 (ability: number, index: number) => (
                   <div>
                     <span>{ability + abilityBonusPerAttribute[index]}</span>
@@ -178,7 +180,7 @@ export default function AbilitySelection({
               )}
             </div>
             <div className={styles.create__attributes__card__mod}>
-              {Object.values(usedScores).map((ab: number, index: number) => (
+              {Object.values(abilityScores).map((ab: number, index: number) => (
                 <div>
                   <span>
                     {calculateAbilityModifier(
@@ -228,6 +230,8 @@ export default function AbilitySelection({
               register={register}
               usedScores={usedScores}
               setUsedScores={setUsedScores}
+              setAbilityScores={setAbilityScores}
+              abilityScores={abilityScores}
             />
           )}
           {watch("method") === "buy" && (
