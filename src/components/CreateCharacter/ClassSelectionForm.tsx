@@ -44,7 +44,6 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
       });
   };
 
-  // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<ClassFormInput> = ({ dndClass }): void => {
     if (!dndClass) {
       return setError("Please choose a class before continuing.");

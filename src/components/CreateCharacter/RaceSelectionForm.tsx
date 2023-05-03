@@ -42,7 +42,6 @@ export default function RaceSelection({ nextTab }: Props) {
     mode: "onSubmit",
   });
 
-  // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<RaceFormInput> = ({
     race,
   }: {

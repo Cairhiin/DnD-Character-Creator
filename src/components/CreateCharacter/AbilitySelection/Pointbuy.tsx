@@ -39,12 +39,10 @@ export default function PointBuy({
         totalPointsUsed + (calculateAbilityBuyCost(parseInt(value)) ?? 0)
     );
 
-    // Update the ability score
     setUsedScores((draft: any) => {
       draft[ability] = parseInt(value);
     });
 
-    // update the store
     setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
   };
 

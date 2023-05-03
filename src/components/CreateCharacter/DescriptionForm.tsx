@@ -59,7 +59,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     mode: "onSubmit",
   });
 
-  // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<CharacterDescription> = (description): void => {
     setDescription(description);
     nextTab();

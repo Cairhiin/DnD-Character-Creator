@@ -44,7 +44,6 @@ export default function StandardArray({
         );
       }
 
-      // Update the store with the new ability value
       setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
     }
   };

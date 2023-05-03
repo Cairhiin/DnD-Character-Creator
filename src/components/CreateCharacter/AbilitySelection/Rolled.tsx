@@ -30,7 +30,6 @@ export default function RolledAbilityScores({
     // Set the value of the ability score because the button initiating is different from the register element
     setValue(ability as any, randomScore);
 
-    // Update the store
     setAbilityScores({ ...abilityScores, [ability]: randomScore });
   };
 

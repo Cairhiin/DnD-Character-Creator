@@ -69,7 +69,6 @@ export default function AbilitySelection({
     mode: "onSubmit",
   });
 
-  // Save the form state to Zustand and go to next tab if the form has no errors
   const saveData: SubmitHandler<AbilityFormInput> = ({
     STR,
     DEX,
@@ -81,7 +80,6 @@ export default function AbilitySelection({
     setFormError((error) => null);
     let formHasError = false;
 
-    // Check if all ability scores are unique in standard array method
     if (watch("method") === "array") {
       const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
       if (new Set(abilities).size !== abilities.length) {
@@ -93,7 +91,6 @@ export default function AbilitySelection({
       }
     }
 
-    // Check if the user has used exactly all points in point buy method
     if (watch("method") === "buy" && totalScorePointBuy !== POINT_BUY_TOTAL) {
       setFormError(
         (error) => "Please make certain you spend exactly all available points!"
@@ -101,7 +98,6 @@ export default function AbilitySelection({
       formHasError = true;
     }
 
-    // Check if all ability scores have been set
     if (
       Object.values(usedScores).filter(
         (score: number) => score === 0 || score === undefined
@@ -111,7 +107,6 @@ export default function AbilitySelection({
       formHasError = true;
     }
 
-    // If the form has no errors, save the ability scores to the store and go to next tab
     if (!formHasError) {
       setUsedScores({ STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 });
       nextTab();
@@ -155,8 +150,6 @@ export default function AbilitySelection({
               <div>Charisma</div>
             </div>
             <div className={styles.create__attributes__card__score}>
-              {/* Bit of a convoluted way to check if the user has edited the ability scores
-              and if not it gets preexisting data from the store instead */}
               {Object.values(abilityScores).map((ability: number) => (
                 <div>
                   <span>{ability}</span>

@@ -34,16 +34,13 @@ export default function SkillsForm({
     mode: "onSubmit",
   });
 
-  // Save the form state to Zustand and go to next tab
   const saveData: SubmitHandler<Skills> = (skills): void => {
-    // Check if the correct number of skills have been selected!
     if (selectedSkills.length >= 4) {
       setSkills(skills);
       nextTab();
     }
   };
 
-  // Keep track of the selected skills
   const handleChange = (skill: string) => {
     if (selectedSkills.indexOf(skill) < 0) {
       // Add the skill to the list of selected skills
