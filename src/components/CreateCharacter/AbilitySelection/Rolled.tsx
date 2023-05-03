@@ -9,6 +9,8 @@ interface Props {
   setUsedScores: (e: any) => any;
   setValue: UseFormSetValue<AbilityFormInput>;
   usedScores: AbilityScores;
+  setAbilityScores: (e: any) => any;
+  abilityScores: AbilityScores;
 }
 
 export default function RolledAbilityScores({
@@ -16,6 +18,8 @@ export default function RolledAbilityScores({
   usedScores,
   setValue,
   setUsedScores,
+  setAbilityScores,
+  abilityScores,
 }: Props): JSX.Element {
   const rollScore = (ability: string): void => {
     const randomScore = rollRandomScore();
@@ -25,6 +29,9 @@ export default function RolledAbilityScores({
 
     // Set the value of the ability score because the button initiating is different from the register element
     setValue(ability as any, randomScore);
+
+    // Update the store
+    setAbilityScores({ ...abilityScores, [ability]: randomScore });
   };
 
   return (

@@ -222,6 +222,8 @@ export default function AbilitySelection({
                 setUsedScores={setUsedScores}
                 setValue={setValue}
                 usedScores={usedScores}
+                setAbilityScores={setAbilityScores}
+                abilityScores={abilityScores}
               />
             )
           }
@@ -241,6 +243,8 @@ export default function AbilitySelection({
               totalPointsUsed={totalScorePointBuy}
               usedScores={usedScores}
               setUsedScores={setUsedScores}
+              setAbilityScores={setAbilityScores}
+              abilityScores={abilityScores}
             />
           )}
         </div>

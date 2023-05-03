@@ -11,6 +11,8 @@ interface Props {
   totalPointsUsed: number;
   setUsedScores: (e: any) => any;
   usedScores: AbilityScores;
+  setAbilityScores: (e: any) => any;
+  abilityScores: AbilityScores;
 }
 
 export default function PointBuy({
@@ -19,6 +21,8 @@ export default function PointBuy({
   totalPointsUsed,
   setUsedScores,
   usedScores,
+  setAbilityScores,
+  abilityScores,
 }: Props): JSX.Element {
   const validateScore = (value: string, ability: string): void => {
     // Check if the ability already has been set and substract the old score from the total
@@ -39,6 +43,9 @@ export default function PointBuy({
     setUsedScores((draft: any) => {
       draft[ability] = parseInt(value);
     });
+
+    // update the store
+    setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
   };
 
   return (
