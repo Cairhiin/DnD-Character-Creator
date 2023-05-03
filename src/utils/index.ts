@@ -34,3 +34,9 @@ export const formatAttribute = (attr: string): string => {
         return "";
     }
   };
+
+  export const calculateAbilityModifier = (abilityScore: number): number => {
+    if (abilityScore > 25) return 7
+    if (abilityScore <= 1) return -5
+    return Math.floor((abilityScore - 10) / 2);
+  }

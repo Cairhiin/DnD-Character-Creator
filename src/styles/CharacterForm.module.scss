@@ -5,3 +5,8 @@
     grid-template-columns: 1fr 4fr 6fr 1fr;
     gap: 2rem;
 }
+
+.create__attributes__card {
+    display: flex;
+    justify-content: space-between;
+}

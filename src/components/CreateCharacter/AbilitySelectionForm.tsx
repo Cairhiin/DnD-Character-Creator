@@ -7,6 +7,8 @@ import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/Pointbuy";
+import { calculateAbilityModifier } from "@/utils";
+import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
@@ -14,7 +16,10 @@ interface Props {
   previousTab: () => void;
 }
 
-export default function AbilitySelection({ nextTab, previousTab }: Props) {
+export default function AbilitySelection({
+  nextTab,
+  previousTab,
+}: Props): JSX.Element {
   const [formError, setFormError] = useState<string | null>(null);
   const [usedScores, setUsedScores] = useImmer<AbilityScores>({
     STR: 0,
@@ -29,6 +34,21 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
   const setAbilityScores = characterStore(
     (state: any) => state.setAbilityScores
   );
+
+  // Get the ability bonuses from the race choice and create an array out of them
+  const { ability_bonuses } = characterStore((state) => state.race);
+  const abilityBonusPerAttribute: number[] = [];
+  for (const key of Object.keys(usedScores)) {
+    const ab = ability_bonuses?.filter(
+      (bonus) => bonus.ability_score.name === key
+    );
+    if (ab?.length !== 0) {
+      abilityBonusPerAttribute.push(ab![0].bonus);
+    } else {
+      abilityBonusPerAttribute.push(0);
+    }
+  }
+
   const {
     handleSubmit,
     register,
@@ -121,8 +141,56 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div>
-      <h2>Ability Scores</h2>
+    <div className={styles.create__layout}>
+      <div></div>
+      <aside>
+        <CreateCharacterCard header={`Ability Scores | ${watch("method")}`}>
+          <div className={styles.create__attributes__card}>
+            <div className={styles.create__attributes__card__list}>
+              <div>Strength</div>
+              <div>Dexterity</div>
+              <div>Constitution</div>
+              <div>Intelligence</div>
+              <div>Wisdom</div>
+              <div>Charisma</div>
+            </div>
+            <div className={styles.create__attributes__card__score}>
+              {Object.values(usedScores).map((ability: number) => (
+                <div>
+                  <span>{ability}</span>
+                </div>
+              ))}
+            </div>
+            <div className={styles.create__attributes__card__total}>
+              {abilityBonusPerAttribute.map((ability: number) => (
+                <div>
+                  <span>+{ability}</span>
+                </div>
+              ))}
+            </div>
+            <div className={styles.create__attributes__card__bonus}>
+              {Object.values(usedScores).map(
+                (ability: number, index: number) => (
+                  <div>
+                    <span>{ability + abilityBonusPerAttribute[index]}</span>
+                  </div>
+                )
+              )}
+            </div>
+            <div className={styles.create__attributes__card__mod}>
+              {Object.values(usedScores).map((ab: number, index: number) => (
+                <div>
+                  <span>
+                    {calculateAbilityModifier(
+                      ab + abilityBonusPerAttribute[index]
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </CreateCharacterCard>
+      </aside>
       <form
         className={styles.create__form__ability_score}
         onSubmit={handleSubmit(saveData)}
@@ -178,6 +246,7 @@ export default function AbilitySelection({ nextTab, previousTab }: Props) {
           <button>Next</button>
         </div>
       </form>
+      <div></div>
     </div>
   );
 }
