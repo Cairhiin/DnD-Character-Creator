@@ -1,5 +1,9 @@
-import { useForm } from "react-hook-form/dist/useForm";
+import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { characterStore } from "@/store";
+import { Background } from "@/types";
 import { BACKGROUNDS } from "@/constants";
+import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
@@ -7,34 +11,109 @@ interface Props {
   previousTab: () => void;
 }
 
+interface BackgroundFormInput {
+  background: string;
+}
+
 export default function BackgroundSelectionForm({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+  const backgroundFromStore = characterStore((state) => state.background);
+  const setBackground = characterStore((state) => state.setBackground);
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      background: {},
+      background: "",
     },
     mode: "onSubmit",
   });
 
+  const saveData: SubmitHandler<BackgroundFormInput> = ({
+    background,
+  }): void => {
+    if (!background) {
+      return setError("Please choose a class before continuing.");
+    }
+
+    if (!isLoading) {
+      nextTab();
+    }
+  };
+
+  const handleChange = (e: string): void => {
+    const chosenBackground = BACKGROUNDS.filter(
+      ({ name }: { name: string }) => name === e
+    )[0];
+    chosenBackground && setBackground(chosenBackground);
+  };
+
   return (
-    <div className={styles.create__character__radio}>
-      {BACKGROUNDS.map(
-        ({ id, name }: { id: string; name: string }): JSX.Element => (
-          <div key={id}>
-            <select {...register("background")}>
-              <option value={name}>TEST</option>
-            </select>
-            <label htmlFor={name}>{name}</label>
-            <p>{errors.background?.message}</p>
-          </div>
-        )
-      )}
+    <div className={styles.create__layout}>
+      <div></div>
+      <aside>
+        {backgroundFromStore.name && (
+          <CreateCharacterCard header={backgroundFromStore.name}>
+            <div>
+              Skill Proficiencies:{" "}
+              {backgroundFromStore.skill_proficiencies.map(
+                (prof: string, index: number, arr: string[]) =>
+                  index < arr.length - 1 ? (
+                    <span>{prof}, </span>
+                  ) : (
+                    <span>{prof}</span>
+                  )
+              )}
+            </div>
+            <div>
+              Languages: <span>{backgroundFromStore.languages}</span>
+            </div>
+            <div>
+              Tool Proficiencies:{" "}
+              {backgroundFromStore.tool_proficiencies.map(
+                (prof: string, index: number, arr: string[]) =>
+                  index < arr.length - 1 ? (
+                    <span>{prof}, </span>
+                  ) : (
+                    <span>{prof}</span>
+                  )
+              )}
+            </div>
+            <div>
+              Feature: <span>{backgroundFromStore.feature}</span>
+            </div>
+          </CreateCharacterCard>
+        )}
+      </aside>
+      <form
+        className={styles.race__selection}
+        onSubmit={handleSubmit(saveData)}
+      >
+        <div>
+          <label htmlFor="background">Choose a background</label>
+          <select
+            {...register("background")}
+            onChange={(e) => handleChange(e.target.value)}
+          >
+            {BACKGROUNDS.map(
+              ({ id, name }: { id: string; name: string }): JSX.Element => (
+                <option value={name}>{name}</option>
+              )
+            )}
+          </select>
+          <p>{errors.background?.message}</p>
+        </div>
+        <div className={styles.create__form__buttonRow}>
+          <div onClick={previousTab}>Previous</div>
+          <button>Next</button>
+        </div>
+      </form>
+      <div></div>
     </div>
   );
 }

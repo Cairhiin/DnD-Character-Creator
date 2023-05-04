@@ -93,6 +93,7 @@ export interface CharacterFormState {
     skills: Skills;
     setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
+    setBackground: (background: Background) => void
     setAbilityScores: (scores: AbilityScores) => void;
     setDescription: (description: CharacterDescription) => void;
     setSkills: (skills: Skills) => void

@@ -9,6 +9,7 @@ export const BACKGROUNDS = [
         id: "acolyte",
         name: "Acolyte",
         skill_proficiencies: ["Insight", "Religion"],
+        languages: 2,
         tool_proficiencies: [],
         feature: "Shelter of the Faithful"
     },
