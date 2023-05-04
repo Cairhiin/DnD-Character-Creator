@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
-import { Background } from "@/types";
 import { BACKGROUNDS } from "@/constants";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/CharacterForm.module.scss";
@@ -47,9 +46,9 @@ export default function BackgroundSelectionForm({
   };
 
   const handleChange = (e: string): void => {
-    const chosenBackground = BACKGROUNDS.filter(
+    const chosenBackground = BACKGROUNDS.find(
       ({ name }: { name: string }) => name === e
-    )[0];
+    );
     chosenBackground && setBackground(chosenBackground);
   };
 
