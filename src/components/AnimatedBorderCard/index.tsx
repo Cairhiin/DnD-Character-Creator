@@ -1,6 +1,10 @@
 import { ReactNode, useEffect } from "react";
 import styles from "@/styles/AnimatedBorderCard.module.scss";
 
+/*
+    animationDuration: string formatted with time in seconds followed by an 's' fe: '10s'
+    borderWidth: string formatted with width in pixels followed by 'px' fe: '2px'
+*/
 interface AnimatedCardProps {
   children: ReactNode;
   animationDuration?: string;
@@ -8,6 +12,7 @@ interface AnimatedCardProps {
   borderColor2?: string;
   borderWidth?: string;
   backgroundColor?: string;
+  id: string;
 }
 
 // TypeScript solution: https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
@@ -22,10 +27,11 @@ const withAnimatedBorderCard =
       borderColor2,
       borderWidth,
       backgroundColor,
+      id,
     } = props;
 
     useEffect(() => {
-      const animatedCard = document.getElementById("animated-card");
+      const animatedCard = document.getElementById(id);
       animationDuration &&
         animatedCard &&
         animatedCard.style.setProperty(
@@ -49,7 +55,7 @@ const withAnimatedBorderCard =
     }, []);
 
     return (
-      <div className={styles.animated__border} id="animated-card">
+      <div className={styles.animated__border} id={id}>
         <WrappedComponent {...(props as P)}>{children}</WrappedComponent>
       </div>
     );

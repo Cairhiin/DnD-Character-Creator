@@ -10,7 +10,6 @@ import PointBuy from "./AbilitySelection/Pointbuy";
 import { calculateAbilityModifier } from "@/utils";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/CharacterForm.module.scss";
-import withAnimatedBorderCard from "../AnimatedBorderCard";
 
 interface Props {
   nextTab: () => void;
@@ -136,12 +135,11 @@ export default function AbilitySelection({
     });
   };
 
-  const CharacterCard = withAnimatedBorderCard(CreateCharacterCard);
   return (
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <CharacterCard header={`Ability Scores | ${watch("method")}`}>
+        <CreateCharacterCard header={`Ability Scores | ${watch("method")}`}>
           <div className={styles.create__attributes__card}>
             <div className={styles.create__attributes__card__list}>
               <div>Strength</div>
@@ -186,7 +184,7 @@ export default function AbilitySelection({
               ))}
             </div>
           </div>
-        </CharacterCard>
+        </CreateCharacterCard>
       </aside>
       <form
         className={styles.create__form__ability_score}
