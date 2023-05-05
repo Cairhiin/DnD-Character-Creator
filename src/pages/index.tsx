@@ -1,8 +1,21 @@
 import Head from "next/head";
-import TypeWriterEffect from "@/components/TypewriterEffect";
+import withTypeWriterEffect from "@/components/TypewriterEffect";
+import withAnimatedBorder from "@/components/withAnimatedBorder";
 import styles from "@/styles/Home.module.scss";
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+}
 
 export default function Home() {
+  const Card = ({ children }: Props) => (
+    <div className={styles.card}>
+      <h2 className={styles.header}>{children}</h2>
+    </div>
+  );
+  const TypeWriterText = withTypeWriterEffect(Card);
+
   return (
     <>
       <Head>
@@ -11,10 +24,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.main}>
-        <h1>D&D Character Manager</h1>
-        <TypeWriterEffect text="This is a typewriter test!" />
-      </div>
+      <main className={styles.main}>
+        <TypeWriterText>Create, Level Up, Store, Manage.</TypeWriterText>
+      </main>
     </>
   );
 }
