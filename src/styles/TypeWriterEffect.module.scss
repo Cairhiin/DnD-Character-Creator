@@ -1,0 +1,8 @@
+@import './variables.module';
+
+.typewriter__effect::after {
+    content: "";
+    height: 25px;
+    width: 2px;
+    border-left: 3px solid $secondary-color;
+}

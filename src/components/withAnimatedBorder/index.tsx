@@ -16,7 +16,7 @@ interface AnimatedCardProps {
 }
 
 // TypeScript solution: https://medium.com/@jrwebdev/react-higher-order-component-patterns-in-typescript-42278f7590fb
-const withAnimatedBorderCard =
+const withAnimatedBorder =
   <P extends object>(
     WrappedComponent: React.ComponentType<P>
   ): React.FC<P & AnimatedCardProps> =>
@@ -50,8 +50,6 @@ const withAnimatedBorderCard =
       backgroundColor &&
         animatedCard &&
         animatedCard.style.setProperty("--backgroundColor", backgroundColor);
-
-      console.log(animatedCard);
     }, []);
 
     return (
@@ -61,4 +59,4 @@ const withAnimatedBorderCard =
     );
   };
 
-export default withAnimatedBorderCard;
+export default withAnimatedBorder;

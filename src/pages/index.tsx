@@ -1,5 +1,6 @@
-import Head from 'next/head';
-import styles from '@/styles/Home.module.scss';
+import Head from "next/head";
+import TypeWriterEffect from "@/components/TypewriterEffect";
+import styles from "@/styles/Home.module.scss";
 
 export default function Home() {
   return (
@@ -12,7 +13,8 @@ export default function Home() {
       </Head>
       <div className={styles.main}>
         <h1>D&D Character Manager</h1>
+        <TypeWriterEffect text="This is a typewriter test!" />
       </div>
     </>
-  )
+  );
 }
