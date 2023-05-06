@@ -1,20 +1,20 @@
+import { ReactNode } from "react";
 import Head from "next/head";
 import withTypeWriterEffect from "@/components/TypewriterEffect";
-import withAnimatedBorder from "@/components/withAnimatedBorder";
+import Hero from "@/components/Hero";
 import styles from "@/styles/Home.module.scss";
-import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
 }
 
 export default function Home() {
-  const Card = ({ children }: Props) => (
+  const Header = ({ children }: Props) => (
     <div className={styles.card}>
       <h2 className={styles.header}>{children}</h2>
     </div>
   );
-  const TypeWriterText = withTypeWriterEffect(Card);
+  const HeaderWithTypeWriterEffect = withTypeWriterEffect(Header);
 
   return (
     <>
@@ -24,9 +24,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <TypeWriterText>Create, Level Up, Store, Manage.</TypeWriterText>
-      </main>
+      <div>
+        <Hero>
+          <HeaderWithTypeWriterEffect>
+            Create, Level Up, Store, Manage.
+          </HeaderWithTypeWriterEffect>
+        </Hero>
+      </div>
     </>
   );
 }
