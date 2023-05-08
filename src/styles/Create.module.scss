@@ -27,11 +27,9 @@
         color: lighten($secondary-color, 35);
 
         .create__card__header {
-            h2 {
-                color: $secondary-color;
-                text-transform: uppercase;
-                margin-bottom: 0.5rem;
-                }
+            color: $secondary-color;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
         }
         
         .create__card__content {
@@ -47,12 +45,14 @@
             }
 
             p {
-                padding-top: 0.3rem;
+                padding-top: 0.5rem;
             }
 
             .create__description__text {
-                span {
+                p {
+                    color: $on-background-color;
                     text-transform: none;
+                    font-weight: 400;
                 }
             }
         }

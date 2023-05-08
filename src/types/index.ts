@@ -55,7 +55,8 @@ export interface AbilityScores {
 };
 
 export interface CharacterDescription {
-    details: {    
+    details: {   
+        name: string; 
         alignment: string;
         faith: string;
     }

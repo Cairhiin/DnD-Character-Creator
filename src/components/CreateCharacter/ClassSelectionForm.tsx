@@ -136,25 +136,19 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
           <CreateCharacterCard header="Choose your class">
             <div className={styles.create__description__text}>
               <p>
-                <span>
-                  A character’s class represents a profession, such as fighter
-                  or wizard. If this is a new character, he or she starts at 1st
-                  level in this chosen class.{" "}
-                </span>
+                A character’s class represents a profession, such as fighter or
+                wizard. If this is a new character, he or she starts at 1st
+                level in this chosen class.
               </p>
               <p>
-                <span>
-                  As the character gains experience points (XP) for defeating
-                  monsters, he goes up in level, granting him new powers and
-                  abilities.{" "}
-                </span>
+                As the character gains experience points (XP) for defeating
+                monsters, he goes up in level, granting him new powers and
+                abilities.
               </p>
               <p>
-                <span>
-                  If your character is a spell caster that prepares spells (such
-                  as a wizard) you will need to determine the spells your
-                  character starts with.
-                </span>
+                If your character is a spell caster that prepares spells (such
+                as a wizard) you will need to determine the spells your
+                character starts with.
               </p>
             </div>
           </CreateCharacterCard>

@@ -118,11 +118,9 @@ export default function RaceSelection({ nextTab }: Props) {
           <CreateCharacterCard header="Choose your race">
             <div className={styles.create__description__text}>
               <p>
-                <span>
-                  Each race increases one or more of a character’s ability
-                  scores and may offer various other benefits in the form of
-                  racial traits. Size and speed may also differ.
-                </span>
+                Each race increases one or more of a character's ability scores
+                and may offer various other benefits in the form of racial
+                traits. Size and speed may also differ.
               </p>
             </div>
           </CreateCharacterCard>

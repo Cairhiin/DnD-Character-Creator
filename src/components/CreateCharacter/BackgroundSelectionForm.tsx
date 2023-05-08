@@ -92,22 +92,16 @@ export default function BackgroundSelectionForm({
           <CreateCharacterCard header="Choose your background">
             <div className={styles.create__description__text}>
               <p>
-                <span>
-                  Choosing a background provides you with important story cues
-                  about your character’s identity.{" "}
-                </span>
+                Choosing a background provides you with important story cues
+                about your character’s identity.
               </p>
               <p>
-                <span>
-                  The most important question to ask about your background is
-                  what changed?{" "}
-                </span>
+                The most important question to ask about your background is what
+                changed?
               </p>
               <p>
-                <span>
-                  Why did you stop doing whatever your background describes and
-                  start adventuring?
-                </span>
+                Why did you stop doing whatever your background describes and
+                start adventuring?
               </p>
             </div>
           </CreateCharacterCard>

@@ -5,7 +5,9 @@ import * as yup from "yup";
 import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
-import styles from "@/styles/CharacterForm.module.scss";
+import { CreateCharacterCard } from "@/pages/create";
+import styles from "@/styles/Create.module.scss";
+import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;
@@ -14,8 +16,8 @@ interface Props {
 
 const schema = yup
   .object({
-    background: yup.string().required(),
     details: yup.object({
+      name: yup.string().required(),
       alignment: yup.string().required(),
       faith: yup.string(),
     }),
@@ -44,7 +46,7 @@ const schema = yup
   .required();
 
 export default function CharacterDescription({ nextTab, previousTab }: Props) {
-  const description = characterStore((state) => state.description);
+  const descriptionFromStore = characterStore((state) => state.description);
   const setDescription = characterStore((state) => state.setDescription);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const {
@@ -54,7 +56,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      ...description,
+      ...descriptionFromStore,
     },
     mode: "onSubmit",
   });
@@ -65,8 +67,43 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div>
-      <h2>Description</h2>
+    <div className={formStyles.create__layout}>
+      <div></div>
+      <aside>
+        {descriptionFromStore.details.name ? (
+          <CreateCharacterCard header={descriptionFromStore.details.name}>
+            <div>
+              <p>
+                Choose or make up a name for your character (or generate one
+                randomly!), determine his or her age, alignment, and physical
+                appearance (such as height, weight, eye and hair color etc).{" "}
+              </p>
+              <p>
+                It is helpful to think of a few unique personality traits as
+                well, to help you play the character during the game. You can
+                either choose from a predetermined set based on your background
+                or make up your own!
+              </p>
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Describe your character">
+            <div className={styles.create__description__text}>
+              <p>
+                Choose or make up a name for your character (or generate one
+                randomly!), determine his or her age, alignment, and physical
+                appearance (such as height, weight, eye and hair color etc).{" "}
+              </p>
+              <p>
+                It is helpful to think of a few unique personality traits as
+                well, to help you play the character during the game. You can
+                either choose from a predetermined set based on your background
+                or make up your own!
+              </p>
+            </div>
+          </CreateCharacterCard>
+        )}
+      </aside>
       <form
         className={styles.create__form__ability_score}
         onSubmit={handleSubmit(saveData)}
@@ -172,6 +209,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <button>Next</button>
         </div>
       </form>
+      <div></div>
     </div>
   );
 }
