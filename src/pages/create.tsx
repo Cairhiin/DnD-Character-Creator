@@ -19,15 +19,24 @@ export const CreateCharacterCard = ({ children, header }: CardProps) => {
 
 export default function Home() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
+  const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
 
   const setActiveIndex = (e: any) => {
-    setActiveTabIndex(parseInt(e.dataset.tabId));
+    const clickedIndex = parseInt(e.dataset.tabId);
+    if (clickedIndex <= availableMaxIndex) {
+      setActiveTabIndex(clickedIndex);
+    }
   };
 
   const nextTab = (): void => {
-    setActiveTabIndex((prevIndex) =>
-      prevIndex < 7 ? prevIndex + 1 : prevIndex
-    );
+    setActiveTabIndex((prevIndex) => {
+      if (prevIndex >= 8) {
+        return prevIndex;
+      }
+
+      setAvailableMaxIndex(prevIndex + 1);
+      return prevIndex + 1;
+    });
   };
 
   const previousTab = (): void => {
@@ -55,8 +64,10 @@ export default function Home() {
               <li data-tab-id="1">1. Race</li>
               <li data-tab-id="2">2. Class</li>
               <li data-tab-id="3">3. Abilities</li>
-              <li data-tab-id="4">4. Description</li>
-              <li data-tab-id="5">5. Equipment</li>
+              <li data-tab-id="4">4. Background</li>
+              <li data-tab-id="5">5. Description</li>
+              <li data-tab-id="6">6. Skills</li>
+              <li data-tab-id="7">7. Equipment</li>
             </ul>
           </div>
         </nav>
