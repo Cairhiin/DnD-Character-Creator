@@ -10,6 +10,7 @@ import PointBuy from "./AbilitySelection/Pointbuy";
 import { calculateAbilityModifier } from "@/utils";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/CharacterForm.module.scss";
+import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;
@@ -136,11 +137,11 @@ export default function AbilitySelection({
   };
 
   return (
-    <div className={styles.create__layout}>
+    <div className={formStyles.create__layout}>
       <div></div>
       <aside>
         <CreateCharacterCard header={`Ability Scores | ${watch("method")}`}>
-          <div className={styles.create__attributes__card}>
+          <div className={formStyles.create__attributes__card}>
             <div className={styles.create__attributes__card__list}>
               <div>Strength</div>
               <div>Dexterity</div>

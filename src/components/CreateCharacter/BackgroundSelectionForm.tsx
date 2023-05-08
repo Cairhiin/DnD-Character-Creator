@@ -3,7 +3,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
 import { BACKGROUNDS } from "@/constants";
 import { CreateCharacterCard } from "@/pages/create";
-import styles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
+import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;
@@ -53,10 +54,10 @@ export default function BackgroundSelectionForm({
   };
 
   return (
-    <div className={styles.create__layout}>
+    <div className={formStyles.create__layout}>
       <div></div>
       <aside>
-        {backgroundFromStore.name && (
+        {backgroundFromStore.name ? (
           <CreateCharacterCard header={backgroundFromStore.name}>
             <div>
               Skill Proficiencies:{" "}
@@ -85,6 +86,29 @@ export default function BackgroundSelectionForm({
             </div>
             <div>
               Feature: <span>{backgroundFromStore.feature}</span>
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Choose your background">
+            <div className={styles.create__description__text}>
+              <p>
+                <span>
+                  Choosing a background provides you with important story cues
+                  about your character’s identity.{" "}
+                </span>
+              </p>
+              <p>
+                <span>
+                  The most important question to ask about your background is
+                  what changed?{" "}
+                </span>
+              </p>
+              <p>
+                <span>
+                  Why did you stop doing whatever your background describes and
+                  start adventuring?
+                </span>
+              </p>
             </div>
           </CreateCharacterCard>
         )}

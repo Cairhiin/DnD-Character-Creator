@@ -4,7 +4,8 @@ import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
 import { CreateCharacterCard } from "@/pages/create";
 import { formatAttribute } from "@/utils";
-import styles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
+import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface ClassFormInput {
   dndClass: string;
@@ -55,10 +56,10 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div className={styles.create__layout}>
+    <div className={formStyles.create__layout}>
       <div></div>
       <aside>
-        {dndClassFromStore.name && (
+        {dndClassFromStore.name ? (
           <CreateCharacterCard header={dndClassFromStore.name}>
             <div>
               Hitdie:{" "}
@@ -129,6 +130,32 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
                   <li key={choice.desc}>{choice.desc}. </li>
                 ))}
               </ul>
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Choose your class">
+            <div className={styles.create__description__text}>
+              <p>
+                <span>
+                  A character’s class represents a profession, such as fighter
+                  or wizard. If this is a new character, he or she starts at 1st
+                  level in this chosen class.{" "}
+                </span>
+              </p>
+              <p>
+                <span>
+                  As the character gains experience points (XP) for defeating
+                  monsters, he goes up in level, granting him new powers and
+                  abilities.{" "}
+                </span>
+              </p>
+              <p>
+                <span>
+                  If your character is a spell caster that prepares spells (such
+                  as a wizard) you will need to determine the spells your
+                  character starts with.
+                </span>
+              </p>
             </div>
           </CreateCharacterCard>
         )}

@@ -19,32 +19,42 @@
         }
     }
 
-    .create__card {
+    .create__card { 
         padding: 0 1rem;
         line-height: 1.5rem;
         border-left: 5px solid $secondary-color;
         font-weight: 700;
         color: lighten($secondary-color, 35);
+
+        .create__card__header {
+            h2 {
+                color: $secondary-color;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+                }
+        }
         
-        h2 {
-            color: $secondary-color;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        ul, span {
-            font-weight: 400;
-            color: $on-background-color;
-            display: inline;
-            text-transform: lowercase;
-
-            li {
+        .create__card__content {
+            ul, span {
+                font-weight: 400;
+                color: $on-background-color;
                 display: inline;
-            }
-        }
+                text-transform: lowercase;
 
-        p {
-            padding-top: 0.3rem;
+                li {
+                    display: inline;
+                }
+            }
+
+            p {
+                padding-top: 0.3rem;
+            }
+
+            .create__description__text {
+                span {
+                    text-transform: none;
+                }
+            }
         }
     }
 }

@@ -5,7 +5,8 @@ import { characterStore } from "@/store";
 import { ErrorField } from "./ClassSelectionForm";
 import { CreateCharacterCard } from "@/pages/create";
 import { formatAttribute } from "@/utils";
-import styles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
+import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface RaceFormInput {
   race: string;
@@ -57,10 +58,10 @@ export default function RaceSelection({ nextTab }: Props) {
   };
 
   return (
-    <div className={styles.create__layout}>
+    <div className={formStyles.create__layout}>
       <div></div>
       <aside>
-        {raceFromStore.name && (
+        {raceFromStore.name ? (
           <CreateCharacterCard header={raceFromStore.name}>
             <div>
               Ability Score Increase:{" "}
@@ -111,6 +112,18 @@ export default function RaceSelection({ nextTab }: Props) {
                   )}
                 </ul>
               </div>
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Choose your race">
+            <div className={styles.create__description__text}>
+              <p>
+                <span>
+                  Each race increases one or more of a character’s ability
+                  scores and may offer various other benefits in the form of
+                  racial traits. Size and speed may also differ.
+                </span>
+              </p>
             </div>
           </CreateCharacterCard>
         )}
