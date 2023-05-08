@@ -3,6 +3,7 @@
 .main {
     .nav {
         background-color: $tertiary-color;
+        padding: 0.3rem;
 
         .create__topbar {  
             padding: 0.6rem; 
@@ -13,7 +14,44 @@
             ul {
                 li {
                     display: inline;
-                    padding: 1rem;
+                    padding: 1rem 0;
+
+                    &::after {
+                        cursor: default;
+                        display: inline-block;
+                        width: 25px;
+                        height: 3px;
+                        border-top: 2px solid $on-background-color;
+                        margin: 0 0.5rem;
+                    }
+
+                    &:not(:last-child) {
+                        &::after {
+                            content: "";     
+                        }
+                    }
+                    
+                    span {
+                        font-weight: 700;
+                        padding: 0.3rem 0.6rem;
+                        border-radius: 50%;
+                        color: $primary-color-900;
+                        background-color: $on-background-color;
+                        margin-right: 0.3rem;                            
+                    }
+
+                    &.finished {
+                        cursor: pointer;
+                        
+                        &::after {
+                            border-top: 2px solid $success;
+                        }
+
+                        span {
+                            background-color: $success;
+                            color: $on-background-color;
+                        }
+                    }
                 }
             }
         }

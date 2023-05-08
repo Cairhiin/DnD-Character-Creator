@@ -61,13 +61,48 @@ export default function Home() {
                 setActiveIndex(e.target as any)
               }
             >
-              <li data-tab-id="1">1. Race</li>
-              <li data-tab-id="2">2. Class</li>
-              <li data-tab-id="3">3. Abilities</li>
-              <li data-tab-id="4">4. Background</li>
-              <li data-tab-id="5">5. Description</li>
-              <li data-tab-id="6">6. Skills</li>
-              <li data-tab-id="7">7. Equipment</li>
+              <li
+                data-tab-id="1"
+                className={availableMaxIndex >= 2 ? styles.finished : ""}
+              >
+                <span>1</span> Race
+              </li>
+              <li
+                data-tab-id="2"
+                className={availableMaxIndex >= 3 ? styles.finished : ""}
+              >
+                <span>2</span> Class
+              </li>
+              <li
+                data-tab-id="3"
+                className={availableMaxIndex >= 4 ? styles.finished : ""}
+              >
+                <span>3</span> Abilities
+              </li>
+              <li
+                data-tab-id="4"
+                className={availableMaxIndex >= 5 ? styles.finished : ""}
+              >
+                <span>4</span> Background
+              </li>
+              <li
+                data-tab-id="5"
+                className={availableMaxIndex >= 6 ? styles.finished : ""}
+              >
+                <span>5</span> Description
+              </li>
+              <li
+                data-tab-id="6"
+                className={availableMaxIndex >= 7 ? styles.finished : ""}
+              >
+                <span>6</span> Skills
+              </li>
+              <li
+                data-tab-id="7"
+                className={availableMaxIndex >= 8 ? styles.finished : ""}
+              >
+                <span>7</span> Equipment
+              </li>
             </ul>
           </div>
         </nav>
