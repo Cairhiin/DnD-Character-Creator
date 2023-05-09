@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
 import { CreateCharacterCard } from "@/pages/create";
@@ -17,7 +19,9 @@ interface Props {
 }
 
 export const ErrorField = ({ error }: { error: string }) => (
-  <div className={formStyles.error}>{error}</div>
+  <div className={formStyles.error}>
+    <FontAwesomeIcon icon={faWarning} /> {error}
+  </div>
 );
 
 export default function ClassSelection({ nextTab, previousTab }: Props) {
