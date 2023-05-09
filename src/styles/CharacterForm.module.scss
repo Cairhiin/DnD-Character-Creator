@@ -4,13 +4,42 @@
     @include errorMessage;
 }
 
-.create__layout {
+.create__layout {   
     display: grid;
     grid-template-columns: 1fr 4fr 6fr 1fr;
     gap: 2rem;
 
     .character__creation__form {
-        
+        position: relative;
+
+        select {
+            font-size: 1rem;
+            padding: 0.4rem 2rem 0.4rem 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: transparent url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png') no-repeat 95% 50%;
+            filter: invert(1);
+            background-size: 20px;
+            background-color: #f5cebc;
+            color: $primary-color-900;
+            font-weight: 700;
+            border: none;
+            font-family: 'Roboto Condensed', sans-serif;
+          }
+          
+          select:hover, select:focus {
+            border-color: $secondary-color;
+            outline: none;
+          }
+          
+          select option {
+            background-color: #fff;
+            color: #333;
+          }
+
         .character__creation__form__column {
             display: flex;
             flex-direction: column;
@@ -55,7 +84,7 @@
         }
 
         .create__form__buttonRow {
-            margin-top: 1rem;
+            margin: 2rem 0;
             display: flex;
             gap: 1rem;
 
@@ -97,7 +126,43 @@
                 }
             }
         }
+
+        h3 {
+            text-transform: uppercase;
+            margin: 0 0 1rem 0;
+            text-align: center;
+            color: lighten($secondary-color, 35);
+            position: relative;
+        }
+
+        .character__creation__form__method {
+            padding: 0 0 1rem 0;
+            select {
+                width: 150px;
+            }
+        }
+
+        .create__form__abilities {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 0.5rem;
+            
+            .create__form__abilities__ab {
+                display: flex;
+                gap: 0.5rem;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            select {
+                width: 75px;
+            }
+            
+        }
     }
+
+    
 }
 
 .create__attributes__card {

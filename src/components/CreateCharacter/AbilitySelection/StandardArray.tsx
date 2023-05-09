@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UseFormRegister } from "react-hook-form/dist/types";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { ABILITIES, STANDARD_ARRAY } from "@/constants";
+import { ErrorField } from "../ClassSelectionForm";
 import styles from "@/styles/CharacterForm.module.scss";
 
 interface StandardArrayProps {
@@ -49,26 +50,31 @@ export default function StandardArray({
   };
 
   return (
-    <div className={styles.create__form_abilities__roll}>
-      {ABILITIES.map(
-        (ability: string): JSX.Element => (
-          <select
-            {...register(ability as any)}
-            onChange={(e) => validateScore(e.target.value, ability)}
-          >
-            {STANDARD_ARRAY.map(
-              (score: number): JSX.Element => (
-                <option value={score}>{score}</option>
-              )
-            )}
-          </select>
-        )
-      )}
-      <div>
-        {abilityError.length > 0 && (
-          <p>That ability score has already been used.</p>
+    <>
+      <div className={styles.create__form__abilities}>
+        {ABILITIES.map(
+          (ability: string): JSX.Element => (
+            <div className={styles.create__form__abilities__ab} key={ability}>
+              <label htmlFor={ability}>{ability}</label>
+              <select
+                {...register(ability as any)}
+                onChange={(e) => validateScore(e.target.value, ability)}
+              >
+                {STANDARD_ARRAY.map(
+                  (score: number): JSX.Element => (
+                    <option value={score}>{score}</option>
+                  )
+                )}
+              </select>
+            </div>
+          )
         )}
       </div>
-    </div>
+      <div>
+        {abilityError.length > 0 && (
+          <ErrorField error="That ability score has already been used." />
+        )}
+      </div>
+    </>
   );
 }

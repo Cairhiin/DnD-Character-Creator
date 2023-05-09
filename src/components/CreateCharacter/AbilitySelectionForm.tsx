@@ -9,6 +9,7 @@ import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/Pointbuy";
 import { calculateAbilityModifier } from "@/utils";
 import { CreateCharacterCard } from "@/pages/create";
+import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/CharacterForm.module.scss";
 import formStyles from "@/styles/CharacterForm.module.scss";
 
@@ -188,63 +189,65 @@ export default function AbilitySelection({
         </CreateCharacterCard>
       </aside>
       <form
-        className={styles.create__form__ability_score}
+        className={formStyles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
-        <select
-          {...register("method")}
-          onChange={(e) => resetForm(e.target.value)}
-        >
-          <option value="array">Standard Array</option>
-          <option value="buy">Point Buy</option>
-          <option value="roll">Roll</option>
-        </select>
         <div>
-          <div className={styles.create__form__abilities}>
-            <div>Strength</div>
-            <div>Dexterity</div>
-            <div>Constitution</div>
-            <div>Intelligence</div>
-            <div>Wisdom</div>
-            <div>Charisma</div>
+          <div className={styles.character__creation__form__method}>
+            <select
+              {...register("method")}
+              onChange={(e) => resetForm(e.target.value)}
+            >
+              <option value="array">Standard Array</option>
+              <option value="buy">Point Buy</option>
+              <option value="roll">Roll</option>
+            </select>
           </div>
-          {
-            // Check which method is selected to determine how to assign the attributes
-            watch("method") === "roll" && (
-              <Rolled
+          <div>
+            <h3>Ability Scores</h3>
+            {
+              // Check which method is selected to determine how to assign the attributes
+              watch("method") === "roll" && (
+                <Rolled
+                  register={register}
+                  setUsedScores={setUsedScores}
+                  setValue={setValue}
+                  usedScores={usedScores}
+                  setAbilityScores={setAbilityScores}
+                  abilityScores={abilityScores}
+                />
+              )
+            }
+            {watch("method") === "array" && (
+              <StandardArray
                 register={register}
-                setUsedScores={setUsedScores}
-                setValue={setValue}
                 usedScores={usedScores}
+                setUsedScores={setUsedScores}
                 setAbilityScores={setAbilityScores}
                 abilityScores={abilityScores}
               />
-            )
-          }
-          {watch("method") === "array" && (
-            <StandardArray
-              register={register}
-              usedScores={usedScores}
-              setUsedScores={setUsedScores}
-              setAbilityScores={setAbilityScores}
-              abilityScores={abilityScores}
-            />
-          )}
-          {watch("method") === "buy" && (
-            <PointBuy
-              register={register}
-              updateTotalPointsUsed={setTotalScorePointBuy}
-              totalPointsUsed={totalScorePointBuy}
-              usedScores={usedScores}
-              setUsedScores={setUsedScores}
-              setAbilityScores={setAbilityScores}
-              abilityScores={abilityScores}
-            />
-          )}
+            )}
+            {watch("method") === "buy" && (
+              <PointBuy
+                register={register}
+                updateTotalPointsUsed={setTotalScorePointBuy}
+                totalPointsUsed={totalScorePointBuy}
+                usedScores={usedScores}
+                setUsedScores={setUsedScores}
+                setAbilityScores={setAbilityScores}
+                abilityScores={abilityScores}
+              />
+            )}
+          </div>
         </div>
-        {formError && <div>{formError}</div>}
+        {formError && <ErrorField error={formError} />}
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>Previous</div>
+          <div
+            onClick={previousTab}
+            className={styles.create__form__buttonRow__button}
+          >
+            Previous
+          </div>
           <button>Next</button>
         </div>
       </form>
