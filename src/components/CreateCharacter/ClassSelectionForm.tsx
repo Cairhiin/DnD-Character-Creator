@@ -140,7 +140,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
           <CreateCharacterCard header="Choose your class">
             <div className={styles.create__description__text}>
               <p>
-                A character’s class represents a profession, such as fighter or
+                A character's class represents a profession, such as fighter or
                 wizard. If this is a new character, he or she starts at 1st
                 level in this chosen class.
               </p>
@@ -159,11 +159,11 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
         )}
       </aside>
       <form
-        className={styles.race__selection}
+        className={formStyles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
         {
-          <div className={styles.race__selection__radio}>
+          <div className={formStyles.character__creation__form__column}>
             {CLASSES.map(({ id, name }) => (
               <div key={id}>
                 <input
@@ -180,8 +180,13 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
             {error && <ErrorField error={error} />}
           </div>
         }
-        <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>Previous</div>
+        <div className={formStyles.create__form__buttonRow}>
+          <div
+            onClick={previousTab}
+            className={formStyles.create__form__buttonRow__button}
+          >
+            Previous
+          </div>
           <button>Next</button>
         </div>
       </form>

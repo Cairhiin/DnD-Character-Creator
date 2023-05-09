@@ -59,7 +59,7 @@
             display: flex;
             gap: 1rem;
 
-            button {
+            button, .create__form__buttonRow__button {
                 @include buttonPrimary;
                 @include transitionAll;
                 background-size: 400%;
@@ -71,7 +71,7 @@
                 
                 @media (prefers-reduced-motion: reduce) {
                     &:hover {
-                      animation-duration: 10s; 
+                      animation: none; 
                     }
                   }
 
@@ -86,6 +86,15 @@
                       background-position: 0% 50%;
                     }
                   }
+            }
+
+            .create__form__buttonRow__button {
+                background-color: $tertiary-color;
+
+                &:hover {
+                    background: $secondary-color;
+                    animation: none; 
+                }
             }
         }
     }

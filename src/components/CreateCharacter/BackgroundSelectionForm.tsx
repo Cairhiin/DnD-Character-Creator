@@ -93,7 +93,7 @@ export default function BackgroundSelectionForm({
             <div className={styles.create__description__text}>
               <p>
                 Choosing a background provides you with important story cues
-                about your character’s identity.
+                about your character's identity.
               </p>
               <p>
                 The most important question to ask about your background is what

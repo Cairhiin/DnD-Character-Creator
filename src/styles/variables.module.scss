@@ -31,10 +31,13 @@ $warning: hsl(27, 100%, 47%);
   @include roundedBorder;
   background-color: $secondary-color;
   border: none;
+  width: 100px;
+  text-align: center;
   color: $on-background-color;
   font-size: 1rem;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem;
   cursor: pointer;
+  font-family: 'Roboto Condensed', sans;
 }
 
 @mixin errorMessage {
