@@ -1,11 +1,17 @@
 import { ReactNode, useState } from "react";
 import Head from "next/head";
+import { GetStaticProps } from "next";
+import { Background } from "@/types";
 import styles from "@/styles/Create.module.scss";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 
 interface CardProps {
   children: ReactNode;
   header: string;
+}
+
+interface Props {
+  backgrounds: Background[];
 }
 
 export const CreateCharacterCard = ({ children, header }: CardProps) => {
@@ -17,7 +23,7 @@ export const CreateCharacterCard = ({ children, header }: CardProps) => {
   );
 };
 
-export default function Home() {
+export default function Home({ backgrounds }: Props) {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
 
@@ -115,6 +121,7 @@ export default function Home() {
                 activeIndex={activeTabIndex}
                 nextTab={nextTab}
                 previousTab={previousTab}
+                backgrounds={backgrounds}
               />
             </div>
           </aside>
@@ -124,3 +131,14 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const res = await fetch("http://localhost:3000/api/backgrounds");
+  const backgrounds = await res.json();
+
+  return {
+    props: {
+      backgrounds,
+    },
+  };
+};

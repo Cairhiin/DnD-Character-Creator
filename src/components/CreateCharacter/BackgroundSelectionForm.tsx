@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
-import { BACKGROUNDS } from "@/constants";
+import { Background } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/Create.module.scss";
 import formStyles from "@/styles/CharacterForm.module.scss";
@@ -11,6 +11,12 @@ interface Props {
   previousTab: () => void;
 }
 
+interface StaticProps {
+  backgrounds: Background[];
+}
+
+interface BackgroundSelectionFormProps extends StaticProps, Props {}
+
 interface BackgroundFormInput {
   background: string;
 }
@@ -18,7 +24,8 @@ interface BackgroundFormInput {
 export default function BackgroundSelectionForm({
   nextTab,
   previousTab,
-}: Props): JSX.Element {
+  backgrounds,
+}: BackgroundSelectionFormProps): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const backgroundFromStore = characterStore((state) => state.background);
@@ -47,7 +54,7 @@ export default function BackgroundSelectionForm({
   };
 
   const handleChange = (e: string): void => {
-    const chosenBackground = BACKGROUNDS.find(
+    const chosenBackground = backgrounds.find(
       ({ name }: { name: string }) => name === e
     );
     chosenBackground && setBackground(chosenBackground);
@@ -117,7 +124,7 @@ export default function BackgroundSelectionForm({
             {...register("background")}
             onChange={(e) => handleChange(e.target.value)}
           >
-            {BACKGROUNDS.map(
+            {backgrounds.map(
               ({ id, name }: { id: string; name: string }): JSX.Element => (
                 <option value={name}>{name}</option>
               )
