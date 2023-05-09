@@ -1,9 +1,94 @@
 @import '@/styles/variables.module';
 
+.error {
+    @include errorMessage;
+}
+
 .create__layout {
     display: grid;
     grid-template-columns: 1fr 4fr 6fr 1fr;
     gap: 2rem;
+
+    .character__creation__form {
+        
+        .character__creation__form__column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.5rem;
+
+            label {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                line-height: 18px;
+                padding-left: 25px;
+                cursor: pointer;
+
+                &:hover {
+                    color: lighten($secondary-color, 35);
+                }
+            }
+
+            input[type=radio] {
+                display: none;
+            }
+              
+            input[type=radio] + label::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 12px;
+                height: 12px;
+                margin-right: 1rem;
+                border: 2px solid $primary-color-900;
+                outline: 2px solid lighten($secondary-color, 25);
+                border-radius: 50%;
+            }
+            
+            input[type=radio]:checked + label::before {
+                background-color: lighten($secondary-color, 25);
+                border: 2px solid $primary-color-900;
+                outline: 2px solid lighten($secondary-color, 25);
+            }
+        }
+
+        .create__form__buttonRow {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+
+            button {
+                @include buttonPrimary;
+                @include transitionAll;
+                background-size: 400%;
+
+                &:hover {
+                    background-image: linear-gradient(to right, $secondary-color, darken($secondary-color, 35)); 
+                    animation: gradient-animation 4s ease-in-out infinite;
+                }
+                
+                @media (prefers-reduced-motion: reduce) {
+                    &:hover {
+                      animation-duration: 10s; 
+                    }
+                  }
+
+                @keyframes gradient-animation {
+                    0% {
+                      background-position: 0% 50%;
+                    }
+                    50% {
+                      background-position: 100% 50%;
+                    }
+                    100% {
+                      background-position: 0% 50%;
+                    }
+                  }
+            }
+        }
+    }
 }
 
 .create__attributes__card {

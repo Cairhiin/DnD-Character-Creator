@@ -8,10 +8,10 @@ html,
 body {
   overflow-x: hidden;
   min-height: 100svh;
-  background:  radial-gradient(at 40% 69%, hsla(200,46%,11%,1) 0px, transparent 50%),
+  background:  radial-gradient(at 40% 69%, hsla(200,46%,5%,1) 0px, transparent 50%),
   radial-gradient(at 100% 100%, hsla(0,47%,11%,1) 0px, transparent 50%),
   radial-gradient(at 3% 5%, hsla(0,72%,11%,1) 0px, transparent 50%),
-  radial-gradient(at 44% 4%, hsla(200,47%,11%,1) 0px, transparent 50%);
+  radial-gradient(at 44% 4%, hsla(200,47%,5%,1) 0px, transparent 50%);
   background-size: 400% 400%;
   animation: gradient 25s ease infinite;
 

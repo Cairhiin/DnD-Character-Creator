@@ -127,11 +127,11 @@ export default function RaceSelection({ nextTab }: Props) {
         )}
       </aside>
       <form
-        className={styles.race__selection}
+        className={formStyles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
         {
-          <div className={styles.create__character__radio}>
+          <div className={formStyles.character__creation__form__column}>
             {RACES.map((race: string) => (
               <div key={race}>
                 <input
@@ -148,7 +148,7 @@ export default function RaceSelection({ nextTab }: Props) {
             {error && <ErrorField error={error} />}
           </div>
         }
-        <div className={styles.create__form__buttonRow}>
+        <div className={formStyles.create__form__buttonRow}>
           <button>Next</button>
         </div>
       </form>

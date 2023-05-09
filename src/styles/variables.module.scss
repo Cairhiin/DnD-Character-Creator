@@ -27,6 +27,25 @@ $warning: hsl(27, 100%, 47%);
   transition: all 500ms ease-in;
 }
 
+@mixin buttonPrimary {
+  @include roundedBorder;
+  background-color: $secondary-color;
+  border: none;
+  color: $on-background-color;
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+}
+
+@mixin errorMessage {
+  @include roundedBorder;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+  background-color: $failure;
+  color: $on-background-color;
+  padding: 1rem;
+}
+
 @mixin mediaSm {
   @media screen and (max-width: 500px) {
     @content;

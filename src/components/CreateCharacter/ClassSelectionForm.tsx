@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const ErrorField = ({ error }: { error: string }) => (
-  <div className="error">{error}</div>
+  <div className={formStyles.error}>{error}</div>
 );
 
 export default function ClassSelection({ nextTab, previousTab }: Props) {
