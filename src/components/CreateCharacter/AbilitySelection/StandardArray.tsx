@@ -55,7 +55,12 @@ export default function StandardArray({
         {ABILITIES.map(
           (ability: string): JSX.Element => (
             <div className={styles.create__form__abilities__ab} key={ability}>
-              <label htmlFor={ability}>{ability}</label>
+              <label
+                className={styles.create__form__abilities__label}
+                htmlFor={ability}
+              >
+                {ability}
+              </label>
               <select
                 {...register(ability as any)}
                 onChange={(e) => validateScore(e.target.value, ability)}

@@ -2,6 +2,7 @@
 
 .error {
     @include errorMessage;
+    margin-top: 2rem;
 }
 
 .create__layout {   
@@ -46,6 +47,47 @@
             justify-content: center;
             gap: 0.5rem;
 
+            .create__form__points {
+                margin-top: 1rem;
+                padding: 0;
+                font-size: 1rem;
+                text-align: right;
+
+                span {
+                    margin-left: 1rem;
+                    display: inline-block;
+                    color: lighten($secondary-color, 35);
+                    font-weight: 700;
+                    font-size: 1.5rem;
+                    background-color: $tertiary-color;
+                    border-radius: 50%;
+                    padding: 5px;
+                    width: 40px;
+                    text-align: center;
+                }
+            }
+
+            button {
+                width: 65px;
+
+                &:disabled, &:hover:disabled {
+                    background-color: $primary-color-500;
+                    animation: none;
+                    background-image: none;
+                }
+                
+            }
+
+            input[type=text]:disabled {
+                margin: -0.5rem 0 1rem 0;
+                background-color: $tertiary-color;
+                padding: 0.5rem;
+                width: 50px;
+                text-align: center;
+                font-weight: 700;
+                border: none;
+            }
+
             label {
                 display: inline-block;
                 vertical-align: middle;
@@ -56,6 +98,15 @@
 
                 &:hover {
                     color: lighten($secondary-color, 35);
+                }
+            }
+
+            .create__form__abilities__label {
+                padding-left: 0;
+                margin-bottom: 0.5rem;
+
+                &:hover {
+                    color: $on-background-color;
                 }
             }
 
@@ -87,35 +138,6 @@
             margin: 2rem 0;
             display: flex;
             gap: 1rem;
-
-            button, .create__form__buttonRow__button {
-                @include buttonPrimary;
-                @include transitionAll;
-                background-size: 400%;
-
-                &:hover {
-                    background-image: linear-gradient(to right, $secondary-color, darken($secondary-color, 35)); 
-                    animation: gradient-animation 4s ease-in-out infinite;
-                }
-                
-                @media (prefers-reduced-motion: reduce) {
-                    &:hover {
-                      animation: none; 
-                    }
-                  }
-
-                @keyframes gradient-animation {
-                    0% {
-                      background-position: 0% 50%;
-                    }
-                    50% {
-                      background-position: 100% 50%;
-                    }
-                    100% {
-                      background-position: 0% 50%;
-                    }
-                  }
-            }
 
             .create__form__buttonRow__button {
                 background-color: $tertiary-color;
@@ -161,8 +183,34 @@
             
         }
     }
+    button, .create__form__buttonRow__button {
+        @include buttonPrimary;
+        @include transitionAll;
+        background-size: 400%;
 
-    
+        &:hover {
+            background-image: linear-gradient(to right, $secondary-color, darken($secondary-color, 35)); 
+            animation: gradient-animation 4s ease-in-out infinite;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            &:hover {
+              animation: none; 
+            }
+          }
+
+        @keyframes gradient-animation {
+            0% {
+              background-position: 0% 50%;
+            }
+            50% {
+              background-position: 100% 50%;
+            }
+            100% {
+              background-position: 0% 50%;
+            }
+          }      
+    }
 }
 
 .create__attributes__card {

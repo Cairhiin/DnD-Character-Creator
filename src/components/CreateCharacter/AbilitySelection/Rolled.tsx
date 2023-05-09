@@ -34,13 +34,17 @@ export default function RolledAbilityScores({
   };
 
   return (
-    <div>
+    <div className={styles.create__form__abilities}>
       {ABILITIES.map(
         (ability: string): JSX.Element => (
-          <div key={ability}>
-            <div>
-              <h3>{ability}</h3>
-            </div>
+          <div className={styles.create__form__abilities__ab} key={ability}>
+            <label
+              className={styles.create__form__abilities__label}
+              htmlFor={ability}
+            >
+              {ability}
+            </label>
+            <input type="text" {...register(ability as any)} disabled />
             <div>
               {(usedScores as any)[ability] === 0 ||
               (usedScores as any)[ability] === undefined ? (
@@ -49,7 +53,6 @@ export default function RolledAbilityScores({
                 <button disabled>Roll</button>
               )}
             </div>
-            <input type="text" {...register(ability as any)} disabled />
           </div>
         )
       )}

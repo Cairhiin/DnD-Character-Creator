@@ -47,22 +47,31 @@ export default function PointBuy({
   };
 
   return (
-    <div>
-      <div>AVAILABLE POINTS: {POINT_BUY_TOTAL - totalPointsUsed}</div>
-      {ABILITIES.map(
-        (ability: string): JSX.Element => (
-          <select
-            {...register(ability as any)}
-            onChange={(e) => validateScore(e.target.value, ability)}
-          >
-            {AVAILABLE_SCORES.map(
-              (score: number): JSX.Element => (
-                <option value={score}>{score}</option>
-              )
-            )}
-          </select>
-        )
-      )}
+    <>
+      <div className={styles.create__form__abilities}>
+        {ABILITIES.map(
+          (ability: string): JSX.Element => (
+            <div className={styles.create__form__abilities__ab} key={ability}>
+              <label
+                className={styles.create__form__abilities__label}
+                htmlFor={ability}
+              >
+                {ability}
+              </label>
+              <select
+                {...register(ability as any)}
+                onChange={(e) => validateScore(e.target.value, ability)}
+              >
+                {AVAILABLE_SCORES.map(
+                  (score: number): JSX.Element => (
+                    <option value={score}>{score}</option>
+                  )
+                )}
+              </select>
+            </div>
+          )
+        )}
+      </div>
       <div>
         {totalPointsUsed > POINT_BUY_TOTAL && (
           <p>
@@ -71,6 +80,9 @@ export default function PointBuy({
           </p>
         )}
       </div>
-    </div>
+      <div className={styles.create__form__points}>
+        AVAILABLE POINTS: <span>{POINT_BUY_TOTAL - totalPointsUsed}</span>
+      </div>
+    </>
   );
 }
