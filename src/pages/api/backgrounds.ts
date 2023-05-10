@@ -9,6 +9,10 @@ const BACKGROUNDS: Background[] = [
     languages: 2,
     tool_proficiencies: [],
     feature: "Shelter of the Faithful",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
   {
     id: "criminal",
@@ -17,6 +21,10 @@ const BACKGROUNDS: Background[] = [
     languages: 0,
     tool_proficiencies: ["Gaming set", "Thieves' Tools"],
     feature: "Criminal Contact",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
   {
     id: "folk-hero",
@@ -25,6 +33,10 @@ const BACKGROUNDS: Background[] = [
     languages: 0,
     tool_proficiencies: ["Artisan's Tools", "Vehicles (land)"],
     feature: "Rustic Hospitality",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
   {
     id: "noble",
@@ -33,6 +45,10 @@ const BACKGROUNDS: Background[] = [
     languages: 1,
     tool_proficiencies: ["Gaming set"],
     feature: "Position of Priviledge",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
   {
     id: "sage",
@@ -41,6 +57,10 @@ const BACKGROUNDS: Background[] = [
     languages: 2,
     tool_proficiencies: [],
     feature: "Researcher",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
   {
     id: "soldier",
@@ -49,6 +69,10 @@ const BACKGROUNDS: Background[] = [
     languages: 0,
     tool_proficiencies: ["Gaming set", "Vehicles (land)"],
     feature: "Military Rank",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: []
   },
 ];
 

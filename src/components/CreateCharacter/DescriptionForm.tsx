@@ -104,10 +104,13 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         )}
       </aside>
       <form
-        className={styles.create__form__ability_score}
+        className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
-        <div onClick={() => setActiveIndex(1)}>
+        <div
+          onClick={() => setActiveIndex(1)}
+          className={styles.character__creation__form__accordion}
+        >
           <h3>Character Details</h3>
           <p>Alignment | Faith</p>
           {activeIndex === 1 && (
@@ -126,7 +129,10 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           )}
         </div>
-        <div onClick={() => setActiveIndex(2)}>
+        <div
+          onClick={() => setActiveIndex(2)}
+          className={styles.character__creation__form__accordion}
+        >
           <h3>Physical Characteristics</h3>
           <p>Hair | Skin | Eyes | Height | Weight | Age | Gender</p>
           {activeIndex === 2 && (
@@ -160,7 +166,10 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           )}
         </div>
-        <div onClick={() => setActiveIndex(3)}>
+        <div
+          onClick={() => setActiveIndex(3)}
+          className={styles.character__creation__form__accordion}
+        >
           <h3>Personal Characteristics</h3>
           <p>Personality | Ideals | Bonds | Flaws</p>
           {activeIndex === 3 && (
@@ -180,7 +189,10 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           )}
         </div>
-        <div onClick={() => setActiveIndex(4)}>
+        <div
+          onClick={() => setActiveIndex(4)}
+          className={styles.character__creation__form__accordion}
+        >
           <h3>Notes</h3>
           <p>Organization | Allies | Enemies | Backstory | Other</p>
           {activeIndex === 4 && (

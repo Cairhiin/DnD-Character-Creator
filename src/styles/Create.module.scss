@@ -110,14 +110,22 @@
 
     .character__creation__form {
         position: relative;
-        background: adjust-hue($primary-color-900, 300deg);
-        @include roundedBorder;
+        background: $background-color;
         min-height: 250px;
         padding: 1rem;
         display: flex;
         flex-direction: column;
+        gap: 1rem;
         justify-content: space-between;
-        box-shadow: rgba(7, 1, 1, 0.856) 1px 1px 4px;
+        @include roundedBorder;
+        @include boxShadow;
+
+        .character__creation__form__accordion {
+            h3 {
+                text-align: left;
+                margin: 0;
+            }
+        }
 
         select {
             font-size: 1rem;

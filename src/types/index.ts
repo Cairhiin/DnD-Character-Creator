@@ -43,6 +43,10 @@ export interface Background {
     languages: number;
     tool_proficiencies: string[];
     feature: string;
+    traits: string[];
+    bonds: string[];
+    ideals: string[];
+    flaws: string[];
 }
 
 export interface AbilityScores {

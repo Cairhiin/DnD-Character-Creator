@@ -10,9 +10,11 @@ $primary-color-200: hsl(12, 10%, 90%);
 $primary-color-100: hsl(15, 22%, 96%);
 
 $secondary-color: hsl(198, 72, 50, 100%);
+
+$background-color: hsl(216, 23%, 13%);
 $on-background-color: hsl(0, 0%, 98%);
 
-$tertiary-color: hsl(200, 73%, 15%);
+$tertiary-color: hsl(199, 74%, 15%);
 
 $success: hsl(124, 55%, 24%);
 $failure: hsl(0, 73%, 42%);
@@ -25,6 +27,10 @@ $warning: hsl(27, 100%, 47%);
 
 @mixin transitionAll {
   transition: all 500ms ease-in;
+}
+
+@mixin boxShadow {
+  box-shadow: rgba(7, 1, 1, 0.856) 1px 1px 4px;
 }
 
 @mixin buttonPrimary {
