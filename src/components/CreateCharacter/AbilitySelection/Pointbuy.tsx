@@ -3,7 +3,7 @@ import { UseFormRegister } from "react-hook-form/dist/types";
 import { calculateAbilityBuyCost } from "@/utils";
 import { ABILITIES, POINT_BUY_TOTAL, AVAILABLE_SCORES } from "@/constants";
 import { AbilityScores, AbilityFormInput } from "@/types";
-import styles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
 
 interface Props {
   register: UseFormRegister<AbilityFormInput>;

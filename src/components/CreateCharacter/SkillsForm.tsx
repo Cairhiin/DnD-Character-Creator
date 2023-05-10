@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
 import { SKILLS } from "@/constants";
 import type { Skills } from "@/types";
-import styles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
 
 interface Props {
   nextTab: () => void;

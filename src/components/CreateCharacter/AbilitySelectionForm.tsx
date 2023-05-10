@@ -10,8 +10,7 @@ import PointBuy from "./AbilitySelection/Pointbuy";
 import { calculateAbilityModifier } from "@/utils";
 import { CreateCharacterCard } from "@/pages/create";
 import { ErrorField } from "./ClassSelectionForm";
-import styles from "@/styles/CharacterForm.module.scss";
-import formStyles from "@/styles/CharacterForm.module.scss";
+import styles from "@/styles/Create.module.scss";
 
 interface Props {
   nextTab: () => void;
@@ -138,11 +137,11 @@ export default function AbilitySelection({
   };
 
   return (
-    <div className={formStyles.create__layout}>
+    <div className={styles.create__layout}>
       <div></div>
       <aside>
         <CreateCharacterCard header={`Ability Scores | ${watch("method")}`}>
-          <div className={formStyles.create__attributes__card}>
+          <div className={styles.create__attributes__card}>
             <div className={styles.create__attributes__card__list}>
               <div>Strength</div>
               <div>Dexterity</div>
@@ -189,11 +188,12 @@ export default function AbilitySelection({
         </CreateCharacterCard>
       </aside>
       <form
-        className={formStyles.character__creation__form}
+        className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
         <div>
           <div className={styles.character__creation__form__method}>
+            <label htmlFor="method">Choose a method</label>
             <select
               {...register("method")}
               onChange={(e) => resetForm(e.target.value)}

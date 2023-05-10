@@ -4,18 +4,12 @@ import { characterStore } from "@/store";
 import { Background } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/Create.module.scss";
-import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-}
-
-interface StaticProps {
   backgrounds: Background[];
 }
-
-interface BackgroundSelectionFormProps extends StaticProps, Props {}
 
 interface BackgroundFormInput {
   background: string;
@@ -25,7 +19,7 @@ export default function BackgroundSelectionForm({
   nextTab,
   previousTab,
   backgrounds,
-}: BackgroundSelectionFormProps): JSX.Element {
+}: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const backgroundFromStore = characterStore((state) => state.background);
@@ -61,7 +55,7 @@ export default function BackgroundSelectionForm({
   };
 
   return (
-    <div className={formStyles.create__layout}>
+    <div className={styles.create__layout}>
       <div></div>
       <aside>
         {backgroundFromStore.name ? (
@@ -115,10 +109,10 @@ export default function BackgroundSelectionForm({
         )}
       </aside>
       <form
-        className={styles.race__selection}
+        className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
-        <div>
+        <div className={styles.character__creation__form__method}>
           <label htmlFor="background">Choose a background</label>
           <select
             {...register("background")}
@@ -133,7 +127,12 @@ export default function BackgroundSelectionForm({
           <p>{errors.background?.message}</p>
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>Previous</div>
+          <div
+            onClick={previousTab}
+            className={styles.create__form__buttonRow__button}
+          >
+            Previous
+          </div>
           <button>Next</button>
         </div>
       </form>

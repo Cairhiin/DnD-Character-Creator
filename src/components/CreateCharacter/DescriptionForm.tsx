@@ -7,7 +7,6 @@ import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
 import styles from "@/styles/Create.module.scss";
-import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface Props {
   nextTab: () => void;
@@ -67,7 +66,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div className={formStyles.create__layout}>
+    <div className={styles.create__layout}>
       <div></div>
       <aside>
         {descriptionFromStore.details.name ? (

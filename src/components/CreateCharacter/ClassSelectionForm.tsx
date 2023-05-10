@@ -7,7 +7,6 @@ import { characterStore } from "@/store";
 import { CreateCharacterCard } from "@/pages/create";
 import { formatAttribute } from "@/utils";
 import styles from "@/styles/Create.module.scss";
-import formStyles from "@/styles/CharacterForm.module.scss";
 
 interface ClassFormInput {
   dndClass: string;
@@ -19,7 +18,7 @@ interface Props {
 }
 
 export const ErrorField = ({ error }: { error: string }) => (
-  <div className={formStyles.error}>
+  <div className={styles.error}>
     <FontAwesomeIcon icon={faWarning} /> {error}
   </div>
 );
@@ -60,7 +59,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   };
 
   return (
-    <div className={formStyles.create__layout}>
+    <div className={styles.create__layout}>
       <div></div>
       <aside>
         {dndClassFromStore.name ? (
@@ -159,11 +158,11 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
         )}
       </aside>
       <form
-        className={formStyles.character__creation__form}
+        className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
         {
-          <div className={formStyles.character__creation__form__column}>
+          <div className={styles.character__creation__form__column}>
             {CLASSES.map(({ id, name }) => (
               <div key={id}>
                 <input
@@ -180,10 +179,10 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
             {error && <ErrorField error={error} />}
           </div>
         }
-        <div className={formStyles.create__form__buttonRow}>
+        <div className={styles.create__form__buttonRow}>
           <div
             onClick={previousTab}
-            className={formStyles.create__form__buttonRow__button}
+            className={styles.create__form__buttonRow__button}
           >
             Previous
           </div>
