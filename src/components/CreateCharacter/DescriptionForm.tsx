@@ -6,6 +6,7 @@ import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { Background, CharacterDescription } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
+import PersonalFormElement from "@/components/CreateCharacter/Description/PersonalFormElement";
 import styles from "@/styles/Create.module.scss";
 
 interface Props {
@@ -61,11 +62,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     },
     mode: "onSubmit",
   });
-
-  const handleClick = (e: any, personal: string) => {
-    console.log(e.target.innerHTML);
-    setValue(personal as any, e.target.innerHTML);
-  };
 
   const saveData: SubmitHandler<CharacterDescription> = (description): void => {
     setDescription(description);
@@ -181,50 +177,38 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <p>Personality | Ideals | Bonds | Flaws</p>
           {activeIndex === 3 && (
             <div>
-              <label htmlFor="traits">Personality Traits</label>
-              {backgroundFromStore.traits.map((trait: string) => (
-                <p
-                  key={trait}
-                  onClick={(e) => handleClick(e, "personal.traits")}
-                >
-                  {trait}
-                </p>
-              ))}
-              <textarea {...register("personal.traits")}></textarea>
-              <p>{errors.personal?.traits?.message}</p>
-              <label htmlFor="ideals">Ideals</label>
-              {backgroundFromStore.ideals.map((trait: string) => (
-                <p
-                  key={trait}
-                  onClick={(e) => handleClick(e, "personal.ideals")}
-                >
-                  {trait}
-                </p>
-              ))}
-              <textarea {...register("personal.ideals")}></textarea>
-              <p>{errors.personal?.ideals?.message}</p>
-              <label htmlFor="bonds">Bonds</label>
-              {backgroundFromStore.bonds.map((trait: string) => (
-                <p
-                  key={trait}
-                  onClick={(e) => handleClick(e, "personal.bonds")}
-                >
-                  {trait}
-                </p>
-              ))}
-              <textarea {...register("personal.bonds")}></textarea>
-              <p>{errors.personal?.bonds?.message}</p>
-              <label htmlFor="flaws">Flaws</label>
-              {backgroundFromStore.flaws.map((trait: string) => (
-                <p
-                  key={trait}
-                  onClick={(e) => handleClick(e, "personal.flaws")}
-                >
-                  {trait}
-                </p>
-              ))}
-              <textarea {...register("personal.flaws")}></textarea>
-              <p>{errors.personal?.flaws?.message}</p>
+              <PersonalFormElement
+                type="personal.traits"
+                label="Traits"
+                data={backgroundFromStore.traits}
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
+              <PersonalFormElement
+                type="personal.ideals"
+                label="Ideals"
+                data={backgroundFromStore.ideals}
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
+              <PersonalFormElement
+                type="personal.bonds"
+                label="Bonds"
+                data={backgroundFromStore.bonds}
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
+              <PersonalFormElement
+                type="personal.flaws"
+                label="Flaws"
+                data={backgroundFromStore.flaws}
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
             </div>
           )}
         </div>
