@@ -21,9 +21,14 @@ export const characterStore = create<CharacterFormState>((set) => ({
     tool_proficiencies: [],
     languages: 0,
     feature: "",
+    traits: [],
+    ideals: [],
+    bonds: [],
+    flaws: [],
   },
   description: {
     details: {
+      name: "",
       alignment: "",
       faith: "",
     },
