@@ -2,7 +2,6 @@ interface PersonalFormElementProps {
   label: string;
   data: string[];
   type: string;
-  errors: any;
   register: any;
   setValue: any;
 }
@@ -12,7 +11,6 @@ const PersonalFormElement = ({
   data,
   type,
   register,
-  errors,
   setValue,
 }: PersonalFormElementProps): JSX.Element => {
   const handleClick = (e: any, personal: string) => {
@@ -20,14 +18,22 @@ const PersonalFormElement = ({
   };
   return (
     <>
-      <label htmlFor={type}>{label}</label>
-      {data.map((trait: string) => (
-        <p key={trait} onClick={(e) => handleClick(e, type)}>
-          {trait}
-        </p>
-      ))}
+      <h5>
+        {label}
+        <br />
+        <span>
+          (Click on one of the {label.toLowerCase()} in the list below or type
+          one yourself)
+        </span>
+      </h5>
       <textarea {...register(type)}></textarea>
-      <p>{errors.traits?.message}</p>
+      <ul>
+        {data.map((trait: string) => (
+          <li key={trait} onClick={(e) => handleClick(e, type)}>
+            {trait}
+          </li>
+        ))}
+      </ul>
     </>
   );
 };

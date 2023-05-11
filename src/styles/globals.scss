@@ -37,6 +37,7 @@ body {
 
 p {
   margin: 0 0 0.5rem 0;
+  color: $on-background-color;
 }
 
 section {
@@ -56,32 +57,28 @@ a {
 
 select {
   background: transparent url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png') no-repeat 95% 50%;
-  filter: invert(1);
+  filter: invert(1); // HACK: Make the icon white
   background-size: 20px;
   background-color: #f5cebc;
+  color: $primary-color-900;
+  border: none;
 }
 
 input, textarea { 
+  color: $on-background-color;
   background: $tertiary-color;
+  border: 1px solid $tertiary-color;
 }
 
 select, input, textarea {
   font-size: 1rem;
   padding: 0.4rem 2rem 0.4rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  @include roundedBorder;
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;
-  color: $primary-color-900;
-  font-weight: 700;
-  border: none;
+  appearance: none; 
+  font-weight: 400;
   font-family: 'Roboto Condensed', sans-serif;
-}
-
-select:hover, select:focus {
-  border-color: $secondary-color;
-  outline: none;
 }
 
 select option {

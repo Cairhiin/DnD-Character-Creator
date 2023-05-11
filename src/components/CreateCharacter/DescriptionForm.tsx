@@ -7,6 +7,7 @@ import { ALIGNMENT } from "@/constants";
 import type { Background, CharacterDescription } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
 import PersonalFormElement from "@/components/CreateCharacter/Description/PersonalFormElement";
+import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
 
 interface Props {
@@ -22,19 +23,19 @@ const schema = yup
       faith: yup.string(),
     }),
     physical: yup.object({
-      hair: yup.string().required(),
-      skin: yup.string().required(),
-      eyes: yup.string().required(),
-      weight: yup.number().required(),
-      height: yup.number().required(),
-      age: yup.number().required(),
-      gender: yup.string().required(),
+      hair: yup.string(),
+      skin: yup.string(),
+      eyes: yup.string(),
+      weight: yup.number(),
+      height: yup.number(),
+      age: yup.number(),
+      gender: yup.string(),
     }),
     personal: yup.object({
-      traits: yup.string().required(),
-      ideals: yup.string().required(),
-      bonds: yup.string().required(),
-      flaws: yup.string().required(),
+      traits: yup.string(),
+      ideals: yup.string(),
+      bonds: yup.string(),
+      flaws: yup.string(),
     }),
     notes: yup.object({
       organizations: yup.string(),
@@ -118,6 +119,8 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <h4>Alignment | Faith</h4>
           <div className={activeIndex === 1 ? styles.open : ""}>
             <div className={styles.character__creation__form__panel__content}>
+              <label htmlFor="name">Name</label>
+              <input type="text" {...register("details.name")} />
               <label htmlFor="alignment">Alignment</label>
               <select {...register("details.alignment")}>
                 Alignment
@@ -125,10 +128,19 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                   <option value={alignment}>{alignment}</option>
                 ))}
               </select>
-              <p>{errors.details?.alignment?.message}</p>
               <label htmlFor="faith">Faith</label>
               <input type="text" {...register("details.faith")} />
-              <p>{errors.details?.faith?.message}</p>
+            </div>
+            <div>
+              {errors.details?.alignment?.message ||
+                (errors.details?.name?.message && (
+                  <ErrorField
+                    error={
+                      errors.details?.alignment?.message ||
+                      errors.details?.name?.message
+                    }
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -142,22 +154,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="hair">Hair</label>
               <input type="text" {...register("physical.hair")} />
-              <p>{errors.physical?.hair?.message}</p>
               <label htmlFor="skin">Skin</label>
               <input type="text" {...register("physical.skin")} />
-              <p>{errors.physical?.skin?.message}</p>
               <label htmlFor="eyes">Eyes</label>
               <input type="text" {...register("physical.eyes")} />
-              <p>{errors.physical?.eyes?.message}</p>
               <label htmlFor="height">Height</label>
               <input type="text" {...register("physical.height")} />
-              <p>{errors.physical?.height?.message}</p>
               <label htmlFor="weight">Weight</label>
               <input type="text" {...register("physical.weight")} />
-              <p>{errors.physical?.weight?.message}</p>
               <label htmlFor="age">Age</label>
               <input type="text" {...register("physical.age")} />
-              <p>{errors.physical?.age?.message}</p>
               <label htmlFor="gender">Gender</label>
               <select {...register("physical.gender")}>
                 <option value="female">Female</option>
@@ -165,7 +171,9 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 <option value="nonbinary">Non-binariy</option>
                 <option value="other">Other</option>
               </select>
-              <p>{errors.physical?.gender?.message}</p>
+              {errors.physical?.gender?.message && (
+                <ErrorField error={errors.physical?.gender?.message} />
+              )}
             </div>
           </div>
         </div>
@@ -176,14 +184,15 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <h3>Personal Characteristics</h3>
           <h4>Personality | Ideals | Bonds | Flaws</h4>
           <div className={activeIndex === 3 ? styles.open : ""}>
-            <div className={styles.character__creation__form__panel__content}>
+            <div
+              className={`${styles.character__creation__form__panel__content} ${styles.non_grid}`}
+            >
               <PersonalFormElement
                 type="personal.traits"
                 label="Traits"
                 data={backgroundFromStore.traits}
                 register={register}
                 setValue={setValue}
-                errors={errors}
               />
               <PersonalFormElement
                 type="personal.ideals"
@@ -191,7 +200,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 data={backgroundFromStore.ideals}
                 register={register}
                 setValue={setValue}
-                errors={errors}
               />
               <PersonalFormElement
                 type="personal.bonds"
@@ -199,7 +207,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 data={backgroundFromStore.bonds}
                 register={register}
                 setValue={setValue}
-                errors={errors}
               />
               <PersonalFormElement
                 type="personal.flaws"
@@ -207,7 +214,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 data={backgroundFromStore.flaws}
                 register={register}
                 setValue={setValue}
-                errors={errors}
               />
             </div>
           </div>
@@ -222,24 +228,27 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="organizations">Organizations</label>
               <input type="text" {...register("notes.organizations")} />
-              <p>{errors.notes?.organizations?.message}</p>
               <label htmlFor="allies">Allies</label>
               <input type="text" {...register("notes.allies")} />
-              <p>{errors.notes?.allies?.message}</p>
               <label htmlFor="enemies">Enemies</label>
               <input type="text" {...register("notes.enemies")} />
-              <p>{errors.notes?.enemies?.message}</p>
-              <label htmlFor="backstory">Backstory</label>
-              <textarea {...register("notes.backstory")}></textarea>
-              <p>{errors.notes?.backstory?.message}</p>
               <label htmlFor="other">Other</label>
               <textarea {...register("notes.other")}></textarea>
-              <p>{errors.notes?.other?.message}</p>
+              <label htmlFor="backstory">Backstory</label>
+              <textarea
+                {...register("notes.backstory")}
+                className={styles.backstory}
+              ></textarea>
             </div>
           </div>
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>Previous</div>
+          <div
+            onClick={previousTab}
+            className={styles.create__form__buttonRow__button}
+          >
+            Previous
+          </div>
           <button>Next</button>
         </div>
       </form>
