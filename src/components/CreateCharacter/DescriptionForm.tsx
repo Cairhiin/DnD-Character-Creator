@@ -26,9 +26,9 @@ const schema = yup
       hair: yup.string(),
       skin: yup.string(),
       eyes: yup.string(),
-      weight: yup.number(),
-      height: yup.number(),
-      age: yup.number(),
+      weight: yup.string(),
+      height: yup.string(),
+      age: yup.string(),
       gender: yup.string(),
     }),
     personal: yup.object({
@@ -65,6 +65,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   });
 
   const saveData: SubmitHandler<CharacterDescription> = (description): void => {
+    console.log(description);
     setDescription(description);
     nextTab();
   };
