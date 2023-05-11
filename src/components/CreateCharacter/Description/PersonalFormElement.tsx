@@ -16,7 +16,6 @@ const PersonalFormElement = ({
   setValue,
 }: PersonalFormElementProps): JSX.Element => {
   const handleClick = (e: any, personal: string) => {
-    console.log(e.target.innerHTML);
     setValue(personal as any, e.target.innerHTML);
   };
   return (

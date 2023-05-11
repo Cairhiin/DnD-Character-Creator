@@ -107,17 +107,17 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         )}
       </aside>
       <form
-        className={styles.character__creation__form}
+        className={`${styles.character__creation__form} ${styles.description}`}
         onSubmit={handleSubmit(saveData)}
       >
         <div
           onClick={() => setActiveIndex(1)}
-          className={styles.character__creation__form__accordion}
+          className={styles.character__creation__form__panel}
         >
           <h3>Character Details</h3>
-          <p>Alignment | Faith</p>
-          {activeIndex === 1 && (
-            <div>
+          <h4>Alignment | Faith</h4>
+          <div className={activeIndex === 1 ? styles.open : ""}>
+            <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="alignment">Alignment</label>
               <select {...register("details.alignment")}>
                 Alignment
@@ -130,16 +130,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
               <input type="text" {...register("details.faith")} />
               <p>{errors.details?.faith?.message}</p>
             </div>
-          )}
+          </div>
         </div>
         <div
           onClick={() => setActiveIndex(2)}
-          className={styles.character__creation__form__accordion}
+          className={styles.character__creation__form__panel}
         >
           <h3>Physical Characteristics</h3>
-          <p>Hair | Skin | Eyes | Height | Weight | Age | Gender</p>
-          {activeIndex === 2 && (
-            <div>
+          <h4>Hair | Skin | Eyes | Height | Weight | Age | Gender</h4>
+          <div className={activeIndex === 2 ? styles.open : ""}>
+            <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="hair">Hair</label>
               <input type="text" {...register("physical.hair")} />
               <p>{errors.physical?.hair?.message}</p>
@@ -167,16 +167,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
               </select>
               <p>{errors.physical?.gender?.message}</p>
             </div>
-          )}
+          </div>
         </div>
         <div
           onClick={() => setActiveIndex(3)}
-          className={styles.character__creation__form__accordion}
+          className={styles.character__creation__form__panel}
         >
           <h3>Personal Characteristics</h3>
-          <p>Personality | Ideals | Bonds | Flaws</p>
-          {activeIndex === 3 && (
-            <div>
+          <h4>Personality | Ideals | Bonds | Flaws</h4>
+          <div className={activeIndex === 3 ? styles.open : ""}>
+            <div className={styles.character__creation__form__panel__content}>
               <PersonalFormElement
                 type="personal.traits"
                 label="Traits"
@@ -210,16 +210,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
                 errors={errors}
               />
             </div>
-          )}
+          </div>
         </div>
         <div
           onClick={() => setActiveIndex(4)}
-          className={styles.character__creation__form__accordion}
+          className={styles.character__creation__form__panel}
         >
           <h3>Notes</h3>
-          <p>Organization | Allies | Enemies | Backstory | Other</p>
-          {activeIndex === 4 && (
-            <div>
+          <h4>Organization | Allies | Enemies | Backstory | Other</h4>
+          <div className={activeIndex === 4 ? styles.open : ""}>
+            <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="organizations">Organizations</label>
               <input type="text" {...register("notes.organizations")} />
               <p>{errors.notes?.organizations?.message}</p>
@@ -236,7 +236,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
               <textarea {...register("notes.other")}></textarea>
               <p>{errors.notes?.other?.message}</p>
             </div>
-          )}
+          </div>
         </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>Previous</div>
