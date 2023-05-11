@@ -1,6 +1,13 @@
 @import './variables.module';
 
+
+.error {
+    @include errorMessage;
+    margin-top: 2rem;
+}
+
 .main {
+    // The topbar stepper
     .nav {
         background-color: $tertiary-color;
         padding: 0.3rem;
@@ -97,11 +104,6 @@
     }
 }
 
-.error {
-    @include errorMessage;
-    margin-top: 2rem;
-}
-
 .create__layout {   
     display: grid;
     grid-template-columns: 1fr 4fr 6fr 1fr;
@@ -120,91 +122,38 @@
         @include roundedBorder;
         @include boxShadow;
 
-        .character__creation__form__accordion {
-            h3 {
-                text-align: left;
-                margin: 0;
+        &.description {
+            .character__creation__form__panel {
+                h3, h4 {
+                    text-align: left;
+                    margin: 0;
+                    cursor: pointer;
+                }
+
+                h4 {
+                    color: $secondary-color;
+                    font-weight: 400;
+                    margin-bottom: 1rem;
+                }
+
+                & > div {
+                    display: grid;
+                    grid-template-rows: 0fr;
+                    transition: grid-template-rows 500ms;
+                }
+
+                & > div.open {
+                    grid-template-rows: 1fr;
+                }
+
+                .character__creation__form__panel__content {
+                    overflow: hidden;
+                    
+                    label {
+                        margin: 0 1rem 0 0;
+                    }
+                }
             }
-        }
-
-        select {
-            font-size: 1rem;
-            padding: 0.4rem 2rem 0.4rem 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background: transparent url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png') no-repeat 95% 50%;
-            filter: invert(1);
-            background-size: 20px;
-            background-color: #f5cebc;
-            color: $primary-color-900;
-            font-weight: 700;
-            border: none;
-            font-family: 'Roboto Condensed', sans-serif;
-          }
-          
-          select:hover, select:focus {
-            border-color: $secondary-color;
-            outline: none;
-          }
-          
-          select option {
-            background-color: #fff;
-            color: #333;
-          }
-        
-          input[type=text]:disabled {
-            margin: -0.5rem 0 1rem 0;
-            background-color: $tertiary-color;
-            padding: 0.5rem;
-            width: 50px;
-            text-align: center;
-            font-weight: 700;
-            border: none;
-        }
-
-        textarea {
-            --line-height: 16px;
-            width: 100%;
-            height: calc(5 * var(--line-height)); 
-        }              
-
-        label {
-            display: inline-block;
-            vertical-align: middle;
-            position: relative;
-            line-height: 18px;
-            padding-left: 25px;
-            cursor: pointer;
-
-            &:hover {
-                color: lighten($secondary-color, 35);
-            }
-        }
-
-        input[type=radio] {
-            display: none;
-        }
-          
-        input[type=radio] + label::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            margin-right: 1rem;
-            border: 2px solid $primary-color-900;
-            outline: 2px solid lighten($secondary-color, 25);
-            border-radius: 50%;
-        }
-        
-        input[type=radio]:checked + label::before {
-            background-color: lighten($secondary-color, 25);
-            border: 2px solid $primary-color-900;
-            outline: 2px solid lighten($secondary-color, 25);
         }
 
         .character__creation__form__column {
@@ -212,6 +161,19 @@
             flex-direction: column;
             justify-content: center;
             gap: 0.5rem;
+
+            label {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                line-height: 18px;
+                padding-left: 25px;
+                cursor: pointer;
+    
+                &:hover {
+                    color: lighten($secondary-color, 35);
+                }
+            }
 
             .create__form__points {
                 margin-top: 1rem;
