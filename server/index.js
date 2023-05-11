@@ -19,6 +19,14 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 const port = 3001;
 
+app.use(function (req, res, next) {
+    res.setHeader(
+        'Content-Security-Policy-Report-Only',
+        "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
+    );
+    next();
+});
+
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
