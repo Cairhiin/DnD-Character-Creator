@@ -46,14 +46,15 @@ export default function SkillsForm({
 
   const handleChange = (skill: string): void => {
     // Check if the amount of chosen skills is less than are allowed to be chosen
-    if (selectedSkills.length < classFromStore.proficiency_choices![0].choose) {
-      if (selectedSkills.indexOf(skill) < 0) {
-        // Add the skill to the list of selected skills
-        setSelectedSkills((state) => [...state, skill]);
-      } else {
-        // If the skill is already in the list remove it instead
-        setSelectedSkills((state) => state.filter((s: string) => s !== skill));
-      }
+    if (
+      selectedSkills.indexOf(skill) < 0 &&
+      selectedSkills.length < classFromStore.proficiency_choices![0].choose
+    ) {
+      // Add the skill to the list of selected skills
+      setSelectedSkills((state) => [...state, skill]);
+    } else {
+      // If the skill is already in the list remove it instead
+      setSelectedSkills((state) => state.filter((s: string) => s !== skill));
     }
   };
 
@@ -76,6 +77,9 @@ export default function SkillsForm({
                 <div key={item.index}>
                   <input
                     id={item.index}
+                    checked={selectedSkills.includes(
+                      cleanUpSkillDescription(item.name)
+                    )}
                     type="checkbox"
                     {...register(cleanUpSkillDescription(item.name) as any)}
                     onClick={() =>
@@ -92,7 +96,12 @@ export default function SkillsForm({
             )}
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>Previous</div>
+          <div
+            onClick={previousTab}
+            className={styles.create__form__buttonRow__button}
+          >
+            Previous
+          </div>
           <button>Next</button>
         </div>
       </form>
