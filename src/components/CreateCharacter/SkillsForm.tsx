@@ -68,15 +68,14 @@ export default function SkillsForm({
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
     if (
-      // IMPORTANT: Subtract the number of free skills from background
+      // IMPORTANT: Subtract the number of free skills gained from background
       selectedSkills.indexOf(skill) < 0 &&
       selectedSkills.length - backgroundFromStore.skill_proficiencies.length <
         classFromStore.proficiency_choices![0].choose
     ) {
-      // Add the skill to the list of selected skills
       setSelectedSkills((state) => [...state, skill]);
     } else {
-      // If the skill is already in the list remove it instead
+      // If the skill is already in the list remove it
       setSelectedSkills((state) => state.filter((s: string) => s !== skill));
     }
   };
