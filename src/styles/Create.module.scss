@@ -217,7 +217,8 @@
 
                 &.checkbox {
                     padding: 0;
-
+                    @include roundedBorder;
+                    
                     &::after {
                         // Hack to set the data-label attribute as label text
                         content: attr(data-label); 

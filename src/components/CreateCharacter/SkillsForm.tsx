@@ -15,6 +15,7 @@ export default function SkillsForm({
   previousTab,
 }: Props): JSX.Element {
   const classFromStore = characterStore((state) => state.dndClass);
+  const backgroundFromStore = characterStore((state) => state.background);
   const skillsFromStore = characterStore((state) => state.skills);
   const setSkills = characterStore((state) => state.setSkills);
 
@@ -22,9 +23,24 @@ export default function SkillsForm({
   const selectedSkillsFromStore: string[] = Object.keys(skillsFromStore).filter(
     (skill: string) => (skillsFromStore as any)[skill] === true
   );
-  const [selectedSkills, setSelectedSkills] = useState<string[]>(
-    selectedSkillsFromStore
-  );
+
+  // Filter out the background skills from the available skill choices and turn it into an array of strings
+  const availableSkills =
+    classFromStore.proficiency_choices &&
+    classFromStore.proficiency_choices[0].from.options
+      .filter(
+        ({ item }: any): boolean =>
+          !backgroundFromStore.skill_proficiencies.includes(
+            cleanUpSkillDescription(item.name)
+          )
+      )
+      .map(({ item }: any): string => cleanUpSkillDescription(item.name));
+
+  // Add the background skills to the already selected skills
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([
+    ...selectedSkillsFromStore,
+    ...backgroundFromStore.skill_proficiencies,
+  ]);
 
   const {
     handleSubmit,
@@ -38,17 +54,24 @@ export default function SkillsForm({
   });
 
   const saveData: SubmitHandler<Skills> = (skills): void => {
-    if (selectedSkills.length >= 4) {
+    // Make certain one has chosen the right number of skills
+    if (
+      selectedSkills.length >=
+      backgroundFromStore.skill_proficiencies.length +
+        classFromStore.proficiency_choices![0].choose
+    ) {
       setSkills(skills);
       nextTab();
     }
   };
 
   const handleChange = (skill: string): void => {
-    // Check if the amount of chosen skills is less than are allowed to be chosen
+    // Check if the number of chosen skills is less than are allowed to be chosen
     if (
+      // IMPORTANT: Subtract the number of free skills from background
       selectedSkills.indexOf(skill) < 0 &&
-      selectedSkills.length < classFromStore.proficiency_choices![0].choose
+      selectedSkills.length - backgroundFromStore.skill_proficiencies.length <
+        classFromStore.proficiency_choices![0].choose
     ) {
       // Add the skill to the list of selected skills
       setSelectedSkills((state) => [...state, skill]);
@@ -71,29 +94,23 @@ export default function SkillsForm({
         onSubmit={handleSubmit(saveData)}
       >
         <div className={styles.character__creation__form__column}>
-          {classFromStore.proficiency_choices &&
-            classFromStore.proficiency_choices[0].from.options.map(
-              ({ item }: any) => (
-                <div key={item.index}>
-                  <input
-                    id={item.index}
-                    checked={selectedSkills.includes(
-                      cleanUpSkillDescription(item.name)
-                    )}
-                    type="checkbox"
-                    {...register(cleanUpSkillDescription(item.name) as any)}
-                    onClick={() =>
-                      handleChange(cleanUpSkillDescription(item.name))
-                    }
-                  />
-                  <label
-                    htmlFor={item.index}
-                    className={styles.checkbox}
-                    data-label={cleanUpSkillDescription(item.name)}
-                  ></label>
-                </div>
-              )
-            )}
+          {availableSkills &&
+            availableSkills.map((skill: string) => (
+              <div key={skill}>
+                <input
+                  id={skill}
+                  checked={selectedSkills.includes(skill)}
+                  type="checkbox"
+                  {...register(skill as any)}
+                  onClick={() => handleChange(skill)}
+                />
+                <label
+                  htmlFor={skill}
+                  className={styles.checkbox}
+                  data-label={skill}
+                ></label>
+              </div>
+            ))}
         </div>
         <div className={styles.create__form__buttonRow}>
           <div

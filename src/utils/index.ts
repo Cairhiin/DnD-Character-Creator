@@ -42,5 +42,5 @@ export const formatAttribute = (attr: string): string => {
   }
 
   export const cleanUpSkillDescription = (skill: string): string => {
-    return skill.substring(6, skill.length);
+    return skill.substring(7, skill.length);
   }
