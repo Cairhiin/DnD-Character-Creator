@@ -260,10 +260,8 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Background[] | any>
 ) {
-  console.log("Request received at /api/backgrounds");
   try {
     res.status(200).json(BACKGROUNDS);
-    console.log("Response sent with backgrounds:", BACKGROUNDS);
   } catch (error: any) {
     res.status(500).json({ message: "Server error" });
     console.log("Error sending response:", error.message);

@@ -19,7 +19,7 @@ const schema = yup
   .object({
     details: yup.object({
       name: yup.string().required(),
-      alignment: yup.string().required(),
+      alignment: yup.string(),
       faith: yup.string(),
     }),
     physical: yup.object({

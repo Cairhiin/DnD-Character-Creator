@@ -82,6 +82,21 @@
         }
         
         .create__card__content {
+            .skill__list {
+                font-weight: 400;
+                color: $on-background-color;
+
+                span {
+                    color: $secondary-color;
+                }
+
+                h3 {
+                    margin-top: 0.5rem;
+                    text-transform: uppercase;
+                    color: lighten($secondary-color, 35);
+                }
+            }
+
             ul, span {
                 font-weight: 400;
                 color: $on-background-color;
@@ -218,7 +233,7 @@
                 &.checkbox {
                     padding: 0;
                     @include roundedBorder;
-                    
+
                     &::after {
                         // Hack to set the data-label attribute as label text
                         content: attr(data-label); 

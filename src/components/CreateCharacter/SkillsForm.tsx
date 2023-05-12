@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { characterStore } from "@/store";
+import { CreateCharacterCard } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
 import styles from "@/styles/Create.module.scss";
@@ -84,9 +85,61 @@ export default function SkillsForm({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {selectedSkills.map((skill) => (
-          <p key={skill}>{skill}</p>
-        ))}
+        {selectedSkills.length -
+          backgroundFromStore.skill_proficiencies.length >
+        0 ? (
+          <CreateCharacterCard header="Choose your skill proficiencies">
+            <div className={styles.skill__list}>
+              <h3>Background Proficiencies</h3>
+              {backgroundFromStore.skill_proficiencies.map(
+                (skill: string): JSX.Element => (
+                  <div key={skill}>{skill}</div>
+                )
+              )}
+              <h3>Chosen proficiencies</h3>
+              {selectedSkills
+                .filter(
+                  (skill: string): boolean =>
+                    !backgroundFromStore.skill_proficiencies.includes(skill)
+                )
+                .map(
+                  (skill: string): JSX.Element => (
+                    <div key={skill}>{skill}</div>
+                  )
+                )}
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Choose your skill proficiencies">
+            <div className={styles.skill__list}>
+              <p>
+                Your background gives you{" "}
+                {backgroundFromStore.skill_proficiencies.map(
+                  (skill: string, index: number): JSX.Element => {
+                    if (
+                      index <
+                      backgroundFromStore.skill_proficiencies.length - 1
+                    ) {
+                      return (
+                        <>
+                          <span>{skill}</span> and{" "}
+                        </>
+                      );
+                    }
+
+                    return <span>{skill} </span>;
+                  }
+                )}{" "}
+                as free proficiencies.
+              </p>
+              <p>
+                You get to choose{" "}
+                <span>{backgroundFromStore.skill_proficiencies.length}</span>{" "}
+                skill proficiencies from the list.
+              </p>
+            </div>
+          </CreateCharacterCard>
+        )}
       </aside>
       <form
         className={styles.character__creation__form}
