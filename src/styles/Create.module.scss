@@ -225,6 +225,11 @@
                         margin-left: 2rem;
                         display: inline-block;
                         min-width: 200px;
+                        vertical-align: middle;
+                    }
+
+                    &::before {
+                        position: absolute;
                     }
                 }
             }
