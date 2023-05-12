@@ -155,7 +155,13 @@ export interface ApiClass {
         { index: string; name: string; url: string; }
     ];
     proficiency_choices?: [
-        { desc: string; }
+        { 
+            desc: string;
+            choose: number;
+            from: {
+                options: any[];
+            }; 
+        }
     ];
     saving_throws?: [
         { index: string; name: string; url: string; }
@@ -223,5 +229,4 @@ export interface ApiRace {
 export interface DndClass {
     id: string;
     name: string;
-    skills: string[]
 }

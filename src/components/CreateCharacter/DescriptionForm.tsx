@@ -169,7 +169,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
               <select {...register("physical.gender")}>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
-                <option value="nonbinary">Non-binariy</option>
+                <option value="nonbinary">Non-binary</option>
                 <option value="other">Other</option>
               </select>
               {errors.physical?.gender?.message && (

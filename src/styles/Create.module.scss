@@ -214,6 +214,19 @@
                 &:hover {
                     color: lighten($secondary-color, 35);
                 }
+
+                &.checkbox {
+                    padding: 0;
+
+                    &::after {
+                        // Hack to set the data-label attribute as label text
+                        content: attr(data-label); 
+                        text-transform: capitalize;
+                        margin-left: 2rem;
+                        display: inline-block;
+                        min-width: 200px;
+                    }
+                }
             }
 
             .create__form__points {

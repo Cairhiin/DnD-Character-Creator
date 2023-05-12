@@ -40,3 +40,7 @@ export const formatAttribute = (attr: string): string => {
     if (abilityScore <= 1) return -5
     return Math.floor((abilityScore - 10) / 2);
   }
+
+  export const cleanUpSkillDescription = (skill: string): string => {
+    return skill.substring(6, skill.length);
+  }
