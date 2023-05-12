@@ -50,7 +50,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   const descriptionFromStore = characterStore((state) => state.description);
   const backgroundFromStore = characterStore((state) => state.background);
   const setDescription = characterStore((state) => state.setDescription);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(1);
   const {
     handleSubmit,
     register,
@@ -65,7 +65,6 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   });
 
   const saveData: SubmitHandler<CharacterDescription> = (description): void => {
-    console.log(description);
     setDescription(description);
     nextTab();
   };
