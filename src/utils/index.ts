@@ -47,5 +47,5 @@ export const formatAttribute = (attr: string): string => {
 
   export const calculateHP = (hitDie: number | undefined, level: number): number => {
     if (hitDie === undefined) return 0;
-    return hitDie + (Math.ceil(hitDie / 2) * (level - 1));
+    return hitDie + (Math.ceil((hitDie + 1) / 2) * (level - 1));
   }
