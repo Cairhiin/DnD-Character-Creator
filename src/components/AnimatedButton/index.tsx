@@ -15,11 +15,9 @@ const AnimatedButton = ({
   children,
 }: Props): JSX.Element => (
   <button
-    className={`${styles.btn} ${
-      styles.variant ? styles.variant : styles.primary
-    } ${styles.size ? styles.size : styles.regular} ${
-      styles.type ? styles.type : styles.solid
-    }`}
+    className={`${styles.btn} ${variant ? styles[variant] : styles.primary} ${
+      size ? styles[size] : styles.regular
+    } ${type ? styles[type] : styles.solid}`}
   >
     <span></span>
     {children}

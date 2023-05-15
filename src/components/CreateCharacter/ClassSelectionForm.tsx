@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
+import AnimatedButton from "../AnimatedButton";
 import { CLASSES } from "@/constants";
 import { characterStore } from "@/store";
 import { CreateCharacterCard } from "@/pages/create";
@@ -180,13 +181,12 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
           </div>
         }
         <div className={styles.create__form__buttonRow}>
-          <div
-            onClick={previousTab}
-            className={styles.create__form__buttonRow__button}
-          >
-            Previous
+          <div onClick={previousTab}>
+            <AnimatedButton variant="secondary" type="outline">
+              Previous
+            </AnimatedButton>
           </div>
-          <button>Next</button>
+          <AnimatedButton variant="secondary">Next</AnimatedButton>
         </div>
       </form>
       <div></div>
