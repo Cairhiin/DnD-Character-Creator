@@ -92,6 +92,7 @@ export interface CharacterFormState {
     race: ApiRace;
     dndClass: ApiClass;
     background: Background;
+    hitpoints: number;
     abilityScores: AbilityScores;
     equipment: string[];
     description: CharacterDescription;

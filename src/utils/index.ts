@@ -44,3 +44,8 @@ export const formatAttribute = (attr: string): string => {
   export const cleanUpSkillDescription = (skill: string): string => {
     return skill.substring(7, skill.length);
   }
+
+  export const calculateHP = (hitDie: number | undefined, level: number): number => {
+    if (hitDie === undefined) return 0;
+    return hitDie + (Math.ceil(hitDie / 2) * (level - 1));
+  }
