@@ -136,9 +136,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const res = await fetch("http://localhost:3000/api/backgrounds");
   const backgrounds = await res.json();
 
+  const equipmentRes = await fetch("https://www.dnd5eapi.co/api/equipment/");
+  const items = await equipmentRes.json();
+
   return {
     props: {
       backgrounds,
+      items,
     },
   };
 };

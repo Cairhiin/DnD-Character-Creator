@@ -94,15 +94,29 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: string[];
+    equipment: {
+        armors: Item[];
+        weapons: Item[];
+        tools: Item[];
+        misc: Item[];
+    }
     description: CharacterDescription;
     skills: Skills;
+    gold: number;
+    level: number;
     setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
     setBackground: (background: Background) => void
     setAbilityScores: (scores: AbilityScores) => void;
     setDescription: (description: CharacterDescription) => void;
-    setSkills: (skills: Skills) => void
+    setSkills: (skills: Skills) => void;
+    setGold: (gold: number) => void;
+    setLevel: (level: number) => void;
+    setHitpoints: (hitpoints: number) => void;
+    addMisc: (item: Item) => void;
+    addArmor: (item: Item) => void;
+    addWeapon: (item: Item) => void;
+    addTool: (item: Item) => void;
 };
 
 export interface AbilityFormInput {  
@@ -114,6 +128,15 @@ export interface AbilityFormInput {
     WIS: number;
     CHA: number;
 };
+
+export interface EquipmentFormInput {
+    armors: string[];
+    weapons: string[];
+    tools: string[];
+    gold: number;
+    treasure: string;
+    misc: string[];
+}
 
 export interface Skills {
     acrobatics: boolean; 
@@ -230,4 +253,34 @@ export interface ApiRace {
 export interface DndClass {
     id: string;
     name: string;
+}
+
+export interface Equipment {
+    index: string;
+    name: string;
+    url: string;
+}
+export interface Item {
+    desc: string[];
+    special: string[];
+    index: string;
+    name: string;
+    equipment_category: {
+        index: string;
+        name: string;
+        url: string;
+    },
+    gear_category: {
+        index: string;
+        name: string;
+        url: string;
+    },
+    cost: {
+        quantity: number;
+        unit: string;
+    },
+    weight: number;
+    url: string;
+    contents: string[];
+    properties: string[];
 }
