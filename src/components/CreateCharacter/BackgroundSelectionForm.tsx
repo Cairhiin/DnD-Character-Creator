@@ -4,6 +4,7 @@ import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
 import { Background } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
+import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 }
 
 interface BackgroundFormInput {
-  background: string;
+  background: Background;
 }
 
 export default function BackgroundSelectionForm({
@@ -31,7 +32,7 @@ export default function BackgroundSelectionForm({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      background: "",
+      background: backgroundFromStore,
     },
     mode: "onSubmit",
   });
@@ -40,7 +41,7 @@ export default function BackgroundSelectionForm({
     background,
   }): void => {
     if (!background) {
-      return setError("Please choose a class before continuing.");
+      return setError("Please choose a background before continuing.");
     }
 
     if (!isLoading) {
@@ -125,8 +126,10 @@ export default function BackgroundSelectionForm({
               )
             )}
           </select>
-          <p>{errors.background?.message}</p>
         </div>
+        {errors.background?.message && (
+          <ErrorField error={errors.background.message} />
+        )}
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">
