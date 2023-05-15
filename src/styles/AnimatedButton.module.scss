@@ -1,0 +1,41 @@
+@import './variables.module';
+
+.btn {
+    @include roundedBorder;
+    @include transitionAll;
+    min-width: 125px;
+    padding: 0.7rem 1.4rem;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1.1rem;
+
+    &.primary {
+        background-color: $primary-color;
+
+        &:hover, &:focus {
+            background-color: darken($primary-color, 25);
+        }
+    }
+
+    &.secondary {
+        background-color: $secondary-color;
+
+        &:hover, &:focus {
+            background-color: darken($secondary-color, 25);
+        }
+    }
+
+    &.teriary {
+        background-color: $tertiary-color;
+
+        &:hover, &:focus {
+            background-color: darken($tertiary-color, 25);
+        }
+    }
+
+    &.outline {
+        background-color: $primary-color-900;
+    }
+}

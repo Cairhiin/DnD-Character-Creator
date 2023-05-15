@@ -5,6 +5,7 @@ import { characterStore } from "@/store";
 import { ErrorField } from "./ClassSelectionForm";
 import { CreateCharacterCard } from "@/pages/create";
 import { formatAttribute } from "@/utils";
+import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
 
 interface RaceFormInput {
@@ -148,7 +149,7 @@ export default function RaceSelection({ nextTab }: Props) {
           </div>
         }
         <div className={styles.create__form__buttonRow}>
-          <button>Next</button>
+          <AnimatedButton>Next</AnimatedButton>
         </div>
       </form>
       <div></div>
