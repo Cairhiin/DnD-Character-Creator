@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
 import { Background } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
@@ -127,13 +128,12 @@ export default function BackgroundSelectionForm({
           <p>{errors.background?.message}</p>
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div
-            onClick={previousTab}
-            className={styles.create__form__buttonRow__button}
-          >
-            Previous
+          <div onClick={previousTab}>
+            <AnimatedButton variant="secondary" type="outline">
+              Previous
+            </AnimatedButton>
           </div>
-          <button>Next</button>
+          <AnimatedButton variant="secondary">Next</AnimatedButton>
         </div>
       </form>
       <div></div>

@@ -2,6 +2,7 @@ import { MouseEventHandler, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { Background, CharacterDescription } from "@/types";
@@ -243,13 +244,12 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           </div>
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div
-            onClick={previousTab}
-            className={styles.create__form__buttonRow__button}
-          >
-            Previous
+          <div onClick={previousTab}>
+            <AnimatedButton variant="secondary" type="outline">
+              Previous
+            </AnimatedButton>
           </div>
-          <button>Next</button>
+          <AnimatedButton variant="secondary">Next</AnimatedButton>
         </div>
       </form>
       <div></div>

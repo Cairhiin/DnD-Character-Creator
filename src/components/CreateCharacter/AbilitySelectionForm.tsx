@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useImmer } from "use-immer";
 import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
+import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
@@ -242,13 +243,12 @@ export default function AbilitySelection({
         </div>
         {formError && <ErrorField error={formError} />}
         <div className={styles.create__form__buttonRow}>
-          <div
-            onClick={previousTab}
-            className={styles.create__form__buttonRow__button}
-          >
-            Previous
+          <div onClick={previousTab}>
+            <AnimatedButton variant="secondary" type="outline">
+              Previous
+            </AnimatedButton>
           </div>
-          <button>Next</button>
+          <AnimatedButton variant="secondary">Next</AnimatedButton>
         </div>
       </form>
       <div></div>
