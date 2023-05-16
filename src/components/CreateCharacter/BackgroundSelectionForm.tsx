@@ -67,9 +67,9 @@ export default function BackgroundSelectionForm({
               {backgroundFromStore.skill_proficiencies.map(
                 (prof: string, index: number, arr: string[]) =>
                   index < arr.length - 1 ? (
-                    <span>{prof}, </span>
+                    <span key={prof}>{prof}, </span>
                   ) : (
-                    <span>{prof}</span>
+                    <span key={prof}>{prof}</span>
                   )
               )}
             </div>
@@ -81,9 +81,9 @@ export default function BackgroundSelectionForm({
               {backgroundFromStore.tool_proficiencies.map(
                 (prof: string, index: number, arr: string[]) =>
                   index < arr.length - 1 ? (
-                    <span>{prof}, </span>
+                    <span key={prof}>{prof}, </span>
                   ) : (
-                    <span>{prof}</span>
+                    <span key={prof}>{prof}</span>
                   )
               )}
             </div>
@@ -122,7 +122,9 @@ export default function BackgroundSelectionForm({
           >
             {backgrounds.map(
               ({ id, name }: { id: string; name: string }): JSX.Element => (
-                <option value={name}>{name}</option>
+                <option value={name} key={id}>
+                  {name}
+                </option>
               )
             )}
           </select>

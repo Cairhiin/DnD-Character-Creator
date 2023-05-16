@@ -52,7 +52,7 @@ export default function GearForm({
       nextTab();
     }
   };
-
+  console.log(items);
   return (
     <div className={styles.create__layout}>
       <div></div>

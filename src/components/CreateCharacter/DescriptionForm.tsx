@@ -84,7 +84,9 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <select {...register("details.alignment")}>
             Alignment
             {ALIGNMENT.map((alignment: string) => (
-              <option value={alignment}>{alignment}</option>
+              <option value={alignment} key={alignment}>
+                {alignment}
+              </option>
             ))}
           </select>
           <label htmlFor="faith">Faith</label>

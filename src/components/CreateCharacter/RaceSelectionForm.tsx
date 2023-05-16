@@ -29,7 +29,6 @@ export default function RaceSelection({ nextTab }: Props) {
       .then((res) => res.json())
       .then((data) => {
         setRace(data);
-        console.log(data);
         setLoading(false);
       });
   };

@@ -152,23 +152,27 @@ export default function AbilitySelection({
               <div>Charisma</div>
             </div>
             <div className={styles.create__attributes__card__score}>
-              {Object.values(abilityScores).map((ability: number) => (
-                <div>
-                  <span>{ability}</span>
-                </div>
-              ))}
+              {Object.values(abilityScores).map(
+                (ability: number, index: number) => (
+                  <div key={index}>
+                    <span>{ability}</span>
+                  </div>
+                )
+              )}
             </div>
             <div className={styles.create__attributes__card__total}>
-              {abilityBonusPerAttribute.map((ability: number) => (
-                <div>
-                  <span>+{ability}</span>
-                </div>
-              ))}
+              {abilityBonusPerAttribute.map(
+                (ability: number, index: number) => (
+                  <div key={index}>
+                    <span>+{ability}</span>
+                  </div>
+                )
+              )}
             </div>
             <div className={styles.create__attributes__card__bonus}>
               {Object.values(abilityScores).map(
                 (ability: number, index: number) => (
-                  <div>
+                  <div key={index}>
                     <span>{ability + abilityBonusPerAttribute[index]}</span>
                   </div>
                 )
@@ -176,7 +180,7 @@ export default function AbilitySelection({
             </div>
             <div className={styles.create__attributes__card__mod}>
               {Object.values(abilityScores).map((ab: number, index: number) => (
-                <div>
+                <div key={index}>
                   <span>
                     {calculateAbilityModifier(
                       ab + abilityBonusPerAttribute[index]

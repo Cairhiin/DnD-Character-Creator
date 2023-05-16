@@ -122,13 +122,13 @@ export default function SkillsForm({
                       backgroundFromStore.skill_proficiencies.length - 1
                     ) {
                       return (
-                        <>
+                        <span key={skill}>
                           <span>{skill}</span> and{" "}
-                        </>
+                        </span>
                       );
                     }
 
-                    return <span>{skill} </span>;
+                    return <span key={skill}>{skill} </span>;
                   }
                 )}{" "}
                 as free proficiencies.

@@ -66,8 +66,10 @@ export default function StandardArray({
                 onChange={(e) => validateScore(e.target.value, ability)}
               >
                 {STANDARD_ARRAY.map(
-                  (score: number): JSX.Element => (
-                    <option value={score}>{score}</option>
+                  (score: number, index: number): JSX.Element => (
+                    <option value={score} key={index}>
+                      {score}
+                    </option>
                   )
                 )}
               </select>
