@@ -68,7 +68,7 @@
         }
     }
 
-    .create__card { 
+    .create__card {
         padding: 0 1rem;
         line-height: 1.5rem;
         border-left: 5px solid $secondary-color;
@@ -131,7 +131,8 @@
 
     .character__creation__form {
         position: relative;
-        background: $background-color;
+        background: linear-gradient(rgba($tertiary-color, 0.3) 20%, rgba($tertiary-color, 0.1));
+        border: 1px solid rgba($tertiary-color, 0.4);
         min-height: 250px;
         padding: 1rem 2rem;
         display: flex;
@@ -139,20 +140,6 @@
         gap: 1rem;
         justify-content: space-between;
         @include roundedBorder;
-        @include boxShadow;
-
-        &.description {
-            .character__creation__form__panel {             
-                // HACK: Set numbers in front of the h5 header
-                @for $i from 0 through 3 {
-                    h5:nth-child(#{$i * 3 + 1}) {
-                        &::before {
-                            content: "#{$i + 1}. ";
-                        }
-                    }
-                }
-            }
-        }
 
         .character__creation__form__column {
             display: flex;

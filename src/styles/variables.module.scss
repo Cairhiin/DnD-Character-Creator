@@ -23,7 +23,7 @@ $warning: hsl(27, 100%, 47%);
 
 // Borders
 @mixin roundedBorder {
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 @mixin transitionAll {
