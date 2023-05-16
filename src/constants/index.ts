@@ -85,5 +85,8 @@ export const AVAILABLE_SCORES = Array(8).fill(0).map((_: number, i: number) => i
 export const SKILLS = [ 
     "acrobatics", "animal handling", "arcana", "athletics", "deception", "history", 
     "insight", "intimidation", "investigation", "medicine", "nature", "perception", 
-    "performance", "persuasion", "religion", "sleight of hand", "stealth", "survival"
-];
+    "performance", "persuasion", "religion", "sleight of hand", "stealth", "survival"];
+
+export const ARMORS = [
+    "padded-armor", "leather-armor", "studded-leather-armor",  "hide-armor", "chain-shirt",  "scale-mail",
+     "breastplate", "half-plate-armor", "ring-mail", "chain-mail", "splint-armor", "plate-armor"];

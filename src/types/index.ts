@@ -129,13 +129,26 @@ export interface AbilityFormInput {
     CHA: number;
 };
 
+interface Armor {
+    armor: string;
+}
+interface Weapon {
+    weapon: string;
+}
+interface Tool {
+    tool: string;
+}
+interface Misc {
+    misc: string;
+}
+
 export interface EquipmentFormInput {
-    armors: string[];
-    weapons: string[];
-    tools: string[];
+    armors: Array<Armor>;
+    weapons: Array<Weapon>;
+    tools: Array<Tool>;
     gold: number;
     treasure: string;
-    misc: string[];
+    misc: Array<Misc>;
 }
 
 export interface Skills {

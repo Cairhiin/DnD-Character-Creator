@@ -5,11 +5,12 @@ import { ErrorField } from "./ClassSelectionForm";
 import { useState } from "react";
 import { characterStore } from "@/store";
 import { Equipment, EquipmentFormInput } from "@/types";
+import { ARMORS } from "@/constants";
 
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-  items: Equipment[];
+  items: { results: Equipment[] };
 }
 
 export default function GearForm({
@@ -17,28 +18,40 @@ export default function GearForm({
   previousTab,
   items,
 }: Props): JSX.Element {
-  const equipment = useFieldArray({ name: "equipment" }).fields;
-  const weapons = useFieldArray({ name: "weapons" }).fields;
-  const armors = useFieldArray({ name: "armors" }).fields;
-  const tools = useFieldArray({ name: "tools" }).fields;
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const goldFromStore = characterStore((state) => state.gold);
+
+  const availableArmors = items.results.filter((item: Equipment) =>
+    ARMORS.includes(item.index)
+  );
+
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = useForm<EquipmentFormInput>({
-    defaultValues: {
-      armors: [],
-      weapons: [],
-      tools: [],
-      gold: 0,
-      treasure: "",
-      misc: [],
-    },
+    defaultValues: {},
     mode: "onSubmit",
   });
+
+  const equipment = useFieldArray<EquipmentFormInput, "misc", "id">({
+    control,
+    name: "misc",
+  }).fields;
+  const weapons = useFieldArray<EquipmentFormInput, "weapons", "id">({
+    control,
+    name: "weapons",
+  }).fields;
+  const armors = useFieldArray<EquipmentFormInput, "armors", "id">({
+    control,
+    name: "armors",
+  }).fields;
+  const tools = useFieldArray<EquipmentFormInput, "tools", "id">({
+    control,
+    name: "tools",
+  }).fields;
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({
     armors,
@@ -61,6 +74,15 @@ export default function GearForm({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <div>
+          <h3>Armors</h3>
+          <select {...register(`armors.${0}` as const)}>
+            <option>No armor</option>
+            {availableArmors.map((item: Equipment) => (
+              <option key={item.index}>{item.name}</option>
+            ))}
+          </select>
+        </div>
         {
           <div className={styles.character__creation__form__column}>
             {error && <ErrorField error={error} />}

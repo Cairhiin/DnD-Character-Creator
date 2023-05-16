@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import { Background } from "@/types";
+import { Background, Equipment } from "@/types";
 import styles from "@/styles/Create.module.scss";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 
@@ -12,6 +12,7 @@ interface CardProps {
 
 interface Props {
   backgrounds: Background[];
+  items: { results: Equipment[] };
 }
 
 export const CreateCharacterCard = ({ children, header }: CardProps) => {
@@ -23,7 +24,7 @@ export const CreateCharacterCard = ({ children, header }: CardProps) => {
   );
 };
 
-export default function Home({ backgrounds }: Props) {
+export default function Home({ backgrounds, items }: Props) {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
 
@@ -122,6 +123,7 @@ export default function Home({ backgrounds }: Props) {
                 nextTab={nextTab}
                 previousTab={previousTab}
                 backgrounds={backgrounds}
+                items={items}
               />
             </div>
           </aside>
