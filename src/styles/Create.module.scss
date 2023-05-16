@@ -142,83 +142,13 @@
         @include boxShadow;
 
         &.description {
-            .character__creation__form__panel {
-                .character__creation__form__panel__trigger {
-                    background: none;
-                    border: none;
-                    width: 100%;
-                    margin-bottom: 0.5rem;
-                    @include roundedBorder;    
-
-                    &:focus-visible {
-                        outline: 1px solid white;
-                    }
-                }
-
-                h3, h4 {
-                    text-align: left;
-                    margin: 0;
-                    cursor: pointer;
-                }
-
-                h4, h5 {
-                    color: $secondary-color;
-                    font-weight: 400;
-                    margin-bottom: 1rem;
-                }
-
+            .character__creation__form__panel {             
                 // HACK: Set numbers in front of the h5 header
                 @for $i from 0 through 3 {
                     h5:nth-child(#{$i * 3 + 1}) {
                         &::before {
                             content: "#{$i + 1}. ";
                         }
-                    }
-                }
-
-                ul {
-                    margin: 1rem 0;
-                    cursor: pointer;
-                }
-
-                li {
-                    padding: 0.5rem 0.3rem;
-
-                    &:not(:last-child) {
-                        border-bottom: 1px solid lighten($tertiary-color, 1);
-                    }
-                }
-
-                h5 {
-                    text-transform: uppercase;
-                    font-size: 1.1rem;
-                    margin-bottom: 1rem;
-
-                    span {
-                        text-transform: none;
-                        font-size: 1rem;
-                        color: $on-background-color;
-                    }
-                }
-
-                & > div {
-                    display: grid;
-                    grid-template-rows: 0fr;
-                    transition: grid-template-rows 500ms;
-                }
-
-                & > div.open {
-                    grid-template-rows: 1fr;
-                }
-
-                .character__creation__form__panel__content {
-                    display: grid;
-                    grid-template-columns: 3fr 9fr;
-                    row-gap: 1rem;
-                    overflow: hidden; 
-                    
-                    &.non_grid {
-                        display: block;
                     }
                 }
             }
@@ -336,6 +266,12 @@
             }           
         }
     }
+}
+
+.create__accordion__grid {
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    row-gap: 1rem;
 }
 
 .create__attributes__card {

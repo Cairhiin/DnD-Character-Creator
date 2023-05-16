@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AnimatedButton from "../AnimatedButton";
+import Accordion from "../Accordion";
 import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { Background, CharacterDescription } from "@/types";
@@ -70,6 +71,119 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     nextTab();
   };
 
+  const accordionItems = [
+    {
+      id: "character_details",
+      header: "Character Details",
+      subheader: "Alignment | Faith",
+      content: (
+        <div className={styles.create__accordion__grid}>
+          <label htmlFor="name">Name</label>
+          <input type="text" {...register("details.name")} />
+          <label htmlFor="alignment">Alignment</label>
+          <select {...register("details.alignment")}>
+            Alignment
+            {ALIGNMENT.map((alignment: string) => (
+              <option value={alignment}>{alignment}</option>
+            ))}
+          </select>
+          <label htmlFor="faith">Faith</label>
+          <input type="text" {...register("details.faith")} />
+          {errors.physical?.gender?.message && (
+            <ErrorField error={errors.physical?.gender?.message} />
+          )}
+        </div>
+      ),
+    },
+    {
+      id: "character_physical",
+      header: "Physical Characteristics",
+      subheader: "Hair | Skin | Eyes | Height | Weight | Age | Gender",
+      content: (
+        <div className={styles.create__accordion__grid}>
+          <label htmlFor="hair">Hair</label>
+          <input type="text" {...register("physical.hair")} />
+          <label htmlFor="skin">Skin</label>
+          <input type="text" {...register("physical.skin")} />
+          <label htmlFor="eyes">Eyes</label>
+          <input type="text" {...register("physical.eyes")} />
+          <label htmlFor="height">Height</label>
+          <input type="text" {...register("physical.height")} />
+          <label htmlFor="weight">Weight</label>
+          <input type="text" {...register("physical.weight")} />
+          <label htmlFor="age">Age</label>
+          <input type="text" {...register("physical.age")} />
+          <label htmlFor="gender">Gender</label>
+          <select {...register("physical.gender")}>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="nonbinary">Non-binary</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      ),
+    },
+    {
+      id: "character_personal",
+      header: "Personal Characteristics",
+      subheader: "Personality | Ideals | Bonds | Flaws",
+      content: (
+        <div>
+          <PersonalFormElement
+            type="personal.traits"
+            label="Traits"
+            data={backgroundFromStore.traits}
+            register={register}
+            setValue={setValue}
+          />
+          <PersonalFormElement
+            type="personal.ideals"
+            label="Ideals"
+            data={backgroundFromStore.ideals}
+            register={register}
+            setValue={setValue}
+          />
+          <PersonalFormElement
+            type="personal.bonds"
+            label="Bonds"
+            data={backgroundFromStore.bonds}
+            register={register}
+            setValue={setValue}
+          />
+          <PersonalFormElement
+            type="personal.flaws"
+            label="Flaws"
+            data={backgroundFromStore.flaws}
+            register={register}
+            setValue={setValue}
+          />
+        </div>
+      ),
+    },
+    {
+      id: "character_notes",
+      header: "Notes",
+      subheader: "Organization | Allies | Enemies | Backstory | Other",
+      content: (
+        <div className={styles.create__accordion__grid}>
+          <label htmlFor="organizations">Organizations</label>
+          <input type="text" {...register("notes.organizations")} />
+          <label htmlFor="allies">Allies</label>
+          <input type="text" {...register("notes.allies")} />
+          <label htmlFor="enemies">Enemies</label>
+          <input type="text" {...register("notes.enemies")} />
+          <label htmlFor="other">Other</label>
+          <textarea {...register("notes.other")}></textarea>
+          <label htmlFor="backstory">Backstory</label>
+          <textarea
+            {...register("notes.backstory")}
+            className={styles.backstory}
+          ></textarea>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className={styles.create__layout}>
       <div></div>
@@ -112,185 +226,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         className={`${styles.character__creation__form} ${styles.description}`}
         onSubmit={handleSubmit(saveData)}
       >
-        <div className={styles.character__creation__form__panel}>
-          <button
-            onClick={() => setActiveIndex(1)}
-            type="button"
-            aria-expanded={activeIndex === 1}
-            className={styles.character__creation__form__panel__trigger}
-            aria-controls="section__details"
-            id="section__details"
-          >
-            <span className={styles.character__creation__form__panel__title}>
-              <h3>Character Details</h3>
-              <h4>Alignment | Faith</h4>
-            </span>
-          </button>
-          <div
-            className={activeIndex === 1 ? styles.open : ""}
-            role="region"
-            aria-labelledby="section__details"
-          >
-            <div className={styles.character__creation__form__panel__content}>
-              <label htmlFor="name">Name</label>
-              <input type="text" {...register("details.name")} />
-              <label htmlFor="alignment">Alignment</label>
-              <select {...register("details.alignment")}>
-                Alignment
-                {ALIGNMENT.map((alignment: string) => (
-                  <option value={alignment}>{alignment}</option>
-                ))}
-              </select>
-              <label htmlFor="faith">Faith</label>
-              <input type="text" {...register("details.faith")} />
-            </div>
-            <div>
-              {errors.details?.alignment?.message ||
-                (errors.details?.name?.message && (
-                  <ErrorField
-                    error={
-                      errors.details?.alignment?.message ||
-                      errors.details?.name?.message
-                    }
-                  />
-                ))}
-            </div>
-          </div>
-        </div>
-        <div className={styles.character__creation__form__panel}>
-          <button
-            onClick={() => setActiveIndex(2)}
-            type="button"
-            aria-expanded={activeIndex === 2}
-            className={styles.character__creation__form__panel__trigger}
-            aria-controls="section__physical"
-            id="section__physical"
-          >
-            <span className={styles.character__creation__form__panel__title}>
-              <h3>Physical Characteristics</h3>
-              <h4>Hair | Skin | Eyes | Height | Weight | Age | Gender</h4>
-            </span>
-          </button>
-          <div
-            className={activeIndex === 2 ? styles.open : ""}
-            role="region"
-            aria-labelledby="section__physical"
-          >
-            <div className={styles.character__creation__form__panel__content}>
-              <label htmlFor="hair">Hair</label>
-              <input type="text" {...register("physical.hair")} />
-              <label htmlFor="skin">Skin</label>
-              <input type="text" {...register("physical.skin")} />
-              <label htmlFor="eyes">Eyes</label>
-              <input type="text" {...register("physical.eyes")} />
-              <label htmlFor="height">Height</label>
-              <input type="text" {...register("physical.height")} />
-              <label htmlFor="weight">Weight</label>
-              <input type="text" {...register("physical.weight")} />
-              <label htmlFor="age">Age</label>
-              <input type="text" {...register("physical.age")} />
-              <label htmlFor="gender">Gender</label>
-              <select {...register("physical.gender")}>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-                <option value="nonbinary">Non-binary</option>
-                <option value="other">Other</option>
-              </select>
-              {errors.physical?.gender?.message && (
-                <ErrorField error={errors.physical?.gender?.message} />
-              )}
-            </div>
-          </div>
-        </div>
-        <div className={styles.character__creation__form__panel}>
-          <button
-            onClick={() => setActiveIndex(3)}
-            type="button"
-            aria-expanded={activeIndex === 3}
-            className={styles.character__creation__form__panel__trigger}
-            aria-controls="section__personal"
-            id="section__personal"
-          >
-            <span className={styles.character__creation__form__panel__title}>
-              <h3>Personal Characteristics</h3>
-              <h4>Personality | Ideals | Bonds | Flaws</h4>
-            </span>
-          </button>
-          <div
-            className={activeIndex === 3 ? styles.open : ""}
-            role="region"
-            aria-labelledby="section__personal"
-          >
-            <div
-              className={`${styles.character__creation__form__panel__content} ${styles.non_grid}`}
-            >
-              <PersonalFormElement
-                type="personal.traits"
-                label="Traits"
-                data={backgroundFromStore.traits}
-                register={register}
-                setValue={setValue}
-              />
-              <PersonalFormElement
-                type="personal.ideals"
-                label="Ideals"
-                data={backgroundFromStore.ideals}
-                register={register}
-                setValue={setValue}
-              />
-              <PersonalFormElement
-                type="personal.bonds"
-                label="Bonds"
-                data={backgroundFromStore.bonds}
-                register={register}
-                setValue={setValue}
-              />
-              <PersonalFormElement
-                type="personal.flaws"
-                label="Flaws"
-                data={backgroundFromStore.flaws}
-                register={register}
-                setValue={setValue}
-              />
-            </div>
-          </div>
-        </div>
-        <div className={styles.character__creation__form__panel}>
-          <button
-            onClick={() => setActiveIndex(4)}
-            type="button"
-            aria-expanded={activeIndex === 4}
-            className={styles.character__creation__form__panel__trigger}
-            aria-controls="section__notes"
-            id="section__notes"
-          >
-            <span className={styles.character__creation__form__panel__title}>
-              <h3>Notes</h3>
-              <h4>Organization | Allies | Enemies | Backstory | Other</h4>
-            </span>
-          </button>
-          <div
-            className={activeIndex === 4 ? styles.open : ""}
-            role="region"
-            aria-labelledby="section__notes"
-          >
-            <div className={styles.character__creation__form__panel__content}>
-              <label htmlFor="organizations">Organizations</label>
-              <input type="text" {...register("notes.organizations")} />
-              <label htmlFor="allies">Allies</label>
-              <input type="text" {...register("notes.allies")} />
-              <label htmlFor="enemies">Enemies</label>
-              <input type="text" {...register("notes.enemies")} />
-              <label htmlFor="other">Other</label>
-              <textarea {...register("notes.other")}></textarea>
-              <label htmlFor="backstory">Backstory</label>
-              <textarea
-                {...register("notes.backstory")}
-                className={styles.backstory}
-              ></textarea>
-            </div>
-          </div>
-        </div>
+        <Accordion items={accordionItems}></Accordion>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">
