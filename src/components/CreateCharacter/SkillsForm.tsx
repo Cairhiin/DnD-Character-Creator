@@ -135,7 +135,7 @@ export default function SkillsForm({
               </p>
               <p>
                 You get to choose{" "}
-                <span>{backgroundFromStore.skill_proficiencies.length}</span>{" "}
+                <span>{classFromStore.proficiency_choices![0].choose}</span>{" "}
                 skill proficiencies from the list.
               </p>
             </div>
