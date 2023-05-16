@@ -49,9 +49,7 @@ export default function SkillsForm({
     register,
     formState: { errors },
   } = useForm<Skills>({
-    defaultValues: {
-      ...skillsFromStore,
-    },
+    defaultValues: {},
     mode: "onSubmit",
   });
 
