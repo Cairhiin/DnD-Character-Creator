@@ -143,6 +143,18 @@
 
         &.description {
             .character__creation__form__panel {
+                .character__creation__form__panel__trigger {
+                    background: none;
+                    border: none;
+                    width: 100%;
+                    margin-bottom: 0.5rem;
+                    @include roundedBorder;    
+
+                    &:focus-visible {
+                        outline: 1px solid white;
+                    }
+                }
+
                 h3, h4 {
                     text-align: left;
                     margin: 0;

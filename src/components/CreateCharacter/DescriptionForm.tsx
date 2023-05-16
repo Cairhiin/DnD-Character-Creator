@@ -112,13 +112,25 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         className={`${styles.character__creation__form} ${styles.description}`}
         onSubmit={handleSubmit(saveData)}
       >
-        <div
-          onClick={() => setActiveIndex(1)}
-          className={styles.character__creation__form__panel}
-        >
-          <h3>Character Details</h3>
-          <h4>Alignment | Faith</h4>
-          <div className={activeIndex === 1 ? styles.open : ""}>
+        <div className={styles.character__creation__form__panel}>
+          <button
+            onClick={() => setActiveIndex(1)}
+            type="button"
+            aria-expanded={activeIndex === 1}
+            className={styles.character__creation__form__panel__trigger}
+            aria-controls="section__details"
+            id="section__details"
+          >
+            <span className={styles.character__creation__form__panel__title}>
+              <h3>Character Details</h3>
+              <h4>Alignment | Faith</h4>
+            </span>
+          </button>
+          <div
+            className={activeIndex === 1 ? styles.open : ""}
+            role="region"
+            aria-labelledby="section__details"
+          >
             <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="name">Name</label>
               <input type="text" {...register("details.name")} />
@@ -145,13 +157,25 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           </div>
         </div>
-        <div
-          onClick={() => setActiveIndex(2)}
-          className={styles.character__creation__form__panel}
-        >
-          <h3>Physical Characteristics</h3>
-          <h4>Hair | Skin | Eyes | Height | Weight | Age | Gender</h4>
-          <div className={activeIndex === 2 ? styles.open : ""}>
+        <div className={styles.character__creation__form__panel}>
+          <button
+            onClick={() => setActiveIndex(2)}
+            type="button"
+            aria-expanded={activeIndex === 2}
+            className={styles.character__creation__form__panel__trigger}
+            aria-controls="section__physical"
+            id="section__physical"
+          >
+            <span className={styles.character__creation__form__panel__title}>
+              <h3>Physical Characteristics</h3>
+              <h4>Hair | Skin | Eyes | Height | Weight | Age | Gender</h4>
+            </span>
+          </button>
+          <div
+            className={activeIndex === 2 ? styles.open : ""}
+            role="region"
+            aria-labelledby="section__physical"
+          >
             <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="hair">Hair</label>
               <input type="text" {...register("physical.hair")} />
@@ -178,13 +202,25 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           </div>
         </div>
-        <div
-          onClick={() => setActiveIndex(3)}
-          className={styles.character__creation__form__panel}
-        >
-          <h3>Personal Characteristics</h3>
-          <h4>Personality | Ideals | Bonds | Flaws</h4>
-          <div className={activeIndex === 3 ? styles.open : ""}>
+        <div className={styles.character__creation__form__panel}>
+          <button
+            onClick={() => setActiveIndex(3)}
+            type="button"
+            aria-expanded={activeIndex === 3}
+            className={styles.character__creation__form__panel__trigger}
+            aria-controls="section__personal"
+            id="section__personal"
+          >
+            <span className={styles.character__creation__form__panel__title}>
+              <h3>Personal Characteristics</h3>
+              <h4>Personality | Ideals | Bonds | Flaws</h4>
+            </span>
+          </button>
+          <div
+            className={activeIndex === 3 ? styles.open : ""}
+            role="region"
+            aria-labelledby="section__personal"
+          >
             <div
               className={`${styles.character__creation__form__panel__content} ${styles.non_grid}`}
             >
@@ -219,13 +255,25 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
             </div>
           </div>
         </div>
-        <div
-          onClick={() => setActiveIndex(4)}
-          className={styles.character__creation__form__panel}
-        >
-          <h3>Notes</h3>
-          <h4>Organization | Allies | Enemies | Backstory | Other</h4>
-          <div className={activeIndex === 4 ? styles.open : ""}>
+        <div className={styles.character__creation__form__panel}>
+          <button
+            onClick={() => setActiveIndex(4)}
+            type="button"
+            aria-expanded={activeIndex === 4}
+            className={styles.character__creation__form__panel__trigger}
+            aria-controls="section__notes"
+            id="section__notes"
+          >
+            <span className={styles.character__creation__form__panel__title}>
+              <h3>Notes</h3>
+              <h4>Organization | Allies | Enemies | Backstory | Other</h4>
+            </span>
+          </button>
+          <div
+            className={activeIndex === 4 ? styles.open : ""}
+            role="region"
+            aria-labelledby="section__notes"
+          >
             <div className={styles.character__creation__form__panel__content}>
               <label htmlFor="organizations">Organizations</label>
               <input type="text" {...register("notes.organizations")} />
