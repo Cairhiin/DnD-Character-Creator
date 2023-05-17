@@ -298,3 +298,14 @@ export interface Item {
     contents: string[];
     properties: string[];
 }
+
+export interface EquipmentChoices {
+    name: string;
+    index: string;
+    equipment_options: 
+        {
+            desc: string;
+            type: string;
+            items: { index: string; name: string; url: string; amount: number; }[]
+        }[]
+} 

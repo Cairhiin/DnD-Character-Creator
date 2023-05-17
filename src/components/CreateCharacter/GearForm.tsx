@@ -5,7 +5,7 @@ import { ErrorField } from "./ClassSelectionForm";
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
 import { characterStore } from "@/store";
 import { Equipment, EquipmentFormInput } from "@/types";
-import { ARMORS, WEAPONS, TOOLS } from "@/constants";
+import { ARMORS, TOOLS } from "@/constants";
 import { CreateCharacterCard } from "@/pages/create";
 
 interface Props {
@@ -26,23 +26,6 @@ export default function GearForm({
   const goldFromStore = characterStore((state) => state.gold);
   const { starting_equipment, starting_equipment_options } = characterStore(
     (state) => state.dndClass
-  );
-
-  const availableArmors = items.results.filter((item: Equipment) =>
-    ARMORS.includes(item.index)
-  );
-
-  const availableTools = items.results.filter((item: Equipment) =>
-    TOOLS.includes(item.index)
-  );
-
-  const availableMisc = items.results.filter(
-    (item: Equipment) =>
-      !(
-        WEAPONS.includes(item.index) ||
-        TOOLS.includes(item.index) ||
-        ARMORS.includes(item.index)
-      )
   );
 
   const onChange: (e: ChangeEvent) => Promise<void> = async (e) => {
@@ -146,36 +129,7 @@ export default function GearForm({
           <div>
             {starting_equipment_options?.map(
               (option, index, arr) =>
-                index < arr.length - 1 && (
-                  <div key={index}>
-                    {option.desc}
-                    {option.from.options.map((o: any, i: number) => {
-                      return (
-                        <div>
-                          {o.option_type === "choice" && (
-                            <select>
-                              <option>
-                                Option {String.fromCharCode(i + 65)}
-                              </option>
-                              {o.choice.from.equipment_category.index ===
-                                "simple-weapons" &&
-                                simpleWeapons.map(
-                                  (weapon: any): JSX.Element => (
-                                    <option value={weapon.index}>
-                                      {weapon.name}
-                                    </option>
-                                  )
-                                )}
-                            </select>
-                          )}
-                          {o.option_type !== "choice" && (
-                            <div>Option {String.fromCharCode(i + 65)}</div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )
+                index < arr.length - 1 && <div key={index}></div>
             )}
           </div>
           <div></div>
