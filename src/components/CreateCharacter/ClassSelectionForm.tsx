@@ -29,6 +29,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   const [error, setError] = useState<string>();
   const dndClassFromStore = characterStore((state) => state.dndClass);
   const setClass = characterStore((state) => state.setClass);
+
   const {
     handleSubmit,
     register,

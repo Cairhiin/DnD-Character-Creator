@@ -2,10 +2,11 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
-import { useState } from "react";
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
 import { characterStore } from "@/store";
 import { Equipment, EquipmentFormInput } from "@/types";
 import { ARMORS, WEAPONS, TOOLS } from "@/constants";
+import { CreateCharacterCard } from "@/pages/create";
 
 interface Props {
   nextTab: () => void;
@@ -20,14 +21,15 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
+  const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const goldFromStore = characterStore((state) => state.gold);
+  const { starting_equipment, starting_equipment_options } = characterStore(
+    (state) => state.dndClass
+  );
 
   const availableArmors = items.results.filter((item: Equipment) =>
     ARMORS.includes(item.index)
-  );
-
-  const availableWeapons = items.results.filter((item: Equipment) =>
-    WEAPONS.includes(item.index)
   );
 
   const availableTools = items.results.filter((item: Equipment) =>
@@ -43,6 +45,18 @@ export default function GearForm({
       )
   );
 
+  const onChange: (e: ChangeEvent) => Promise<void> = async (e) => {
+    const target = e.target as HTMLSelectElement;
+    try {
+      const itemRes = await fetch(
+        `http://www.dnd5eapi.co/api/equipment/${target.value}`
+      );
+      const item = await itemRes.json();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const {
     handleSubmit,
     register,
@@ -53,22 +67,35 @@ export default function GearForm({
     mode: "onSubmit",
   });
 
-  const equipment = useFieldArray<EquipmentFormInput, "misc", "id">({
-    control,
-    name: "misc",
-  }).fields;
-  const weapons = useFieldArray<EquipmentFormInput, "weapons", "id">({
-    control,
-    name: "weapons",
-  }).fields;
-  const armors = useFieldArray<EquipmentFormInput, "armors", "id">({
-    control,
-    name: "armors",
-  }).fields;
-  const tools = useFieldArray<EquipmentFormInput, "tools", "id">({
-    control,
-    name: "tools",
-  }).fields;
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch("http://www.dnd5eapi.co/api/equipment-categories/simple-weapons")
+        .then((res) => res.json())
+        .then(({ equipment }) => {
+          setSimpleWeapons(equipment);
+        });
+    } catch (err: any) {
+      console.error(err);
+      setError("API not responding: unable to load simple weapons.");
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch("http://www.dnd5eapi.co/api/equipment-categories/martial-weapons")
+        .then((res) => res.json())
+        .then(({ equipment }) => {
+          setMartialWeapons(equipment);
+        });
+    } catch (err) {
+      console.error(err);
+      setError("API not responding: unable to load martial weapons.");
+    }
+    setLoading(false);
+  }, []);
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({
     armors,
@@ -82,48 +109,122 @@ export default function GearForm({
       nextTab();
     }
   };
-  console.log(items);
+
   return (
     <div className={styles.create__layout}>
       <div></div>
-      <aside></aside>
+      <aside>
+        <CreateCharacterCard header="Starting Equipment">
+          <div>
+            <p>
+              Gear:{" "}
+              {starting_equipment &&
+                starting_equipment.map((item) => (
+                  <span key={item.equipment.index}>
+                    {item.equipment.name},{" "}
+                  </span>
+                ))}
+              <span>
+                {starting_equipment_options &&
+                  starting_equipment_options[
+                    starting_equipment_options.length - 1
+                  ].desc}
+              </span>
+            </p>
+            <p>
+              Gold: <span>10</span>
+            </p>
+          </div>
+        </CreateCharacterCard>
+      </aside>
       <form
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
         <div>
+          <h3>Choose starting gear</h3>
+          <div>
+            {starting_equipment_options?.map(
+              (option, index, arr) =>
+                index < arr.length - 1 && (
+                  <div key={index}>
+                    {option.desc}
+                    {option.from.options.map((o: any, i: number) => {
+                      return (
+                        <div>
+                          {o.option_type === "choice" && (
+                            <select>
+                              <option>
+                                Option {String.fromCharCode(i + 65)}
+                              </option>
+                              {o.choice.from.equipment_category.index ===
+                                "simple-weapons" &&
+                                simpleWeapons.map(
+                                  (weapon: any): JSX.Element => (
+                                    <option value={weapon.index}>
+                                      {weapon.name}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          )}
+                          {o.option_type !== "choice" && (
+                            <div>Option {String.fromCharCode(i + 65)}</div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )
+            )}
+          </div>
+          <div></div>
+        </div>
+
+        {/* <div>
           <h3>Armors</h3>
-          <select {...register(`armors.${0}` as const)}>
-            <option>No armor</option>
+          <select {...register(`armors.${0}` as const)} onChange={onChange}>
+            <option key="no-armor">No armor</option>
             {availableArmors.map((item: Equipment) => (
               <option key={item.index} value={item.index}>
                 {item.name}
               </option>
             ))}
           </select>
-          <select {...register("shield")}>
-            <option value="">No shield</option>
+          <select {...register("shield")} onChange={onChange}>
+            <option value="" key="no-shield">
+              No shield
+            </option>
             <option value="shield">Shield</option>
           </select>
-          {/* HACK: Loop 2 times to create 2 select fields */}
+          
           <h3>Weapons</h3>
           {[...Array(4)].map(
             (i: number, index: number): JSX.Element => (
-              <select {...register(`weapons.${index}` as const)} key={index}>
-                <option>No weapon</option>
-                {availableWeapons.map((item: Equipment) => (
-                  <option key={item.index} value={item.index}>
-                    {item.name}
-                  </option>
-                ))}
+              <select
+                {...register(`weapons.${index}` as const)}
+                key={index}
+                onChange={onChange}
+              >
+                <option key="no-weapon">No weapon</option>
+                {!isLoading &&
+                  simpleWeapons.map((item: Equipment) => (
+                    <option key={item.index} value={item.index}>
+                      {item.name}
+                    </option>
+                  ))}
               </select>
             )
           )}
           <h3>Tools</h3>
           {[...Array(2)].map(
             (i: number, index: number): JSX.Element => (
-              <select {...register(`tools.${index}` as const)} key={index}>
-                <option>No tool</option>
+              <select
+                {...register(`tools.${index}` as const)}
+                key={index}
+                onChange={onChange}
+              >
+                <option key="no-tool">No tool</option>
                 {availableTools.map((item: Equipment) => (
                   <option key={item.index} value={item.index}>
                     {item.name}
@@ -136,7 +237,7 @@ export default function GearForm({
           {[...Array(8)].map(
             (i: number, index: number): JSX.Element => (
               <select {...register(`misc.${index}` as const)} key={index}>
-                <option>No item</option>
+                <option key="no-item">No item</option>
                 {availableMisc.map((item: Equipment) => (
                   <option key={item.index} value={item.index}>
                     {item.name}
@@ -145,7 +246,7 @@ export default function GearForm({
               </select>
             )
           )}
-        </div>
+        </div> */}
         {
           <div className={styles.character__creation__form__column}>
             {error && <ErrorField error={error} />}
