@@ -90,3 +90,22 @@ export const SKILLS = [
 export const ARMORS = [
     "padded-armor", "leather-armor", "studded-leather-armor",  "hide-armor", "chain-shirt",  "scale-mail",
      "breastplate", "half-plate-armor", "ring-mail", "chain-mail", "splint-armor", "plate-armor"];
+
+export const WEAPONS = [
+    "club", "dagger", "greatclub",  "handaxe", "javelin",  "light-hammer",
+    "mace", "quaterstaff", "sickle", "spear", "light-crossbow", "dart", 
+    "shortbow", "sling", "battleaxe", "flail", "glaive", "greataxe",
+    "greatsword", "halberd", "lance", "longsword", "maul", "morningstar",
+    "pike", "rapier", "scimitar", "shortsword", "trident", "war-pick",
+    "warhammer", "whip", "blowgun", "hand-crossbow", "heavy-crossbow", "longbow", "net"
+];
+
+export const TOOLS = [
+    "disguise-kit", "forgery-kit", "herbalism-kit",  "navigators-tools", "posioners-kit",  "thieves-tools",
+     "bagpipe", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol",
+     "dice-set", "dragonchess-set", "playing-card-set", "three-dragon-ante-set", "alchemists-supplies", "brewers-supplies", 
+     "calligraphers-supplies", "carpenters-tools", "cartographers-tools", "cobblers-tools",
+     "cooks-utensils", "glassblowers-tools", "jewelers-tools", "leatherworkers-tools",
+     "masons-tools", "painters-supplies", "potters-tools", "smiths-tools",
+     "tinkers-tools", "weavers-tools", "woodcarvers-tools"
+    ];

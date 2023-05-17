@@ -135,11 +135,21 @@ export default function Home({ backgrounds, items }: Props) {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const res = await fetch("http://localhost:3000/api/backgrounds");
-  const backgrounds = await res.json();
+  let backgrounds,
+    items = [];
+  try {
+    const res = await fetch("http://localhost:3000/api/backgrounds");
+    backgrounds = await res.json();
+  } catch (err) {
+    console.error(err);
+  }
 
-  const equipmentRes = await fetch("https://www.dnd5eapi.co/api/equipment/");
-  const items = await equipmentRes.json();
+  try {
+    const equipmentRes = await fetch("https://www.dnd5eapi.co/api/equipment/");
+    items = await equipmentRes.json();
+  } catch (err) {
+    console.error(err);
+  }
 
   return {
     props: {

@@ -144,6 +144,7 @@ interface Misc {
 
 export interface EquipmentFormInput {
     armors: Array<Armor>;
+    shield: string;
     weapons: Array<Weapon>;
     tools: Array<Tool>;
     gold: number;

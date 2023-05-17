@@ -5,7 +5,7 @@ import { ErrorField } from "./ClassSelectionForm";
 import { useState } from "react";
 import { characterStore } from "@/store";
 import { Equipment, EquipmentFormInput } from "@/types";
-import { ARMORS } from "@/constants";
+import { ARMORS, WEAPONS, TOOLS } from "@/constants";
 
 interface Props {
   nextTab: () => void;
@@ -24,6 +24,23 @@ export default function GearForm({
 
   const availableArmors = items.results.filter((item: Equipment) =>
     ARMORS.includes(item.index)
+  );
+
+  const availableWeapons = items.results.filter((item: Equipment) =>
+    WEAPONS.includes(item.index)
+  );
+
+  const availableTools = items.results.filter((item: Equipment) =>
+    TOOLS.includes(item.index)
+  );
+
+  const availableMisc = items.results.filter(
+    (item: Equipment) =>
+      !(
+        WEAPONS.includes(item.index) ||
+        TOOLS.includes(item.index) ||
+        ARMORS.includes(item.index)
+      )
   );
 
   const {
@@ -79,9 +96,55 @@ export default function GearForm({
           <select {...register(`armors.${0}` as const)}>
             <option>No armor</option>
             {availableArmors.map((item: Equipment) => (
-              <option key={item.index}>{item.name}</option>
+              <option key={item.index} value={item.index}>
+                {item.name}
+              </option>
             ))}
           </select>
+          <select {...register("shield")}>
+            <option value="">No shield</option>
+            <option value="shield">Shield</option>
+          </select>
+          {/* HACK: Loop 2 times to create 2 select fields */}
+          <h3>Weapons</h3>
+          {[...Array(4)].map(
+            (i: number, index: number): JSX.Element => (
+              <select {...register(`weapons.${index}` as const)} key={index}>
+                <option>No weapon</option>
+                {availableWeapons.map((item: Equipment) => (
+                  <option key={item.index} value={item.index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )
+          )}
+          <h3>Tools</h3>
+          {[...Array(2)].map(
+            (i: number, index: number): JSX.Element => (
+              <select {...register(`tools.${index}` as const)} key={index}>
+                <option>No tool</option>
+                {availableTools.map((item: Equipment) => (
+                  <option key={item.index} value={item.index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )
+          )}
+          <h3>Miscellaneous Items</h3>
+          {[...Array(8)].map(
+            (i: number, index: number): JSX.Element => (
+              <select {...register(`misc.${index}` as const)} key={index}>
+                <option>No item</option>
+                {availableMisc.map((item: Equipment) => (
+                  <option key={item.index} value={item.index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )
+          )}
         </div>
         {
           <div className={styles.character__creation__form__column}>
