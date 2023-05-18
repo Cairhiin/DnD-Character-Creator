@@ -128,7 +128,7 @@ export default function GearForm({
           <h3>Choose starting gear</h3>
           <div>
             {starting_equipment_options?.map(
-              (option, index, arr): JSX.Element => (
+              (option, index): JSX.Element => (
                 <div key={index}>
                   <input
                     type="hidden"
@@ -159,22 +159,27 @@ export default function GearForm({
                               amount: item.choice.choose,
                             };
                           });
-                        console.log(items);
+
                         return (
-                          <div key={index}>
-                            {items.map((item: Item): JSX.Element => {
+                          <div key={`${option.desc}`}>
+                            {items.map(({ item, amount }) => {
                               if (item.index === "martial-weapons") {
-                                return (
-                                  <select>
-                                    {martialWeapons.map(
-                                      (weapon: Item): JSX.Element => (
-                                        <option key={weapon.index}>
-                                          {weapon.name}
-                                        </option>
-                                      )
-                                    )}
-                                  </select>
+                                /* HACK: Adding a number of select elements equal to the options given by the class
+                                  but looks ugly - needs refactoring */
+                                const itemJSX = [...Array(amount)].map(
+                                  (i: number, index: number) => (
+                                    <select key={index}>
+                                      {martialWeapons.map(
+                                        (weapon: Item): JSX.Element => (
+                                          <option key={weapon.index}>
+                                            {weapon.name}
+                                          </option>
+                                        )
+                                      )}
+                                    </select>
+                                  )
                                 );
+                                return itemJSX;
                               } else {
                                 return <div>{item.name}</div>;
                               }
@@ -182,6 +187,23 @@ export default function GearForm({
                           </div>
                         );
                       } else {
+                        return (
+                          <div key={`${option.desc}${index}`}>
+                            {[...Array(option.choice.choose)].map(
+                              (i: number, index: number) => (
+                                <select key={`${option.choice.desc}${index}`}>
+                                  {martialWeapons.map(
+                                    (weapon: Item): JSX.Element => (
+                                      <option key={weapon.index}>
+                                        {weapon.name}
+                                      </option>
+                                    )
+                                  )}
+                                </select>
+                              )
+                            )}
+                          </div>
+                        );
                       }
                     })}
                 </div>
