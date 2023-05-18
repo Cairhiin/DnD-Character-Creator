@@ -23,6 +23,7 @@ export default function GearForm({
   const [error, setError] = useState<string>();
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
+  const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
   const goldFromStore = characterStore((state) => state.gold);
   const { starting_equipment, starting_equipment_options } = characterStore(
     (state) => state.dndClass
@@ -74,6 +75,23 @@ export default function GearForm({
   useEffect(() => {
     setLoading(true);
     try {
+      fetch(
+        "http://www.dnd5eapi.co/api/equipment-categories/martial-melee-weapons"
+      )
+        .then((res) => res.json())
+        .then(({ equipment }) => {
+          setMartialMeleeWeapons(equipment);
+        });
+    } catch (err: any) {
+      console.error(err);
+      setError("API not responding: unable to load martial melee weapons.");
+    }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
       fetch("http://www.dnd5eapi.co/api/equipment-categories/martial-weapons")
         .then((res) => res.json())
         .then(({ equipment }) => {
@@ -94,9 +112,12 @@ export default function GearForm({
   };
 
   // NOTES: Needs implementing
-  const addItem: (item: Item, index: number) => void = (item, index) => {
-    console.log(index, item);
-    setValue(`items.${index}`, item);
+  const addItem: (
+    items: { item: Item; amount: number }[],
+    index: number
+  ) => void = (items, index) => {
+    console.log(index, items);
+    //setValue(`items.${index}`, item);
   };
 
   return (
@@ -144,7 +165,12 @@ export default function GearForm({
                           <div
                             key={option.of.index}
                             className={styles.create__form__special__button}
-                            onClick={() => addItem(option.of, index)}
+                            onClick={() =>
+                              addItem(
+                                [{ item: option.of as Item, amount: 1 }],
+                                index
+                              )
+                            }
                           >
                             {option.of.name}
                           </div>
@@ -161,11 +187,14 @@ export default function GearForm({
                           });
 
                         return (
-                          <div key={`${option.desc}`}>
+                          <div
+                            key={`${option.desc}`}
+                            onClick={() => addItem(items, index)}
+                          >
                             {items.map(({ item, amount }) => {
                               if (item.index === "martial-weapons") {
                                 /* HACK: Adding a number of select elements equal to the options given by the class
-                                  but looks ugly - needs refactoring */
+                                  but looks ugly */
                                 const itemJSX = [...Array(amount)].map(
                                   (i: number, index: number) => (
                                     <select key={index}>
@@ -187,12 +216,19 @@ export default function GearForm({
                           </div>
                         );
                       } else {
+                        let availableWeapons: Item[] = [];
+                        /* Check if the weapons to choose from belong to the martial melee group (Barbarian)
+                        if not show the simple weapon list - there are no other options */
+                        option.choice.from.equipment_category.index ===
+                        "martial-melee-weapons"
+                          ? (availableWeapons = martialMeleeWeapons)
+                          : (availableWeapons = simpleWeapons);
                         return (
                           <div key={`${option.desc}${index}`}>
                             {[...Array(option.choice.choose)].map(
                               (i: number, index: number) => (
                                 <select key={`${option.choice.desc}${index}`}>
-                                  {martialWeapons.map(
+                                  {availableWeapons.map(
                                     (weapon: Item): JSX.Element => (
                                       <option key={weapon.index}>
                                         {weapon.name}
