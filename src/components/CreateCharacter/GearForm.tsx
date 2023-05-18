@@ -24,7 +24,6 @@ export default function GearForm({
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const goldFromStore = characterStore((state) => state.gold);
-  const [gearChoices, setGearChoices] = useState<Item[]>([]);
   const { starting_equipment, starting_equipment_options } = characterStore(
     (state) => state.dndClass
   );
@@ -45,10 +44,16 @@ export default function GearForm({
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors },
   } = useForm<EquipmentFormInput>({
     defaultValues: {},
     mode: "onSubmit",
+  });
+
+  const { fields } = useFieldArray({
+    control,
+    name: "items",
   });
 
   useEffect(() => {
@@ -81,22 +86,17 @@ export default function GearForm({
     setLoading(false);
   }, []);
 
-  const saveData: SubmitHandler<EquipmentFormInput> = ({
-    armors,
-    weapons,
-    tools,
-    gold,
-    treasure,
-    misc,
-  }): void => {
+  const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
+    console.log(items);
     if (!isLoading) {
       nextTab();
     }
   };
 
   // NOTES: Needs implementing
-  const addItem: () => void = () => {
-    console.log("Add Item");
+  const addItem: (item: Item, index: number) => void = (item, index) => {
+    console.log(index, item);
+    setValue(`items.${index}`, item);
   };
 
   return (
@@ -130,24 +130,29 @@ export default function GearForm({
             {starting_equipment_options?.map(
               (option, index, arr): JSX.Element => (
                 <div key={index}>
+                  <input
+                    type="hidden"
+                    {...register(`items.${index}` as const)}
+                  ></input>
                   {option.desc}
                   {option.from.options &&
-                    option.from.options.map(
-                      (option: any, index: number): JSX.Element => {
-                        if (option.option_type === "counted_reference") {
-                          return (
-                            <div
-                              className={styles.create__form__special__button}
-                              onClick={() => addItem()}
-                            >
-                              {option.of.name}
-                            </div>
-                          );
-                        } else {
-                          return <div>{option.option_type}</div>;
-                        }
+                    option.from.options.map((option: any): JSX.Element => {
+                      /* If the option type is a counted reference we can simply add a button
+                        and pass the item, otherwise we will have to give the user a dropdown */
+                      if (option.option_type === "counted_reference") {
+                        return (
+                          <div
+                            key={option.of.index}
+                            className={styles.create__form__special__button}
+                            onClick={() => addItem(option.of, index)}
+                          >
+                            {option.of.name}
+                          </div>
+                        );
+                      } else {
+                        return <div>{option.option_type}</div>;
                       }
-                    )}
+                    })}
                 </div>
               )
             )}

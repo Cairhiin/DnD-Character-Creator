@@ -103,7 +103,7 @@ export const TOOLS = [
      "tinkers-tools", "weavers-tools", "woodcarvers-tools"
     ];
 
-export const EQUIPMENT_CHOICES: EquipmentChoices = [
+export const EQUIPMENT_CHOICES: EquipmentChoices[] = [
     {
         name: "Barbarian",
         index: "barbarian",
