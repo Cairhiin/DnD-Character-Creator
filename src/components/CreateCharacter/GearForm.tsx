@@ -149,8 +149,39 @@ export default function GearForm({
                             {option.of.name}
                           </div>
                         );
+                      } else if (option.option_type === "multiple") {
+                        const items: { item: Item; amount: number }[] =
+                          option.items.map((item: any): any => {
+                            if (item.option_type === "counted_reference")
+                              return { item: item.of, amount: item.count };
+                            return {
+                              item: item.choice.from.equipment_category,
+                              amount: item.choice.choose,
+                            };
+                          });
+                        console.log(items);
+                        return (
+                          <div key={index}>
+                            {items.map((item: Item): JSX.Element => {
+                              if (item.index === "martial-weapons") {
+                                return (
+                                  <select>
+                                    {martialWeapons.map(
+                                      (weapon: Item): JSX.Element => (
+                                        <option key={weapon.index}>
+                                          {weapon.name}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                );
+                              } else {
+                                return <div>{item.name}</div>;
+                              }
+                            })}
+                          </div>
+                        );
                       } else {
-                        return <div>{option.option_type}</div>;
                       }
                     })}
                 </div>
