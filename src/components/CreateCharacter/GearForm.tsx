@@ -4,7 +4,7 @@ import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
 import { characterStore } from "@/store";
-import { Equipment, EquipmentFormInput } from "@/types";
+import { Equipment, EquipmentFormInput, Item } from "@/types";
 import { ARMORS, TOOLS } from "@/constants";
 import { CreateCharacterCard } from "@/pages/create";
 
@@ -24,6 +24,7 @@ export default function GearForm({
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const goldFromStore = characterStore((state) => state.gold);
+  const [gearChoices, setGearChoices] = useState<Item[]>([]);
   const { starting_equipment, starting_equipment_options } = characterStore(
     (state) => state.dndClass
   );
@@ -93,6 +94,11 @@ export default function GearForm({
     }
   };
 
+  // NOTES: Needs implementing
+  const addItem: () => void = () => {
+    console.log("Add Item");
+  };
+
   return (
     <div className={styles.create__layout}>
       <div></div>
@@ -107,12 +113,6 @@ export default function GearForm({
                     {item.equipment.name},{" "}
                   </span>
                 ))}
-              <span>
-                {starting_equipment_options &&
-                  starting_equipment_options[
-                    starting_equipment_options.length - 1
-                  ].desc}
-              </span>
             </p>
             <p>
               Gold: <span>10</span>
@@ -128,8 +128,28 @@ export default function GearForm({
           <h3>Choose starting gear</h3>
           <div>
             {starting_equipment_options?.map(
-              (option, index, arr) =>
-                index < arr.length - 1 && <div key={index}></div>
+              (option, index, arr): JSX.Element => (
+                <div key={index}>
+                  {option.desc}
+                  {option.from.options &&
+                    option.from.options.map(
+                      (option: any, index: number): JSX.Element => {
+                        if (option.option_type === "counted_reference") {
+                          return (
+                            <div
+                              className={styles.create__form__special__button}
+                              onClick={() => addItem()}
+                            >
+                              {option.of.name}
+                            </div>
+                          );
+                        } else {
+                          return <div>{option.option_type}</div>;
+                        }
+                      }
+                    )}
+                </div>
+              )
             )}
           </div>
           <div></div>

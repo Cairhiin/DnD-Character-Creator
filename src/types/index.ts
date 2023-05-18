@@ -216,9 +216,33 @@ export interface ApiClass {
     ];
     starting_equipment_options?: [
         { desc: string; choose: number; type: string; from: 
-            { option_set_type: string; options: [
-                { option_type: string; count: number; of: { index: string; name: string; url: string; }} 
-            ]}
+            { option_set_type: string; options: 
+                { 
+                    option_type: string;               
+                    items: { 
+                        option_type: string;
+                        choice?: {
+                            desc: string;
+                            choose: number;
+                            type: string;
+                            from: {
+                                option_set_type: string;
+                                equipment_category: {
+                                    index: string;
+                                    name: string;
+                                    url: string;
+                                }
+                            }
+                        }
+                        count?: number,
+                        of?: { 
+                            index: string;
+                            name: string;
+                            url: string;
+                        }
+                    }[] 
+                }[]
+            }
         }
     ];
     subclasses?: [
