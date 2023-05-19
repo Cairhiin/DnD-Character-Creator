@@ -145,7 +145,7 @@ export default function GearForm({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
-        <div>
+        <div className={styles.character__creation__form__column}>
           <h3>Choose starting gear</h3>
           <div>
             {starting_equipment_options?.map(
@@ -155,93 +155,97 @@ export default function GearForm({
                     type="hidden"
                     {...register(`items.${index}` as const)}
                   ></input>
-                  {option.desc}
-                  {option.from.options &&
-                    option.from.options.map((option: any): JSX.Element => {
-                      /* If the option type is a counted reference we can simply add a button
+                  <div>{option.desc}</div>
+                  <div className={styles.character__creation__form__flex}>
+                    {option.from.options &&
+                      option.from.options.map((option: any): JSX.Element => {
+                        /* If the option type is a counted reference we can simply add a button
                         and pass the item, otherwise we will have to give the user a dropdown */
-                      if (option.option_type === "counted_reference") {
-                        return (
-                          <div
-                            key={option.of.index}
-                            className={styles.create__form__special__button}
-                            onClick={() =>
-                              addItem(
-                                [{ item: option.of as Item, amount: 1 }],
-                                index
-                              )
-                            }
-                          >
-                            {option.of.name}
-                          </div>
-                        );
-                      } else if (option.option_type === "multiple") {
-                        const items: { item: Item; amount: number }[] =
-                          option.items.map((item: any): any => {
-                            if (item.option_type === "counted_reference")
-                              return { item: item.of, amount: item.count };
-                            return {
-                              item: item.choice.from.equipment_category,
-                              amount: item.choice.choose,
-                            };
-                          });
-
-                        return (
-                          <div
-                            key={`${option.desc}`}
-                            onClick={() => addItem(items, index)}
-                          >
-                            {items.map(({ item, amount }) => {
-                              if (item.index === "martial-weapons") {
-                                /* HACK: Adding a number of select elements equal to the options given by the class
-                                  but looks ugly */
-                                const itemJSX = [...Array(amount)].map(
-                                  (i: number, index: number) => (
-                                    <select key={index}>
-                                      {martialWeapons.map(
-                                        (weapon: Item): JSX.Element => (
-                                          <option key={weapon.index}>
-                                            {weapon.name}
-                                          </option>
-                                        )
-                                      )}
-                                    </select>
-                                  )
-                                );
-                                return itemJSX;
-                              } else {
-                                return <div>{item.name}</div>;
+                        if (option.option_type === "counted_reference") {
+                          return (
+                            <div
+                              tabIndex={1234} // necessary to make the div focusable
+                              key={option.of.index}
+                              className={styles.create__form__special__button}
+                              onClick={() =>
+                                addItem(
+                                  [{ item: option.of as Item, amount: 1 }],
+                                  index
+                                )
                               }
-                            })}
-                          </div>
-                        );
-                      } else {
-                        let availableWeapons: Item[] = [];
-                        /* Check if the weapons to choose from belong to the martial melee group (Barbarian)
-                        if not show the simple weapon list - there are no other options */
-                        option.choice.from.equipment_category.index ===
-                        "martial-melee-weapons"
-                          ? (availableWeapons = martialMeleeWeapons)
-                          : (availableWeapons = simpleWeapons);
-                        return (
-                          <div key={`${option.desc}${index}`}>
-                            {[...Array(option.choice.choose)].map(
-                              (i: number, index: number) => (
-                                <select key={`${option.choice.desc}${index}`}>
-                                  {availableWeapons.map(
-                                    (weapon: Item): JSX.Element => (
-                                      <option key={weapon.index}>
-                                        {weapon.name}
-                                      </option>
+                            >
+                              {option.of.name}
+                            </div>
+                          );
+                        } else if (option.option_type === "multiple") {
+                          const items: { item: Item; amount: number }[] =
+                            option.items.map((item: any): any => {
+                              if (item.option_type === "counted_reference")
+                                return { item: item.of, amount: item.count };
+                              return {
+                                item: item.choice.from.equipment_category,
+                                amount: item.choice.choose,
+                              };
+                            });
+
+                          return (
+                            <div
+                              tabIndex={1234} // necessary to make the div focusable
+                              key={`${option.desc}`}
+                              onClick={() => addItem(items, index)}
+                            >
+                              {items.map(({ item, amount }) => {
+                                if (item.index === "martial-weapons") {
+                                  /* HACK: Adding a number of select elements equal to the options given by the class
+                                  but looks ugly */
+                                  const itemJSX = [...Array(amount)].map(
+                                    (i: number, index: number) => (
+                                      <select key={index}>
+                                        {martialWeapons.map(
+                                          (weapon: Item): JSX.Element => (
+                                            <option key={weapon.index}>
+                                              {weapon.name}
+                                            </option>
+                                          )
+                                        )}
+                                      </select>
                                     )
-                                  )}
-                                </select>
-                              )
-                            )}
-                          </div>
-                        );
-                      }
-                    })}
+                                  );
+                                  return itemJSX;
+                                } else {
+                                  return <div>{item.name}</div>;
+                                }
+                              })}
+                            </div>
+                          );
+                        } else {
+                          let availableWeapons: Item[] = [];
+                          /* Check if the weapons to choose from belong to the martial melee group (Barbarian)
+                        if not show the simple weapon list - there are no other options */
+                          option.choice.from.equipment_category.index ===
+                          "martial-melee-weapons"
+                            ? (availableWeapons = martialMeleeWeapons)
+                            : (availableWeapons = simpleWeapons);
+                          return (
+                            <div key={`${option.desc}${index}`}>
+                              {[...Array(option.choice.choose)].map(
+                                (i: number, index: number) => (
+                                  <select key={`${option.choice.desc}${index}`}>
+                                    {availableWeapons.map(
+                                      (weapon: Item): JSX.Element => (
+                                        <option key={weapon.index}>
+                                          {weapon.name}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                )
+                              )}
+                            </div>
+                          );
+                        }
+                      })}
+                  </div>
                 </div>
               )
             )}

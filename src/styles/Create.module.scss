@@ -147,6 +147,24 @@
             justify-content: center;
             gap: 0.5rem;
 
+            .character__creation__form__flex {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .create__form__special__button {
+                @include roundedBorder;
+                background-color: $secondary-color;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+
+                &:focus-visible {                  
+                    outline: 2px solid white;
+                }
+            }
+
             label {
                 display: inline-block;
                 vertical-align: middle;
