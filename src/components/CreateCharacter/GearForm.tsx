@@ -58,7 +58,7 @@ export default function GearForm({
     mode: "onSubmit",
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, update } = useFieldArray({
     control,
     name: "items",
   });
@@ -117,7 +117,6 @@ export default function GearForm({
     }
   };
 
-  // NOTES: Needs implementing
   const addItem: (
     items: { item: any; amount: number }[],
     index: number
@@ -125,9 +124,15 @@ export default function GearForm({
     let buttons = buttonIsActive;
     buttons[index] = false;
     setButtonIsActive(buttons);
-    const startingIndex = items.map(({ item }: any, index: number): void =>
-      append(item)
-    );
+    items.map(({ item }: any, index: number): void => append(item));
+  };
+
+  const changeItem: (e: any, index: number, items: Item[]) => void = (
+    e,
+    index,
+    items
+  ) => {
+    update(index, items[e.target.value]);
   };
 
   return (
@@ -249,7 +254,52 @@ export default function GearForm({
             {error && <ErrorField error={error} />}
           </div>
         }
-        <div>{}</div>
+        <div>
+          {fields.map((field: any, index: number): JSX.Element => {
+            if (field.index === "martial-weapons") {
+              return (
+                <select onChange={(e) => changeItem(e, index, martialWeapons)}>
+                  {martialWeapons.map(
+                    (item: Item, i: number): JSX.Element => (
+                      <option key={i} value={i}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              );
+            }
+            if (field.index === "martial-melee-weapons") {
+              return (
+                <select
+                  onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
+                >
+                  {martialMeleeWeapons.map(
+                    (item: Item, i: number): JSX.Element => (
+                      <option key={i} value={i}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              );
+            }
+            if (field.index === "simple-weapons") {
+              return (
+                <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
+                  {simpleWeapons.map(
+                    (item: Item, i: number): JSX.Element => (
+                      <option key={i} value={i}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              );
+            }
+            return <div>{field.name}</div>;
+          })}
+        </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">
