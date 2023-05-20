@@ -2,7 +2,7 @@ import styles from "@/styles/Accordion.module.scss";
 import { ReactNode, useState } from "react";
 
 interface AccordionProps {
-  items: Item[];
+  data: Data[];
 }
 
 interface AccordionPanelProps {
@@ -11,7 +11,7 @@ interface AccordionPanelProps {
   children: ReactNode;
 }
 
-interface Item {
+interface Data {
   header: string;
   subheader: string;
   content: ReactNode;
@@ -32,25 +32,25 @@ const AccordionPanel = ({
   </div>
 );
 
-export default function Accordion({ items }: AccordionProps): JSX.Element {
+export default function Accordion({ data }: AccordionProps): JSX.Element {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   return (
     <div className={styles.accordion}>
-      {items.map((item: Item, index: number) => (
-        <div className={styles.accordion__panel} key={item.id}>
+      {data.map((data: Data, index: number) => (
+        <div className={styles.accordion__panel} key={data.id}>
           <button
             onClick={() => setActiveIndex(index)}
             type="button"
             aria-expanded={activeIndex === index}
             className={styles.accordion__trigger}
-            aria-controls={item.id}
-            id={item.id}
+            aria-controls={data.id}
+            id={data.id}
           >
-            <h3>{item.header}</h3>
-            <h4>{item.subheader}</h4>
+            <h3>{data.header}</h3>
+            <h4>{data.subheader}</h4>
           </button>
-          <AccordionPanel isActive={activeIndex === index} id={item.id}>
-            {item.content}
+          <AccordionPanel isActive={activeIndex === index} id={data.id}>
+            {data.content}
           </AccordionPanel>
         </div>
       ))}
