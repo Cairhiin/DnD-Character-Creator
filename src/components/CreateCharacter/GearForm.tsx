@@ -21,6 +21,12 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
+    true,
+    true,
+    true,
+    true,
+  ]);
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
@@ -52,7 +58,7 @@ export default function GearForm({
     mode: "onSubmit",
   });
 
-  const { fields } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: "items",
   });
@@ -113,11 +119,15 @@ export default function GearForm({
 
   // NOTES: Needs implementing
   const addItem: (
-    items: { item: Item; amount: number }[],
+    items: { item: any; amount: number }[],
     index: number
   ) => void = (items, index) => {
-    console.log(index, items);
-    //setValue(`items.${index}`, item);
+    let buttons = buttonIsActive;
+    buttons[index] = false;
+    setButtonIsActive(buttons);
+    const startingIndex = items.map(({ item }: any, index: number): void =>
+      append(item)
+    );
   };
 
   return (
@@ -166,8 +176,7 @@ export default function GearForm({
                         and pass the item, otherwise we will have to give the user a dropdown */
                           if (option.option_type === "counted_reference") {
                             return (
-                              <div
-                                tabIndex={1234} // necessary to make the div focusable
+                              <button
                                 key={option.of.index}
                                 className={styles.create__form__special__button}
                                 onClick={() =>
@@ -176,9 +185,10 @@ export default function GearForm({
                                     index
                                   )
                                 }
+                                disabled={!buttonIsActive[index]}
                               >
                                 {String.fromCharCode(65 + optionNumber)}
-                              </div>
+                              </button>
                             );
                           } else if (option.option_type === "multiple") {
                             const items: { item: Item; amount: number }[] =
@@ -192,13 +202,14 @@ export default function GearForm({
                               });
 
                             return (
-                              <div
-                                tabIndex={1234} // necessary to make the div focusable
+                              <button
+                                disabled={!buttonIsActive[index]}
+                                className={styles.create__form__special__button}
                                 key={`${option.desc}`}
                                 onClick={() => addItem(items, index)}
                               >
                                 {String.fromCharCode(65 + optionNumber)}
-                              </div>
+                              </button>
                             );
                           } else {
                             /* HACK: Add the number of martial weapons or simple weapons based on the amount
@@ -214,12 +225,14 @@ export default function GearForm({
                             });
 
                             return (
-                              <div
+                              <button
+                                disabled={!buttonIsActive[index]}
+                                className={styles.create__form__special__button}
                                 key={`${option.desc}${index}`}
                                 onClick={() => addItem(items, index)}
                               >
                                 {String.fromCharCode(65 + optionNumber)}
-                              </div>
+                              </button>
                             );
                           }
                         }
@@ -236,6 +249,7 @@ export default function GearForm({
             {error && <ErrorField error={error} />}
           </div>
         }
+        <div>{}</div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">

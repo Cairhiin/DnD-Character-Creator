@@ -152,14 +152,17 @@
                 gap: 1rem;
                 align-items: center;
                 justify-content: flex-start;
+                margin: 1rem 0;
             }
 
             .create__form__special__button {
-                @include roundedBorder;
+                border-radius: 4px;
                 background-color: $secondary-color;
                 padding: 0.5rem 1rem;
                 cursor: pointer;
                 @include transitionAll;
+                min-width: 50px;
+                text-align: center;
 
                 &:focus-visible {                  
                     outline: 2px solid white;
