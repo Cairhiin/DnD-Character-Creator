@@ -2,7 +2,13 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { characterStore } from "@/store";
 import { Equipment, EquipmentFormInput, Item } from "@/types";
 import { ARMORS, TOOLS } from "@/constants";
@@ -30,28 +36,16 @@ export default function GearForm({
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
-  const goldFromStore = characterStore((state) => state.gold);
   const { starting_equipment, starting_equipment_options } = characterStore(
     (state) => state.dndClass
   );
-
-  const onChange: (e: ChangeEvent) => Promise<void> = async (e) => {
-    const target = e.target as HTMLSelectElement;
-    try {
-      const itemRes = await fetch(
-        `http://www.dnd5eapi.co/api/equipment/${target.value}`
-      );
-      const item = await itemRes.json();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const equipment = characterStore((state) => state.equipment);
+  const setEquipment = characterStore((state) => state.setEquipment);
 
   const {
     handleSubmit,
     register,
     control,
-    setValue,
     formState: { errors },
   } = useForm<EquipmentFormInput>({
     defaultValues: {},
@@ -111,7 +105,7 @@ export default function GearForm({
   }, []);
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
-    console.log(items);
+    setEquipment(items);
     if (!isLoading) {
       nextTab();
     }
@@ -140,9 +134,15 @@ export default function GearForm({
       <div></div>
       <aside>
         <CreateCharacterCard header="Starting Equipment">
-          <div>
+          <div className={styles.create__description__text}>
             <p>
-              Gear:{" "}
+              Choose one of the available item options for each line. If you
+              choose a martial, martial melee, or simple weapon you get to
+              select these after you have clicked the corresponding option
+              button.
+            </p>
+            <div>
+              Starting Gear:{" "}
               {starting_equipment &&
                 starting_equipment.map((item, index, arr) => (
                   <span key={item.equipment.index}>
@@ -151,10 +151,11 @@ export default function GearForm({
                       : item.equipment.name}
                   </span>
                 ))}
-            </p>
-            <p>
+            </div>
+
+            <div>
               Gold: <span>10</span>
-            </p>
+            </div>
           </div>
         </CreateCharacterCard>
       </aside>
@@ -192,6 +193,7 @@ export default function GearForm({
                                 }
                                 disabled={!buttonIsActive[index]}
                               >
+                                {/* Display an A, B or C depending on the number of options */}
                                 {String.fromCharCode(65 + optionNumber)}
                               </button>
                             );

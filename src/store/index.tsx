@@ -14,12 +14,7 @@ export const characterStore = create<CharacterFormState>((set) => ({
   race: { name: "", index: "" },
   dndClass: { name: "", index: "" },
   abilityScores: { STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 },
-  equipment: {
-    armors: [],
-    weapons: [],
-    tools: [],
-    misc: [],
-  },
+  equipment: [],
   background: {
     name: "",
     id: "",
@@ -97,29 +92,12 @@ export const characterStore = create<CharacterFormState>((set) => ({
   setSkills: (skills: Skills) => set((state) => ({ skills: skills })),
   setGold: (gold: number) => set((state) => ({ gold: gold })),
   setLevel: (level: number) => set((state) => ({ level: level })),
-  addMisc: (item: Item) =>
-    set((state) => ({
-      equipment: { ...state.equipment, misc: [...state.equipment.misc, item] },
-    })),
-  addArmor: (item: Item) =>
+  addItem: (item: Item) =>
     set((state) => ({
       equipment: {
         ...state.equipment,
-        armors: [...state.equipment.armors, item],
+        equipment: [...state.equipment, item],
       },
     })),
-  addWeapon: (item: Item) =>
-    set((state) => ({
-      equipment: {
-        ...state.equipment,
-        weapons: [...state.equipment.weapons, item],
-      },
-    })),
-  addTool: (item: Item) =>
-    set((state) => ({
-      equipment: {
-        ...state.equipment,
-        tools: [...state.equipment.tools, item],
-      },
-    })),
+  setEquipment: (items: Item[]) => set((state) => ({ equipment: items })),
 }));

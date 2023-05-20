@@ -94,12 +94,7 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: {
-        armors: Item[];
-        weapons: Item[];
-        tools: Item[];
-        misc: Item[];
-    }
+    equipment: Item[];
     description: CharacterDescription;
     skills: Skills;
     gold: number;
@@ -113,10 +108,8 @@ export interface CharacterFormState {
     setGold: (gold: number) => void;
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
-    addMisc: (item: Item) => void;
-    addArmor: (item: Item) => void;
-    addWeapon: (item: Item) => void;
-    addTool: (item: Item) => void;
+    addItem: (item: Item) => void;
+    setEquipment: (item: Item[]) => void;
 };
 
 export interface AbilityFormInput {  
@@ -128,19 +121,6 @@ export interface AbilityFormInput {
     WIS: number;
     CHA: number;
 };
-
-interface Armor {
-    armor: string;
-}
-interface Weapon {
-    weapon: string;
-}
-interface Tool {
-    tool: string;
-}
-interface Misc {
-    misc: string;
-}
 
 export interface EquipmentFormInput {
     items: Array<Item>;
