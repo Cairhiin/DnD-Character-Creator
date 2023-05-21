@@ -108,7 +108,7 @@
                 }
             }
 
-            p {
+            div {
                 padding-top: 0.5rem;
             }
 
@@ -153,6 +153,15 @@
                 align-items: center;
                 justify-content: flex-start;
                 margin: 1rem 0;
+
+                &.choose__weapon {
+                    p {
+                        margin: 0;
+                    }
+                    :last-child {
+                        flex-grow: 1;
+                    }
+                }
             }
 
             .create__form__special__button {

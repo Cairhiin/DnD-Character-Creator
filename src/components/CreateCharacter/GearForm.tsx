@@ -133,31 +133,49 @@ export default function GearForm({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <CreateCharacterCard header="Starting Equipment">
-          <div className={styles.create__description__text}>
-            <p>
-              Choose one of the available item options for each line. If you
-              choose a martial, martial melee, or simple weapon you get to
-              select these after you have clicked the corresponding option
-              button.
-            </p>
-            <div>
-              Starting Gear:{" "}
-              {starting_equipment &&
-                starting_equipment.map((item, index, arr) => (
-                  <span key={item.equipment.index}>
-                    {index < arr.length - 1
-                      ? `${item.equipment.name}, `
-                      : item.equipment.name}
-                  </span>
-                ))}
+        {!fields.length ? (
+          <CreateCharacterCard header="Starting Equipment">
+            <div className={styles.create__description__text}>
+              <p>
+                Choose one of the available item options for each line. If you
+                choose a martial, martial melee, or simple weapon you get to
+                select these after you have clicked the corresponding option
+                button.
+              </p>
             </div>
-
-            <div>
-              Gold: <span>10</span>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header="Starting Equipment">
+            <div className={styles.create__description__text}>
+              {starting_equipment && starting_equipment?.length > 0 && (
+                <div>
+                  Starting Gear:{" "}
+                  {starting_equipment.map((item, index, arr) => (
+                    <span key={item.equipment.index}>
+                      {index < arr.length - 1
+                        ? `${item.equipment.name}, `
+                        : item.equipment.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div>
+                Gold: <span>10</span>
+              </div>
+              <div>
+                {Object.values(fields).map(
+                  (item: Item): JSX.Element => (
+                    <>
+                      {item.index !== "martial-weapons" &&
+                        item.index !== "martial-melee-weapons" &&
+                        item.index !== "simple-weapons" && <p>{item.name}</p>}
+                    </>
+                  )
+                )}
+              </div>
             </div>
-          </div>
-        </CreateCharacterCard>
+          </CreateCharacterCard>
+        )}
       </aside>
       <form
         className={styles.character__creation__form}
@@ -259,50 +277,63 @@ export default function GearForm({
             {error && <ErrorField error={error} />}
           </div>
         }
-        <div>
+        <div className={styles.character__creation__form__column}>
           {fields.map((field: any, index: number): JSX.Element => {
             if (field.index === "martial-weapons") {
               return (
-                <select onChange={(e) => changeItem(e, index, martialWeapons)}>
-                  {martialWeapons.map(
-                    (item: Item, i: number): JSX.Element => (
-                      <option key={i} value={i}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
+                <div
+                  className={`${styles.character__creation__form__flex} ${styles.choose__weapon}`}
+                >
+                  <p>Choose a Martial Weapon </p>
+                  <select
+                    onChange={(e) => changeItem(e, index, martialWeapons)}
+                  >
+                    {martialWeapons.map(
+                      (item: Item, i: number): JSX.Element => (
+                        <option key={i} value={i}>
+                          {item.name}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
               );
             }
             if (field.index === "martial-melee-weapons") {
               return (
-                <select
-                  onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
-                >
-                  {martialMeleeWeapons.map(
-                    (item: Item, i: number): JSX.Element => (
-                      <option key={i} value={i}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
+                <div className={styles.character__creation__form__flex}>
+                  <p>Choose a Martial Melee Weapon </p>
+                  <select
+                    onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
+                  >
+                    {martialMeleeWeapons.map(
+                      (item: Item, i: number): JSX.Element => (
+                        <option key={i} value={i}>
+                          {item.name}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
               );
             }
             if (field.index === "simple-weapons") {
               return (
-                <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
-                  {simpleWeapons.map(
-                    (item: Item, i: number): JSX.Element => (
-                      <option key={i} value={i}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
+                <div className={styles.character__creation__form__flex}>
+                  <p>Choose a Simple Weapon </p>
+                  <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
+                    {simpleWeapons.map(
+                      (item: Item, i: number): JSX.Element => (
+                        <option key={i} value={i}>
+                          {item.name}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
               );
             }
-            return <div>{field.name}</div>;
+            return <></>;
           })}
         </div>
         <div className={styles.create__form__buttonRow}>
