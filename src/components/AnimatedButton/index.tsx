@@ -6,6 +6,8 @@ interface Props {
   size?: string;
   variant?: string;
   children: ReactNode;
+  disabled?: boolean;
+  onClick?: () => void;
 }
 
 const AnimatedButton = ({
@@ -13,8 +15,12 @@ const AnimatedButton = ({
   size,
   variant,
   children,
+  disabled,
+  onClick,
 }: Props): JSX.Element => (
   <button
+    onClick={onClick}
+    disabled={disabled}
     className={`${styles.btn} ${variant ? styles[variant] : styles.primary} ${
       size ? styles[size] : styles.regular
     } ${type ? styles[type] : styles.solid}`}
