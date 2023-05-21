@@ -182,9 +182,10 @@ export default function GearForm({
                         and pass the item, otherwise we will have to give the user a dropdown */
                           if (option.option_type === "counted_reference") {
                             return (
-                              <button
+                              <AnimatedButton
+                                variant="secondary"
+                                type="outline"
                                 key={option.of.index}
-                                className={styles.create__form__special__button}
                                 onClick={() =>
                                   addItem(
                                     [{ item: option.of as Item, amount: 1 }],
@@ -195,7 +196,7 @@ export default function GearForm({
                               >
                                 {/* Display an A, B or C depending on the number of options */}
                                 {String.fromCharCode(65 + optionNumber)}
-                              </button>
+                              </AnimatedButton>
                             );
                           } else if (option.option_type === "multiple") {
                             const items: { item: Item; amount: number }[] =
@@ -209,14 +210,15 @@ export default function GearForm({
                               });
 
                             return (
-                              <button
+                              <AnimatedButton
+                                variant="secondary"
+                                type="outline"
                                 disabled={!buttonIsActive[index]}
-                                className={styles.create__form__special__button}
                                 key={`${option.desc}`}
                                 onClick={() => addItem(items, index)}
                               >
                                 {String.fromCharCode(65 + optionNumber)}
-                              </button>
+                              </AnimatedButton>
                             );
                           } else {
                             /* HACK: Add the number of martial weapons or simple weapons based on the amount
@@ -232,14 +234,15 @@ export default function GearForm({
                             });
 
                             return (
-                              <button
+                              <AnimatedButton
+                                variant="secondary"
+                                type="outline"
                                 disabled={!buttonIsActive[index]}
-                                className={styles.create__form__special__button}
                                 key={`${option.desc}${index}`}
                                 onClick={() => addItem(items, index)}
                               >
                                 {String.fromCharCode(65 + optionNumber)}
-                              </button>
+                              </AnimatedButton>
                             );
                           }
                         }
