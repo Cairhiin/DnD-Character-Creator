@@ -71,7 +71,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     nextTab();
   };
 
-  const accordionItems = [
+  const accordionData = [
     {
       id: "character_details",
       header: "Character Details",
@@ -228,7 +228,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         className={`${styles.character__creation__form} ${styles.description}`}
         onSubmit={handleSubmit(saveData)}
       >
-        <Accordion items={accordionItems}></Accordion>
+        <Accordion data={accordionData}></Accordion>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">
