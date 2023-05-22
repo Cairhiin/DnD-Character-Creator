@@ -94,7 +94,7 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: Item[];
+    equipment: Equipment[];
     description: CharacterDescription;
     skills: Skills;
     gold: number;
@@ -108,8 +108,8 @@ export interface CharacterFormState {
     setGold: (gold: number) => void;
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
-    addItem: (item: Item) => void;
-    setEquipment: (item: Item[]) => void;
+    addItem: (item: Equipment) => void;
+    setEquipment: (item: Equipment[]) => void;
 };
 
 export interface AbilityFormInput {  
@@ -123,7 +123,7 @@ export interface AbilityFormInput {
 };
 
 export interface EquipmentFormInput {
-    items: Array<Item>;
+    items: Array<Equipment>;
 }
 
 export interface Skills {
@@ -272,6 +272,7 @@ export interface Equipment {
     name: string;
     url: string;
 }
+
 export interface Item {
     desc: string[];
     special: string[];

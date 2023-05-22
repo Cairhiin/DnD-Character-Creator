@@ -7,7 +7,7 @@ import type {
   ApiClass,
   ApiRace,
   Background,
-  Item,
+  ItemSimplified,
 } from "@/types";
 
 export const characterStore = create<CharacterFormState>((set) => ({
@@ -92,12 +92,13 @@ export const characterStore = create<CharacterFormState>((set) => ({
   setSkills: (skills: Skills) => set((state) => ({ skills: skills })),
   setGold: (gold: number) => set((state) => ({ gold: gold })),
   setLevel: (level: number) => set((state) => ({ level: level })),
-  addItem: (item: Item) =>
+  addItem: (item: ItemSimplified) =>
     set((state) => ({
       equipment: {
         ...state.equipment,
         equipment: [...state.equipment, item],
       },
     })),
-  setEquipment: (items: Item[]) => set((state) => ({ equipment: items })),
+  setEquipment: (items: ItemSimplified[]) =>
+    set((state) => ({ equipment: items })),
 }));
