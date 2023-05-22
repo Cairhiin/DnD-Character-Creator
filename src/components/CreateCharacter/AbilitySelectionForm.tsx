@@ -298,6 +298,7 @@ export default function AbilitySelection({
             }
             {watch("method") === "array" && (
               <StandardArray
+                setValue={setValue}
                 register={register}
                 usedScores={usedScores}
                 setUsedScores={setUsedScores}
@@ -307,6 +308,7 @@ export default function AbilitySelection({
             )}
             {watch("method") === "buy" && (
               <PointBuy
+                setValue={setValue}
                 register={register}
                 updateTotalPointsUsed={setTotalScorePointBuy}
                 totalPointsUsed={totalScorePointBuy}

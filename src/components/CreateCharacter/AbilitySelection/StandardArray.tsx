@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UseFormRegister } from "react-hook-form/dist/types";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form/dist/types";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { ABILITIES, STANDARD_ARRAY } from "@/constants";
 import { ErrorField } from "../ClassSelectionForm";
@@ -7,6 +7,7 @@ import styles from "@/styles/Create.module.scss";
 
 interface StandardArrayProps {
   register: UseFormRegister<AbilityFormInput>;
+  setValue: UseFormSetValue<AbilityFormInput>;
   setUsedScores: (e: any) => void;
   setAbilityScores: (e: any) => void;
   usedScores: AbilityScores;
@@ -15,6 +16,7 @@ interface StandardArrayProps {
 
 export default function StandardArray({
   register,
+  setValue,
   usedScores,
   setUsedScores,
   setAbilityScores,
@@ -44,7 +46,7 @@ export default function StandardArray({
           prev.filter((abilityScore) => abilityScore !== ability)
         );
       }
-
+      setValue(ability as any, value);
       setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
     }
   };

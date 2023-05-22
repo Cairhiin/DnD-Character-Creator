@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { UseFormRegister } from "react-hook-form/dist/types";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form/dist/types";
 import { calculateAbilityBuyCost } from "@/utils";
 import { ABILITIES, POINT_BUY_TOTAL, AVAILABLE_SCORES } from "@/constants";
 import { AbilityScores, AbilityFormInput } from "@/types";
@@ -7,6 +7,7 @@ import styles from "@/styles/Create.module.scss";
 
 interface Props {
   register: UseFormRegister<AbilityFormInput>;
+  setValue: UseFormSetValue<AbilityFormInput>;
   updateTotalPointsUsed: Dispatch<SetStateAction<number>>;
   totalPointsUsed: number;
   setUsedScores: (e: any) => any;
@@ -17,6 +18,7 @@ interface Props {
 
 export default function PointBuy({
   register,
+  setValue,
   updateTotalPointsUsed,
   totalPointsUsed,
   setUsedScores,
@@ -43,6 +45,7 @@ export default function PointBuy({
       draft[ability] = parseInt(value);
     });
 
+    setValue(ability as any, value);
     setAbilityScores({ ...abilityScores, [ability]: parseInt(value) });
   };
 
