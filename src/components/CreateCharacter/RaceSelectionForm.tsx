@@ -1,7 +1,6 @@
 import { RACES } from "@/constants";
 import { produce } from "immer";
 import { CreateCharacterCard } from "@/pages/create";
-import { characterStore } from "@/store";
 import styles from "@/styles/Create.module.scss";
 import { formatAttribute } from "@/utils";
 import { useContext, useEffect, useState } from "react";
@@ -59,6 +58,25 @@ export default function RaceSelection({ nextTab }: Props) {
     );
   }, [isDirty, setForm]);
 
+  // Call the free SRD api to retrieve the rest of the race data
+  useEffect(() => {
+    setLoading(true);
+    let ignore: boolean = false;
+    if (!ignore) {
+      fetch(
+        `https://www.dnd5eapi.co/api/races/${form.steps.raceSelection.value.race.index}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setValue("race", data);
+          setLoading(false);
+        });
+    }
+    return () => {
+      ignore = true;
+    };
+  }, [form.steps.raceSelection.value.race.name]);
+
   const saveData: SubmitHandler<RaceFormInput> = ({
     race,
   }: {
@@ -85,7 +103,7 @@ export default function RaceSelection({ nextTab }: Props) {
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {form.steps.raceSelection.value ? (
+        {watch("race").name ? (
           <CreateCharacterCard header={watch("race").name}>
             <div>
               Ability Score Increase:{" "}

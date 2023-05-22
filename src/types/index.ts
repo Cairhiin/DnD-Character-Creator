@@ -222,7 +222,7 @@ export interface ApiClass {
     subclasses?: [
         { index: string; name: string; url: string; }
     ];
-    url?: string;
+    url: string;
 }
 
 export interface ApiRace {
@@ -265,6 +265,7 @@ export interface ApiRace {
 export interface DndClass {
     id: string;
     name: string;
+    url?: string;
 }
 
 export interface Item {

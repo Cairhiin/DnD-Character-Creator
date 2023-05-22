@@ -120,7 +120,11 @@ export const FORM_STATE = {
             valid: false,
             dirty: false,
             value: {
-                dndClass: ""
+                dndClass: {
+                    name: "",
+                    index: "",
+                    url: ""
+                }
             }
         },
         abilitiesSelection: {
