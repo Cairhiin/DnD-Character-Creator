@@ -1,15 +1,18 @@
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { RACES } from "@/constants";
-import { characterStore } from "@/store";
-import { ErrorField } from "./ClassSelectionForm";
+import { produce } from "immer";
 import { CreateCharacterCard } from "@/pages/create";
-import { formatAttribute } from "@/utils";
-import AnimatedButton from "../AnimatedButton";
+import { characterStore } from "@/store";
 import styles from "@/styles/Create.module.scss";
+import { formatAttribute } from "@/utils";
+import { useContext, useEffect, useState } from "react";
+import { SubmitHandler, useForm, useFormState } from "react-hook-form";
+import AnimatedButton from "../AnimatedButton";
+import { ErrorField } from "./ClassSelectionForm";
+import { FormStateContext } from "@/pages/create";
+import { Race } from "@/types";
 
 interface RaceFormInput {
-  race: string;
+  race: Race;
 }
 
 interface Props {
@@ -19,8 +22,7 @@ interface Props {
 export default function RaceSelection({ nextTab }: Props) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const raceFromStore = characterStore((state) => state.race);
-  const setRace = characterStore((state) => state.setRace);
+  const { form, setForm } = useContext(FormStateContext);
 
   const handleClick = (race: string) => {
     setLoading(true);
@@ -28,7 +30,7 @@ export default function RaceSelection({ nextTab }: Props) {
     fetch(`https://www.dnd5eapi.co/api/races/${race.toLowerCase()}`)
       .then((res) => res.json())
       .then((data) => {
-        setRace(data);
+        setValue("race", data);
         setLoading(false);
       });
   };
@@ -36,16 +38,31 @@ export default function RaceSelection({ nextTab }: Props) {
   const {
     handleSubmit,
     register,
+    control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<RaceFormInput>({
-    defaultValues: { race: raceFromStore.name },
+    defaultValues: { race: form.steps.raceSelection.value.race },
     mode: "onSubmit",
   });
+
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.raceSelection.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<RaceFormInput> = ({
     race,
   }: {
-    race: string;
+    race: Race;
   }): void => {
     if (!race) {
       return setError("Please choose a race before continuing.");
@@ -60,12 +77,12 @@ export default function RaceSelection({ nextTab }: Props) {
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {raceFromStore.name ? (
-          <CreateCharacterCard header={raceFromStore.name}>
+        {form.steps.raceSelection.value ? (
+          <CreateCharacterCard header={watch("race").name}>
             <div>
               Ability Score Increase:{" "}
               <ul className={styles.create__layout__content}>
-                {raceFromStore.ability_bonuses?.map(
+                {watch("race").ability_bonuses?.map(
                   (ability, i, arr): JSX.Element => (
                     <li key={ability.ability_score.name}>
                       {formatAttribute(ability.ability_score.name)} +
@@ -77,18 +94,18 @@ export default function RaceSelection({ nextTab }: Props) {
               </ul>
             </div>
             <div>
-              Size: <span>{raceFromStore.size}</span>
+              Size: <span>{watch("race").size}</span>
             </div>
             <div>
               Speed:{" "}
               <span>
-                {raceFromStore.speed} ft/round ({raceFromStore.speed || 0 / 5}{" "}
+                {watch("race").speed} ft/round ({watch("race").speed || 0 / 5}{" "}
                 squares)
               </span>
               <div>
                 Languages:{" "}
                 <ul className={styles.create__layout__content}>
-                  {raceFromStore.languages?.map(
+                  {watch("race").languages?.map(
                     (language, i, arr): JSX.Element => (
                       <li key={language.index}>
                         {language.name}
@@ -101,7 +118,7 @@ export default function RaceSelection({ nextTab }: Props) {
               <div>
                 Traits:{" "}
                 <ul className={styles.create__layout__content}>
-                  {raceFromStore.traits?.map(
+                  {watch("race").traits?.map(
                     (trait, i, arr): JSX.Element => (
                       <li key={trait.index}>
                         {trait.name}
@@ -137,7 +154,7 @@ export default function RaceSelection({ nextTab }: Props) {
                   type="radio"
                   id={race}
                   value={race}
-                  checked={race === raceFromStore.name}
+                  checked={race === watch("race").name}
                   {...register("race")}
                   onClick={() => handleClick(race)}
                 />
