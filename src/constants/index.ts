@@ -112,7 +112,57 @@ export const FORM_STATE = {
                 race: {
                     name: "",
                     index: "",
-                    url: ""
+                    url: "",
+                    ability_bonuses: [
+                        {
+                            ability_score: {
+                              index: "str",
+                              name: "STR",
+                              url: "/api/ability-scores/str"
+                            },
+                            bonus: 0
+                          },
+                          {
+                            ability_score: {
+                              index: "dex",
+                              name: "DEX",
+                              url: "/api/ability-scores/dex"
+                            },
+                            bonus: 0
+                          },
+                          {
+                            ability_score: {
+                              index: "con",
+                              name: "CON",
+                              url: "/api/ability-scores/con"
+                            },
+                            bonus: 0
+                          },
+                          {
+                            ability_score: {
+                              index: "int",
+                              name: "INT",
+                              url: "/api/ability-scores/int"
+                            },
+                            bonus: 0
+                          },
+                          {
+                            ability_score: {
+                              index: "wis",
+                              name: "WIS",
+                              url: "/api/ability-scores/wis"
+                            },
+                            bonus: 0
+                          },
+                          {
+                            ability_score: {
+                              index: "cha",
+                              name: "CHA",
+                              url: "/api/ability-scores/cha"
+                            },
+                            bonus: 0
+                          }
+                    ]
                 }
             }
         },
@@ -131,6 +181,7 @@ export const FORM_STATE = {
             valid: false,
             dirty: false,
             value: {
+                method: "",
                 STR: 0,
                 DEX: 0,
                 CON: 0,

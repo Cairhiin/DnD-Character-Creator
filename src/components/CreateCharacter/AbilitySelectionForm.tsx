@@ -1,6 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useImmer } from "use-immer";
-import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form";
+import { produce } from "immer";
+import {
+  useForm,
+  SubmitHandler,
+  UseFormRegister,
+  useFormState,
+} from "react-hook-form";
 import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
 import { AbilityScores, AbilityFormInput } from "@/types";
@@ -9,7 +15,7 @@ import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
 import PointBuy from "./AbilitySelection/Pointbuy";
 import { calculateAbilityModifier } from "@/utils";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
 
@@ -22,23 +28,28 @@ export default function AbilitySelection({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
-  const abilityScores = characterStore((state) => state.abilityScores);
-  const setAbilityScores = characterStore(
-    (state: any) => state.setAbilityScores
-  );
+  const { form, setForm } = useContext(FormStateContext);
   const [formError, setFormError] = useState<string | null>(null);
   const [usedScores, setUsedScores] = useImmer<AbilityScores>({
-    STR: abilityScores.STR || 0,
-    DEX: abilityScores.DEX || 0,
-    CON: abilityScores.CON || 0,
-    INT: abilityScores.INT || 0,
-    WIS: abilityScores.WIS || 0,
-    CHA: abilityScores.CHA || 0,
+    STR: form.steps.abilitiesSelection.value.STR,
+    DEX: form.steps.abilitiesSelection.value.DEX,
+    CON: form.steps.abilitiesSelection.value.CON,
+    INT: form.steps.abilitiesSelection.value.INT,
+    WIS: form.steps.abilitiesSelection.value.WIS,
+    CHA: form.steps.abilitiesSelection.value.CHA,
   });
   const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
 
-  // Get the ability bonuses from the race choice and create an array out of them
-  const { ability_bonuses } = characterStore((state) => state.race);
+  // Get the ability bonuses from the race choice
+  const { ability_bonuses } = form.steps.raceSelection.value.race;
+  const [abilityScores, setAbilityScores] = useState<AbilityScores>({
+    STR: 0,
+    DEX: 0,
+    CON: 0,
+    INT: 0,
+    WIS: 0,
+    CHA: 0,
+  });
   const abilityBonusPerAttribute: number[] = [];
   for (const key of Object.keys(usedScores)) {
     const ab = ability_bonuses?.filter(
@@ -57,19 +68,32 @@ export default function AbilitySelection({
     watch,
     reset,
     setValue,
+    control,
     formState: { errors },
   } = useForm<AbilityFormInput>({
     defaultValues: {
       method: "array",
-      STR: abilityScores.STR || 0,
-      DEX: abilityScores.DEX || 0,
-      CON: abilityScores.CON || 0,
-      INT: abilityScores.INT || 0,
-      WIS: abilityScores.WIS || 0,
-      CHA: abilityScores.CHA || 0,
+      STR: form.steps.abilitiesSelection.value.STR,
+      DEX: form.steps.abilitiesSelection.value.DEX,
+      CON: form.steps.abilitiesSelection.value.CON,
+      INT: form.steps.abilitiesSelection.value.INT,
+      WIS: form.steps.abilitiesSelection.value.WIS,
+      CHA: form.steps.abilitiesSelection.value.CHA,
     },
     mode: "onSubmit",
   });
+
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.abilitiesSelection.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<AbilityFormInput> = ({
     STR,
@@ -78,11 +102,12 @@ export default function AbilitySelection({
     INT,
     WIS,
     CHA,
+    method,
   }): void => {
     setFormError((error) => null);
     let formHasError = false;
 
-    if (watch("method") === "array") {
+    if (method === "array") {
       const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
       if (new Set(abilities).size !== abilities.length) {
         setFormError(
@@ -93,7 +118,7 @@ export default function AbilitySelection({
       }
     }
 
-    if (watch("method") === "buy" && totalScorePointBuy !== POINT_BUY_TOTAL) {
+    if (method === "buy" && totalScorePointBuy !== POINT_BUY_TOTAL) {
       setFormError(
         (error) => "Please make certain you spend exactly all available points!"
       );
@@ -110,7 +135,23 @@ export default function AbilitySelection({
     }
 
     if (!formHasError) {
-      setUsedScores({ STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 });
+      setForm(
+        produce((formState) => {
+          formState.steps.abilitiesSelection = {
+            value: {
+              method: method,
+              STR: STR,
+              DEX: DEX,
+              CON: CON,
+              WIS: WIS,
+              INT: INT,
+              CHA: CHA,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
       nextTab();
     }
   };
