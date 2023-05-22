@@ -31,12 +31,12 @@ export default function AbilitySelection({
   const { form, setForm } = useContext(FormStateContext);
   const [formError, setFormError] = useState<string | null>(null);
   const [usedScores, setUsedScores] = useImmer<AbilityScores>({
-    STR: form.steps.abilitiesSelection.value.STR,
-    DEX: form.steps.abilitiesSelection.value.DEX,
-    CON: form.steps.abilitiesSelection.value.CON,
-    INT: form.steps.abilitiesSelection.value.INT,
-    WIS: form.steps.abilitiesSelection.value.WIS,
-    CHA: form.steps.abilitiesSelection.value.CHA,
+    STR: form.steps.abilitiesSelection.value.abilities.STR,
+    DEX: form.steps.abilitiesSelection.value.abilities.DEX,
+    CON: form.steps.abilitiesSelection.value.abilities.CON,
+    INT: form.steps.abilitiesSelection.value.abilities.INT,
+    WIS: form.steps.abilitiesSelection.value.abilities.WIS,
+    CHA: form.steps.abilitiesSelection.value.abilities.CHA,
   });
   const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
 
@@ -66,19 +66,20 @@ export default function AbilitySelection({
     handleSubmit,
     register,
     watch,
+    getValues,
     reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<AbilityFormInput>({
     defaultValues: {
-      method: "array",
-      STR: form.steps.abilitiesSelection.value.STR,
-      DEX: form.steps.abilitiesSelection.value.DEX,
-      CON: form.steps.abilitiesSelection.value.CON,
-      INT: form.steps.abilitiesSelection.value.INT,
-      WIS: form.steps.abilitiesSelection.value.WIS,
-      CHA: form.steps.abilitiesSelection.value.CHA,
+      method: form.steps.abilitiesSelection.value.method || "array",
+      STR: form.steps.abilitiesSelection.value.abilities.STR,
+      DEX: form.steps.abilitiesSelection.value.abilities.DEX,
+      CON: form.steps.abilitiesSelection.value.abilities.CON,
+      INT: form.steps.abilitiesSelection.value.abilities.INT,
+      WIS: form.steps.abilitiesSelection.value.abilities.WIS,
+      CHA: form.steps.abilitiesSelection.value.abilities.CHA,
     },
     mode: "onSubmit",
   });
@@ -140,12 +141,14 @@ export default function AbilitySelection({
           formState.steps.abilitiesSelection = {
             value: {
               method: method,
-              STR: STR,
-              DEX: DEX,
-              CON: CON,
-              WIS: WIS,
-              INT: INT,
-              CHA: CHA,
+              abilities: {
+                STR: STR,
+                DEX: DEX,
+                CON: CON,
+                WIS: WIS,
+                INT: INT,
+                CHA: CHA,
+              },
             },
             valid: true,
             dirty: false,
@@ -182,7 +185,13 @@ export default function AbilitySelection({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <CreateCharacterCard header={`Ability Scores | ${watch("method")}`}>
+        <CreateCharacterCard
+          header={`Ability Scores | ${
+            getValues("method")
+              ? getValues("method")
+              : form.steps.abilitiesSelection.value.method
+          }`}
+        >
           <div className={styles.create__attributes__card}>
             <div className={styles.create__attributes__card__list}>
               <div>Strength</div>
@@ -193,12 +202,35 @@ export default function AbilitySelection({
               <div>Charisma</div>
             </div>
             <div className={styles.create__attributes__card__score}>
-              {Object.values(abilityScores).map(
-                (ability: number, index: number) => (
+              {!getValues("STR") ? (
+                Object.values(
+                  form.steps.abilitiesSelection.value.abilities
+                ).map((ability: number, index: number) => (
                   <div key={index}>
                     <span>{ability}</span>
                   </div>
-                )
+                ))
+              ) : (
+                <>
+                  <div key={"STR"}>
+                    <span>{getValues("STR")}</span>
+                  </div>
+                  <div key={"DEX"}>
+                    <span>{getValues("DEX")}</span>
+                  </div>
+                  <div key={"CON"}>
+                    <span>{getValues("CON")}</span>
+                  </div>
+                  <div key={"INT"}>
+                    <span>{getValues("INT")}</span>
+                  </div>
+                  <div key={"WIS"}>
+                    <span>{getValues("WIS")}</span>
+                  </div>
+                  <div key={"CHA"}>
+                    <span>{getValues("CHA")}</span>
+                  </div>
+                </>
               )}
             </div>
             <div className={styles.create__attributes__card__total}>

@@ -182,12 +182,14 @@ export const FORM_STATE = {
             dirty: false,
             value: {
                 method: "",
-                STR: 0,
-                DEX: 0,
-                CON: 0,
-                WIS: 0,
-                INT: 0,
-                CHA: 0,
+                abilities: {
+                    STR: 0,
+                    DEX: 0,
+                    CON: 0,
+                    WIS: 0,
+                    INT: 0,
+                    CHA: 0,
+                }
             }
         }
     }
