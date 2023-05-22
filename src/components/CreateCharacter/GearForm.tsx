@@ -2,7 +2,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { ErrorField } from "./ClassSelectionForm";
 import { useEffect, useState } from "react";
 import { characterStore } from "@/store";
-import { EquipmentFormInput, Equipment } from "@/types";
+import { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
@@ -10,7 +10,7 @@ import styles from "@/styles/Create.module.scss";
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-  items: { results: Equipment[] };
+  items: { results: Item[] };
 }
 
 export default function GearForm({
@@ -102,24 +102,26 @@ export default function GearForm({
     if (!isLoading) {
       nextTab();
     }
+    console.log(equipmentFromStore);
   };
 
-  const addItem: (
-    items: { item: any; amount: number }[],
-    index: number
-  ) => void = (items, index) => {
+  const addItem: (items: Equipment[], index: number) => void = (
+    items,
+    index
+  ) => {
     let buttons = buttonIsActive;
     buttons[index] = false;
     setButtonIsActive(buttons);
-    items.map(({ item }: any, index: number): void => append(item));
+    items.forEach((item: Equipment): void => append(item));
+    console.log(fields);
   };
 
-  const changeItem: (e: any, index: number, items: Equipment[]) => void = (
+  const changeItem: (e: any, index: number, items: Item[]) => void = (
     e,
     index,
     items
   ) => {
-    update(index, items[e.target.value]);
+    update(index, { ...items[e.target.value], amount: 1 });
   };
 
   return (
@@ -143,13 +145,15 @@ export default function GearForm({
               {starting_equipment && starting_equipment?.length > 0 && (
                 <div>
                   Starting Gear:{" "}
-                  {starting_equipment.map((item, index, arr) => (
-                    <span key={item.equipment.index}>
-                      {index < arr.length - 1
-                        ? `${item.equipment.name}, `
-                        : item.equipment.name}
-                    </span>
-                  ))}
+                  {starting_equipment.map(
+                    (item: any, index: number, arr: any[]) => (
+                      <span key={item.equipment.index}>
+                        {index < arr.length - 1
+                          ? `${item.equipment.name}, `
+                          : item.equipment.name}
+                      </span>
+                    )
+                  )}
                 </div>
               )}
               <div>
@@ -161,7 +165,11 @@ export default function GearForm({
                     <>
                       {item.index !== "martial-weapons" &&
                         item.index !== "martial-melee-weapons" &&
-                        item.index !== "simple-weapons" && <p>{item.name}</p>}
+                        item.index !== "simple-weapons" && (
+                          <p>
+                            {item.name} {item.amount > 1 && `:${item.amount}`}
+                          </p>
+                        )}
                     </>
                   )
                 )}
@@ -201,7 +209,7 @@ export default function GearForm({
                                   addItem(
                                     [
                                       {
-                                        item: option.of as Equipment,
+                                        ...(option.of as Item),
                                         amount: 1,
                                       },
                                     ],
@@ -215,15 +223,20 @@ export default function GearForm({
                               </AnimatedButton>
                             );
                           } else if (option.option_type === "multiple") {
-                            const items: { item: Equipment; amount: number }[] =
-                              option.items.map((item: any): any => {
+                            const items: Equipment[] = option.items.map(
+                              (item: any): Equipment => {
                                 if (item.option_type === "counted_reference")
-                                  return { item: item.of, amount: item.count };
+                                  return {
+                                    ...(item.of as Item),
+                                    amount: item.count,
+                                  };
                                 return {
-                                  item: item.choice.from.equipment_category,
+                                  ...(item.choice.from
+                                    .equipment_category as Item),
                                   amount: item.choice.choose,
                                 };
-                              });
+                              }
+                            );
 
                             return (
                               <AnimatedButton
@@ -240,15 +253,15 @@ export default function GearForm({
                             /* HACK: Add the number of martial weapons or simple weapons based on the amount
                             the player gets to choose. Opted for this instead of changing the amount as that indicates
                             mostly the number of a specific simpleWeapons, not a weapon choice. */
-                            const items: { item: Equipment; amount: number }[] =
-                              [...Array(option.choice.choose)].map(
-                                (i: number, count: number): any => {
-                                  return {
-                                    item: option.choice.from.equipment_category,
-                                    amount: 1,
-                                  };
-                                }
-                              );
+                            const items: Equipment[] = [
+                              ...Array(option.choice.choose),
+                            ].map((i: number): any => {
+                              return {
+                                ...(option.choice.from
+                                  .equipment_category as Item),
+                                amount: 1,
+                              };
+                            });
 
                             return (
                               <AnimatedButton
@@ -288,7 +301,7 @@ export default function GearForm({
                     onChange={(e) => changeItem(e, index, martialWeapons)}
                   >
                     {martialWeapons.map(
-                      (item: Equipment, i: number): JSX.Element => (
+                      (item: Item, i: number): JSX.Element => (
                         <option key={i} value={i}>
                           {item.name}
                         </option>
@@ -306,7 +319,7 @@ export default function GearForm({
                     onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
                   >
                     {martialMeleeWeapons.map(
-                      (item: Equipment, i: number): JSX.Element => (
+                      (item: Item, i: number): JSX.Element => (
                         <option key={i} value={i}>
                           {item.name}
                         </option>
@@ -322,7 +335,7 @@ export default function GearForm({
                   <p>Choose a Simple Weapon </p>
                   <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
                     {simpleWeapons.map(
-                      (item: Equipment, i: number): JSX.Element => (
+                      (item: Item, i: number): JSX.Element => (
                         <option key={i} value={i}>
                           {item.name}
                         </option>

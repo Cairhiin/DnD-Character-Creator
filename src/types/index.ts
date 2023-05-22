@@ -267,35 +267,33 @@ export interface DndClass {
     name: string;
 }
 
-export interface Equipment {
-    index: string;
-    name: string;
-    url: string;
-}
-
 export interface Item {
-    desc: string[];
-    special: string[];
+    desc?: string[];
+    special?: string[];
     index: string;
     name: string;
-    equipment_category: {
+    equipment_category?: {
         index: string;
         name: string;
         url: string;
     },
-    gear_category: {
+    gear_category?: {
         index: string;
         name: string;
         url: string;
     },
-    cost: {
+    cost?: {
         quantity: number;
         unit: string;
     },
-    weight: number;
+    weight?: number;
     url: string;
-    contents: string[];
-    properties: string[];
+    contents?: string[];
+    properties?: string[];
+}
+
+export interface Equipment extends Item {
+    amount: number;
 }
 
 export interface EquipmentChoices {
