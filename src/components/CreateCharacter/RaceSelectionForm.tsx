@@ -64,9 +64,17 @@ export default function RaceSelection({ nextTab }: Props) {
   }: {
     race: Race;
   }): void => {
-    if (!race) {
-      return setError("Please choose a race before continuing.");
-    }
+    setForm(
+      produce((formState) => {
+        formState.steps.raceSelection = {
+          value: {
+            race: race,
+          },
+          valid: true,
+          dirty: false,
+        };
+      })
+    );
 
     if (!isLoading) {
       nextTab();
