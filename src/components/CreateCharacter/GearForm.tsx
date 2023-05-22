@@ -35,6 +35,14 @@ export default function GearForm({
   const equipmentFromStore = characterStore((state) => state.equipment);
   const setEquipment = characterStore((state) => state.setEquipment);
 
+  // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
+  if (equipmentFromStore.length && buttonIsActive[0] === true) {
+    const activeButtons = buttonIsActive.map(
+      (isActive: boolean): boolean => (isActive = false)
+    );
+    setButtonIsActive(activeButtons);
+  }
+
   const {
     handleSubmit,
     register,
@@ -102,7 +110,6 @@ export default function GearForm({
     if (!isLoading) {
       nextTab();
     }
-    console.log(equipmentFromStore);
   };
 
   const addItem: (items: Equipment[], index: number) => void = (
@@ -113,7 +120,6 @@ export default function GearForm({
     buttons[index] = false;
     setButtonIsActive(buttons);
     items.forEach((item: Equipment): void => append(item));
-    console.log(fields);
   };
 
   const changeItem: (e: any, index: number, items: Item[]) => void = (
@@ -124,11 +130,17 @@ export default function GearForm({
     update(index, { ...items[e.target.value], amount: 1 });
   };
 
+  /* If there are available items already in store use those else use the current form values
+  Only necessary to display the selected items in the starting equipment card */
+  const selectedItems = equipmentFromStore.length
+    ? equipmentFromStore
+    : Object.values(fields);
+
   return (
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {!fields.length ? (
+        {!fields.length && !equipmentFromStore.length ? (
           <CreateCharacterCard header="Starting Equipment">
             <div className={styles.create__description__text}>
               <p>
@@ -160,16 +172,19 @@ export default function GearForm({
                 Gold: <span>10</span>
               </div>
               <div>
-                {Object.values(fields).map(
+                {selectedItems.map(
                   (item: Equipment): JSX.Element => (
                     <>
                       {item.index !== "martial-weapons" &&
                         item.index !== "martial-melee-weapons" &&
-                        item.index !== "simple-weapons" && (
+                        item.index !== "simple-weapons" &&
+                        (item.amount > 1 ? (
                           <p>
-                            {item.name} {item.amount > 1 && `:${item.amount}`}
+                            {item.amount} {`${item.name}s`}
                           </p>
-                        )}
+                        ) : (
+                          <p>{item.name}</p>
+                        ))}
                     </>
                   )
                 )}
@@ -210,7 +225,7 @@ export default function GearForm({
                                     [
                                       {
                                         ...(option.of as Item),
-                                        amount: 1,
+                                        amount: option.count,
                                       },
                                     ],
                                     index
