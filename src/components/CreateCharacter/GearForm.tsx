@@ -20,6 +20,12 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
+    true,
+    true,
+    true,
+    true,
+  ]);
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
@@ -104,6 +110,9 @@ export default function GearForm({
     items: { item: any; amount: number }[],
     index: number
   ) => void = (items, index) => {
+    let buttons = buttonIsActive;
+    buttons[index] = false;
+    setButtonIsActive(buttons);
     items.map(({ item }: any, index: number): void => append(item));
   };
 
@@ -201,7 +210,7 @@ export default function GearForm({
                                     index
                                   )
                                 }
-                                disabled={fields[index] ? true : false}
+                                disabled={!buttonIsActive[index]}
                               >
                                 {/* Display an A, B or C depending on the number of options */}
                                 {String.fromCharCode(65 + optionNumber)}
@@ -222,7 +231,7 @@ export default function GearForm({
                               <AnimatedButton
                                 variant="secondary"
                                 type="outline"
-                                disabled={fields[index] ? true : false}
+                                disabled={!buttonIsActive[index]}
                                 key={`${option.desc}`}
                                 onClick={() => addItem(items, index)}
                               >
@@ -247,7 +256,7 @@ export default function GearForm({
                               <AnimatedButton
                                 variant="secondary"
                                 type="outline"
-                                disabled={fields[index] ? true : false}
+                                disabled={!buttonIsActive[index]}
                                 key={`${option.desc}${index}`}
                                 onClick={() => addItem(items, index)}
                               >
