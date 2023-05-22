@@ -22,20 +22,20 @@ export default function AbilitySelection({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
-  const [formError, setFormError] = useState<string | null>(null);
-  const [usedScores, setUsedScores] = useImmer<AbilityScores>({
-    STR: 0,
-    DEX: 0,
-    CON: 0,
-    INT: 0,
-    WIS: 0,
-    CHA: 0,
-  });
-  const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
   const abilityScores = characterStore((state) => state.abilityScores);
   const setAbilityScores = characterStore(
     (state: any) => state.setAbilityScores
   );
+  const [formError, setFormError] = useState<string | null>(null);
+  const [usedScores, setUsedScores] = useImmer<AbilityScores>({
+    STR: abilityScores.STR || 0,
+    DEX: abilityScores.DEX || 0,
+    CON: abilityScores.CON || 0,
+    INT: abilityScores.INT || 0,
+    WIS: abilityScores.WIS || 0,
+    CHA: abilityScores.CHA || 0,
+  });
+  const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
 
   // Get the ability bonuses from the race choice and create an array out of them
   const { ability_bonuses } = characterStore((state) => state.race);
@@ -61,12 +61,12 @@ export default function AbilitySelection({
   } = useForm<AbilityFormInput>({
     defaultValues: {
       method: "array",
-      STR: 0,
-      DEX: 0,
-      CON: 0,
-      INT: 0,
-      WIS: 0,
-      CHA: 0,
+      STR: abilityScores.STR || 0,
+      DEX: abilityScores.DEX || 0,
+      CON: abilityScores.CON || 0,
+      INT: abilityScores.INT || 0,
+      WIS: abilityScores.WIS || 0,
+      CHA: abilityScores.CHA || 0,
     },
     mode: "onSubmit",
   });
