@@ -43,6 +43,7 @@
         &:hover::before, &:hover::after, &:hover, &::before {
             transition: none;
             background: inherit;
+            cursor: default;
         }
     }
 
