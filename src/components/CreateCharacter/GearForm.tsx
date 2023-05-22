@@ -41,9 +41,7 @@ export default function GearForm({
     control,
     formState: { errors },
   } = useForm<EquipmentFormInput>({
-    defaultValues: {
-      items: equipmentFromStore,
-    },
+    defaultValues: {},
     mode: "onSubmit",
   });
 
