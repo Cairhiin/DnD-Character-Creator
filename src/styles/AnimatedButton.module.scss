@@ -25,7 +25,7 @@
     &:has(:last-child:hover)::before {
         transition: transform 500ms, opacity 250ms;
     }
-    
+
     &::before {
         content: '';
         z-index: -1;
@@ -37,6 +37,13 @@
         margin: auto;
         opacity: 0;
         transition: transform 1000ms 200ms, opacity 200ms;       
+    }
+
+    &:disabled {
+        &:hover::before, &:hover::after, &:hover, &::before {
+            transition: none;
+            background: inherit;
+        }
     }
 
     &.primary::before {
