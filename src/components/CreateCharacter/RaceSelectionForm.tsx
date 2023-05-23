@@ -8,10 +8,10 @@ import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import { FormStateContext } from "@/pages/create";
-import { Race } from "@/types";
+import { ApiRace } from "@/types";
 
 interface RaceFormInput {
-  race: Race;
+  race: ApiRace;
 }
 
 interface Props {
@@ -80,7 +80,7 @@ export default function RaceSelection({ nextTab }: Props) {
   const saveData: SubmitHandler<RaceFormInput> = ({
     race,
   }: {
-    race: Race;
+    race: ApiRace;
   }): void => {
     setForm(
       produce((formState) => {

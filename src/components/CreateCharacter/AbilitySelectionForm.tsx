@@ -30,12 +30,7 @@ export default function AbilitySelection({
   const { form, setForm } = useContext(FormStateContext);
   const [formError, setFormError] = useState<string | null>(null);
   const [usedScores, setUsedScores] = useImmer<AbilityScores>({
-    STR: form.steps.abilitiesSelection.value.abilities.STR,
-    DEX: form.steps.abilitiesSelection.value.abilities.DEX,
-    CON: form.steps.abilitiesSelection.value.abilities.CON,
-    INT: form.steps.abilitiesSelection.value.abilities.INT,
-    WIS: form.steps.abilitiesSelection.value.abilities.WIS,
-    CHA: form.steps.abilitiesSelection.value.abilities.CHA,
+    ...form.steps.abilitiesSelection.value.abilities,
   });
   const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
 

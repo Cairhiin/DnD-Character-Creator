@@ -49,7 +49,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.raceSelection.dirty = isDirty;
+        form.steps.classSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);

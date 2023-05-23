@@ -17,11 +17,11 @@ export default function SkillsForm({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
-  const classFromStore = characterStore((state) => state.dndClass);
-  const backgroundFromStore = characterStore((state) => state.background);
   const skillsFromStore = characterStore((state) => state.skills);
   const setSkills = characterStore((state) => state.setSkills);
   const { form, setForm } = useContext(FormStateContext);
+  const classFromContext = form.steps.classSelection.value.dndClass;
+  const backgroundFromContext = form.steps.backgroundSelection.value.background;
 
   // In case the user comes back to the page filter the chosen skills and set as initial state
   const selectedSkillsFromStore: string[] = Object.keys(skillsFromStore).filter(

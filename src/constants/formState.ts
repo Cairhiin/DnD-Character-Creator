@@ -1,4 +1,50 @@
-const FORM_STATE = {
+import { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Skills } from "@/types";
+
+interface FormState {
+    steps: {
+        raceSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: {
+                race: ApiRace;
+            };
+        };
+        backgroundSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: {
+                background: Background;
+            }
+        };
+        classSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: {
+                dndClass: ApiClass;
+            }
+        };
+        abilitiesSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: {
+                method: string;
+                abilities: AbilityScores;
+            }
+        };
+        descriptionForm: {
+            valid: boolean;
+            dirty: boolean;
+            value: CharacterDescription;
+        };
+        skillsSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: Skills;
+        }
+    }
+};
+
+const FORM_STATE: FormState = {
     steps: {
         raceSelection: {
             valid: false,
@@ -7,57 +53,7 @@ const FORM_STATE = {
                 race: {
                     name: "",
                     index: "",
-                    url: "",
-                    ability_bonuses: [
-                        {
-                            ability_score: {
-                              index: "str",
-                              name: "STR",
-                              url: "/api/ability-scores/str"
-                            },
-                            bonus: 0
-                          },
-                          {
-                            ability_score: {
-                              index: "dex",
-                              name: "DEX",
-                              url: "/api/ability-scores/dex"
-                            },
-                            bonus: 0
-                          },
-                          {
-                            ability_score: {
-                              index: "con",
-                              name: "CON",
-                              url: "/api/ability-scores/con"
-                            },
-                            bonus: 0
-                          },
-                          {
-                            ability_score: {
-                              index: "int",
-                              name: "INT",
-                              url: "/api/ability-scores/int"
-                            },
-                            bonus: 0
-                          },
-                          {
-                            ability_score: {
-                              index: "wis",
-                              name: "WIS",
-                              url: "/api/ability-scores/wis"
-                            },
-                            bonus: 0
-                          },
-                          {
-                            ability_score: {
-                              index: "cha",
-                              name: "CHA",
-                              url: "/api/ability-scores/cha"
-                            },
-                            bonus: 0
-                          }
-                    ]
+                    url: "",                                  
                 }
             }
         },
@@ -68,7 +64,7 @@ const FORM_STATE = {
                 dndClass: {
                     name: "",
                     index: "",
-                    url: ""
+                    url: "",                 
                 }
             }
         },
@@ -136,6 +132,30 @@ const FORM_STATE = {
                     backstory: "",
                     other: "",
                 }
+            }
+        },
+        skillsSelection: {
+            valid: false,
+            dirty: false,
+            value: {
+                acrobatics: false,
+                animalHandling: false,
+                arcana: false,
+                athletics: false,
+                deception: false, 
+                history: false,
+                insight: false,
+                intimidation: false,
+                investigation: false,
+                medicine: false,
+                nature: false,
+                perception: false,
+                performance: false,
+                persuasion: false,
+                religion: false,
+                sleightOfHand: false,
+                stealth: false,
+                survival: false,
             }
         }
     }

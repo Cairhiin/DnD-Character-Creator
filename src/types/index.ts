@@ -19,23 +19,6 @@ export interface Trait {
     "url": string;
 }
 
-export interface Race {
-    "index": string;
-    "name": string;
-    "speed": number;
-    "ability_bonuses": Array<Ability>;
-    "alignment": string;
-    "age": string;
-    "size": string;
-    "size_description": string;
-    "starting_proficiencies": Array<string>;
-    "languages": Array<Language>;
-    "language_desc": string;
-    "traits": Array<Trait>;
-    "subraces": Array<string>;
-    "url": string;
-};
-
 export interface Background {
     id: string;
     name: string;
@@ -153,32 +136,26 @@ export interface ApiClass {
     name: string;
     index: string;
     multi_classing?: {
-        prerequisites: [
+        prerequisites:
             { 
                 ability_score: {index: string; name: string; url: string; };
                 minimum_score: number; 
-            } 
-        ];
-        proficiencies: [
-            { index: string; name: string; url: string; }
-        ];
+            }[];
+        proficiencies:
+            { index: string; name: string; url: string; }[];   
     };
-    proficiencies?: [ 
-        { index: string; name: string; url: string; }
-    ];
-    proficiency_choices?: [
+    proficiencies?:  
+        { index: string; name: string; url: string; }[];
+    proficiency_choices?:
         { 
             desc: string;
             choose: number;
             from: {
                 options: any[];
             }; 
-        }
-    ];
-    saving_throws?: [
-        { index: string; name: string; url: string; }
-    ];
-    starting_equipment?: [
+        }[];
+    saving_throws?: { index: string; name: string; url: string; }[];
+    starting_equipment?: 
         { 
             equipment: {
                 index: string;
@@ -186,9 +163,8 @@ export interface ApiClass {
                 url: string;
             };
             quantity: number;
-        }
-    ];
-    starting_equipment_options?: [
+        }[];
+    starting_equipment_options?: 
         { desc: string; choose: number; type: string; from: 
             { option_set_type: string; options: 
                 { 
@@ -217,48 +193,38 @@ export interface ApiClass {
                     }[] 
                 }[]
             }
-        }
-    ];
-    subclasses?: [
-        { index: string; name: string; url: string; }
-    ];
+        }[];
+    subclasses?: { index: string; name: string; url: string; }[];
     url: string;
 }
 
 export interface ApiRace {
-    ability_bonuses?: [
+    ability_bonuses?:
         { 
             ability_score: { index: string; name: string; url: string; }
             bonus: number;
-        }
-    ];
+        }[];
     age?: string;
     alignment?: string;
     index: string;
     language_desc?: string;
-    languages?: [ 
-        { index: string; name: string; url: string; }
-    ];
+    languages?: { index: string; name: string; url: string; }[];
     name: string;
     size?: string;
     size_description?: string;
     speed?: number;
-    starting_proficiencies?: [
-        { index: string; name: string; url: string; }
-    ];
-    starting_proficiencies_options?: [
+    starting_proficiencies?: { index: string; name: string; url: string; }[];
+    starting_proficiencies_options?: 
         { desc: string; choose: number; type: string; from: 
-            { option_set_type: string; options: [
-                { option_type: string; item: { index: string; name: string; url: string }} 
-            ]}
-        }
-    ];
-    subraces?: [
-        { index: string; name: string; url: string }
-    ];
-    traits?: [
-        { index: string; name: string; url: string }
-    ]
+            { option_set_type: 
+                string; options: 
+                { option_type: string; item: { index: string; name: string; url: string }}[]
+            }
+        }[];
+    subraces?: 
+        { index: string; name: string; url: string }[];
+    traits?: 
+        { index: string; name: string; url: string }[];
     url?: string;
 }
 
