@@ -96,6 +96,14 @@ export default function AbilitySelection({
     );
   }, [isDirty, setForm]);
 
+  useEffect(() => {
+    /* If the user has a form state with point buy ability score method 
+    set the points used to the max available */
+    if (form.steps.abilitiesSelection.value.method === "buy") {
+      setTotalScorePointBuy(POINT_BUY_TOTAL);
+    }
+  }, []);
+
   const saveData: SubmitHandler<AbilityFormInput> = ({
     STR,
     DEX,
