@@ -43,7 +43,9 @@ export default function SkillsForm({
             cleanUpSkillDescription(item.name)
           )
       )
-      .map(({ item }: any): string => cleanUpSkillDescription(item.name));
+      .map(({ item }: any): string =>
+        formatSkillName(cleanUpSkillDescription(item.name))
+      );
 
   const {
     handleSubmit,
@@ -90,7 +92,6 @@ export default function SkillsForm({
     ) {
       nextTab();
     } else {
-      console.log("ERROR!");
       setError("Please choose more skills before continuing.");
     }
   };
@@ -98,12 +99,13 @@ export default function SkillsForm({
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
     if (
+      (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
       Object.values(selectedSkills).filter(
-        (skill: boolean): boolean => skill === true
+        ({ value }: { value: boolean }): boolean => value === true
       ).length -
         backgroundFromContext.skill_proficiencies.length <
-      classFromContext.proficiency_choices![0].choose
+        classFromContext.proficiency_choices![0].choose
     ) {
       setSelectedSkills(
         produce((draft: any): void => {
@@ -118,7 +120,6 @@ export default function SkillsForm({
         })
       );
     }
-    console.log(selectedSkills);
   };
 
   return (
@@ -126,7 +127,8 @@ export default function SkillsForm({
       <div></div>
       <aside>
         {Object.values(selectedSkills).filter(
-          (skill: boolean): boolean => skill === true
+          (skill: { value: boolean; name: string }): boolean =>
+            skill.value === true
         ).length -
           backgroundFromContext.skill_proficiencies.length >
         0 ? (
@@ -139,9 +141,15 @@ export default function SkillsForm({
                 )
               )}
               <h3>Chosen proficiencies</h3>
-              {Object.entries(selectedSkills).map(
-                ([skill, value]): JSX.Element =>
-                  value && <div key={skill}>{skill}</div>
+              {Object.values(selectedSkills).map(
+                ({
+                  value,
+                  name,
+                }: {
+                  value: boolean;
+                  name: string;
+                }): JSX.Element =>
+                  value ? <div key={name}>{name}</div> : <></>
               )}
             </div>
           </CreateCharacterCard>
@@ -187,7 +195,7 @@ export default function SkillsForm({
               <div key={skill}>
                 <input
                   id={skill}
-                  checked={(selectedSkills as any)[skill] === true}
+                  checked={(selectedSkills as any)[skill].value === true}
                   type="checkbox"
                   {...register(skill as any)}
                   onClick={() => handleChange(skill)}
