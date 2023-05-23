@@ -191,6 +191,24 @@ export const FORM_STATE = {
                     CHA: 0,
                 }
             }
+        },
+        backgroundSelection: {
+            valid: false,
+            dirty: false,
+            value: {
+                background: {
+                    id: "",
+                    name: "",
+                    skill_proficiencies:[""],
+                    languages: 0,
+                    tool_proficiencies: [""],
+                    feature: "",
+                    traits: [""],
+                    bonds: [""],
+                    ideals: [""],
+                    flaws: [""],
+                }
+            }
         }
     }
 };

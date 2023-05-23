@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
+import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
-import { characterStore } from "@/store";
 import { Background } from "@/types";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
 
@@ -22,20 +22,33 @@ export default function BackgroundSelectionForm({
   previousTab,
   backgrounds,
 }: Props): JSX.Element {
-  const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const backgroundFromStore = characterStore((state) => state.background);
-  const setBackground = characterStore((state) => state.setBackground);
+  const { form, setForm } = useContext(FormStateContext);
+  const [background, setBackground] = useState<Background | null>(null);
+
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      background: backgroundFromStore,
+      background: form.steps.backgroundSelection.value.background,
     },
     mode: "onSubmit",
   });
+
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.classSelection.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<BackgroundFormInput> = ({
     background,
@@ -44,9 +57,19 @@ export default function BackgroundSelectionForm({
       return setError("Please choose a background before continuing.");
     }
 
-    if (!isLoading) {
-      nextTab();
-    }
+    setForm(
+      produce((formState) => {
+        formState.steps.backgroundSelection = {
+          value: {
+            background: background,
+          },
+          valid: true,
+          dirty: false,
+        };
+      })
+    );
+
+    nextTab();
   };
 
   const handleChange = (e: string): void => {
@@ -60,11 +83,11 @@ export default function BackgroundSelectionForm({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {backgroundFromStore.name ? (
-          <CreateCharacterCard header={backgroundFromStore.name}>
+        {background?.name ? (
+          <CreateCharacterCard header={background.name}>
             <div>
               Skill Proficiencies:{" "}
-              {backgroundFromStore.skill_proficiencies.map(
+              {background.skill_proficiencies.map(
                 (prof: string, index: number, arr: string[]) =>
                   index < arr.length - 1 ? (
                     <span key={prof}>{prof}, </span>
@@ -74,11 +97,11 @@ export default function BackgroundSelectionForm({
               )}
             </div>
             <div>
-              Languages: <span>{backgroundFromStore.languages}</span>
+              Languages: <span>{background.languages}</span>
             </div>
             <div>
               Tool Proficiencies:{" "}
-              {backgroundFromStore.tool_proficiencies.map(
+              {background.tool_proficiencies.map(
                 (prof: string, index: number, arr: string[]) =>
                   index < arr.length - 1 ? (
                     <span key={prof}>{prof}, </span>
@@ -88,7 +111,7 @@ export default function BackgroundSelectionForm({
               )}
             </div>
             <div>
-              Feature: <span>{backgroundFromStore.feature}</span>
+              Feature: <span>{background.feature}</span>
             </div>
           </CreateCharacterCard>
         ) : (
