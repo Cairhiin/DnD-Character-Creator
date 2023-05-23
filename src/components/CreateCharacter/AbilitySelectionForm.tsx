@@ -8,7 +8,6 @@ import {
   useFormState,
 } from "react-hook-form";
 import AnimatedButton from "../AnimatedButton";
-import { characterStore } from "@/store";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
