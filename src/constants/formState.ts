@@ -109,7 +109,33 @@ const FORM_STATE = {
             valid: false,
             dirty: false,
             value: {
-                
+                details: {   
+                    name: "",
+                    alignment: "",
+                    faith: "",
+                },
+                physical: {
+                    hair: "",
+                    skin: "",
+                    eyes: "",
+                    height: "",
+                    weight: "",
+                    age: "",
+                    gender: "",
+                },
+                personal: {
+                    traits: "",
+                    ideals: "",
+                    bonds: "",
+                    flaws: "",
+                },
+                notes: {
+                    organizations: "",
+                    allies: "",
+                    enemies: "",
+                    backstory: "",
+                    other: "",
+                }
             }
         }
     }

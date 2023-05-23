@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useState } from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import { Background, Equipment, CharacterFormState } from "@/types";
+import { Background, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
