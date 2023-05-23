@@ -73,12 +73,7 @@ export default function AbilitySelection({
   } = useForm<AbilityFormInput>({
     defaultValues: {
       method: form.steps.abilitiesSelection.value.method || "array",
-      STR: form.steps.abilitiesSelection.value.abilities.STR,
-      DEX: form.steps.abilitiesSelection.value.abilities.DEX,
-      CON: form.steps.abilitiesSelection.value.abilities.CON,
-      INT: form.steps.abilitiesSelection.value.abilities.INT,
-      WIS: form.steps.abilitiesSelection.value.abilities.WIS,
-      CHA: form.steps.abilitiesSelection.value.abilities.CHA,
+      ...form.steps.abilitiesSelection.value.abilities,
     },
     mode: "onSubmit",
   });

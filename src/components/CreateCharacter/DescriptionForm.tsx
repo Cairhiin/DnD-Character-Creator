@@ -72,7 +72,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.classSelection.dirty = isDirty;
+        form.steps.descriptionForm.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);

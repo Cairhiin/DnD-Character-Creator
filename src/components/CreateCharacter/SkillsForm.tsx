@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
+import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
 import styles from "@/styles/Create.module.scss";
@@ -20,6 +21,7 @@ export default function SkillsForm({
   const backgroundFromStore = characterStore((state) => state.background);
   const skillsFromStore = characterStore((state) => state.skills);
   const setSkills = characterStore((state) => state.setSkills);
+  const { form, setForm } = useContext(FormStateContext);
 
   // In case the user comes back to the page filter the chosen skills and set as initial state
   const selectedSkillsFromStore: string[] = Object.keys(skillsFromStore).filter(
@@ -47,11 +49,24 @@ export default function SkillsForm({
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = useForm<Skills>({
     defaultValues: {},
     mode: "onSubmit",
   });
+
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.descriptionForm.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<Skills> = (skills): void => {
     // Make certain one has chosen the right number of skills
