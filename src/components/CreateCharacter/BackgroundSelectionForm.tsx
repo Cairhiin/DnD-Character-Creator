@@ -14,6 +14,7 @@ interface Props {
 }
 
 interface BackgroundFormInput {
+  backgroundName: string;
   background: Background;
 }
 
@@ -30,9 +31,11 @@ export default function BackgroundSelectionForm({
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      backgroundName: form.steps.backgroundSelection.value.background.name,
       background: form.steps.backgroundSelection.value.background,
     },
     mode: "onSubmit",
@@ -43,16 +46,18 @@ export default function BackgroundSelectionForm({
   });
 
   useEffect(() => {
+    setBackground(form.steps.backgroundSelection.value.background);
+  }, [form.steps.backgroundSelection.value.background]);
+
+  useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.classSelection.dirty = isDirty;
+        form.steps.backgroundSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);
 
-  const saveData: SubmitHandler<BackgroundFormInput> = ({
-    background,
-  }): void => {
+  const saveData: SubmitHandler<BackgroundFormInput> = (): void => {
     if (!background) {
       return setError("Please choose a background before continuing.");
     }
@@ -138,9 +143,9 @@ export default function BackgroundSelectionForm({
         onSubmit={handleSubmit(saveData)}
       >
         <div className={styles.character__creation__form__method}>
-          <label htmlFor="background">Choose a background</label>
+          <label htmlFor="backgroundName">Choose a background</label>
           <select
-            {...register("background")}
+            {...register("backgroundName")}
             onChange={(e) => handleChange(e.target.value)}
           >
             {backgrounds.map(
