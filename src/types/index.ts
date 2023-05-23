@@ -110,24 +110,24 @@ export interface EquipmentFormInput {
 }
 
 export interface Skills {
-    acrobatics: boolean; 
-    animalHandling: boolean;
-    arcana: boolean;
-    athletics: boolean; 
-    deception: boolean; 
-    history: boolean;
-    insight: boolean;
-    intimidation: boolean; 
-    investigation: boolean;
-    medicine: boolean;
-    nature: boolean;
-    perception: boolean;
-    performance: boolean;
-    persuasion: boolean;
-    religion: boolean; 
-    sleightOfHand: boolean; 
-    stealth: boolean; 
-    survival: boolean;
+    acrobatics: {name: string, value: boolean}; 
+    animalHandling: {name: string, value: boolean};
+    arcana: {name: string, value: boolean};
+    athletics: {name: string, value: boolean}; 
+    deception: {name: string, value: boolean}; 
+    history: {name: string, value: boolean};
+    insight: {name: string, value: boolean};
+    intimidation: {name: string, value: boolean}; 
+    investigation: {name: string, value: boolean};
+    medicine: {name: string, value: boolean};
+    nature: {name: string, value: boolean};
+    perception: {name: string, value: boolean};
+    performance: {name: string, value: boolean};
+    persuasion: {name: string, value: boolean};
+    religion: {name: string, value: boolean}; 
+    sleightOfHand: {name: string, value: boolean}; 
+    stealth: {name: string, value: boolean}; 
+    survival: {name: string, value: boolean};
 }
 
 export interface ApiClass {
