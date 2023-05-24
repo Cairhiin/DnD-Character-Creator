@@ -1,9 +1,15 @@
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  useFieldArray,
+  useFormState,
+} from "react-hook-form";
+import { produce } from "immer";
 import { ErrorField } from "./ClassSelectionForm";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { characterStore } from "@/store";
 import { EquipmentFormInput, Equipment, Item } from "@/types";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
 
@@ -20,6 +26,7 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const { form, setForm } = useContext(FormStateContext);
   const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
     true,
     true,
@@ -29,14 +36,12 @@ export default function GearForm({
   const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
   const [martialWeapons, setMartialWeapons] = useState<any>([]);
   const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
-  const { starting_equipment, starting_equipment_options } = characterStore(
-    (state) => state.dndClass
-  );
-  const equipmentFromStore = characterStore((state) => state.equipment);
-  const setEquipment = characterStore((state) => state.setEquipment);
+  const { starting_equipment, starting_equipment_options } =
+    form.steps.classSelection.value.dndClass;
+  const equipmentFromContext = form.steps.equipmentSelection.value;
 
   // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
-  if (equipmentFromStore.length && buttonIsActive[0] === true) {
+  if (equipmentFromContext.length && buttonIsActive[0] === true) {
     const activeButtons = buttonIsActive.map(
       (isActive: boolean): boolean => (isActive = false)
     );
@@ -52,6 +57,18 @@ export default function GearForm({
     defaultValues: {},
     mode: "onSubmit",
   });
+
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.descriptionForm.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
 
   const { fields, append, update } = useFieldArray({
     control,
@@ -106,7 +123,15 @@ export default function GearForm({
   }, []);
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
-    setEquipment(items);
+    setForm(
+      produce((formState) => {
+        formState.steps.equipmentSelection = {
+          value: items,
+          valid: true,
+          dirty: false,
+        };
+      })
+    );
     if (!isLoading) {
       nextTab();
     }
@@ -132,15 +157,15 @@ export default function GearForm({
 
   /* If there are available items already in store use those else use the current form values
   Only necessary to display the selected items in the starting equipment card */
-  const selectedItems = equipmentFromStore.length
-    ? equipmentFromStore
+  const selectedItems = equipmentFromContext.length
+    ? equipmentFromContext
     : Object.values(fields);
 
   return (
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {!fields.length && !equipmentFromStore.length ? (
+        {!fields.length && !equipmentFromContext.length ? (
           <CreateCharacterCard header="Starting Equipment">
             <div className={styles.create__description__text}>
               <p>

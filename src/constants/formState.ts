@@ -1,4 +1,4 @@
-import { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Skills } from "@/types";
+import { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
 
 interface FormState {
     steps: {
@@ -40,6 +40,11 @@ interface FormState {
             valid: boolean;
             dirty: boolean;
             value: Skills;
+        };
+        equipmentSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: Equipment[];
         }
     }
 };
@@ -157,6 +162,11 @@ const FORM_STATE: FormState = {
                 stealth: { value: false, name: "Stealth" },
                 survival: { value: false, name: "Survival" },
             }
+        },
+        equipmentSelection: {
+            valid: false,
+            dirty: false,
+            value: []
         }
     }
 };

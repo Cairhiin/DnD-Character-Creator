@@ -32,7 +32,7 @@ export default function SkillsForm({
   const [selectedSkills, setSelectedSkills] = useState<Skills>({
     ...form.steps.skillsSelection.value,
   });
-
+  console.log(selectedSkills);
   // Filter out the background skills from the available skill choices and turn it into an array of strings
   const availableSkills =
     classFromContext.proficiency_choices &&
@@ -66,6 +66,10 @@ export default function SkillsForm({
   });
 
   useEffect(() => {
+    setSelectedSkills(form.steps.skillsSelection.value);
+  }, [form.steps.skillsSelection.value]);
+
+  useEffect(() => {
     backgroundFromContext.skill_proficiencies.forEach((skill: string): void => {
       setSelectedSkills(
         produce((draft: any): void => {
@@ -83,7 +87,7 @@ export default function SkillsForm({
     );
   }, [isDirty, setForm]);
 
-  const saveData: SubmitHandler<Skills> = (skills): void => {
+  const saveData: SubmitHandler<Skills> = (): void => {
     // Make certain one has chosen the right number of skills
     if (
       Object.values(selectedSkills).filter(
@@ -96,7 +100,7 @@ export default function SkillsForm({
         produce((formState) => {
           formState.steps.skillsSelection = {
             value: {
-              ...skills,
+              ...selectedSkills,
             },
             valid: true,
             dirty: false,
@@ -140,9 +144,8 @@ export default function SkillsForm({
       <div></div>
       <aside>
         {Object.values(selectedSkills).filter(
-          (skill: { value: boolean; name: string }): boolean =>
-            skill.value === true
-        ).length -
+          ({ value }: { value: boolean }): boolean => value === true
+        ).length +
           backgroundFromContext.skill_proficiencies.length >
         0 ? (
           <CreateCharacterCard header="Choose your skill proficiencies">
