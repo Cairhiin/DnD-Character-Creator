@@ -153,7 +153,7 @@ const FORM_STATE: FormState = {
                 performance: { value: false, name: "Performance" },
                 persuasion: { value: false, name: "Persuasion" },
                 religion: { value: false, name: "Religion" },
-                sleightOfHand: { value: false, name: "sleight Of Hand" },
+                sleightOfHand: { value: false, name: "Sleight Of Hand" },
                 stealth: { value: false, name: "Stealth" },
                 survival: { value: false, name: "Survival" },
             }

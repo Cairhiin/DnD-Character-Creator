@@ -43,9 +43,11 @@ export default function SkillsForm({
             cleanUpSkillDescription(item.name)
           )
       )
-      .map(({ item }: any): string =>
-        formatSkillName(cleanUpSkillDescription(item.name))
-      );
+      .map(({ item }: any): any => {
+        return (selectedSkills as any)[
+          formatSkillName(cleanUpSkillDescription(item.name))
+        ];
+      });
 
   const {
     handleSubmit,
@@ -90,15 +92,27 @@ export default function SkillsForm({
       backgroundFromContext.skill_proficiencies.length +
         classFromContext.proficiency_choices![0].choose
     ) {
+      setForm(
+        produce((formState) => {
+          formState.steps.skillsSelection = {
+            value: {
+              ...skills,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
       nextTab();
     } else {
+      console.log("ERROR");
       setError("Please choose more skills before continuing.");
     }
   };
 
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
-
+    console.log(skill);
     if (
       (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
@@ -110,14 +124,14 @@ export default function SkillsForm({
     ) {
       setSelectedSkills(
         produce((draft: any): void => {
-          draft[formatSkillName(skill)].value = true;
+          draft[skill].value = true;
         })
       );
     } else {
       // If the skill is already in the list remove it
       setSelectedSkills(
         produce((draft: any): void => {
-          draft[formatSkillName(skill)].value = false;
+          draft[skill].value = false;
         })
       );
     }
@@ -194,22 +208,27 @@ export default function SkillsForm({
       >
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
-            availableSkills.map((skill: string) => (
-              <div key={skill}>
-                <input
-                  id={skill}
-                  checked={(selectedSkills as any)[skill].value === true}
-                  type="checkbox"
-                  {...register(skill as any)}
-                  onClick={() => handleChange(skill)}
-                />
-                <label
-                  htmlFor={skill}
-                  className={styles.checkbox}
-                  data-label={skill}
-                ></label>
-              </div>
-            ))}
+            availableSkills.map(
+              ({ name, value }: { name: string; value: boolean }) => (
+                <div key={name}>
+                  <input
+                    id={formatSkillName(name)}
+                    checked={
+                      (selectedSkills as any)[formatSkillName(name)].value ===
+                      true
+                    }
+                    type="checkbox"
+                    {...register(formatSkillName(name) as any)}
+                    onClick={() => handleChange(formatSkillName(name))}
+                  />
+                  <label
+                    htmlFor={formatSkillName(name)}
+                    className={styles.checkbox}
+                    data-label={name}
+                  ></label>
+                </div>
+              )
+            )}
         </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
