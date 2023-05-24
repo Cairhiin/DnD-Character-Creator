@@ -98,6 +98,7 @@ export default function SkillsForm({
 
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
+
     if (
       (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
@@ -134,12 +135,14 @@ export default function SkillsForm({
         0 ? (
           <CreateCharacterCard header="Choose your skill proficiencies">
             <div className={styles.skill__list}>
-              <h3>Background Proficiencies</h3>
-              {backgroundFromContext.skill_proficiencies.map(
-                (skill: string): JSX.Element => (
-                  <div key={skill}>{skill}</div>
-                )
-              )}
+              <p>
+                Available choices:{" "}
+                {classFromContext.proficiency_choices![0].choose -
+                  Object.values(selectedSkills).filter(
+                    ({ value }: { value: boolean }): boolean => value === true
+                  ).length +
+                  backgroundFromContext.skill_proficiencies.length}
+              </p>
               <h3>Chosen proficiencies</h3>
               {Object.values(selectedSkills).map(
                 ({
