@@ -87,7 +87,7 @@ export default function SkillsForm({
     // Make certain one has chosen the right number of skills
     if (
       Object.values(selectedSkills).filter(
-        (skill: boolean): boolean => skill === true
+        ({ value }: { value: boolean }): boolean => value === true
       ).length >=
       backgroundFromContext.skill_proficiencies.length +
         classFromContext.proficiency_choices![0].choose
@@ -105,14 +105,12 @@ export default function SkillsForm({
       );
       nextTab();
     } else {
-      console.log("ERROR");
       setError("Please choose more skills before continuing.");
     }
   };
 
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
-    console.log(skill);
     if (
       (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
