@@ -40,6 +40,12 @@ export default function GearForm({
     form.steps.classSelection.value.dndClass;
   const equipmentFromContext = form.steps.equipmentSelection.value;
 
+  // Remove the choices flagged as equipment_category as they only have 1 option and not really a choice
+  const equipmentChoices = starting_equipment_options?.filter(
+    ({ from }: any): any => from.option_set_type !== "equipment_category"
+  );
+
+  useEffect(() => {}, []);
   // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
   if (equipmentFromContext.length && buttonIsActive[0] === true) {
     const activeButtons = buttonIsActive.map(
@@ -54,7 +60,9 @@ export default function GearForm({
     control,
     formState: { errors },
   } = useForm<EquipmentFormInput>({
-    defaultValues: {},
+    defaultValues: {
+      items: form.steps.equipmentSelection.value,
+    },
     mode: "onSubmit",
   });
 

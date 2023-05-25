@@ -209,27 +209,25 @@ export default function SkillsForm({
       >
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
-            availableSkills.map(
-              ({ name, value }: { name: string; value: boolean }) => (
-                <div key={name}>
-                  <input
-                    id={formatSkillName(name)}
-                    checked={
-                      (selectedSkills as any)[formatSkillName(name)].value ===
-                      true
-                    }
-                    type="checkbox"
-                    {...register(formatSkillName(name) as any)}
-                    onClick={() => handleChange(formatSkillName(name))}
-                  />
-                  <label
-                    htmlFor={formatSkillName(name)}
-                    className={styles.checkbox}
-                    data-label={name}
-                  ></label>
-                </div>
-              )
-            )}
+            availableSkills.map(({ name }: { name: string }) => (
+              <div key={name}>
+                <input
+                  id={formatSkillName(name)}
+                  checked={
+                    (selectedSkills as any)[formatSkillName(name)].value ===
+                    true
+                  }
+                  type="checkbox"
+                  {...register(formatSkillName(name) as any)}
+                  onClick={() => handleChange(formatSkillName(name))}
+                />
+                <label
+                  htmlFor={formatSkillName(name)}
+                  className={styles.checkbox}
+                  data-label={name}
+                ></label>
+              </div>
+            ))}
         </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
