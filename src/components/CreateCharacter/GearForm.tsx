@@ -16,7 +16,7 @@ import styles from "@/styles/Create.module.scss";
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-  items: { results: Item[] };
+  items: Item[];
 }
 
 export default function GearForm({

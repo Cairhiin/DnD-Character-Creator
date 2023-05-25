@@ -4,14 +4,15 @@ import BackgroundSelectionForm from "./BackgroundSelectionForm";
 import AbilitySelectionForm from "./AbilitySelectionForm";
 import CharacterDescriptionForm from "./DescriptionForm";
 import SkillsSelectionForm from "./SkillsForm";
-import GearForm from "./GearForm";
+import SpellSelectionForm from "./SpellSelectionForm";
+import GearSelectionForm from "./GearForm";
 import styles from "@/styles/Create.module.scss";
 import { Background, Equipment } from "@/types";
 
 type Props = {
   activeIndex: number;
-  backgrounds: Background[];
-  items: { results: Equipment[] };
+  backgrounds: Array<Background>;
+  items: Array<Equipment>;
   nextTab: () => void;
   previousTab: () => void;
 };
@@ -46,7 +47,14 @@ export default function CreateCharacterTabs({
         <SkillsSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 7 && (
-        <GearForm nextTab={nextTab} previousTab={previousTab} items={items} />
+        <SpellSelectionForm nextTab={nextTab} previousTab={previousTab} />
+      )}
+      {activeIndex === 8 && (
+        <GearSelectionForm
+          nextTab={nextTab}
+          previousTab={previousTab}
+          items={items}
+        />
       )}
     </div>
   );
