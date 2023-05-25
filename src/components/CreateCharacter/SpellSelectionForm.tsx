@@ -24,6 +24,9 @@ export default function SpellSelection({
   const [error, setError] = useState<string>();
   const { form, setForm } = useContext(FormStateContext);
   const [availableSpells, setAvailableSpells] = useState<any[]>([]);
+
+  // index 0: cantrips, index 1: level 1, etc
+  const [numberOfSpells, setNumberOfSpells] = useState<number[]>([]);
   const classFromContext = form.steps.classSelection.value;
 
   const {
@@ -69,20 +72,41 @@ export default function SpellSelection({
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.descriptionForm.dirty = isDirty;
+        form.steps.spellSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<Skills> = (): void => {};
   const handleChange: (spell: any, index: number) => void = (spell, index) => {
-    console.log("CLICK");
+    numberOfSpells.forEach((amount: number): void =>
+      console.log("Spell choices:", amount)
+    );
+    const selectedFields = fields.filter(
+      ({ value }: any): boolean => value === true
+    );
     update(index, spell);
   };
 
   useEffect(() => {
-    console.log(fields);
-  }, [fields]);
+    setLoading(true);
+    let ignore = false;
+    if (!ignore) {
+      fetch(`https://www.dnd5eapi.co${classFromContext.dndClass.url}/levels/1/`)
+        .then((res) => res.json())
+        .then((data) => {
+          setNumberOfSpells([
+            data.spellcasting.cantrips_known,
+            data.spellcasting.spell_slots_level_1,
+          ]);
+          setLoading(false);
+        });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <div className={styles.create__layout}>
@@ -95,10 +119,9 @@ export default function SpellSelection({
         <div className={styles.character__creation__form__column}>
           {availableSpells.map(
             (skill: any, index: number): JSX.Element => (
-              <>
+              <div key={skill.index}>
                 <input
                   id={skill.name}
-                  key={skill.index}
                   {...register(`spells.${index}.value` as const)}
                   type="checkbox"
                   onClick={() => handleChange(skill, index)}
@@ -108,7 +131,7 @@ export default function SpellSelection({
                   data-label={skill.name}
                   className={styles.checkbox}
                 ></label>
-              </>
+              </div>
             )
           )}
         </div>

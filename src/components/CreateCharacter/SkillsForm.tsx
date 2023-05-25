@@ -82,7 +82,7 @@ export default function SkillsForm({
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.descriptionForm.dirty = isDirty;
+        form.steps.skillsSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);
