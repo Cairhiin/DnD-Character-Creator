@@ -1,8 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { useForm, SubmitHandler, useFormState } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  useFormState,
+  useFieldArray,
+} from "react-hook-form";
 import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
-import { characterStore } from "@/store";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
@@ -54,7 +58,7 @@ export default function SkillsForm({
     register,
     control,
     formState: { errors },
-  } = useForm<Skills>({
+  } = useForm<any>({
     defaultValues: {
       ...form.steps.skillsSelection.value,
     },
@@ -63,6 +67,11 @@ export default function SkillsForm({
 
   const { isDirty } = useFormState({
     control,
+  });
+
+  const { fields, update } = useFieldArray({
+    control,
+    name: "skills",
   });
 
   useEffect(() => {
@@ -113,9 +122,12 @@ export default function SkillsForm({
     }
   };
 
-  const handleChange = (skill: string): void => {
+  const handleChange = (skill: any, index: number): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
-    if (
+    update(index, skill);
+    console.log(fields);
+
+    /* if (
       (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
       Object.values(selectedSkills).filter(
@@ -136,7 +148,7 @@ export default function SkillsForm({
           draft[skill].value = false;
         })
       );
-    }
+    } */
   };
 
   return (
@@ -209,22 +221,23 @@ export default function SkillsForm({
       >
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
-            availableSkills.map(({ name }: { name: string }) => (
-              <div key={name}>
+            availableSkills.map((skill: any, index: number) => (
+              <div key={skill.name}>
                 <input
-                  id={formatSkillName(name)}
-                  checked={
+                  id={skill.name}
+                  /* checked={
                     (selectedSkills as any)[formatSkillName(name)].value ===
                     true
-                  }
+                  } */
                   type="checkbox"
-                  {...register(formatSkillName(name) as any)}
-                  onClick={() => handleChange(formatSkillName(name))}
+                  {...register(`skills.${index}.value` as const)}
+                  //{...register(formatSkillName(name) as any)}
+                  onClick={() => handleChange(skill, index)}
                 />
                 <label
-                  htmlFor={formatSkillName(name)}
+                  htmlFor={skill.name}
                   className={styles.checkbox}
-                  data-label={name}
+                  data-label={skill.name}
                 ></label>
               </div>
             ))}

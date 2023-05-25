@@ -77,7 +77,7 @@ export default function SpellSelection({
     );
   }, [isDirty, setForm]);
 
-  const saveData: SubmitHandler<Skills> = (): void => {};
+  const saveData: SubmitHandler<any> = (): void => {};
   const handleChange: (spell: any, index: number) => void = (spell, index) => {
     numberOfSpells.forEach((amount: number): void =>
       console.log("Spell choices:", amount)
