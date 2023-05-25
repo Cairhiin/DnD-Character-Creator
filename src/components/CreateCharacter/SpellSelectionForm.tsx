@@ -2,7 +2,12 @@ import { FormStateContext } from "@/pages/create";
 import { Skills } from "@/types";
 import { produce } from "immer";
 import { useState, useContext, useEffect } from "react";
-import { SubmitHandler, useForm, useFormState } from "react-hook-form";
+import {
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+  useFormState,
+} from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 
@@ -37,6 +42,11 @@ export default function SpellSelection({
     control,
   });
 
+  const { fields, update } = useFieldArray({
+    control,
+    name: "spells",
+  });
+
   useEffect(() => {
     setLoading(true);
     let ignore = false;
@@ -65,6 +75,14 @@ export default function SpellSelection({
   }, [isDirty, setForm]);
 
   const saveData: SubmitHandler<Skills> = (): void => {};
+  const handleChange: (spell: any, index: number) => void = (spell, index) => {
+    console.log("CLICK");
+    update(index, spell);
+  };
+
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
 
   return (
     <div className={styles.create__layout}>
@@ -76,15 +94,21 @@ export default function SpellSelection({
       >
         <div className={styles.character__creation__form__column}>
           {availableSpells.map(
-            ({ name, index }: { name: string; index: string }): JSX.Element => (
-              <div>
-                <input key={index} {...register(name)} type="checkbox" />
+            (skill: any, index: number): JSX.Element => (
+              <>
+                <input
+                  id={skill.name}
+                  key={skill.index}
+                  {...register(`spells.${index}.value` as const)}
+                  type="checkbox"
+                  onClick={() => handleChange(skill, index)}
+                />
                 <label
-                  htmlFor={name}
-                  data-label={name}
+                  htmlFor={skill.name}
+                  data-label={skill.name}
                   className={styles.checkbox}
                 ></label>
-              </div>
+              </>
             )
           )}
         </div>
