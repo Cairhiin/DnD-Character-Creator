@@ -32,8 +32,8 @@ export default function SkillsForm({
   const [selectedSkills, setSelectedSkills] = useState<Skills>({
     ...form.steps.skillsSelection.value,
   });
-  console.log(selectedSkills);
-  // Filter out the background skills from the available skill choices and turn it into an array of strings
+
+  // Filter out the background skills from the available skill choices
   const availableSkills =
     classFromContext.proficiency_choices &&
     classFromContext.proficiency_choices[0].from.options

@@ -85,24 +85,24 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
   };
 
   const saveData: SubmitHandler<ClassFormInput> = ({ dndClass }): void => {
-    if (!dndClass) {
-      return setError("Please choose a class before continuing.");
-    }
+    if (dndClass && !dndClass.name) {
+      setError("Please choose a class before continuing.");
+    } else {
+      setForm(
+        produce((formState) => {
+          formState.steps.classSelection = {
+            value: {
+              dndClass: dndClass,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
 
-    setForm(
-      produce((formState) => {
-        formState.steps.classSelection = {
-          value: {
-            dndClass: dndClass,
-          },
-          valid: true,
-          dirty: false,
-        };
-      })
-    );
-
-    if (!isLoading) {
-      nextTab();
+      if (!isLoading) {
+        nextTab();
+      }
     }
   };
 

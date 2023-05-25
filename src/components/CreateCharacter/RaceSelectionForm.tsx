@@ -82,20 +82,24 @@ export default function RaceSelection({ nextTab }: Props) {
   }: {
     race: ApiRace;
   }): void => {
-    setForm(
-      produce((formState) => {
-        formState.steps.raceSelection = {
-          value: {
-            race: race,
-          },
-          valid: true,
-          dirty: false,
-        };
-      })
-    );
+    if (race && !race.name) {
+      setError("Please choose a race");
+    } else {
+      setForm(
+        produce((formState) => {
+          formState.steps.raceSelection = {
+            value: {
+              race: race,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
 
-    if (!isLoading) {
-      nextTab();
+      if (!isLoading) {
+        nextTab();
+      }
     }
   };
 

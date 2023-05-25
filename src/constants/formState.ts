@@ -44,8 +44,13 @@ interface FormState {
         equipmentSelection: {
             valid: boolean;
             dirty: boolean;
-            value: Equipment[];
-        }
+            value: Array<Equipment>;
+        };
+        spellSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: Array<Equipment>;
+        };
     }
 };
 
@@ -164,6 +169,11 @@ const FORM_STATE: FormState = {
             }
         },
         equipmentSelection: {
+            valid: false,
+            dirty: false,
+            value: []
+        },
+        spellSelection: {
             valid: false,
             dirty: false,
             value: []
