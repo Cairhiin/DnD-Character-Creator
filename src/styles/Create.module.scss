@@ -75,13 +75,13 @@
         font-weight: 700;
         color: lighten($secondary-color, 35);
 
-        .create__card__header {
+        &__header {
             color: $secondary-color;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
         }
         
-        .create__card__content {
+        &__content {
             .skill__list {
                 font-weight: 400;
                 color: $on-background-color;
@@ -141,7 +141,7 @@
         justify-content: space-between;
         @include roundedBorder;
 
-        .character__creation__form__column {
+        &__column {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -258,7 +258,7 @@
             position: relative;
         }
 
-        .character__creation__form__method {
+        &__method {
             padding: 0 0 1rem 0;
             
             label {

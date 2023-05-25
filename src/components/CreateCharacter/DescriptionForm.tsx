@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
+import { produce } from "immer";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AnimatedButton from "../AnimatedButton";
@@ -7,7 +8,7 @@ import Accordion from "../Accordion";
 import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { Background, CharacterDescription } from "@/types";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import PersonalFormElement from "@/components/CreateCharacter/Description/PersonalFormElement";
 import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
@@ -49,25 +50,46 @@ const schema = yup
   .required();
 
 export default function CharacterDescription({ nextTab, previousTab }: Props) {
-  const descriptionFromStore = characterStore((state) => state.description);
   const backgroundFromStore = characterStore((state) => state.background);
-  const setDescription = characterStore((state) => state.setDescription);
-  const [activeIndex, setActiveIndex] = useState<number | null>(1);
+  const { form, setForm } = useContext(FormStateContext);
+
   const {
     handleSubmit,
     register,
     setValue,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      ...descriptionFromStore,
-    },
+    defaultValues: { ...form.steps.descriptionForm.value },
     mode: "onSubmit",
   });
 
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.descriptionForm.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
+
   const saveData: SubmitHandler<CharacterDescription> = (description): void => {
-    setDescription(description);
+    setForm(
+      produce((formState) => {
+        formState.steps.descriptionForm = {
+          value: {
+            ...description,
+          },
+          valid: true,
+          dirty: false,
+        };
+      })
+    );
+
     nextTab();
   };
 
@@ -190,8 +212,10 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {descriptionFromStore.details.name ? (
-          <CreateCharacterCard header={descriptionFromStore.details.name}>
+        {form.steps.descriptionForm.value.details.name ? (
+          <CreateCharacterCard
+            header={form.steps.descriptionForm.value.details.name}
+          >
             <div>
               <p>
                 Choose or make up a name for your character (or generate one

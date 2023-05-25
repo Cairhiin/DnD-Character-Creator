@@ -1,9 +1,9 @@
 import { ReactNode, createContext, useState } from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import { Background, Equipment, CharacterFormState } from "@/types";
+import { Background, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
-import { FORM_STATE } from "@/constants";
+import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 
 interface CardProps {
@@ -12,8 +12,8 @@ interface CardProps {
 }
 
 interface Props {
-  backgrounds: Background[];
-  items: { results: Equipment[] };
+  backgrounds: Array<Background>;
+  items: Array<Equipment>;
 }
 
 export const CreateCharacterCard = ({ children, header }: CardProps) => {
@@ -46,7 +46,7 @@ export default function Create({ backgrounds, items }: Props) {
 
   const nextTab = (): void => {
     setActiveTabIndex((prevIndex) => {
-      if (prevIndex >= 8) {
+      if (prevIndex >= 9) {
         return prevIndex;
       }
 
@@ -122,7 +122,13 @@ export default function Create({ backgrounds, items }: Props) {
                 data-tab-id="7"
                 className={availableMaxIndex >= 8 ? styles.finished : ""}
               >
-                <span>7</span> Equipment
+                <span>7</span> Spells
+              </li>
+              <li
+                data-tab-id="8"
+                className={availableMaxIndex >= 9 ? styles.finished : ""}
+              >
+                <span>8</span> Equipment
               </li>
             </ul>
           </div>
@@ -150,6 +156,7 @@ export default function Create({ backgrounds, items }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   let backgrounds,
+    spells,
     items = [];
   try {
     const res = await fetch("http://localhost:3000/api/backgrounds");
@@ -161,6 +168,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
     const equipmentRes = await fetch("https://www.dnd5eapi.co/api/equipment/");
     items = await equipmentRes.json();
+    items = items.results;
   } catch (err) {
     console.error(err);
   }

@@ -19,34 +19,17 @@ export interface Trait {
     "url": string;
 }
 
-export interface Race {
-    "index": string;
-    "name": string;
-    "speed": number;
-    "ability_bonuses": Array<Ability>;
-    "alignment": string;
-    "age": string;
-    "size": string;
-    "size_description": string;
-    "starting_proficiencies": Array<string>;
-    "languages": Array<Language>;
-    "language_desc": string;
-    "traits": Array<Trait>;
-    "subraces": Array<string>;
-    "url": string;
-};
-
 export interface Background {
     id: string;
     name: string;
-    skill_proficiencies: string[];
+    skill_proficiencies: Array<string>;
     languages: number;
-    tool_proficiencies: string[];
+    tool_proficiencies: Array<string>;
     feature: string;
-    traits: string[];
-    bonds: string[];
-    ideals: string[];
-    flaws: string[];
+    traits: Array<string>;
+    bonds: Array<string>;
+    ideals: Array<string>;
+    flaws: Array<string>;
 }
 
 export interface AbilityScores {
@@ -94,7 +77,7 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: Equipment[];
+    equipment: Array<Equipment>;
     description: CharacterDescription;
     skills: Skills;
     gold: number;
@@ -109,7 +92,7 @@ export interface CharacterFormState {
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
     addItem: (item: Equipment) => void;
-    setEquipment: (item: Equipment[]) => void;
+    setEquipment: (item: Array<Equipment>) => void;
 };
 
 export interface AbilityFormInput {  
@@ -127,24 +110,24 @@ export interface EquipmentFormInput {
 }
 
 export interface Skills {
-    acrobatics: boolean; 
-    animalHandling: boolean;
-    arcana: boolean;
-    athletics: boolean; 
-    deception: boolean; 
-    history: boolean;
-    insight: boolean;
-    intimidation: boolean; 
-    investigation: boolean;
-    medicine: boolean;
-    nature: boolean;
-    perception: boolean;
-    performance: boolean;
-    persuasion: boolean;
-    religion: boolean; 
-    sleightOfHand: boolean; 
-    stealth: boolean; 
-    survival: boolean;
+    acrobatics: {name: string, value: boolean}; 
+    animalHandling: {name: string, value: boolean};
+    arcana: {name: string, value: boolean};
+    athletics: {name: string, value: boolean}; 
+    deception: {name: string, value: boolean}; 
+    history: {name: string, value: boolean};
+    insight: {name: string, value: boolean};
+    intimidation: {name: string, value: boolean}; 
+    investigation: {name: string, value: boolean};
+    medicine: {name: string, value: boolean};
+    nature: {name: string, value: boolean};
+    perception: {name: string, value: boolean};
+    performance: {name: string, value: boolean};
+    persuasion: {name: string, value: boolean};
+    religion: {name: string, value: boolean}; 
+    sleightOfHand: {name: string, value: boolean}; 
+    stealth: {name: string, value: boolean}; 
+    survival: {name: string, value: boolean};
 }
 
 export interface ApiClass {
@@ -153,47 +136,40 @@ export interface ApiClass {
     name: string;
     index: string;
     multi_classing?: {
-        prerequisites: [
-            { 
+        prerequisites:
+            Array<{ 
                 ability_score: {index: string; name: string; url: string; };
                 minimum_score: number; 
-            } 
-        ];
-        proficiencies: [
-            { index: string; name: string; url: string; }
-        ];
+            }>;
+        proficiencies:
+        Array<{ index: string; name: string; url: string; }>;   
     };
-    proficiencies?: [ 
-        { index: string; name: string; url: string; }
-    ];
-    proficiency_choices?: [
-        { 
+    proficiencies?:  
+    Array<{ index: string; name: string; url: string; }>;
+    proficiency_choices?:
+    Array<{ 
             desc: string;
             choose: number;
             from: {
-                options: any[];
+                options: Array<any>;
             }; 
-        }
-    ];
-    saving_throws?: [
-        { index: string; name: string; url: string; }
-    ];
-    starting_equipment?: [
-        { 
+        }>;
+    saving_throws?: Array<{ index: string; name: string; url: string; }>;
+    starting_equipment?: 
+    Array<{ 
             equipment: {
                 index: string;
                 name: string;
                 url: string;
             };
             quantity: number;
-        }
-    ];
-    starting_equipment_options?: [
-        { desc: string; choose: number; type: string; from: 
+        }>;
+    starting_equipment_options?: 
+    Array<{ desc: string; choose: number; type: string; from: 
             { option_set_type: string; options: 
-                { 
+                Array<{ 
                     option_type: string;               
-                    items: { 
+                    items: Array<{ 
                         option_type: string;
                         choice?: {
                             desc: string;
@@ -214,51 +190,41 @@ export interface ApiClass {
                             name: string;
                             url: string;
                         }
-                    }[] 
-                }[]
+                    }> 
+                }>
             }
-        }
-    ];
-    subclasses?: [
-        { index: string; name: string; url: string; }
-    ];
+        }>;
+    subclasses?: Array<{ index: string; name: string; url: string; }>;
     url: string;
 }
 
 export interface ApiRace {
-    ability_bonuses?: [
-        { 
+    ability_bonuses?:
+    Array<{ 
             ability_score: { index: string; name: string; url: string; }
             bonus: number;
-        }
-    ];
+        }>;
     age?: string;
     alignment?: string;
     index: string;
     language_desc?: string;
-    languages?: [ 
-        { index: string; name: string; url: string; }
-    ];
+    languages?: Array<{ index: string; name: string; url: string; }>;
     name: string;
     size?: string;
     size_description?: string;
     speed?: number;
-    starting_proficiencies?: [
-        { index: string; name: string; url: string; }
-    ];
-    starting_proficiencies_options?: [
-        { desc: string; choose: number; type: string; from: 
-            { option_set_type: string; options: [
-                { option_type: string; item: { index: string; name: string; url: string }} 
-            ]}
-        }
-    ];
-    subraces?: [
-        { index: string; name: string; url: string }
-    ];
-    traits?: [
-        { index: string; name: string; url: string }
-    ]
+    starting_proficiencies?: Array<{ index: string; name: string; url: string; }>;
+    starting_proficiencies_options?: 
+    Array<{ desc: string; choose: number; type: string; from: 
+            { option_set_type: 
+                string; options: 
+                Array<{ option_type: string; item: { index: string; name: string; url: string }}>
+            }
+        }>;
+    subraces?: 
+    Array<{ index: string; name: string; url: string }>;
+    traits?: 
+    Array<{ index: string; name: string; url: string }>;
     url?: string;
 }
 
@@ -269,8 +235,8 @@ export interface DndClass {
 }
 
 export interface Item {
-    desc?: string[];
-    special?: string[];
+    desc?: Array<string>;
+    special?: Array<string>;
     index: string;
     name: string;
     equipment_category?: {
@@ -289,8 +255,8 @@ export interface Item {
     },
     weight?: number;
     url: string;
-    contents?: string[];
-    properties?: string[];
+    contents?: Array<string>;
+    properties?: Array<string>;
 }
 
 export interface Equipment extends Item {
@@ -301,9 +267,9 @@ export interface EquipmentChoices {
     name: string;
     index: string;
     equipment_options: 
-        {
+    Array<{
             desc: string;
             type: string;
-            items: { index: string; name: string; url: string; amount: number; }[]
-        }[]
+            items: Array<{ index: string; name: string; url: string; amount: number; }>
+        }>
 } 

@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
+import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
 import { characterStore } from "@/store";
-import { CreateCharacterCard } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
 import styles from "@/styles/Create.module.scss";
@@ -12,71 +13,129 @@ interface Props {
   previousTab: () => void;
 }
 
+const formatSkillName: (name: string) => string = (name) => {
+  let formattedName = name.toLowerCase();
+  if (formattedName === "animal handling") formattedName = "animalHandling";
+  if (formattedName === "sleight of hand") formattedName = "sleightOfHand";
+
+  return formattedName;
+};
+
 export default function SkillsForm({
   nextTab,
   previousTab,
 }: Props): JSX.Element {
-  const classFromStore = characterStore((state) => state.dndClass);
-  const backgroundFromStore = characterStore((state) => state.background);
-  const skillsFromStore = characterStore((state) => state.skills);
-  const setSkills = characterStore((state) => state.setSkills);
+  const [error, setError] = useState<string>();
+  const { form, setForm } = useContext(FormStateContext);
+  const classFromContext = form.steps.classSelection.value.dndClass;
+  const backgroundFromContext = form.steps.backgroundSelection.value.background;
+  const [selectedSkills, setSelectedSkills] = useState<Skills>({
+    ...form.steps.skillsSelection.value,
+  });
 
-  // In case the user comes back to the page filter the chosen skills and set as initial state
-  const selectedSkillsFromStore: string[] = Object.keys(skillsFromStore).filter(
-    (skill: string) => (skillsFromStore as any)[skill] === true
-  );
-
-  // Filter out the background skills from the available skill choices and turn it into an array of strings
+  // Filter out the background skills from the available skill choices
   const availableSkills =
-    classFromStore.proficiency_choices &&
-    classFromStore.proficiency_choices[0].from.options
+    classFromContext.proficiency_choices &&
+    classFromContext.proficiency_choices[0].from.options
       .filter(
         ({ item }: any): boolean =>
-          !backgroundFromStore.skill_proficiencies.includes(
+          !backgroundFromContext.skill_proficiencies.includes(
             cleanUpSkillDescription(item.name)
           )
       )
-      .map(({ item }: any): string => cleanUpSkillDescription(item.name));
-
-  // Add the background skills to the already selected skills
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([
-    ...selectedSkillsFromStore,
-    ...backgroundFromStore.skill_proficiencies,
-  ]);
+      .map(({ item }: any): any => {
+        return (selectedSkills as any)[
+          formatSkillName(cleanUpSkillDescription(item.name))
+        ];
+      });
 
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = useForm<Skills>({
-    defaultValues: {},
+    defaultValues: {
+      ...form.steps.skillsSelection.value,
+    },
     mode: "onSubmit",
   });
 
-  const saveData: SubmitHandler<Skills> = (skills): void => {
+  const { isDirty } = useFormState({
+    control,
+  });
+
+  useEffect(() => {
+    setSelectedSkills(form.steps.skillsSelection.value);
+  }, [form.steps.skillsSelection.value]);
+
+  useEffect(() => {
+    backgroundFromContext.skill_proficiencies.forEach((skill: string): void => {
+      setSelectedSkills(
+        produce((draft: any): void => {
+          draft[formatSkillName(skill)].value = true;
+        })
+      );
+    });
+  }, [backgroundFromContext]);
+
+  useEffect(() => {
+    setForm(
+      produce((form) => {
+        form.steps.descriptionForm.dirty = isDirty;
+      })
+    );
+  }, [isDirty, setForm]);
+
+  const saveData: SubmitHandler<Skills> = (): void => {
     // Make certain one has chosen the right number of skills
     if (
-      selectedSkills.length >=
-      backgroundFromStore.skill_proficiencies.length +
-        classFromStore.proficiency_choices![0].choose
+      Object.values(selectedSkills).filter(
+        ({ value }: { value: boolean }): boolean => value === true
+      ).length >=
+      backgroundFromContext.skill_proficiencies.length +
+        classFromContext.proficiency_choices![0].choose
     ) {
-      setSkills(skills);
+      setForm(
+        produce((formState) => {
+          formState.steps.skillsSelection = {
+            value: {
+              ...selectedSkills,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
       nextTab();
+    } else {
+      setError("Please choose more skills before continuing.");
     }
   };
 
   const handleChange = (skill: string): void => {
     // Check if the number of chosen skills is less than are allowed to be chosen
     if (
+      (selectedSkills as any)[skill].value === false &&
       // IMPORTANT: Subtract the number of free skills gained from background
-      selectedSkills.indexOf(skill) < 0 &&
-      selectedSkills.length - backgroundFromStore.skill_proficiencies.length <
-        classFromStore.proficiency_choices![0].choose
+      Object.values(selectedSkills).filter(
+        ({ value }: { value: boolean }): boolean => value === true
+      ).length -
+        backgroundFromContext.skill_proficiencies.length <
+        classFromContext.proficiency_choices![0].choose
     ) {
-      setSelectedSkills((state) => [...state, skill]);
+      setSelectedSkills(
+        produce((draft: any): void => {
+          draft[skill].value = true;
+        })
+      );
     } else {
       // If the skill is already in the list remove it
-      setSelectedSkills((state) => state.filter((s: string) => s !== skill));
+      setSelectedSkills(
+        produce((draft: any): void => {
+          draft[skill].value = false;
+        })
+      );
     }
   };
 
@@ -84,28 +143,32 @@ export default function SkillsForm({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {selectedSkills.length -
-          backgroundFromStore.skill_proficiencies.length >
+        {Object.values(selectedSkills).filter(
+          ({ value }: { value: boolean }): boolean => value === true
+        ).length +
+          backgroundFromContext.skill_proficiencies.length >
         0 ? (
           <CreateCharacterCard header="Choose your skill proficiencies">
             <div className={styles.skill__list}>
-              <h3>Background Proficiencies</h3>
-              {backgroundFromStore.skill_proficiencies.map(
-                (skill: string): JSX.Element => (
-                  <div key={skill}>{skill}</div>
-                )
-              )}
+              <p>
+                Available choices:{" "}
+                {classFromContext.proficiency_choices![0].choose -
+                  Object.values(selectedSkills).filter(
+                    ({ value }: { value: boolean }): boolean => value === true
+                  ).length +
+                  backgroundFromContext.skill_proficiencies.length}
+              </p>
               <h3>Chosen proficiencies</h3>
-              {selectedSkills
-                .filter(
-                  (skill: string): boolean =>
-                    !backgroundFromStore.skill_proficiencies.includes(skill)
-                )
-                .map(
-                  (skill: string): JSX.Element => (
-                    <div key={skill}>{skill}</div>
-                  )
-                )}
+              {Object.values(selectedSkills).map(
+                ({
+                  value,
+                  name,
+                }: {
+                  value: boolean;
+                  name: string;
+                }): JSX.Element =>
+                  value ? <div key={name}>{name}</div> : <></>
+              )}
             </div>
           </CreateCharacterCard>
         ) : (
@@ -113,11 +176,11 @@ export default function SkillsForm({
             <div className={styles.skill__list}>
               <p>
                 Your background gives you{" "}
-                {backgroundFromStore.skill_proficiencies.map(
+                {backgroundFromContext.skill_proficiencies.map(
                   (skill: string, index: number): JSX.Element => {
                     if (
                       index <
-                      backgroundFromStore.skill_proficiencies.length - 1
+                      backgroundFromContext.skill_proficiencies.length - 1
                     ) {
                       return (
                         <span key={skill}>
@@ -133,7 +196,7 @@ export default function SkillsForm({
               </p>
               <p>
                 You get to choose{" "}
-                <span>{classFromStore.proficiency_choices![0].choose}</span>{" "}
+                <span>{classFromContext.proficiency_choices![0].choose}</span>{" "}
                 skill proficiencies from the list.
               </p>
             </div>
@@ -146,19 +209,22 @@ export default function SkillsForm({
       >
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
-            availableSkills.map((skill: string) => (
-              <div key={skill}>
+            availableSkills.map(({ name }: { name: string }) => (
+              <div key={name}>
                 <input
-                  id={skill}
-                  checked={selectedSkills.includes(skill)}
+                  id={formatSkillName(name)}
+                  checked={
+                    (selectedSkills as any)[formatSkillName(name)].value ===
+                    true
+                  }
                   type="checkbox"
-                  {...register(skill as any)}
-                  onClick={() => handleChange(skill)}
+                  {...register(formatSkillName(name) as any)}
+                  onClick={() => handleChange(formatSkillName(name))}
                 />
                 <label
-                  htmlFor={skill}
+                  htmlFor={formatSkillName(name)}
                   className={styles.checkbox}
-                  data-label={skill}
+                  data-label={name}
                 ></label>
               </div>
             ))}

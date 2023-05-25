@@ -8,7 +8,6 @@ import {
   useFormState,
 } from "react-hook-form";
 import AnimatedButton from "../AnimatedButton";
-import { characterStore } from "@/store";
 import { AbilityScores, AbilityFormInput } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
@@ -31,12 +30,7 @@ export default function AbilitySelection({
   const { form, setForm } = useContext(FormStateContext);
   const [formError, setFormError] = useState<string | null>(null);
   const [usedScores, setUsedScores] = useImmer<AbilityScores>({
-    STR: form.steps.abilitiesSelection.value.abilities.STR,
-    DEX: form.steps.abilitiesSelection.value.abilities.DEX,
-    CON: form.steps.abilitiesSelection.value.abilities.CON,
-    INT: form.steps.abilitiesSelection.value.abilities.INT,
-    WIS: form.steps.abilitiesSelection.value.abilities.WIS,
-    CHA: form.steps.abilitiesSelection.value.abilities.CHA,
+    ...form.steps.abilitiesSelection.value.abilities,
   });
   const [totalScorePointBuy, setTotalScorePointBuy] = useState<number>(0);
 
@@ -74,12 +68,7 @@ export default function AbilitySelection({
   } = useForm<AbilityFormInput>({
     defaultValues: {
       method: form.steps.abilitiesSelection.value.method || "array",
-      STR: form.steps.abilitiesSelection.value.abilities.STR,
-      DEX: form.steps.abilitiesSelection.value.abilities.DEX,
-      CON: form.steps.abilitiesSelection.value.abilities.CON,
-      INT: form.steps.abilitiesSelection.value.abilities.INT,
-      WIS: form.steps.abilitiesSelection.value.abilities.WIS,
-      CHA: form.steps.abilitiesSelection.value.abilities.CHA,
+      ...form.steps.abilitiesSelection.value.abilities,
     },
     mode: "onSubmit",
   });
