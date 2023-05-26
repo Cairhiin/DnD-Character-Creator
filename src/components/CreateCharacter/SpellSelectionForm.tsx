@@ -23,7 +23,6 @@ export default function SpellSelection({
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const { form, setForm } = useContext(FormStateContext);
-  const [availableSpells, setAvailableSpells] = useState<any[]>([]);
 
   // index 0: cantrips, index 1: level 1, etc
   const [numberOfSpells, setNumberOfSpells] = useState<number[]>([]);
@@ -44,9 +43,14 @@ export default function SpellSelection({
     control,
   });
 
-  const { fields, update } = useFieldArray({
+  const { fields: spells, update: updateSpells } = useFieldArray({
     control,
     name: "spells",
+  });
+
+  const { fields: cantrips, update: updateCantrips } = useFieldArray({
+    control,
+    name: "cantrips",
   });
 
   useEffect(() => {
@@ -58,8 +62,26 @@ export default function SpellSelection({
       )
         .then((res) => res.json())
         .then((data) => {
-          setAvailableSpells(data.results);
           setValue("spells", data.results);
+          setLoading(false);
+        });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [classFromContext]);
+
+  useEffect(() => {
+    setLoading(true);
+    let ignore = false;
+    if (!ignore) {
+      fetch(
+        `https://www.dnd5eapi.co${classFromContext.dndClass.url}/levels/0/spells`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setValue("cantrips", data.results);
           setLoading(false);
         });
     }
@@ -77,21 +99,53 @@ export default function SpellSelection({
     );
   }, [isDirty, setForm]);
 
-  const saveData: SubmitHandler<any> = (): void => {};
-  const handleChange: (spell: any, index: number) => void = (spell, index) => {
-    const selectedFields = fields.filter(({ value }: any): boolean => {
-      return value === true;
-    });
+  const saveData: SubmitHandler<any> = (): void => {
+    const selectedSpells = spells.filter(
+      ({ value }: any): boolean => value === true
+    );
+    const selectedCantrips = cantrips.filter(
+      ({ value }: any): boolean => value === true
+    );
 
-    if (selectedFields.length <= numberOfSpells[1] || spell.value === true) {
-      spell.value = !spell.value;
-      update(index, spell);
-    }
+    setForm(
+      produce((formState) => {
+        formState.steps.spellSelection = {
+          value: {
+            0: selectedCantrips,
+            1: selectedSpells,
+          },
+          valid: true,
+          dirty: false,
+        };
+      })
+    );
   };
 
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
+  const handleChange: (spell: any, index: number, type: string) => void = (
+    spell,
+    index,
+    type
+  ) => {
+    if (type === "spells") {
+      const selectedFields = spells.filter(
+        ({ value }: any): boolean => value === true
+      );
+
+      if (selectedFields.length < numberOfSpells[1] || spell.value === true) {
+        spell.value = !spell.value;
+        updateSpells(index, spell);
+      }
+    } else {
+      const selectedFields = cantrips.filter(
+        ({ value }: any): boolean => value === true
+      );
+
+      if (selectedFields.length < numberOfSpells[0] || spell.value === true) {
+        spell.value = !spell.value;
+        updateCantrips(index, spell);
+      }
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -122,16 +176,17 @@ export default function SpellSelection({
         onSubmit={handleSubmit(saveData)}
       >
         <div className={styles.character__creation__form__column}>
-          {fields.map((field: any, index: number): JSX.Element => {
+          <h3>Choose {numberOfSpells[0]} cantrips</h3>
+          {cantrips.map((field: any, index: number): JSX.Element => {
             return (
               <>
                 <input
                   key={field.id}
                   id={field.name}
-                  {...register(`spells.${index}.value` as const)}
+                  {...register(`cantrips.${index}.value` as const)}
                   type="checkbox"
-                  onChange={() => handleChange(field, index)}
-                  checked={field.value}
+                  onChange={() => handleChange(field, index, "cantrips")}
+                  checked={field.value === undefined ? false : field.value}
                 />
                 <label
                   htmlFor={field.name}
@@ -142,6 +197,29 @@ export default function SpellSelection({
             );
           })}
         </div>
+        <div className={styles.character__creation__form__column}>
+          <h3>Choose {numberOfSpells[0]} level 1 spells</h3>
+          {spells.map((field: any, index: number): JSX.Element => {
+            return (
+              <>
+                <input
+                  key={field.id}
+                  id={field.name}
+                  {...register(`spells.${index}.value` as const)}
+                  type="checkbox"
+                  onChange={() => handleChange(field, index, "spells")}
+                  checked={field.value === undefined ? false : field.value}
+                />
+                <label
+                  htmlFor={field.name}
+                  data-label={field.name}
+                  className={styles.checkbox}
+                ></label>
+              </>
+            );
+          })}
+        </div>
+
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
             <AnimatedButton variant="secondary" type="outline">

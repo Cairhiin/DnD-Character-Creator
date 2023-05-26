@@ -49,7 +49,11 @@ interface FormState {
         spellSelection: {
             valid: boolean;
             dirty: boolean;
-            value: Array<Equipment>;
+            value: 
+            {
+                0: Array<any>
+                1: Array<any>
+            }
         };
     }
 };
