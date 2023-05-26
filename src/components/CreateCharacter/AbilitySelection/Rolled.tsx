@@ -48,9 +48,19 @@ export default function RolledAbilityScores({
             <div>
               {(usedScores as any)[ability] === 0 ||
               (usedScores as any)[ability] === undefined ? (
-                <button onClick={(e) => rollScore(ability)}>Roll</button>
+                <button
+                  onClick={(e) => rollScore(ability)}
+                  className={styles.create__form__special__button}
+                >
+                  Roll
+                </button>
               ) : (
-                <button disabled>Roll</button>
+                <button
+                  disabled
+                  className={styles.create__form__special__button}
+                >
+                  Roll
+                </button>
               )}
             </div>
           </div>

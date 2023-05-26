@@ -49,7 +49,19 @@ interface FormState {
         spellSelection: {
             valid: boolean;
             dirty: boolean;
-            value: Array<Equipment>;
+            value: 
+            {
+                0: Array<any>
+                1: Array<any>
+                2: Array<any>
+                3: Array<any>
+                4: Array<any>
+                5: Array<any>
+                6: Array<any>
+                7: Array<any>
+                8: Array<any>
+                9: Array<any>
+            }
         };
     }
 };
@@ -176,7 +188,18 @@ const FORM_STATE: FormState = {
         spellSelection: {
             valid: false,
             dirty: false,
-            value: []
+            value: {
+                0: [],
+                1: [],
+                2: [],
+                3: [],
+                4: [],
+                5: [],
+                6: [],
+                7: [],
+                8: [],
+                9: [],
+            }
         }
     }
 };
