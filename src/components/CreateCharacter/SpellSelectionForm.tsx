@@ -33,11 +33,10 @@ export default function SpellSelection({
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors },
   } = useForm<any>({
-    defaultValues: {
-      ...form.steps.spellSelection.value,
-    },
+    defaultValues: {},
     mode: "onSubmit",
   });
 
@@ -60,6 +59,7 @@ export default function SpellSelection({
         .then((res) => res.json())
         .then((data) => {
           setAvailableSpells(data.results);
+          setValue("spells", data.results);
           setLoading(false);
         });
     }
@@ -79,14 +79,19 @@ export default function SpellSelection({
 
   const saveData: SubmitHandler<any> = (): void => {};
   const handleChange: (spell: any, index: number) => void = (spell, index) => {
-    numberOfSpells.forEach((amount: number): void =>
-      console.log("Spell choices:", amount)
-    );
-    const selectedFields = fields.filter(
-      ({ value }: any): boolean => value === true
-    );
-    update(index, spell);
+    const selectedFields = fields.filter(({ value }: any): boolean => {
+      return value === true;
+    });
+
+    if (selectedFields.length <= numberOfSpells[1] || spell.value === true) {
+      spell.value = !spell.value;
+      update(index, spell);
+    }
   };
+
+  useEffect(() => {
+    console.log(fields);
+  }, [fields]);
 
   useEffect(() => {
     setLoading(true);
@@ -117,23 +122,25 @@ export default function SpellSelection({
         onSubmit={handleSubmit(saveData)}
       >
         <div className={styles.character__creation__form__column}>
-          {availableSpells.map(
-            (skill: any, index: number): JSX.Element => (
-              <div key={skill.index}>
+          {fields.map((field: any, index: number): JSX.Element => {
+            return (
+              <>
                 <input
-                  id={skill.name}
+                  key={field.id}
+                  id={field.name}
                   {...register(`spells.${index}.value` as const)}
                   type="checkbox"
-                  onClick={() => handleChange(skill, index)}
+                  onChange={() => handleChange(field, index)}
+                  checked={field.value}
                 />
                 <label
-                  htmlFor={skill.name}
-                  data-label={skill.name}
+                  htmlFor={field.name}
+                  data-label={field.name}
                   className={styles.checkbox}
                 ></label>
-              </div>
-            )
-          )}
+              </>
+            );
+          })}
         </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
