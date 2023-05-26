@@ -118,6 +118,10 @@
                     text-transform: none;
                     font-weight: 400;
                 }
+
+                span {
+                    color: $secondary-color
+                }
             }
         }
     }
@@ -166,19 +170,22 @@
 
             .create__form__special__button {
                 border-radius: 4px;
-                background-color: $secondary-color;
+                background-color: $primary-color;
+                color: white;
+                text-transform: uppercase;
                 padding: 0.5rem 1rem;
                 cursor: pointer;
                 @include transitionAll;
                 min-width: 50px;
                 text-align: center;
+                border: none;
 
                 &:focus-visible {                  
                     outline: 2px solid white;
                 }
 
                 &:hover {
-                    background-color: darken($secondary-color, 25);
+                    background-color: darken($primary-color, 25);
                 }
             }
 

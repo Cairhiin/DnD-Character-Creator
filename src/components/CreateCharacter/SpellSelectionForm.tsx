@@ -1,4 +1,4 @@
-import { FormStateContext } from "@/pages/create";
+import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { Skills } from "@/types";
 import { produce } from "immer";
 import { useState, useContext, useEffect } from "react";
@@ -131,6 +131,7 @@ export default function SpellSelection({
       produce((formState) => {
         formState.steps.spellSelection = {
           value: {
+            ...form.steps.spellSelection.value,
             0: selectedCantrips,
             1: selectedSpells,
           },
@@ -190,7 +191,17 @@ export default function SpellSelection({
   return (
     <div className={styles.create__layout}>
       <div></div>
-      <aside></aside>
+      <aside>
+        <CreateCharacterCard header={"Spell slots"}>
+          <div className={styles.create__description__text}>
+            <p>
+              Choose <span>{numberOfSpells[0]}</span> cantrips and{" "}
+              <span>{numberOfSpells[1]}</span> level 1 spells. The number of
+              spell slots and available spells depend upon your chosen class.
+            </p>
+          </div>
+        </CreateCharacterCard>
+      </aside>
       <form
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
