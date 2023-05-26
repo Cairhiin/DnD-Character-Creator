@@ -10,6 +10,7 @@ import {
 } from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
+import { ErrorField } from "./ClassSelectionForm";
 
 interface Props {
   nextTab: () => void;
@@ -103,9 +104,28 @@ export default function SpellSelection({
     const selectedSpells = spells.filter(
       ({ value }: any): boolean => value === true
     );
+
     const selectedCantrips = cantrips.filter(
       ({ value }: any): boolean => value === true
     );
+
+    setError((err) => "");
+
+    if (selectedSpells.length < numberOfSpells[1])
+      setError(
+        (err) =>
+          `Please select ${
+            numberOfSpells[1] - selectedSpells.length
+          } more spells!`
+      );
+
+    if (selectedCantrips.length < numberOfSpells[0])
+      setError(
+        (err) =>
+          `Please select ${
+            numberOfSpells[0] - selectedCantrips.length
+          } more cantrips!`
+      );
 
     setForm(
       produce((formState) => {
@@ -218,6 +238,7 @@ export default function SpellSelection({
               </>
             );
           })}
+          {error && <ErrorField error={error} />}
         </div>
 
         <div className={styles.create__form__buttonRow}>
