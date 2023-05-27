@@ -124,28 +124,30 @@ export default function SpellSelection({
             numberOfSpells[1] - selectedSpells.length
           } more spells!`
       );
-
-    if (selectedCantrips.length < numberOfSpells[0])
+    else if (selectedCantrips.length < numberOfSpells[0])
       setError(
         (err) =>
           `Please select ${
             numberOfSpells[0] - selectedCantrips.length
           } more cantrips!`
       );
-
-    setForm(
-      produce((formState) => {
-        formState.steps.spellSelection = {
-          value: {
-            ...form.steps.spellSelection.value,
-            0: selectedCantrips,
-            1: selectedSpells,
-          },
-          valid: true,
-          dirty: false,
-        };
-      })
-    );
+    else {
+      setForm(
+        produce((formState) => {
+          formState.steps.spellSelection = {
+            value: {
+              ...form.steps.spellSelection.value,
+              0: selectedCantrips,
+              1: selectedSpells,
+            },
+            valid: true,
+            dirty: false,
+          };
+        })
+      );
+      console.log(form);
+      nextTab();
+    }
   };
 
   const handleChange: (spell: Spell, index: number, type: string) => void = (

@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import { Background, Equipment } from "@/types";
@@ -60,6 +60,16 @@ export default function Create({ backgrounds, items }: Props) {
       prevIndex > 1 ? prevIndex - 1 : prevIndex
     );
   };
+
+  const onComplete = (): void => {
+    console.log(form);
+  };
+
+  useEffect(() => {
+    if (activeTabIndex === 8) {
+      onComplete();
+    }
+  }, [activeTabIndex, onComplete]);
 
   return (
     <FormStateContext.Provider
