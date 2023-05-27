@@ -10,10 +10,16 @@ import {
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
+import { Spell } from "@/types";
 
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
+}
+
+interface SpellsForm {
+  cantrips: Array<Spell>;
+  spells: Array<Spell>;
 }
 
 export default function SpellSelection({
@@ -35,7 +41,7 @@ export default function SpellSelection({
     control,
     setValue,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<SpellsForm>({
     defaultValues: {},
     mode: "onSubmit",
   });
@@ -100,7 +106,7 @@ export default function SpellSelection({
     );
   }, [isDirty, setForm]);
 
-  const saveData: SubmitHandler<any> = (): void => {
+  const saveData: SubmitHandler<SpellsForm> = (): void => {
     const selectedSpells = spells.filter(
       ({ value }: any): boolean => value === true
     );
@@ -142,7 +148,7 @@ export default function SpellSelection({
     );
   };
 
-  const handleChange: (spell: any, index: number, type: string) => void = (
+  const handleChange: (spell: Spell, index: number, type: string) => void = (
     spell,
     index,
     type
@@ -248,7 +254,7 @@ export default function SpellSelection({
           })}
         </div>
         <div className={styles.character__creation__form__column}>
-          <h3>Choose {numberOfSpells[0]} level 1 spells</h3>
+          <h3>Choose {numberOfSpells[1]} level 1 spells</h3>
           {spells.map((field: any, index: number): JSX.Element => {
             return (
               <>

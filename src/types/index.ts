@@ -19,6 +19,13 @@ export interface Trait {
     "url": string;
 }
 
+export interface Spell {
+    index: string;
+    name: string;
+    url: string;
+    value: boolean | undefined;
+}
+
 export interface Background {
     id: string;
     name: string;
