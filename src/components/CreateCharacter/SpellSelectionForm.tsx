@@ -1,5 +1,4 @@
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
-import { Skills } from "@/types";
 import { produce } from "immer";
 import { useState, useContext, useEffect } from "react";
 import {
@@ -27,6 +26,7 @@ export default function SpellSelection({
 
   // index 0: cantrips, index 1: level 1, etc
   const [numberOfSpells, setNumberOfSpells] = useState<number[]>([]);
+  const [selectedSpell, setSelectedSpell] = useState<any>({});
   const classFromContext = form.steps.classSelection.value;
 
   const {
@@ -166,6 +166,13 @@ export default function SpellSelection({
         updateCantrips(index, spell);
       }
     }
+
+    fetch(`https://www.dnd5eapi.co/api/spells/${spell.index}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedSpell(data);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -192,15 +199,27 @@ export default function SpellSelection({
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        <CreateCharacterCard header={"Spell slots"}>
-          <div className={styles.create__description__text}>
-            <p>
-              Choose <span>{numberOfSpells[0]}</span> cantrips and{" "}
-              <span>{numberOfSpells[1]}</span> level 1 spells. The number of
-              spell slots and available spells depend upon your chosen class.
-            </p>
-          </div>
-        </CreateCharacterCard>
+        {!selectedSpell.name ? (
+          <CreateCharacterCard header={"Spell slots"}>
+            <div className={styles.create__description__text}>
+              <p>
+                Choose <span>{numberOfSpells[0]}</span> cantrips and{" "}
+                <span>{numberOfSpells[1]}</span> level 1 spells. The number of
+                spell slots and available spells depend upon your chosen class.
+              </p>
+            </div>
+          </CreateCharacterCard>
+        ) : (
+          <CreateCharacterCard header={selectedSpell.name}>
+            <div className={styles.create__description__text}>
+              {selectedSpell.desc.map(
+                (line: string): JSX.Element => (
+                  <p>{`${line}.`}</p>
+                )
+              )}
+            </div>
+          </CreateCharacterCard>
+        )}
       </aside>
       <form
         className={styles.character__creation__form}
