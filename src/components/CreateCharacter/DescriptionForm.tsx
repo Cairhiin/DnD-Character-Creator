@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,7 +7,7 @@ import AnimatedButton from "../AnimatedButton";
 import Accordion from "../Accordion";
 import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
-import type { Background, CharacterDescription } from "@/types";
+import type { CharacterDescription } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import PersonalFormElement from "@/components/CreateCharacter/Description/PersonalFormElement";
 import { ErrorField } from "./ClassSelectionForm";
@@ -50,9 +50,9 @@ const schema = yup
   .required();
 
 export default function CharacterDescription({ nextTab, previousTab }: Props) {
-  const backgroundFromStore = characterStore((state) => state.background);
   const { form, setForm } = useContext(FormStateContext);
-
+  const backgroundFromContext = form.steps.backgroundSelection.value.background;
+  console.log(backgroundFromContext);
   const {
     handleSubmit,
     register,
@@ -156,28 +156,28 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
           <PersonalFormElement
             type="personal.traits"
             label="Traits"
-            data={backgroundFromStore.traits}
+            data={backgroundFromContext.traits}
             register={register}
             setValue={setValue}
           />
           <PersonalFormElement
             type="personal.ideals"
             label="Ideals"
-            data={backgroundFromStore.ideals}
+            data={backgroundFromContext.ideals}
             register={register}
             setValue={setValue}
           />
           <PersonalFormElement
             type="personal.bonds"
             label="Bonds"
-            data={backgroundFromStore.bonds}
+            data={backgroundFromContext.bonds}
             register={register}
             setValue={setValue}
           />
           <PersonalFormElement
             type="personal.flaws"
             label="Flaws"
-            data={backgroundFromStore.flaws}
+            data={backgroundFromContext.flaws}
             register={register}
             setValue={setValue}
           />

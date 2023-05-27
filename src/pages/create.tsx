@@ -66,7 +66,7 @@ export default function Create({ backgrounds, items }: Props) {
   };
 
   useEffect(() => {
-    if (activeTabIndex === 8) {
+    if (activeTabIndex === 9) {
       onComplete();
     }
   }, [activeTabIndex, onComplete]);

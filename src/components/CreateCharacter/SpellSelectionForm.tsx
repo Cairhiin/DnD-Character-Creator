@@ -145,7 +145,6 @@ export default function SpellSelection({
           };
         })
       );
-      console.log(form);
       nextTab();
     }
   };
