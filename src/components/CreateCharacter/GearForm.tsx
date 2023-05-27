@@ -73,7 +73,7 @@ export default function GearForm({
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.descriptionForm.dirty = isDirty;
+        form.steps.equipmentSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);

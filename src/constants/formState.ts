@@ -41,11 +41,6 @@ interface FormState {
             dirty: boolean;
             value: Skills;
         };
-        equipmentSelection: {
-            valid: boolean;
-            dirty: boolean;
-            value: Array<Equipment>;
-        };
         spellSelection: {
             valid: boolean;
             dirty: boolean;
@@ -63,6 +58,11 @@ interface FormState {
                 9: Array<any>
             }
         };
+        equipmentSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: Array<Equipment>;
+        }
     }
 };
 
@@ -179,12 +179,7 @@ const FORM_STATE: FormState = {
                 stealth: { value: false, name: "Stealth" },
                 survival: { value: false, name: "Survival" },
             }
-        },
-        equipmentSelection: {
-            valid: false,
-            dirty: false,
-            value: []
-        },
+        },       
         spellSelection: {
             valid: false,
             dirty: false,
@@ -200,7 +195,12 @@ const FORM_STATE: FormState = {
                 8: [],
                 9: [],
             }
-        }
+        },
+        equipmentSelection: {
+            valid: false,
+            dirty: false,
+            value: []
+        },
     }
 };
 

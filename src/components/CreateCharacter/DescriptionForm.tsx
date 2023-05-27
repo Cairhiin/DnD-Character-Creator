@@ -52,7 +52,7 @@ const schema = yup
 export default function CharacterDescription({ nextTab, previousTab }: Props) {
   const { form, setForm } = useContext(FormStateContext);
   const backgroundFromContext = form.steps.backgroundSelection.value.background;
-  console.log(backgroundFromContext);
+
   const {
     handleSubmit,
     register,
