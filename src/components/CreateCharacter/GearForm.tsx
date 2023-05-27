@@ -12,6 +12,9 @@ import { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
+import { useFetchSimpleWeapons } from "@/hooks/useFetchSimpleWeapons";
+import { useFetchMartialWeapons } from "@/hooks/useFetchMartialWeapons";
+import { useFetchMartialMeleeWeapons } from "@/hooks/useFetchMartialMeleeWeapons";
 
 interface Props {
   nextTab: () => void;
@@ -26,6 +29,21 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const {
+    isLoading: simpleWeaponsLoading,
+    error: simpleWeaponsError,
+    simpleWeapons,
+  } = useFetchSimpleWeapons();
+  const {
+    isLoading: martialWeaponsLoading,
+    error: martialWeaponsError,
+    martialWeapons,
+  } = useFetchMartialWeapons();
+  const {
+    isLoading: martialMeleeWeaponsLoading,
+    error: martialMeleeWeaponsError,
+    martialMeleeWeapons,
+  } = useFetchMartialMeleeWeapons();
   const { form, setForm } = useContext(FormStateContext);
   const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
     true,
@@ -33,9 +51,6 @@ export default function GearForm({
     true,
     true,
   ]);
-  const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
-  const [martialWeapons, setMartialWeapons] = useState<any>([]);
-  const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
   const { starting_equipment, starting_equipment_options } =
     form.steps.classSelection.value.dndClass;
   const equipmentFromContext = form.steps.equipmentSelection.value;
@@ -45,7 +60,6 @@ export default function GearForm({
     ({ from }: any): any => from.option_set_type !== "equipment_category"
   );
 
-  useEffect(() => {}, []);
   // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
   if (equipmentFromContext.length && buttonIsActive[0] === true) {
     const activeButtons = buttonIsActive.map(
@@ -82,53 +96,6 @@ export default function GearForm({
     control,
     name: "items",
   });
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch("http://www.dnd5eapi.co/api/equipment-categories/simple-weapons")
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setSimpleWeapons(equipment);
-        });
-    } catch (err: any) {
-      console.error(err);
-      setError("API not responding: unable to load simple weapons.");
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch(
-        "http://www.dnd5eapi.co/api/equipment-categories/martial-melee-weapons"
-      )
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setMartialMeleeWeapons(equipment);
-        });
-    } catch (err: any) {
-      console.error(err);
-      setError("API not responding: unable to load martial melee weapons.");
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch("http://www.dnd5eapi.co/api/equipment-categories/martial-weapons")
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setMartialWeapons(equipment);
-        });
-    } catch (err) {
-      console.error(err);
-      setError("API not responding: unable to load martial weapons.");
-    }
-    setLoading(false);
-  }, []);
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
     setForm(
