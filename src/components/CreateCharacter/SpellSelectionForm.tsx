@@ -190,8 +190,8 @@ export default function SpellSelection({
         .then((res) => res.json())
         .then((data) => {
           setNumberOfSpells([
-            data.spellcasting.cantrips_known,
-            data.spellcasting.spell_slots_level_1,
+            data.spellcasting ? data.spellcasting.cantrips_known : 0,
+            data.spellcasting ? data.spellcasting.spell_slots_level_1 : 0,
           ]);
           setLoading(false);
         });
@@ -233,48 +233,60 @@ export default function SpellSelection({
         onSubmit={handleSubmit(saveData)}
       >
         <div className={styles.character__creation__form__column}>
-          <h3>Choose {numberOfSpells[0]} cantrips</h3>
-          {cantrips.map((field: any, index: number): JSX.Element => {
-            return (
-              <>
-                <input
-                  key={field.id}
-                  id={field.name}
-                  {...register(`cantrips.${index}.value` as const)}
-                  type="checkbox"
-                  onChange={() => handleChange(field, index, "cantrips")}
-                  checked={field.value === undefined ? false : field.value}
-                />
-                <label
-                  htmlFor={field.name}
-                  data-label={field.name}
-                  className={styles.checkbox}
-                ></label>
-              </>
-            );
-          })}
+          {cantrips.length !== 0 ? (
+            <>
+              <h3>Choose {numberOfSpells[0]} cantrips</h3>
+              {cantrips.map((field: any, index: number): JSX.Element => {
+                return (
+                  <>
+                    <input
+                      key={field.id}
+                      id={field.name}
+                      {...register(`cantrips.${index}.value` as const)}
+                      type="checkbox"
+                      onChange={() => handleChange(field, index, "cantrips")}
+                      checked={field.value === undefined ? false : field.value}
+                    />
+                    <label
+                      htmlFor={field.name}
+                      data-label={field.name}
+                      className={styles.checkbox}
+                    ></label>
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <h3>Your class does not get to choose cantrips</h3>
+          )}
         </div>
         <div className={styles.character__creation__form__column}>
-          <h3>Choose {numberOfSpells[1]} level 1 spells</h3>
-          {spells.map((field: any, index: number): JSX.Element => {
-            return (
-              <>
-                <input
-                  key={field.id}
-                  id={field.name}
-                  {...register(`spells.${index}.value` as const)}
-                  type="checkbox"
-                  onChange={() => handleChange(field, index, "spells")}
-                  checked={field.value === undefined ? false : field.value}
-                />
-                <label
-                  htmlFor={field.name}
-                  data-label={field.name}
-                  className={styles.checkbox}
-                ></label>
-              </>
-            );
-          })}
+          {spells.length !== 0 ? (
+            <>
+              <h3>Choose {numberOfSpells[1]} level 1 spells</h3>
+              {spells.map((field: any, index: number): JSX.Element => {
+                return (
+                  <>
+                    <input
+                      key={field.id}
+                      id={field.name}
+                      {...register(`spells.${index}.value` as const)}
+                      type="checkbox"
+                      onChange={() => handleChange(field, index, "spells")}
+                      checked={field.value === undefined ? false : field.value}
+                    />
+                    <label
+                      htmlFor={field.name}
+                      data-label={field.name}
+                      className={styles.checkbox}
+                    ></label>
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <h3>Your class does not get to choose spells at level 1</h3>
+          )}
           {error && <ErrorField error={error} />}
         </div>
 
