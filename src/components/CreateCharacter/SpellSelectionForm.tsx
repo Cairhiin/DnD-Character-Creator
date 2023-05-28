@@ -11,6 +11,7 @@ import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import type { Spell } from "@/types";
+import { useFetchSpellsByLevel } from "@/hooks/useFetchSpellsByLevel";
 
 interface Props {
   nextTab: () => void;
@@ -33,7 +34,17 @@ export default function SpellSelection({
   // index 0: cantrips, index 1: level 1, etc
   const [numberOfSpells, setNumberOfSpells] = useState<number[]>([]);
   const [selectedSpell, setSelectedSpell] = useState<any>({});
-  const classFromContext = form.steps.classSelection.value;
+  const { dndClass: classFromContext } = form.steps.classSelection.value;
+  const {
+    spells: level1Spells,
+    isLoading: level1SpellsIsLoading,
+    error: level1SpellsError,
+  } = useFetchSpellsByLevel(classFromContext, 1);
+  const {
+    spells: cantripSpells,
+    isLoading: cantripSpellsIsLoading,
+    error: cantripSpellsError,
+  } = useFetchSpellsByLevel(classFromContext, 0);
 
   const {
     handleSubmit,
@@ -54,49 +65,13 @@ export default function SpellSelection({
     control,
     name: "spells",
   });
+  useEffect(() => setValue("spells", level1Spells), []);
 
   const { fields: cantrips, update: updateCantrips } = useFieldArray({
     control,
     name: "cantrips",
   });
-
-  useEffect(() => {
-    setLoading(true);
-    let ignore = false;
-    if (!ignore) {
-      fetch(
-        `https://www.dnd5eapi.co${classFromContext.dndClass.url}/levels/1/spells`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setValue("spells", data.results);
-          setLoading(false);
-        });
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, [classFromContext]);
-
-  useEffect(() => {
-    setLoading(true);
-    let ignore = false;
-    if (!ignore) {
-      fetch(
-        `https://www.dnd5eapi.co${classFromContext.dndClass.url}/levels/0/spells`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setValue("cantrips", data.results);
-          setLoading(false);
-        });
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, [classFromContext]);
+  useEffect(() => setValue("cantrips", cantripSpells), []);
 
   useEffect(() => {
     setForm(
@@ -186,7 +161,7 @@ export default function SpellSelection({
     setLoading(true);
     let ignore = false;
     if (!ignore) {
-      fetch(`https://www.dnd5eapi.co${classFromContext.dndClass.url}/levels/1/`)
+      fetch(`https://www.dnd5eapi.co${classFromContext.url}/levels/1/`)
         .then((res) => res.json())
         .then((data) => {
           setNumberOfSpells([
