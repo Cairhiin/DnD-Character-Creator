@@ -11,9 +11,7 @@ import type { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
-import { useFetchSimpleWeapons } from "@/hooks/useFetchSimpleWeapons";
-import { useFetchMartialWeapons } from "@/hooks/useFetchMartialWeapons";
-import { useFetchMartialMeleeWeapons } from "@/hooks/useFetchMartialMeleeWeapons";
+import { useFetchWeapons } from "@/hooks/useFetchWeapons";
 
 interface Props {
   nextTab: () => void;
@@ -31,18 +29,18 @@ export default function GearForm({
   const {
     isLoading: simpleWeaponsLoading,
     error: simpleWeaponsError,
-    simpleWeapons,
-  } = useFetchSimpleWeapons();
+    weapons: simpleWeapons,
+  } = useFetchWeapons("simple-weapons");
   const {
     isLoading: martialWeaponsLoading,
     error: martialWeaponsError,
-    martialWeapons,
-  } = useFetchMartialWeapons();
+    weapons: martialWeapons,
+  } = useFetchWeapons("martial-weapons");
   const {
     isLoading: martialMeleeWeaponsLoading,
     error: martialMeleeWeaponsError,
-    martialMeleeWeapons,
-  } = useFetchMartialMeleeWeapons();
+    weapons: martialMeleeWeapons,
+  } = useFetchWeapons("martial-melee-weapons");
   const { form, setForm } = useContext(FormStateContext);
   const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
     true,
