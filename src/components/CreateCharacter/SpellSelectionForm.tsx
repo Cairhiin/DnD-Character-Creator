@@ -10,7 +10,7 @@ import {
 import styles from "@/styles/Create.module.scss";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
-import { Spell } from "@/types";
+import type { Spell } from "@/types";
 
 interface Props {
   nextTab: () => void;

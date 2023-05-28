@@ -2,7 +2,7 @@ import { CLASSES } from "@/constants";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { produce } from "immer";
 import styles from "@/styles/Create.module.scss";
-import { ApiClass as DndClass } from "@/types";
+import type { ApiClass as DndClass } from "@/types";
 import { formatAttribute } from "@/utils";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

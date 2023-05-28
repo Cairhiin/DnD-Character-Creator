@@ -1,4 +1,4 @@
-import { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
+import type { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
 
 interface FormState {
     steps: {

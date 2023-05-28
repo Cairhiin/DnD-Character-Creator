@@ -7,8 +7,7 @@ import {
 import { produce } from "immer";
 import { ErrorField } from "./ClassSelectionForm";
 import { useContext, useEffect, useState } from "react";
-import { characterStore } from "@/store";
-import { EquipmentFormInput, Equipment, Item } from "@/types";
+import type { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";

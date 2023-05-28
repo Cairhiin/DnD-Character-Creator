@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AnimatedButton from "../AnimatedButton";
 import Accordion from "../Accordion";
-import { characterStore } from "@/store";
 import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";

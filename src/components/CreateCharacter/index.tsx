@@ -7,7 +7,7 @@ import SkillsSelectionForm from "./SkillsForm";
 import SpellSelectionForm from "./SpellSelectionForm";
 import GearSelectionForm from "./GearForm";
 import styles from "@/styles/Create.module.scss";
-import { Background, Equipment } from "@/types";
+import type { Background, Equipment } from "@/types";
 
 type Props = {
   activeIndex: number;

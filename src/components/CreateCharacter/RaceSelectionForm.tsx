@@ -8,7 +8,7 @@ import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import { FormStateContext } from "@/pages/create";
-import { ApiRace } from "@/types";
+import type { ApiRace } from "@/types";
 
 interface RaceFormInput {
   race: ApiRace;
