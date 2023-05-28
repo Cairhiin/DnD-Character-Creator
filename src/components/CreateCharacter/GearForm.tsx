@@ -16,8 +16,35 @@ import { useFetchWeapons } from "@/hooks/useFetchWeapons";
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-  items: Item[];
+  items: Array<Item>;
 }
+
+interface WeaponSelectProps {
+  weapons: Array<Item>;
+  index: number;
+  changeItem: (e: any, index: number, weapons: Array<Item>) => void;
+}
+
+const WeaponSelect = ({
+  weapons,
+  index,
+  changeItem,
+}: WeaponSelectProps): JSX.Element => (
+  <div
+    className={`${styles.character__creation__form__flex} ${styles.choose__weapon}`}
+  >
+    <p>Choose a Weapon from the list</p>
+    <select onChange={(e) => changeItem(e, index, weapons)}>
+      {weapons.map(
+        (item: Item, i: number): JSX.Element => (
+          <option key={item.index} value={i}>
+            {item.name}
+          </option>
+        )
+      )}
+    </select>
+  </div>
+);
 
 export default function GearForm({
   nextTab,
@@ -303,58 +330,32 @@ export default function GearForm({
         }
         <div className={styles.character__creation__form__column}>
           {fields.map((field: any, index: number): JSX.Element => {
+            console.log(field.index);
+            if (field.index === "simple-weapons") {
+              return (
+                <WeaponSelect
+                  changeItem={changeItem}
+                  weapons={simpleWeapons}
+                  index={index}
+                ></WeaponSelect>
+              );
+            }
             if (field.index === "martial-weapons") {
               return (
-                <div
-                  className={`${styles.character__creation__form__flex} ${styles.choose__weapon}`}
-                >
-                  <p>Choose a Martial Weapon </p>
-                  <select
-                    onChange={(e) => changeItem(e, index, martialWeapons)}
-                  >
-                    {martialWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
+                <WeaponSelect
+                  changeItem={changeItem}
+                  weapons={martialWeapons}
+                  index={index}
+                ></WeaponSelect>
               );
             }
             if (field.index === "martial-melee-weapons") {
               return (
-                <div className={styles.character__creation__form__flex}>
-                  <p>Choose a Martial Melee Weapon </p>
-                  <select
-                    onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
-                  >
-                    {martialMeleeWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-              );
-            }
-            if (field.index === "simple-weapons") {
-              return (
-                <div className={styles.character__creation__form__flex}>
-                  <p>Choose a Simple Weapon </p>
-                  <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
-                    {simpleWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
+                <WeaponSelect
+                  changeItem={changeItem}
+                  weapons={martialMeleeWeapons}
+                  index={index}
+                ></WeaponSelect>
               );
             }
             return <></>;
