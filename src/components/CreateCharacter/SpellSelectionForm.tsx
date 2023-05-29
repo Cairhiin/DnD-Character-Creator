@@ -65,13 +65,13 @@ export default function SpellSelection({
     control,
     name: "spells",
   });
-  useEffect(() => setValue("spells", level1Spells), []);
+  useEffect(() => setValue("spells", level1Spells), [level1Spells]);
 
   const { fields: cantrips, update: updateCantrips } = useFieldArray({
     control,
     name: "cantrips",
   });
-  useEffect(() => setValue("cantrips", cantripSpells), []);
+  useEffect(() => setValue("cantrips", cantripSpells), [cantripSpells]);
 
   useEffect(() => {
     setForm(
