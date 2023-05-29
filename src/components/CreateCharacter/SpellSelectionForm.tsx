@@ -12,6 +12,7 @@ import AnimatedButton from "../AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import type { Spell } from "@/types";
 import { useFetchSpellsByLevel } from "@/hooks/useFetchSpellsByLevel";
+import { useFetchCharacterLevelData } from "@/hooks/useFetchCharacterLevelData";
 
 interface Props {
   nextTab: () => void;
@@ -32,7 +33,6 @@ export default function SpellSelection({
   const { form, setForm } = useContext(FormStateContext);
 
   // index 0: cantrips, index 1: level 1, etc
-  const [numberOfSpells, setNumberOfSpells] = useState<number[]>([]);
   const [selectedSpell, setSelectedSpell] = useState<any>({});
   const { dndClass: classFromContext } = form.steps.classSelection.value;
   const {
@@ -45,6 +45,15 @@ export default function SpellSelection({
     isLoading: cantripSpellsIsLoading,
     error: cantripSpellsError,
   } = useFetchSpellsByLevel(classFromContext, 0);
+  const {
+    levelUpData,
+    isLoading: levelUpDataIsLoading,
+    error: levelUpDataError,
+  } = useFetchCharacterLevelData(classFromContext, 1);
+  const numberOfSpells: Array<number> = [
+    levelUpData.spellcasting ? levelUpData.spellcasting.cantrips_known : 0,
+    levelUpData.spellcasting ? levelUpData.spellcasting.spell_slots_level_1 : 0,
+  ];
 
   const {
     handleSubmit,
@@ -156,26 +165,6 @@ export default function SpellSelection({
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    setLoading(true);
-    let ignore = false;
-    if (!ignore) {
-      fetch(`https://www.dnd5eapi.co${classFromContext.url}/levels/1/`)
-        .then((res) => res.json())
-        .then((data) => {
-          setNumberOfSpells([
-            data.spellcasting ? data.spellcasting.cantrips_known : 0,
-            data.spellcasting ? data.spellcasting.spell_slots_level_1 : 0,
-          ]);
-          setLoading(false);
-        });
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
 
   return (
     <div className={styles.create__layout}>
