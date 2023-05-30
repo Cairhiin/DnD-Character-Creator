@@ -13,7 +13,7 @@ import type {
 } from "@/types";
 import styles from "@/styles/Character.module.scss";
 import { useSession } from "next-auth/react";
-import { calculateProfBonus } from "@/utils";
+import { calculateAbilityModifier, calculateProfBonus } from "@/utils";
 
 export default function CharacterSheet(): JSX.Element {
   const race: ApiRace = useCharacterStore((state) => state.race);
@@ -77,11 +77,30 @@ export default function CharacterSheet(): JSX.Element {
             <div>
               <div>Proficiency Bonus</div>
               <div>{calculateProfBonus(level)}</div>
+              <div>Saving Throws</div>
+              <div>
+                {Object.entries(abilities).map(
+                  ([key, value]): JSX.Element => (
+                    <div key={key}>
+                      <div>{key}</div>
+                      <div>
+                        {dndClass.proficiencies?.filter(
+                          (prof: any): boolean =>
+                            prof.name.substring(14) === key
+                        )?.length
+                          ? calculateAbilityModifier(value) +
+                            calculateProfBonus(level)
+                          : calculateAbilityModifier(value)}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
-          <div></div>
-          <div></div>
         </div>
+        <div></div>
+        <div></div>
       </div>
     </>
   );
