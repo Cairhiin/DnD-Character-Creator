@@ -69,7 +69,7 @@ export default function StandardArray({
               >
                 {STANDARD_ARRAY.map(
                   (score: number, index: number): JSX.Element => (
-                    <option value={score} key={index}>
+                    <option value={score} key={score}>
                       {score}
                     </option>
                   )

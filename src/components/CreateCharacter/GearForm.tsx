@@ -197,8 +197,8 @@ export default function GearForm({
               </div>
               <div>
                 {selectedItems.map(
-                  (item: Equipment): JSX.Element => (
-                    <>
+                  (item: Equipment, index: number): JSX.Element => (
+                    <div key={`${item.index}-${index}`}>
                       {item.index !== "martial-weapons" &&
                         item.index !== "martial-melee-weapons" &&
                         item.index !== "simple-weapons" &&
@@ -207,9 +207,9 @@ export default function GearForm({
                             {item.amount} {`${item.name}s`}
                           </p>
                         ) : (
-                          <p>{item.name}</p>
+                          <p key={item.index}>{item.name}</p>
                         ))}
-                    </>
+                    </div>
                   )
                 )}
               </div>
@@ -333,6 +333,7 @@ export default function GearForm({
             if (field.index === "simple-weapons") {
               return (
                 <WeaponSelect
+                  key={`${field.index}-${index}`}
                   changeItem={changeItem}
                   weapons={simpleWeapons}
                   index={index}
@@ -342,6 +343,7 @@ export default function GearForm({
             if (field.index === "martial-weapons") {
               return (
                 <WeaponSelect
+                  key={`${field.index}-${index}`}
                   changeItem={changeItem}
                   weapons={martialWeapons}
                   index={index}
@@ -351,13 +353,14 @@ export default function GearForm({
             if (field.index === "martial-melee-weapons") {
               return (
                 <WeaponSelect
+                  key={`${field.index}-${index}`}
                   changeItem={changeItem}
                   weapons={martialMeleeWeapons}
                   index={index}
                 ></WeaponSelect>
               );
             }
-            return <></>;
+            return <div key={`${field.index}-${index}`}></div>;
           })}
         </div>
         <div className={styles.create__form__buttonRow}>

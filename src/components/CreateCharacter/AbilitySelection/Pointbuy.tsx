@@ -67,7 +67,9 @@ export default function PointBuy({
               >
                 {AVAILABLE_SCORES.map(
                   (score: number): JSX.Element => (
-                    <option value={score}>{score}</option>
+                    <option value={score} key={score}>
+                      {score}
+                    </option>
                   )
                 )}
               </select>

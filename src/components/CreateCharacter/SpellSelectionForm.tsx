@@ -185,7 +185,7 @@ export default function SpellSelection({
             <div className={styles.create__description__text}>
               {selectedSpell.desc.map(
                 (line: string): JSX.Element => (
-                  <p>{`${line}.`}</p>
+                  <p key={line}>{`${line}.`}</p>
                 )
               )}
             </div>
@@ -202,9 +202,8 @@ export default function SpellSelection({
               <h3>Choose {numberOfSpells[0]} cantrips</h3>
               {cantrips.map((field: any, index: number): JSX.Element => {
                 return (
-                  <>
+                  <div key={field.id}>
                     <input
-                      key={field.id}
                       id={field.name}
                       {...register(`cantrips.${index}.value` as const)}
                       type="checkbox"
@@ -216,7 +215,7 @@ export default function SpellSelection({
                       data-label={field.name}
                       className={styles.checkbox}
                     ></label>
-                  </>
+                  </div>
                 );
               })}
             </>
@@ -230,9 +229,8 @@ export default function SpellSelection({
               <h3>Choose {numberOfSpells[1]} level 1 spells</h3>
               {spells.map((field: any, index: number): JSX.Element => {
                 return (
-                  <>
+                  <div key={field.id}>
                     <input
-                      key={field.id}
                       id={field.name}
                       {...register(`spells.${index}.value` as const)}
                       type="checkbox"
@@ -244,7 +242,7 @@ export default function SpellSelection({
                       data-label={field.name}
                       className={styles.checkbox}
                     ></label>
-                  </>
+                  </div>
                 );
               })}
             </>
