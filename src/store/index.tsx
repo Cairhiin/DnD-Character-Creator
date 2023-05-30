@@ -32,6 +32,7 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
   },
   hitpoints: 0,
   gold: 0,
+  experience: 0,
   level: 0,
   description: {
     details: {
@@ -106,6 +107,8 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     set((state) => ({ description: description })),
   setSkills: (skills: Skills) => set((state) => ({ skills: skills })),
   setGold: (gold: number) => set((state) => ({ gold: gold })),
+  setExperience: (experience: number) =>
+    set((state) => ({ experience: experience })),
   setLevel: (level: number) => set((state) => ({ level: level })),
   addItem: (item: Equipment) =>
     set((state) => ({

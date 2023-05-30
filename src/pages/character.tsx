@@ -11,7 +11,9 @@ import type {
   CharacterDescription,
   Spells,
 } from "@/types";
-import styles from "@/Character.module.scss";
+import styles from "@/styles/Character.module.scss";
+import { useSession } from "next-auth/react";
+import { calculateProfBonus } from "@/utils";
 
 export default function CharacterSheet(): JSX.Element {
   const race: ApiRace = useCharacterStore((state) => state.race);
@@ -26,6 +28,10 @@ export default function CharacterSheet(): JSX.Element {
   const skills: Skills = useCharacterStore((state) => state.skills);
   const equipment: Equipment[] = useCharacterStore((state) => state.equipment);
   const spells: Spells = useCharacterStore((state) => state.spells);
+  const level: number = useCharacterStore((state) => state.level);
+  const experience: number = useCharacterStore((state) => state.experience);
+  const gold: number = useCharacterStore((state) => state.gold);
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -35,8 +41,47 @@ export default function CharacterSheet(): JSX.Element {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <h1>{description.details.name}</h1>
+      <div className={styles.main}>
+        <div>
+          <div>
+            <h1>{description.details.name}</h1>
+          </div>
+          <div>
+            <div>
+              <div>
+                {dndClass.name}
+                <span>{level}</span>
+              </div>
+              <div>{background.name}</div>
+              <div>{session?.user?.name}</div>
+            </div>
+            <div>
+              <div>{race.name}</div>
+              <div>{description.details.alignment}</div>
+              <div>{experience}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+            {Object.entries(abilities).map(
+              ([key, value]): JSX.Element => (
+                <div key={key}>
+                  <div>{key}</div>
+                  <div>{value}</div>
+                </div>
+              )
+            )}
+          </div>
+          <div>
+            <div>
+              <div>Proficiency Bonus</div>
+              <div>{calculateProfBonus(level)}</div>
+            </div>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </>
   );

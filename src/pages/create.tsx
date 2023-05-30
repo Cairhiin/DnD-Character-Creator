@@ -7,6 +7,7 @@ import CreateCharacterTabs from "@/components/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { useCharacterStore } from "@/store";
+import { calculateAbilityModifier, calculateHP } from "@/utils";
 
 interface CardProps {
   children: ReactNode;
@@ -43,6 +44,7 @@ export default function Create({ backgrounds, items }: Props) {
   const setClass = useCharacterStore((state) => state.setClass);
   const setBackground = useCharacterStore((state) => state.setBackground);
   const setHitpoints = useCharacterStore((state) => state.setHitpoints);
+  const setExperience = useCharacterStore((state) => state.setExperience);
   const setAbilityScores = useCharacterStore((state) => state.setAbilityScores);
   const setDescription = useCharacterStore((state) => state.setDescription);
   const setSkills = useCharacterStore((state) => state.setSkills);
@@ -84,6 +86,18 @@ export default function Create({ backgrounds, items }: Props) {
     setSkills(form.steps.skillsSelection.value);
     setSpells(form.steps.spellSelection.value);
     setEquipment(form.steps.equipmentSelection.value);
+    setLevel(1);
+    setGold(10);
+    setExperience(0);
+    setHitpoints(
+      calculateHP(
+        form.steps.classSelection.value.dndClass.hit_die,
+        1,
+        calculateAbilityModifier(
+          form.steps.abilitiesSelection.value.abilities.CON
+        )
+      )
+    );
 
     router.push("/character");
   };

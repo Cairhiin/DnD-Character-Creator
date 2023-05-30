@@ -45,7 +45,11 @@ export const formatAttribute = (attr: string): string => {
     return skill.substring(7, skill.length);
   }
 
-  export const calculateHP = (hitDie: number | undefined, level: number): number => {
+  export const calculateHP = (hitDie: number | undefined, level: number, conModifier: number): number => {
     if (hitDie === undefined) return 0;
-    return hitDie + (Math.ceil((hitDie + 1) / 2) * (level - 1));
+    return hitDie + (Math.ceil((hitDie + 1) / 2) * (level - 1)) + (level * conModifier);
+  }
+
+  export const calculateProfBonus = (level: number): number => {
+    return Math.floor((level - 1) / 4) + 2;
   }

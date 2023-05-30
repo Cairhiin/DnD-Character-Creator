@@ -101,6 +101,7 @@ export interface CharacterFormState {
     description: CharacterDescription;
     skills: Skills;
     gold: number;
+    experience: number;
     level: number;
     spells: Spells;
     setRace: (race: ApiRace) => void
@@ -110,6 +111,7 @@ export interface CharacterFormState {
     setDescription: (description: CharacterDescription) => void;
     setSkills: (skills: Skills) => void;
     setGold: (gold: number) => void;
+    setExperience: (experience: number) => void;
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
     addItem: (item: Equipment) => void;
