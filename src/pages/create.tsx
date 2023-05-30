@@ -1,10 +1,12 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import { Background, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
+import { useCharacterStore } from "@/store";
 
 interface CardProps {
   children: ReactNode;
@@ -34,8 +36,20 @@ export const FormStateContext = createContext({
 
 export default function Create({ backgrounds, items }: Props) {
   const [form, setForm] = useState(FORM_STATE);
+  const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
+  const setRace = useCharacterStore((state) => state.setRace);
+  const setClass = useCharacterStore((state) => state.setClass);
+  const setBackground = useCharacterStore((state) => state.setBackground);
+  const setHitpoints = useCharacterStore((state) => state.setHitpoints);
+  const setAbilityScores = useCharacterStore((state) => state.setAbilityScores);
+  const setDescription = useCharacterStore((state) => state.setDescription);
+  const setSkills = useCharacterStore((state) => state.setSkills);
+  const setGold = useCharacterStore((state) => state.setGold);
+  const setLevel = useCharacterStore((state) => state.setLevel);
+  const setEquipment = useCharacterStore((state) => state.setEquipment);
+  const setSpells = useCharacterStore((state) => state.setSpells);
 
   const setActiveIndex = (e: any) => {
     const clickedIndex = parseInt(e.dataset.tabId);
@@ -62,7 +76,16 @@ export default function Create({ backgrounds, items }: Props) {
   };
 
   const onComplete = (): void => {
-    console.log(form);
+    setRace(form.steps.raceSelection.value.race);
+    setClass(form.steps.classSelection.value.dndClass);
+    setAbilityScores(form.steps.abilitiesSelection.value.abilities);
+    setBackground(form.steps.backgroundSelection.value.background);
+    setDescription(form.steps.descriptionForm.value);
+    setSkills(form.steps.skillsSelection.value);
+    setSpells(form.steps.spellSelection.value);
+    setEquipment(form.steps.equipmentSelection.value);
+
+    router.push("/character");
   };
 
   useEffect(() => {

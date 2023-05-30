@@ -330,7 +330,6 @@ export default function GearForm({
         }
         <div className={styles.character__creation__form__column}>
           {fields.map((field: any, index: number): JSX.Element => {
-            console.log(field.index);
             if (field.index === "simple-weapons") {
               return (
                 <WeaponSelect

@@ -26,6 +26,19 @@ export interface Spell {
     value: boolean | undefined;
 }
 
+export interface Spells {
+    0: Array<Spell>;
+    1: Array<Spell>;
+    2: Array<Spell>;
+    3: Array<Spell>;
+    4: Array<Spell>;
+    5: Array<Spell>;
+    6: Array<Spell>;
+    7: Array<Spell>;
+    8: Array<Spell>;
+    9: Array<Spell>;
+}
+
 export interface Background {
     id: string;
     name: string;
@@ -89,6 +102,7 @@ export interface CharacterFormState {
     skills: Skills;
     gold: number;
     level: number;
+    spells: Spells;
     setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
     setBackground: (background: Background) => void
@@ -100,6 +114,8 @@ export interface CharacterFormState {
     setHitpoints: (hitpoints: number) => void;
     addItem: (item: Equipment) => void;
     setEquipment: (item: Array<Equipment>) => void;
+    addSpell: (spell: Spell, level: number) => void;
+    setSpells: (spells: Spells) => void;
 };
 
 export interface AbilityFormInput {  

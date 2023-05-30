@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { produce } from "immer";
 import type {
   CharacterFormState,
   CharacterDescription,
@@ -8,9 +9,11 @@ import type {
   ApiRace,
   Background,
   Equipment,
+  Spell,
+  Spells,
 } from "@/types";
 
-export const characterStore = create<CharacterFormState>((set) => ({
+export const useCharacterStore = create<CharacterFormState>((set) => ({
   race: { name: "", index: "" },
   dndClass: { name: "", index: "", url: "" },
   abilityScores: { STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 },
@@ -79,6 +82,18 @@ export const characterStore = create<CharacterFormState>((set) => ({
     stealth: { value: false, name: "Stealth" },
     survival: { value: false, name: "Survival" },
   },
+  spells: {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+  },
   setRace: (race: ApiRace) => set((state) => ({ race: race })),
   setClass: (dndClass: ApiClass) => set((state) => ({ dndClass: dndClass })),
   setBackground: (background: Background) =>
@@ -100,4 +115,11 @@ export const characterStore = create<CharacterFormState>((set) => ({
       },
     })),
   setEquipment: (items: Equipment[]) => set((state) => ({ equipment: items })),
+  addSpell: (spell: Spell, level: number) =>
+    set(
+      produce((state) => {
+        (state.spells as any)[level] = spell;
+      })
+    ),
+  setSpells: (spells: Spells) => set((state) => ({ spells: spells })),
 }));
