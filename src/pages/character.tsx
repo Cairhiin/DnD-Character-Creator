@@ -41,65 +41,126 @@ export default function CharacterSheet(): JSX.Element {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.main}>
-        <div>
+      <div className={styles.characterSheet}>
+        <div className={styles.characterSheet__intro}>
           <div>
-            <h1>{description.details.name}</h1>
+            <h2>{description.details.name}</h2>
           </div>
-          <div>
+          <div className={styles.characterSheet__details}>
             <div>
               <div>
                 {dndClass.name}
                 <span>{level}</span>
               </div>
               <div>{background.name}</div>
-              <div>{session?.user?.name}</div>
             </div>
             <div>
               <div>{race.name}</div>
               <div>{description.details.alignment}</div>
+            </div>
+            <div>
+              <div>{session?.user?.name}</div>
               <div>{experience}</div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.characterSheet__main}>
+          <div className={styles.characterSheet__main__left}>
+            <div>
+              {Object.entries(abilities).map(
+                ([key, value]): JSX.Element => (
+                  <div key={key}>
+                    <div>{key}</div>
+                    <div>{value}</div>
+                  </div>
+                )
+              )}
+            </div>
+            <div>
+              <div>
+                <div className={styles.characterSheet__main__left__area}>
+                  <div>Proficiency Bonus</div>
+                  <div>{calculateProfBonus(level)}</div>
+                </div>
+                <div className={styles.characterSheet__main__left__area}>
+                  <div>Saving Throws</div>
+                  <div>
+                    {Object.entries(abilities).map(
+                      ([key, value]): JSX.Element => (
+                        <div
+                          key={key}
+                          className={styles.characterSheet__main__left__flex}
+                        >
+                          {dndClass.proficiencies?.filter(
+                            (prof: any): boolean =>
+                              prof.name.substring(14) === key
+                          )?.length ? (
+                            <div className={styles.filledDot}></div>
+                          ) : (
+                            <div className={styles.dot}></div>
+                          )}
+                          <div>{key}</div>
+                          <div>
+                            {dndClass.proficiencies?.filter(
+                              (prof: any): boolean =>
+                                prof.name.substring(14) === key
+                            )?.length
+                              ? calculateAbilityModifier(value) +
+                                calculateProfBonus(level)
+                              : calculateAbilityModifier(value)}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+                <div className={styles.characterSheet__main__left__area}>
+                  <div>Skills</div>
+                  <div>
+                    {Object.entries(skills).map(
+                      ([key, { name, value, modifier }]): JSX.Element => (
+                        <div
+                          key={key}
+                          className={styles.characterSheet__main__left__flex}
+                        >
+                          {value ? (
+                            <div className={styles.filledDot}></div>
+                          ) : (
+                            <div className={styles.dot}></div>
+                          )}
+                          <div>{name}</div>
+                          <div>
+                            {value
+                              ? calculateProfBonus(level) +
+                                calculateAbilityModifier(
+                                  (abilities as any)[modifier]
+                                )
+                              : calculateAbilityModifier(
+                                  (abilities as any)[modifier]
+                                )}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div>
           <div>
-            {Object.entries(abilities).map(
-              ([key, value]): JSX.Element => (
-                <div key={key}>
-                  <div>{key}</div>
-                  <div>{value}</div>
-                </div>
-              )
-            )}
-          </div>
-          <div>
+            <div>Spellcasting Ability</div>
             <div>
-              <div>Proficiency Bonus</div>
-              <div>{calculateProfBonus(level)}</div>
-              <div>Saving Throws</div>
-              <div>
-                {Object.entries(abilities).map(
-                  ([key, value]): JSX.Element => (
-                    <div key={key}>
-                      <div>{key}</div>
-                      <div>
-                        {dndClass.proficiencies?.filter(
-                          (prof: any): boolean =>
-                            prof.name.substring(14) === key
-                        )?.length
-                          ? calculateAbilityModifier(value) +
-                            calculateProfBonus(level)
-                          : calculateAbilityModifier(value)}
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
+              {calculateAbilityModifier(
+                (abilities as any)[
+                  dndClass.spellcasting?.spellcasting_ability.name
+                ]
+              )}
+              <span>({dndClass.spellcasting?.spellcasting_ability.name})</span>
             </div>
           </div>
         </div>
-        <div></div>
         <div></div>
       </div>
     </>

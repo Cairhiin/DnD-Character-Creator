@@ -134,25 +134,31 @@ export interface EquipmentFormInput {
     items: Array<Equipment>;
 }
 
+export interface Skill {
+    name: string;
+    value: boolean;
+    modifier: string;
+}
+
 export interface Skills {
-    acrobatics: {name: string, value: boolean}; 
-    animalHandling: {name: string, value: boolean};
-    arcana: {name: string, value: boolean};
-    athletics: {name: string, value: boolean}; 
-    deception: {name: string, value: boolean}; 
-    history: {name: string, value: boolean};
-    insight: {name: string, value: boolean};
-    intimidation: {name: string, value: boolean}; 
-    investigation: {name: string, value: boolean};
-    medicine: {name: string, value: boolean};
-    nature: {name: string, value: boolean};
-    perception: {name: string, value: boolean};
-    performance: {name: string, value: boolean};
-    persuasion: {name: string, value: boolean};
-    religion: {name: string, value: boolean}; 
-    sleightOfHand: {name: string, value: boolean}; 
-    stealth: {name: string, value: boolean}; 
-    survival: {name: string, value: boolean};
+    acrobatics: Skill; 
+    animalHandling: Skill;
+    arcana: Skill;
+    athletics: Skill; 
+    deception: Skill; 
+    history: Skill;
+    insight: Skill;
+    intimidation: Skill; 
+    investigation: Skill;
+    medicine: Skill;
+    nature: Skill;
+    perception: Skill;
+    performance: Skill;
+    persuasion: Skill;
+    religion: Skill; 
+    sleightOfHand: Skill; 
+    stealth: Skill; 
+    survival: Skill;
 }
 
 export interface ApiClass {
@@ -220,6 +226,11 @@ export interface ApiClass {
             }
         }>;
     subclasses?: Array<{ index: string; name: string; url: string; }>;
+    spellcasting: { 
+        level: number, 
+        spellcasting_ability: { index: string, name: string, url: string }, 
+        info: Array<{name: string, desc: string}>
+    }
     url: string;
 }
 

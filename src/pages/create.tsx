@@ -99,6 +99,7 @@ export default function Create({ backgrounds, items }: Props) {
       )
     );
 
+    console.log(form.steps.skillsSelection.value);
     router.push("/character");
   };
 
