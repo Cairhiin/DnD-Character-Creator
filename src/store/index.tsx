@@ -11,6 +11,7 @@ import type {
   Equipment,
   Spell,
   Spells,
+  Item,
 } from "@/types";
 
 export const useCharacterStore = create<CharacterFormState>((set) => ({
@@ -26,7 +27,12 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     },
   },
   abilityScores: { STR: 0, DEX: 0, CON: 0, INT: 0, WIS: 0, CHA: 0 },
-  equipment: [],
+  equipment: {
+    armors: [],
+    weapons: [],
+    shields: [],
+    misc: [],
+  },
   background: {
     name: "",
     id: "",
@@ -120,13 +126,35 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     set((state) => ({ experience: experience })),
   setLevel: (level: number) => set((state) => ({ level: level })),
   addItem: (item: Equipment) =>
-    set((state) => ({
-      equipment: {
-        ...state.equipment,
-        equipment: [...state.equipment, item],
-      },
-    })),
-  setEquipment: (items: Equipment[]) => set((state) => ({ equipment: items })),
+    set(
+      produce((state) => {
+        state.equipment.misc.push(item);
+      })
+    ),
+  addShield: (item: Equipment) =>
+    set(
+      produce((state) => {
+        state.equipment.shields.push(item);
+      })
+    ),
+  addArmor: (item: Equipment) =>
+    set(
+      produce((state) => {
+        state.equipment.armors.push(item);
+      })
+    ),
+  addWeapon: (item: Equipment) =>
+    set(
+      produce((state) => {
+        state.equipment.weapons.push(item);
+      })
+    ),
+  setEquipment: (items: {
+    weapons: Item[];
+    armors: Item[];
+    shields: Item[];
+    misc: Item[];
+  }) => set((state) => ({ equipment: items })),
   addSpell: (spell: Spell, level: number) =>
     set(
       produce((state) => {

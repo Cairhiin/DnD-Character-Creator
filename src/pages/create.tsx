@@ -8,6 +8,7 @@ import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { useCharacterStore } from "@/store";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
+import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
 
 interface CardProps {
   children: ReactNode;
@@ -40,6 +41,8 @@ export default function Create({ backgrounds, items }: Props) {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
+  const { equipmentError, equipmentIsLoading, armors, weapons, misc, shields } =
+    useFetchEquipmentData(form.steps.equipmentSelection.value);
   const setRace = useCharacterStore((state) => state.setRace);
   const setClass = useCharacterStore((state) => state.setClass);
   const setBackground = useCharacterStore((state) => state.setBackground);
@@ -85,7 +88,6 @@ export default function Create({ backgrounds, items }: Props) {
     setDescription(form.steps.descriptionForm.value);
     setSkills(form.steps.skillsSelection.value);
     setSpells(form.steps.spellSelection.value);
-    setEquipment(form.steps.equipmentSelection.value);
     setLevel(1);
     setGold(10);
     setExperience(0);
@@ -98,8 +100,14 @@ export default function Create({ backgrounds, items }: Props) {
         )
       )
     );
+    console.log("WEAPONS", weapons);
+    setEquipment({
+      armors: armors,
+      shields: shields,
+      weapons: weapons,
+      misc: misc,
+    });
 
-    console.log(form.steps.skillsSelection.value);
     router.push("/character");
   };
 
@@ -122,7 +130,7 @@ export default function Create({ backgrounds, items }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.main}>
+      <main className={styles.main}>
         <nav className={styles.nav}>
           <div className={styles.create__topbar}>
             <ul
@@ -197,7 +205,7 @@ export default function Create({ backgrounds, items }: Props) {
           </aside>
           <div></div>
         </section>
-      </div>
+      </main>
     </FormStateContext.Provider>
   );
 }

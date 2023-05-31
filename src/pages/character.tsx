@@ -7,32 +7,42 @@ import type {
   Background,
   Equipment,
   Skills,
-  Spell,
   CharacterDescription,
   Spells,
+  Item,
 } from "@/types";
 import styles from "@/styles/Character.module.scss";
 import { useSession } from "next-auth/react";
-import { calculateAbilityModifier, calculateProfBonus } from "@/utils";
+import {
+  calculateAbilityModifier,
+  calculateArmorClass,
+  calculateMiscArmorBonus,
+  calculateProfBonus,
+  calculateSpeed,
+} from "@/utils";
+import { useEffect, useState } from "react";
 
 export default function CharacterSheet(): JSX.Element {
-  const race: ApiRace = useCharacterStore((state) => state.race);
-  const dndClass: ApiClass = useCharacterStore((state) => state.dndClass);
-  const abilities: AbilityScores = useCharacterStore(
-    (state) => state.abilityScores
-  );
-  const background: Background = useCharacterStore((state) => state.background);
-  const description: CharacterDescription = useCharacterStore(
-    (state) => state.description
-  );
-  const skills: Skills = useCharacterStore((state) => state.skills);
-  const equipment: Equipment[] = useCharacterStore((state) => state.equipment);
-  const spells: Spells = useCharacterStore((state) => state.spells);
-  const level: number = useCharacterStore((state) => state.level);
-  const experience: number = useCharacterStore((state) => state.experience);
-  const gold: number = useCharacterStore((state) => state.gold);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [armor, setArmor] = useState<Item>();
+  const [shield, setShield] = useState<Item>();
+  const [weapons, setWeapons] = useState<Item[]>([]);
+  const race = useCharacterStore((state) => state.race);
+  const dndClass = useCharacterStore((state) => state.dndClass);
+  const abilities = useCharacterStore((state) => state.abilityScores);
+  const background = useCharacterStore((state) => state.background);
+  const description = useCharacterStore((state) => state.description);
+  const skills = useCharacterStore((state) => state.skills);
+  const equipment = useCharacterStore((state) => state.equipment);
+  const spells = useCharacterStore((state) => state.spells);
+  const level = useCharacterStore((state) => state.level);
+  const experience = useCharacterStore((state) => state.experience);
+  const gold = useCharacterStore((state) => state.gold);
   const { data: session, status } = useSession();
-
+  useEffect(() => {
+    console.log(equipment);
+  }, [equipment]);
   return (
     <>
       <Head>
@@ -41,7 +51,7 @@ export default function CharacterSheet(): JSX.Element {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.characterSheet}>
+      <main className={styles.characterSheet}>
         <div className={styles.characterSheet__intro}>
           <div>
             <h2>{description.details.name}</h2>
@@ -63,7 +73,9 @@ export default function CharacterSheet(): JSX.Element {
               <div>{experience}</div>
             </div>
           </div>
+          {/* end of details */}
         </div>
+        {/* end of intro */}
         <div className={styles.characterSheet__main}>
           <div className={styles.characterSheet__main__left}>
             <div>
@@ -75,7 +87,8 @@ export default function CharacterSheet(): JSX.Element {
                   </div>
                 )
               )}
-            </div>
+            </div>{" "}
+            {/* end of abilities column */}
             <div>
               <div>
                 <div className={styles.characterSheet__main__left__area}>
@@ -146,23 +159,94 @@ export default function CharacterSheet(): JSX.Element {
                 </div>
               </div>
             </div>
+            {/* end of skills column */}
           </div>
-        </div>
-        <div>
-          <div>
-            <div>Spellcasting Ability</div>
+          <div className={styles.characterSheet__main__right}>
             <div>
-              {calculateAbilityModifier(
-                (abilities as any)[
-                  dndClass.spellcasting?.spellcasting_ability.name
-                ]
-              )}
-              <span>({dndClass.spellcasting?.spellcasting_ability.name})</span>
+              <div>
+                <div>Spellcasting Ability</div>
+                <div>
+                  {calculateAbilityModifier(
+                    (abilities as any)[
+                      dndClass.spellcasting?.spellcasting_ability.name
+                    ]
+                  )}
+                  <span>
+                    {" "}
+                    ({dndClass.spellcasting?.spellcasting_ability.name})
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div>Spell Save DC</div>
+                <div>
+                  {8 +
+                    calculateAbilityModifier(
+                      (abilities as any)[
+                        dndClass.spellcasting?.spellcasting_ability.name
+                      ]
+                    ) +
+                    calculateProfBonus(level)}
+                </div>
+              </div>
+              <div>
+                <div>Spell Attack Bonus</div>
+                <div>
+                  {calculateAbilityModifier(
+                    (abilities as any)[
+                      dndClass.spellcasting?.spellcasting_ability.name
+                    ]
+                  ) + calculateProfBonus(level)}
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div>
+                  {calculateArmorClass(
+                    dndClass.index,
+                    abilities,
+                    armor?.armor_class?.base || 0,
+                    shield?.armor_class?.base || 0
+                  )}
+                </div>
+                <div>Armor Class</div>
+              </div>
+              <div>
+                <div>{calculateAbilityModifier(abilities.DEX)}</div>
+                <div>Dex Mod</div>
+              </div>
+              <div>
+                <div>{armor?.armor_class?.base}</div>
+                <div>Armor</div>
+              </div>
+              <div>
+                <div>{shield?.armor_class?.base}</div>
+                <div>Shield</div>
+              </div>
+              <div>
+                <div>{calculateMiscArmorBonus(dndClass.index, abilities)}</div>
+                <div>Misc</div>
+              </div>
+              <div>
+                <div>{calculateAbilityModifier(abilities.DEX)}</div>
+                <div>Initiative</div>
+              </div>
+              <div>
+                <div>{calculateSpeed(abilities.STR, armor, race.speed)}</div>
+                <div>Speed</div>
+              </div>
             </div>
           </div>
         </div>
-        <div></div>
-      </div>
+
+        <div>
+          {10 +
+            calculateAbilityModifier(abilities.WIS) +
+            (skills.perception.value ? calculateProfBonus(level) : 0)}{" "}
+          Passive Wisdom (Perception)
+        </div>
+      </main>
     </>
   );
 }

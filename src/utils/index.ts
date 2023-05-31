@@ -1,3 +1,5 @@
+import { AbilityScores, DndClass, Equipment, Item } from "@/types";
+
 export const calculateAbilityBuyCost = (abilityScore: number): number | null => {
     if (abilityScore < 8 || abilityScore > 15) return null;
     if (abilityScore < 14) return abilityScore - 8;
@@ -52,4 +54,24 @@ export const formatAttribute = (attr: string): string => {
 
   export const calculateProfBonus = (level: number): number => {
     return Math.floor((level - 1) / 4) + 2;
+  }
+
+  export const calculateArmorClass = (className: string, abilities: AbilityScores, armor: number, shield: number): number => {
+    let AC = 10;
+    
+    armor > 0 ? AC = armor : AC = 10;
+    AC += shield;
+    AC += calculateMiscArmorBonus(className, abilities);
+    return AC;
+  }
+
+  export const calculateMiscArmorBonus = (className: string, abilities: AbilityScores): number => {
+    if (className === "barbarian") return calculateAbilityModifier(abilities.CON);
+    if (className === "monk") return calculateAbilityModifier(abilities.CON) + calculateAbilityModifier(abilities.WIS);
+    return 0;
+  }
+
+  export const calculateSpeed = (strength: number, armor: Item | undefined, baseSpeed: number | undefined): number => {
+    if (strength > (armor?.str_minimum || 0)) return baseSpeed || 0;
+    return baseSpeed || 0 - 10 ;
   }

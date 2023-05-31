@@ -8,6 +8,10 @@
     @include filledDot;
 }
 
+.flex {
+    @include flex;
+}
+
 .characterSheet {
     max-width: 1200px;
     margin: 1rem auto;
@@ -27,6 +31,12 @@
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 1rem;
+
+        &__right {
+            & > div {
+                @include flex;
+            }
+        }
 
         &__left {
             @include flex;

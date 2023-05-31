@@ -97,7 +97,12 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: Array<Equipment>;
+    equipment: {
+        armors: Array<Item>;
+        shields: Array<Item>;
+        weapons: Array<Item>;
+        misc: Array<Item>;
+    };
     description: CharacterDescription;
     skills: Skills;
     gold: number;
@@ -115,7 +120,10 @@ export interface CharacterFormState {
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
     addItem: (item: Equipment) => void;
-    setEquipment: (item: Array<Equipment>) => void;
+    addShield: (item: Equipment) => void;
+    addArmor: (item: Equipment) => void;
+    addWeapon: (item: Equipment) => void;
+    setEquipment: (items: { armors: Item[]; weapons: Item[]; shields: Item[]; misc: Item[]}) => void;
     addSpell: (spell: Spell, level: number) => void;
     setSpells: (spells: Spells) => void;
 };
@@ -279,16 +287,23 @@ export interface Item {
         index: string;
         name: string;
         url: string;
-    },
+    };
+    armor_category?: string,
+    armor_class?: {
+        base: number;
+        dex_bonus: boolean;
+    };
+    str_minimum?: number;
+    stealth_disadvantage?: boolean;
     gear_category?: {
         index: string;
         name: string;
         url: string;
-    },
+    };
     cost?: {
         quantity: number;
         unit: string;
-    },
+    };
     weight?: number;
     url: string;
     contents?: Array<string>;
