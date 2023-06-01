@@ -119,7 +119,7 @@ export interface CharacterFormState {
     setExperience: (experience: number) => void;
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
-    addItem: (item: Equipment) => void;
+    addMisc: (item: Equipment) => void;
     addShield: (item: Equipment) => void;
     addArmor: (item: Equipment) => void;
     addWeapon: (item: Equipment) => void;

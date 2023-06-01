@@ -125,7 +125,7 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
   setExperience: (experience: number) =>
     set((state) => ({ experience: experience })),
   setLevel: (level: number) => set((state) => ({ level: level })),
-  addItem: (item: Equipment) =>
+  addMisc: (item: Equipment) =>
     set(
       produce((state) => {
         state.equipment.misc.push(item);

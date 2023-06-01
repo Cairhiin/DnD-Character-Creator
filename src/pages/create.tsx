@@ -8,7 +8,7 @@ import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { useCharacterStore } from "@/store";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
-import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
+import { useAddEquipmentDataToStore } from "@/hooks/useAddEquipmentDataToStore";
 
 interface CardProps {
   children: ReactNode;
@@ -41,8 +41,12 @@ export default function Create({ backgrounds, items }: Props) {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
-  const { equipmentError, equipmentIsLoading, armors, weapons, misc, shields } =
-    useFetchEquipmentData(form.steps.equipmentSelection.value);
+
+  /* NOTE: Splits the chosen equipment from the form in different categories,
+  retrieves data from the API and adds it directly to the store */
+  const { equipmentError, equipmentIsLoading } = useAddEquipmentDataToStore(
+    form.steps.equipmentSelection.value
+  );
   const setRace = useCharacterStore((state) => state.setRace);
   const setClass = useCharacterStore((state) => state.setClass);
   const setBackground = useCharacterStore((state) => state.setBackground);
@@ -100,13 +104,6 @@ export default function Create({ backgrounds, items }: Props) {
         )
       )
     );
-    console.log("WEAPONS", weapons);
-    setEquipment({
-      armors: armors,
-      shields: shields,
-      weapons: weapons,
-      misc: misc,
-    });
 
     router.push("/character");
   };

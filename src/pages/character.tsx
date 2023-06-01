@@ -40,9 +40,11 @@ export default function CharacterSheet(): JSX.Element {
   const experience = useCharacterStore((state) => state.experience);
   const gold = useCharacterStore((state) => state.gold);
   const { data: session, status } = useSession();
+
   useEffect(() => {
     console.log(equipment);
-  }, [equipment]);
+  }, []);
+
   return (
     <>
       <Head>
