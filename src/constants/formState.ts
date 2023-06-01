@@ -1,4 +1,4 @@
-import { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
+import type { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
 
 interface FormState {
     steps: {
@@ -41,11 +41,6 @@ interface FormState {
             dirty: boolean;
             value: Skills;
         };
-        equipmentSelection: {
-            valid: boolean;
-            dirty: boolean;
-            value: Array<Equipment>;
-        };
         spellSelection: {
             valid: boolean;
             dirty: boolean;
@@ -63,6 +58,11 @@ interface FormState {
                 9: Array<any>
             }
         };
+        equipmentSelection: {
+            valid: boolean;
+            dirty: boolean;
+            value: Array<Equipment>;
+        }
     }
 };
 
@@ -160,31 +160,26 @@ const FORM_STATE: FormState = {
             valid: false,
             dirty: false,
             value: {
-                acrobatics: { value: false, name: "Acrobatics" },
-                animalHandling: { value: false, name: "Animal Handling" },
-                arcana: { value: false, name: "Arcana" },
-                athletics: { value: false, name: "Athletics" },
-                deception: { value: false, name: "Deception" },
-                history: { value: false, name: "History" },
-                insight: { value: false, name: "Insight" },
-                intimidation: { value: false, name: "Intimidation" },
-                investigation: { value: false, name: "Investigation" },
-                medicine: { value: false, name: "Medicine" },
-                nature: { value: false, name: "Nature" },
-                perception: { value: false, name: "Perception" },
-                performance: { value: false, name: "Performance" },
-                persuasion: { value: false, name: "Persuasion" },
-                religion: { value: false, name: "Religion" },
-                sleightOfHand: { value: false, name: "Sleight Of Hand" },
-                stealth: { value: false, name: "Stealth" },
-                survival: { value: false, name: "Survival" },
+                acrobatics: { value: false, name: "Acrobatics", modifier: "DEX" },
+                animalHandling: { value: false, name: "Animal Handling", modifier: "WIS" },
+                arcana: { value: false, name: "Arcana", modifier: "INT" },
+                athletics: { value: false, name: "Athletics", modifier: "STR" },
+                deception: { value: false, name: "Deception", modifier: "CHA" },
+                history: { value: false, name: "History", modifier: "INT" },
+                insight: { value: false, name: "Insight", modifier: "WIS" },
+                intimidation: { value: false, name: "Intimidation", modifier: "CHA" },
+                investigation: { value: false, name: "Investigation", modifier: "INT" },
+                medicine: { value: false, name: "Medicine", modifier: "WIS" },
+                nature: { value: false, name: "Nature", modifier: "INT" },
+                perception: { value: false, name: "Perception", modifier: "WIS" },
+                performance: { value: false, name: "Performance", modifier: "CHA" },
+                persuasion: { value: false, name: "Persuasion", modifier: "CHA" },
+                religion: { value: false, name: "Religion", modifier: "INT" },
+                sleightOfHand: { value: false, name: "Sleight Of Hand", modifier: "DEX" },
+                stealth: { value: false, name: "Stealth", modifier: "DEX" },
+                survival: { value: false, name: "Survival", modifier: "WIS" },
             }
-        },
-        equipmentSelection: {
-            valid: false,
-            dirty: false,
-            value: []
-        },
+        },       
         spellSelection: {
             valid: false,
             dirty: false,
@@ -200,7 +195,12 @@ const FORM_STATE: FormState = {
                 8: [],
                 9: [],
             }
-        }
+        },
+        equipmentSelection: {
+            valid: false,
+            dirty: false,
+            value: []
+        },
     }
 };
 

@@ -7,17 +7,44 @@ import {
 import { produce } from "immer";
 import { ErrorField } from "./ClassSelectionForm";
 import { useContext, useEffect, useState } from "react";
-import { characterStore } from "@/store";
-import { EquipmentFormInput, Equipment, Item } from "@/types";
+import type { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../AnimatedButton";
 import styles from "@/styles/Create.module.scss";
+import { useFetchWeapons } from "@/hooks/useFetchWeapons";
 
 interface Props {
   nextTab: () => void;
   previousTab: () => void;
-  items: Item[];
+  items: Array<Item>;
 }
+
+interface WeaponSelectProps {
+  weapons: Array<Item>;
+  index: number;
+  changeItem: (e: any, index: number, weapons: Array<Item>) => void;
+}
+
+const WeaponSelect = ({
+  weapons,
+  index,
+  changeItem,
+}: WeaponSelectProps): JSX.Element => (
+  <div
+    className={`${styles.character__creation__form__flex} ${styles.choose__weapon}`}
+  >
+    <p>Choose a Weapon from the list</p>
+    <select onChange={(e) => changeItem(e, index, weapons)}>
+      {weapons.map(
+        (item: Item, i: number): JSX.Element => (
+          <option key={item.index} value={i}>
+            {item.name}
+          </option>
+        )
+      )}
+    </select>
+  </div>
+);
 
 export default function GearForm({
   nextTab,
@@ -26,6 +53,21 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const {
+    isLoading: simpleWeaponsLoading,
+    error: simpleWeaponsError,
+    weapons: simpleWeapons,
+  } = useFetchWeapons("simple-weapons");
+  const {
+    isLoading: martialWeaponsLoading,
+    error: martialWeaponsError,
+    weapons: martialWeapons,
+  } = useFetchWeapons("martial-weapons");
+  const {
+    isLoading: martialMeleeWeaponsLoading,
+    error: martialMeleeWeaponsError,
+    weapons: martialMeleeWeapons,
+  } = useFetchWeapons("martial-melee-weapons");
   const { form, setForm } = useContext(FormStateContext);
   const [buttonIsActive, setButtonIsActive] = useState<boolean[]>([
     true,
@@ -33,9 +75,6 @@ export default function GearForm({
     true,
     true,
   ]);
-  const [simpleWeapons, setSimpleWeapons] = useState<any>([]);
-  const [martialWeapons, setMartialWeapons] = useState<any>([]);
-  const [martialMeleeWeapons, setMartialMeleeWeapons] = useState<any>([]);
   const { starting_equipment, starting_equipment_options } =
     form.steps.classSelection.value.dndClass;
   const equipmentFromContext = form.steps.equipmentSelection.value;
@@ -45,7 +84,6 @@ export default function GearForm({
     ({ from }: any): any => from.option_set_type !== "equipment_category"
   );
 
-  useEffect(() => {}, []);
   // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
   if (equipmentFromContext.length && buttonIsActive[0] === true) {
     const activeButtons = buttonIsActive.map(
@@ -73,7 +111,7 @@ export default function GearForm({
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.descriptionForm.dirty = isDirty;
+        form.steps.equipmentSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);
@@ -82,53 +120,6 @@ export default function GearForm({
     control,
     name: "items",
   });
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch("http://www.dnd5eapi.co/api/equipment-categories/simple-weapons")
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setSimpleWeapons(equipment);
-        });
-    } catch (err: any) {
-      console.error(err);
-      setError("API not responding: unable to load simple weapons.");
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch(
-        "http://www.dnd5eapi.co/api/equipment-categories/martial-melee-weapons"
-      )
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setMartialMeleeWeapons(equipment);
-        });
-    } catch (err: any) {
-      console.error(err);
-      setError("API not responding: unable to load martial melee weapons.");
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      fetch("http://www.dnd5eapi.co/api/equipment-categories/martial-weapons")
-        .then((res) => res.json())
-        .then(({ equipment }) => {
-          setMartialWeapons(equipment);
-        });
-    } catch (err) {
-      console.error(err);
-      setError("API not responding: unable to load martial weapons.");
-    }
-    setLoading(false);
-  }, []);
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
     setForm(
@@ -206,8 +197,8 @@ export default function GearForm({
               </div>
               <div>
                 {selectedItems.map(
-                  (item: Equipment): JSX.Element => (
-                    <>
+                  (item: Equipment, index: number): JSX.Element => (
+                    <div key={`${item.index}-${index}`}>
                       {item.index !== "martial-weapons" &&
                         item.index !== "martial-melee-weapons" &&
                         item.index !== "simple-weapons" &&
@@ -216,9 +207,9 @@ export default function GearForm({
                             {item.amount} {`${item.name}s`}
                           </p>
                         ) : (
-                          <p>{item.name}</p>
+                          <p key={item.index}>{item.name}</p>
                         ))}
-                    </>
+                    </div>
                   )
                 )}
               </div>
@@ -339,61 +330,37 @@ export default function GearForm({
         }
         <div className={styles.character__creation__form__column}>
           {fields.map((field: any, index: number): JSX.Element => {
+            if (field.index === "simple-weapons") {
+              return (
+                <WeaponSelect
+                  key={`${field.index}-${index}`}
+                  changeItem={changeItem}
+                  weapons={simpleWeapons}
+                  index={index}
+                ></WeaponSelect>
+              );
+            }
             if (field.index === "martial-weapons") {
               return (
-                <div
-                  className={`${styles.character__creation__form__flex} ${styles.choose__weapon}`}
-                >
-                  <p>Choose a Martial Weapon </p>
-                  <select
-                    onChange={(e) => changeItem(e, index, martialWeapons)}
-                  >
-                    {martialWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
+                <WeaponSelect
+                  key={`${field.index}-${index}`}
+                  changeItem={changeItem}
+                  weapons={martialWeapons}
+                  index={index}
+                ></WeaponSelect>
               );
             }
             if (field.index === "martial-melee-weapons") {
               return (
-                <div className={styles.character__creation__form__flex}>
-                  <p>Choose a Martial Melee Weapon </p>
-                  <select
-                    onChange={(e) => changeItem(e, index, martialMeleeWeapons)}
-                  >
-                    {martialMeleeWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
+                <WeaponSelect
+                  key={`${field.index}-${index}`}
+                  changeItem={changeItem}
+                  weapons={martialMeleeWeapons}
+                  index={index}
+                ></WeaponSelect>
               );
             }
-            if (field.index === "simple-weapons") {
-              return (
-                <div className={styles.character__creation__form__flex}>
-                  <p>Choose a Simple Weapon </p>
-                  <select onChange={(e) => changeItem(e, index, simpleWeapons)}>
-                    {simpleWeapons.map(
-                      (item: Item, i: number): JSX.Element => (
-                        <option key={i} value={i}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-              );
-            }
-            return <></>;
+            return <div key={`${field.index}-${index}`}></div>;
           })}
         </div>
         <div className={styles.create__form__buttonRow}>

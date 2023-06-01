@@ -19,6 +19,26 @@ export interface Trait {
     "url": string;
 }
 
+export interface Spell {
+    index: string;
+    name: string;
+    url: string;
+    value: boolean | undefined;
+}
+
+export interface Spells {
+    0: Array<Spell>;
+    1: Array<Spell>;
+    2: Array<Spell>;
+    3: Array<Spell>;
+    4: Array<Spell>;
+    5: Array<Spell>;
+    6: Array<Spell>;
+    7: Array<Spell>;
+    8: Array<Spell>;
+    9: Array<Spell>;
+}
+
 export interface Background {
     id: string;
     name: string;
@@ -77,11 +97,18 @@ export interface CharacterFormState {
     background: Background;
     hitpoints: number;
     abilityScores: AbilityScores;
-    equipment: Array<Equipment>;
+    equipment: {
+        armors: Array<Item>;
+        shields: Array<Item>;
+        weapons: Array<Item>;
+        misc: Array<Item>;
+    };
     description: CharacterDescription;
     skills: Skills;
     gold: number;
+    experience: number;
     level: number;
+    spells: Spells;
     setRace: (race: ApiRace) => void
     setClass: (dndClass: ApiClass) => void
     setBackground: (background: Background) => void
@@ -89,10 +116,16 @@ export interface CharacterFormState {
     setDescription: (description: CharacterDescription) => void;
     setSkills: (skills: Skills) => void;
     setGold: (gold: number) => void;
+    setExperience: (experience: number) => void;
     setLevel: (level: number) => void;
     setHitpoints: (hitpoints: number) => void;
-    addItem: (item: Equipment) => void;
-    setEquipment: (item: Array<Equipment>) => void;
+    addMisc: (item: Equipment) => void;
+    addShield: (item: Equipment) => void;
+    addArmor: (item: Equipment) => void;
+    addWeapon: (item: Equipment) => void;
+    setEquipment: (items: { armors: Item[]; weapons: Item[]; shields: Item[]; misc: Item[]}) => void;
+    addSpell: (spell: Spell, level: number) => void;
+    setSpells: (spells: Spells) => void;
 };
 
 export interface AbilityFormInput {  
@@ -109,25 +142,31 @@ export interface EquipmentFormInput {
     items: Array<Equipment>;
 }
 
+export interface Skill {
+    name: string;
+    value: boolean;
+    modifier: string;
+}
+
 export interface Skills {
-    acrobatics: {name: string, value: boolean}; 
-    animalHandling: {name: string, value: boolean};
-    arcana: {name: string, value: boolean};
-    athletics: {name: string, value: boolean}; 
-    deception: {name: string, value: boolean}; 
-    history: {name: string, value: boolean};
-    insight: {name: string, value: boolean};
-    intimidation: {name: string, value: boolean}; 
-    investigation: {name: string, value: boolean};
-    medicine: {name: string, value: boolean};
-    nature: {name: string, value: boolean};
-    perception: {name: string, value: boolean};
-    performance: {name: string, value: boolean};
-    persuasion: {name: string, value: boolean};
-    religion: {name: string, value: boolean}; 
-    sleightOfHand: {name: string, value: boolean}; 
-    stealth: {name: string, value: boolean}; 
-    survival: {name: string, value: boolean};
+    acrobatics: Skill; 
+    animalHandling: Skill;
+    arcana: Skill;
+    athletics: Skill; 
+    deception: Skill; 
+    history: Skill;
+    insight: Skill;
+    intimidation: Skill; 
+    investigation: Skill;
+    medicine: Skill;
+    nature: Skill;
+    perception: Skill;
+    performance: Skill;
+    persuasion: Skill;
+    religion: Skill; 
+    sleightOfHand: Skill; 
+    stealth: Skill; 
+    survival: Skill;
 }
 
 export interface ApiClass {
@@ -195,6 +234,11 @@ export interface ApiClass {
             }
         }>;
     subclasses?: Array<{ index: string; name: string; url: string; }>;
+    spellcasting: { 
+        level: number, 
+        spellcasting_ability: { index: string, name: string, url: string }, 
+        info: Array<{name: string, desc: string}>
+    }
     url: string;
 }
 
@@ -243,20 +287,35 @@ export interface Item {
         index: string;
         name: string;
         url: string;
-    },
+    };
+    armor_category?: string,
+    armor_class?: {
+        base: number;
+        dex_bonus: boolean;
+    };
+    str_minimum?: number;
+    stealth_disadvantage?: boolean;
     gear_category?: {
         index: string;
         name: string;
         url: string;
-    },
+    };
     cost?: {
         quantity: number;
         unit: string;
-    },
+    };
     weight?: number;
     url: string;
     contents?: Array<string>;
-    properties?: Array<string>;
+    properties?: Array<{index: string; name: string; url: string}>;
+    range?: {normal: number};
+    weapon_category?: string;
+    weapon_range?: string;
+    damage?: { damage_dice: string; damage_type: {
+        index: string;
+        name: string;
+        url: string;
+    }};
 }
 
 export interface Equipment extends Item {

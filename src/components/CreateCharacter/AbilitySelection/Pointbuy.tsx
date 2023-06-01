@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form/dist/types";
 import { calculateAbilityBuyCost } from "@/utils";
 import { ABILITIES, POINT_BUY_TOTAL, AVAILABLE_SCORES } from "@/constants";
-import { AbilityScores, AbilityFormInput } from "@/types";
+import type { AbilityScores, AbilityFormInput } from "@/types";
 import styles from "@/styles/Create.module.scss";
 
 interface Props {
@@ -67,7 +67,9 @@ export default function PointBuy({
               >
                 {AVAILABLE_SCORES.map(
                   (score: number): JSX.Element => (
-                    <option value={score}>{score}</option>
+                    <option value={score} key={score}>
+                      {score}
+                    </option>
                   )
                 )}
               </select>

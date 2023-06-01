@@ -1,4 +1,4 @@
-import { DndClass, EquipmentChoices } from "@/types";
+import type { DndClass, EquipmentChoices } from "@/types";
 
 export const RACES: string[] = 
     ["Dragonborn", "Dwarf", "Elf", "Gnome", "Half-Elf", "Half-Orc", "Halfling", "Human", "Tiefling"];

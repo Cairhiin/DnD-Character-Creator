@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
-import { Background } from "@/types";
+import type { Background } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";

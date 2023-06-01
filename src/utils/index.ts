@@ -1,3 +1,5 @@
+import { AbilityScores, ApiClass, Item } from "@/types";
+
 export const calculateAbilityBuyCost = (abilityScore: number): number | null => {
     if (abilityScore < 8 || abilityScore > 15) return null;
     if (abilityScore < 14) return abilityScore - 8;
@@ -45,7 +47,65 @@ export const formatAttribute = (attr: string): string => {
     return skill.substring(7, skill.length);
   }
 
-  export const calculateHP = (hitDie: number | undefined, level: number): number => {
+  export const calculateHP = (hitDie: number | undefined, level: number, conModifier: number): number => {
     if (hitDie === undefined) return 0;
-    return hitDie + (Math.ceil((hitDie + 1) / 2) * (level - 1));
+    return hitDie + (Math.ceil((hitDie + 1) / 2) * (level - 1)) + (level * conModifier);
+  }
+
+  export const calculateProfBonus = (level: number): number => {
+    return Math.floor((level - 1) / 4) + 2;
+  }
+
+  export const calculateArmorClass = (className: string, abilities: AbilityScores, armor: number, shield: number): number => {
+    let AC = 10;
+    
+    armor > 0 ? AC = armor : AC = 10;
+    AC += shield;
+    AC += calculateMiscArmorBonus(className, abilities);
+    return AC;
+  }
+
+  export const calculateMiscArmorBonus = (className: string, abilities: AbilityScores): number => {
+    if (className === "barbarian") return calculateAbilityModifier(abilities.CON);
+    if (className === "monk") return calculateAbilityModifier(abilities.CON) + calculateAbilityModifier(abilities.WIS);
+    return 0;
+  }
+
+  export const calculateSpeed = (strength: number, armor: Item | undefined, baseSpeed: number = 0): number => {
+    if (!armor?.str_minimum) return baseSpeed;
+    if (strength > armor?.str_minimum) return baseSpeed;
+    return baseSpeed - 10;
+  }
+
+  export const calculateAttackBonus = (weapon: Item, abilities: AbilityScores, level: number, dndClass: ApiClass, raceProf: any): number => {
+    let attackBonus: number = 0;
+    
+    const raceHasProficiency = (raceProf.filter(({index}: {index: string}): boolean => index.substring(0, index.length-1) === weapon.index).length || 0) > 0;
+    const hasWeaponProficiency = (dndClass.proficiencies?.filter(({name}: {name: string}) => name === `${weapon.weapon_category} Weapons`).length || 0) > 0;
+    const isFinesseWeapon = (weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0) > 0;
+
+    // Check if the class or race has proficiency with the weapon
+    if (hasWeaponProficiency || raceHasProficiency) {
+      attackBonus += calculateProfBonus(level);
+    }
+    if ((isFinesseWeapon && abilities.STR < abilities.DEX) || weapon.weapon_range === "Ranged") {
+      attackBonus += calculateAbilityModifier(abilities.DEX);
+    } else {
+      attackBonus += calculateAbilityModifier(abilities.STR);
+    } 
+    
+    return attackBonus;
+  }
+
+  export const calculateDamage = (weapon: Item, abilities: AbilityScores): number => {
+    let damageBonus: number = 0;
+    const isFinesseWeapon = weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0 > 0;
+
+    if ((isFinesseWeapon && abilities.STR < abilities.DEX ) || weapon.weapon_range === "Ranged") {
+      damageBonus += calculateAbilityModifier(abilities.DEX);
+    } else {
+      damageBonus += calculateAbilityModifier(abilities.STR);
+    } 
+    
+    return damageBonus;
   }

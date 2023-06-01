@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
 import AnimatedButton from "../AnimatedButton";
-import { characterStore } from "@/store";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
@@ -82,7 +81,7 @@ export default function SkillsForm({
   useEffect(() => {
     setForm(
       produce((form) => {
-        form.steps.descriptionForm.dirty = isDirty;
+        form.steps.skillsSelection.dirty = isDirty;
       })
     );
   }, [isDirty, setForm]);
@@ -167,7 +166,11 @@ export default function SkillsForm({
                   value: boolean;
                   name: string;
                 }): JSX.Element =>
-                  value ? <div key={name}>{name}</div> : <></>
+                  value ? (
+                    <div key={name}>{name}</div>
+                  ) : (
+                    <span key={name}></span>
+                  )
               )}
             </div>
           </CreateCharacterCard>
@@ -210,7 +213,7 @@ export default function SkillsForm({
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
             availableSkills.map(({ name }: { name: string }) => (
-              <div key={name}>
+              <div key={formatSkillName(name)}>
                 <input
                   id={formatSkillName(name)}
                   checked={

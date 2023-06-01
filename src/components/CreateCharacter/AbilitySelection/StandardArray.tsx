@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form/dist/types";
-import { AbilityScores, AbilityFormInput } from "@/types";
+import type { AbilityScores, AbilityFormInput } from "@/types";
 import { ABILITIES, STANDARD_ARRAY } from "@/constants";
 import { ErrorField } from "../ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
@@ -69,7 +69,7 @@ export default function StandardArray({
               >
                 {STANDARD_ARRAY.map(
                   (score: number, index: number): JSX.Element => (
-                    <option value={score} key={index}>
+                    <option value={score} key={score}>
                       {score}
                     </option>
                   )

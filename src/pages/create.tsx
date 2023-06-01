@@ -1,10 +1,14 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import { Background, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
+import { useCharacterStore } from "@/store";
+import { calculateAbilityModifier, calculateHP } from "@/utils";
+import { useAddEquipmentDataToStore } from "@/hooks/useAddEquipmentDataToStore";
 
 interface CardProps {
   children: ReactNode;
@@ -34,8 +38,27 @@ export const FormStateContext = createContext({
 
 export default function Create({ backgrounds, items }: Props) {
   const [form, setForm] = useState(FORM_STATE);
+  const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
+
+  /* NOTE: Splits the chosen equipment from the form in different categories,
+  retrieves data from the API and adds it directly to the store */
+  const { equipmentError, equipmentIsLoading } = useAddEquipmentDataToStore(
+    form.steps.equipmentSelection.value
+  );
+  const setRace = useCharacterStore((state) => state.setRace);
+  const setClass = useCharacterStore((state) => state.setClass);
+  const setBackground = useCharacterStore((state) => state.setBackground);
+  const setHitpoints = useCharacterStore((state) => state.setHitpoints);
+  const setExperience = useCharacterStore((state) => state.setExperience);
+  const setAbilityScores = useCharacterStore((state) => state.setAbilityScores);
+  const setDescription = useCharacterStore((state) => state.setDescription);
+  const setSkills = useCharacterStore((state) => state.setSkills);
+  const setGold = useCharacterStore((state) => state.setGold);
+  const setLevel = useCharacterStore((state) => state.setLevel);
+  const setEquipment = useCharacterStore((state) => state.setEquipment);
+  const setSpells = useCharacterStore((state) => state.setSpells);
 
   const setActiveIndex = (e: any) => {
     const clickedIndex = parseInt(e.dataset.tabId);
@@ -61,6 +84,36 @@ export default function Create({ backgrounds, items }: Props) {
     );
   };
 
+  const onComplete = (): void => {
+    setRace(form.steps.raceSelection.value.race);
+    setClass(form.steps.classSelection.value.dndClass);
+    setAbilityScores(form.steps.abilitiesSelection.value.abilities);
+    setBackground(form.steps.backgroundSelection.value.background);
+    setDescription(form.steps.descriptionForm.value);
+    setSkills(form.steps.skillsSelection.value);
+    setSpells(form.steps.spellSelection.value);
+    setLevel(1);
+    setGold(10);
+    setExperience(0);
+    setHitpoints(
+      calculateHP(
+        form.steps.classSelection.value.dndClass.hit_die,
+        1,
+        calculateAbilityModifier(
+          form.steps.abilitiesSelection.value.abilities.CON
+        )
+      )
+    );
+
+    router.push("/character");
+  };
+
+  useEffect(() => {
+    if (activeTabIndex === 9) {
+      onComplete();
+    }
+  }, [activeTabIndex, onComplete]);
+
   return (
     <FormStateContext.Provider
       value={{
@@ -74,7 +127,7 @@ export default function Create({ backgrounds, items }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.main}>
+      <main className={styles.main}>
         <nav className={styles.nav}>
           <div className={styles.create__topbar}>
             <ul
@@ -149,7 +202,7 @@ export default function Create({ backgrounds, items }: Props) {
           </aside>
           <div></div>
         </section>
-      </div>
+      </main>
     </FormStateContext.Provider>
   );
 }
