@@ -28,11 +28,12 @@ export default function SkillsForm({
   const { form, setForm } = useContext(FormStateContext);
   const classFromContext = form.steps.classSelection.value.dndClass;
   const backgroundFromContext = form.steps.backgroundSelection.value.background;
+  const raceFromContext = form.steps.raceSelection.value.race;
   const [selectedSkills, setSelectedSkills] = useState<Skills>({
     ...form.steps.skillsSelection.value,
   });
 
-  // Filter out the background skills from the available skill choices
+  // Filter out the background and race skills from the available skill choices
   const availableSkills =
     classFromContext.proficiency_choices &&
     classFromContext.proficiency_choices[0].from.options
@@ -41,6 +42,12 @@ export default function SkillsForm({
           !backgroundFromContext.skill_proficiencies.includes(
             cleanUpSkillDescription(item.name)
           )
+      )
+      .filter(
+        ({ item }: any): boolean =>
+          raceFromContext.starting_proficiencies!.filter(
+            ({ name }: { name: string }): boolean => name !== item.name
+          ).length > 0
       )
       .map(({ item }: any): any => {
         return (selectedSkills as any)[
@@ -68,6 +75,7 @@ export default function SkillsForm({
     setSelectedSkills(form.steps.skillsSelection.value);
   }, [form.steps.skillsSelection.value]);
 
+  // Get the free skills from background choice
   useEffect(() => {
     backgroundFromContext.skill_proficiencies.forEach((skill: string): void => {
       setSelectedSkills(
@@ -77,6 +85,22 @@ export default function SkillsForm({
       );
     });
   }, [backgroundFromContext]);
+
+  // Get the free skills from race choice
+  useEffect(() => {
+    raceFromContext.starting_proficiencies?.forEach(
+      ({ name }: { name: string }): void => {
+        if (name.substring(0, 5) === "Skill") {
+          setSelectedSkills(
+            produce((draft: any): void => {
+              draft[formatSkillName(name.substring(7, name.length))].value =
+                true;
+            })
+          );
+        }
+      }
+    );
+  }, [raceFromContext]);
 
   useEffect(() => {
     setForm(
