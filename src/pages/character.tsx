@@ -1,49 +1,43 @@
 import Head from "next/head";
 import { useCharacterStore } from "@/store";
-import type {
-  AbilityScores,
-  ApiClass,
-  ApiRace,
-  Background,
-  Equipment,
-  Skills,
-  CharacterDescription,
-  Spells,
-  Item,
-} from "@/types";
 import styles from "@/styles/Character.module.scss";
 import { useSession } from "next-auth/react";
 import {
   calculateAbilityModifier,
   calculateArmorClass,
+  calculateAttackBonus,
+  calculateDamage,
   calculateMiscArmorBonus,
   calculateProfBonus,
   calculateSpeed,
 } from "@/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useFetchFeatureLevelData } from "@/hooks/useFetchFeatureLevelData";
+import { Item } from "@/types";
 
 export default function CharacterSheet(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [armor, setArmor] = useState<Item>();
-  const [shield, setShield] = useState<Item>();
-  const [weapons, setWeapons] = useState<Item[]>([]);
   const race = useCharacterStore((state) => state.race);
   const dndClass = useCharacterStore((state) => state.dndClass);
   const abilities = useCharacterStore((state) => state.abilityScores);
   const background = useCharacterStore((state) => state.background);
   const description = useCharacterStore((state) => state.description);
   const skills = useCharacterStore((state) => state.skills);
-  const equipment = useCharacterStore((state) => state.equipment);
+  const { armors, weapons, misc, shields } = useCharacterStore(
+    (state) => state.equipment
+  );
+  const hitpoints = useCharacterStore((state) => state.hitpoints);
   const spells = useCharacterStore((state) => state.spells);
   const level = useCharacterStore((state) => state.level);
   const experience = useCharacterStore((state) => state.experience);
   const gold = useCharacterStore((state) => state.gold);
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log(equipment);
-  }, []);
+  const {
+    featureData,
+    isLoading: charLevelDataIsLoading,
+    error: charLevelDataError,
+  } = useFetchFeatureLevelData(dndClass, level);
 
   return (
     <>
@@ -168,37 +162,51 @@ export default function CharacterSheet(): JSX.Element {
               <div>
                 <div>Spellcasting Ability</div>
                 <div>
-                  {calculateAbilityModifier(
-                    (abilities as any)[
-                      dndClass.spellcasting?.spellcasting_ability.name
-                    ]
+                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                    calculateAbilityModifier(
+                      (abilities as any)[
+                        dndClass.spellcasting?.spellcasting_ability.name
+                      ]
+                    )
+                  ) : (
+                    <span>-</span>
                   )}
-                  <span>
-                    {" "}
-                    ({dndClass.spellcasting?.spellcasting_ability.name})
-                  </span>
+                  {dndClass.spellcasting?.spellcasting_ability.name && (
+                    <span>
+                      {" "}
+                      ({dndClass.spellcasting?.spellcasting_ability.name})
+                    </span>
+                  )}
                 </div>
               </div>
               <div>
                 <div>Spell Save DC</div>
                 <div>
-                  {8 +
+                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                    8 +
                     calculateAbilityModifier(
                       (abilities as any)[
                         dndClass.spellcasting?.spellcasting_ability.name
                       ]
                     ) +
-                    calculateProfBonus(level)}
+                    calculateProfBonus(level)
+                  ) : (
+                    <span>-</span>
+                  )}
                 </div>
               </div>
               <div>
                 <div>Spell Attack Bonus</div>
                 <div>
-                  {calculateAbilityModifier(
-                    (abilities as any)[
-                      dndClass.spellcasting?.spellcasting_ability.name
-                    ]
-                  ) + calculateProfBonus(level)}
+                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                    calculateAbilityModifier(
+                      (abilities as any)[
+                        dndClass.spellcasting?.spellcasting_ability.name
+                      ]
+                    ) + calculateProfBonus(level)
+                  ) : (
+                    <span>-</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -208,8 +216,8 @@ export default function CharacterSheet(): JSX.Element {
                   {calculateArmorClass(
                     dndClass.index,
                     abilities,
-                    armor?.armor_class?.base || 0,
-                    shield?.armor_class?.base || 0
+                    armors[0]?.armor_class?.base || 0,
+                    shields[0]?.armor_class?.base || 0
                   )}
                 </div>
                 <div>Armor Class</div>
@@ -219,11 +227,11 @@ export default function CharacterSheet(): JSX.Element {
                 <div>Dex Mod</div>
               </div>
               <div>
-                <div>{armor?.armor_class?.base}</div>
+                <div>{armors[0]?.armor_class?.base}</div>
                 <div>Armor</div>
               </div>
               <div>
-                <div>{shield?.armor_class?.base}</div>
+                <div>{shields[0]?.armor_class?.base}</div>
                 <div>Shield</div>
               </div>
               <div>
@@ -235,8 +243,64 @@ export default function CharacterSheet(): JSX.Element {
                 <div>Initiative</div>
               </div>
               <div>
-                <div>{calculateSpeed(abilities.STR, armor, race.speed)}</div>
+                <div>
+                  {calculateSpeed(abilities.STR, armors[0], race.speed)}
+                </div>
                 <div>Speed</div>
+              </div>
+            </div>
+            <div className={styles.characterSheet__main__right__features}>
+              <div className={styles.flex}>
+                <div className={styles.flex}>
+                  <div>
+                    <div>Max HP</div>
+                    <div>{hitpoints}</div>
+                  </div>
+                  <div>
+                    <div>Hit Die</div>
+                    <div>{dndClass.hit_die}</div>
+                  </div>
+                </div>
+                <div>
+                  <div>Features</div>
+                  <div>
+                    {featureData.map(
+                      (feature: any): JSX.Element => (
+                        <div>{feature.name}</div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                {weapons.map((weapon: Item): JSX.Element => {
+                  return (
+                    <div>
+                      <div>
+                        {weapon.name}{" "}
+                        <span>{weapon.damage?.damage_type.name}</span>
+                      </div>
+                      <div>
+                        {weapon.range?.normal}{" "}
+                        <span>
+                          {calculateAttackBonus(
+                            weapon,
+                            abilities,
+                            level,
+                            dndClass
+                          )}
+                        </span>{" "}
+                        <span>
+                          {weapon.damage?.damage_dice}
+                          {calculateDamage(weapon, abilities) >= 0 && "+"}
+                          {calculateDamage(weapon, abilities)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

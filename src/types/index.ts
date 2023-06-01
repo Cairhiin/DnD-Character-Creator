@@ -307,7 +307,15 @@ export interface Item {
     weight?: number;
     url: string;
     contents?: Array<string>;
-    properties?: Array<string>;
+    properties?: Array<{index: string; name: string; url: string}>;
+    range?: {normal: number};
+    weapon_category?: string;
+    weapon_range?: string;
+    damage?: { damage_dice: string; damage_type: {
+        index: string;
+        name: string;
+        url: string;
+    }};
 }
 
 export interface Equipment extends Item {

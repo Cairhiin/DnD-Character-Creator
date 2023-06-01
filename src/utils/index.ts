@@ -1,4 +1,4 @@
-import { AbilityScores, DndClass, Equipment, Item } from "@/types";
+import { AbilityScores, ApiClass, Item } from "@/types";
 
 export const calculateAbilityBuyCost = (abilityScore: number): number | null => {
     if (abilityScore < 8 || abilityScore > 15) return null;
@@ -71,7 +71,38 @@ export const formatAttribute = (attr: string): string => {
     return 0;
   }
 
-  export const calculateSpeed = (strength: number, armor: Item | undefined, baseSpeed: number | undefined): number => {
-    if (strength > (armor?.str_minimum || 0)) return baseSpeed || 0;
-    return baseSpeed || 0 - 10 ;
+  export const calculateSpeed = (strength: number, armor: Item | undefined, baseSpeed: number = 0): number => {
+    if (!armor?.str_minimum) return baseSpeed;
+    if (strength > armor?.str_minimum) return baseSpeed;
+    return baseSpeed - 10;
+  }
+
+  export const calculateAttackBonus = (weapon: Item, abilities: AbilityScores, level: number, dndClass: ApiClass): number => {
+    let attackBonus: number = 0;
+    const hasWeaponProficiency = dndClass.proficiencies?.filter(({name}: {name: string}) => name === `${weapon.weapon_category} Weapons`).length || 0 > 0;
+    const isFinesseWeapon = weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0 > 0;
+
+    if (hasWeaponProficiency) {
+      attackBonus += calculateProfBonus(level);
+    }
+    if ((isFinesseWeapon && abilities.STR < abilities.DEX) || weapon.weapon_range === "Ranged") {
+      attackBonus += calculateAbilityModifier(abilities.DEX);
+    } else {
+      attackBonus += calculateAbilityModifier(abilities.STR);
+    } 
+    
+    return attackBonus;
+  }
+
+  export const calculateDamage = (weapon: Item, abilities: AbilityScores): number => {
+    let damageBonus: number = 0;
+    const isFinesseWeapon = weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0 > 0;
+
+    if ((isFinesseWeapon && abilities.STR < abilities.DEX ) || weapon.weapon_range === "Ranged") {
+      damageBonus += calculateAbilityModifier(abilities.DEX);
+    } else {
+      damageBonus += calculateAbilityModifier(abilities.STR);
+    } 
+    
+    return damageBonus;
   }
