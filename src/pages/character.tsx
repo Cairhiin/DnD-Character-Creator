@@ -93,12 +93,20 @@ export default function CharacterSheet(): JSX.Element {
             {/* end of abilities column */}
             <div>
               <div>
-                <div className={styles.characterSheet__main__left__area}>
-                  <div>Proficiency Bonus</div>
+                <div
+                  className={`${styles.characterSheet__main__left__area} ${styles.box}`}
+                >
+                  <div>
+                    <h3>Proficiency Bonus</h3>
+                  </div>
                   <div>{calculateProfBonus(level)}</div>
                 </div>
-                <div className={styles.characterSheet__main__left__area}>
-                  <div>Saving Throws</div>
+                <div
+                  className={`${styles.characterSheet__main__left__area} ${styles.box}`}
+                >
+                  <div>
+                    <h3>Saving Throws</h3>
+                  </div>
                   <div>
                     {Object.entries(abilities).map(
                       ([key, value]): JSX.Element => (
@@ -129,8 +137,12 @@ export default function CharacterSheet(): JSX.Element {
                     )}
                   </div>
                 </div>
-                <div className={styles.characterSheet__main__left__area}>
-                  <div>Skills</div>
+                <div
+                  className={`${styles.characterSheet__main__left__area} ${styles.box}`}
+                >
+                  <div>
+                    <h3>Skills</h3>
+                  </div>
                   <div>
                     {Object.entries(skills).map(
                       ([key, { name, value, modifier }]): JSX.Element => (
@@ -164,9 +176,11 @@ export default function CharacterSheet(): JSX.Element {
             {/* end of skills column */}
           </div>
           <div className={styles.characterSheet__main__right}>
-            <div>
+            <div className={styles.characterSheet__main__right__gridRow}>
               <div>
-                <div>Spellcasting Ability</div>
+                <div>
+                  <h3>Spellcasting Ability</h3>
+                </div>
                 <div>
                   {dndClass.spellcasting?.spellcasting_ability.name ? (
                     calculateAbilityModifier(
@@ -186,7 +200,9 @@ export default function CharacterSheet(): JSX.Element {
                 </div>
               </div>
               <div>
-                <div>Spell Save DC</div>
+                <div>
+                  <h3>Spell Save DC</h3>
+                </div>
                 <div>
                   {dndClass.spellcasting?.spellcasting_ability.name ? (
                     8 +
@@ -202,7 +218,9 @@ export default function CharacterSheet(): JSX.Element {
                 </div>
               </div>
               <div>
-                <div>Spell Attack Bonus</div>
+                <div>
+                  <h3>Spell Attack Bonus</h3>
+                </div>
                 <div>
                   {dndClass.spellcasting?.spellcasting_ability.name ? (
                     calculateAbilityModifier(
@@ -216,7 +234,7 @@ export default function CharacterSheet(): JSX.Element {
                 </div>
               </div>
             </div>
-            <div>
+            <div className={styles.characterSheet__main__right__armorRow}>
               <div>
                 <div>
                   {calculateArmorClass(
@@ -226,61 +244,67 @@ export default function CharacterSheet(): JSX.Element {
                     shields[0]?.armor_class?.base || 0
                   )}
                 </div>
-                <div>Armor Class</div>
+                <div>
+                  <h3>AC</h3>
+                </div>
               </div>
               <div>
                 <div>{calculateAbilityModifier(abilities.DEX)}</div>
-                <div>Dex Mod</div>
+                <div>
+                  <h3>Dex Mod</h3>
+                </div>
               </div>
               <div>
                 <div>{armors[0]?.armor_class?.base || 10}</div>
-                <div>Armor</div>
+                <div>
+                  <h3>Armor</h3>
+                </div>
               </div>
               <div>
                 <div>{shields[0]?.armor_class?.base || 0}</div>
-                <div>Shield</div>
+                <div>
+                  <h3>Shield</h3>
+                </div>
               </div>
               <div>
                 <div>{calculateMiscArmorBonus(dndClass.index, abilities)}</div>
-                <div>Misc</div>
+                <div>
+                  <h3>Misc</h3>
+                </div>
               </div>
               <div>
                 <div>{calculateAbilityModifier(abilities.DEX)}</div>
-                <div>Initiative</div>
+                <div>
+                  <h3>Initiative</h3>
+                </div>
               </div>
               <div>
                 <div>
                   {calculateSpeed(abilities.STR, armors[0], race.speed)}
                 </div>
-                <div>Speed</div>
-              </div>
-            </div>
-            <div className={styles.characterSheet__main__right__features}>
-              <div className={styles.flex}>
-                <div className={styles.flex}>
-                  <div>
-                    <div>Max HP</div>
-                    <div>{hitpoints}</div>
-                  </div>
-                  <div>
-                    <div>Hit Die</div>
-                    <div>{dndClass.hit_die}</div>
-                  </div>
-                </div>
                 <div>
-                  <div>Features</div>
-                  <div>
-                    {featureData?.map(
-                      (feature: any): JSX.Element => (
-                        <div>{feature.name}</div>
-                      )
-                    )}
-                  </div>
+                  <h3>Speed</h3>
                 </div>
               </div>
             </div>
-            <div>
-              <div>
+            <div className={styles.characterSheet__main__right__grid}>
+              <div className={styles.characterSheet__main__right__grid__HP}>
+                <div className={styles.box}>
+                  <div>
+                    <h3>Max HP</h3>
+                  </div>
+                  <div>{hitpoints}</div>
+                </div>
+                <div className={styles.box}>
+                  <div>
+                    <h3>Hit Die</h3>
+                  </div>
+                  <div>{dndClass.hit_die}</div>
+                </div>
+              </div>
+              <div
+                className={`${styles.characterSheet__main__right__grid__weapons} ${styles.box}`}
+              >
                 {weapons.map((weapon: Item): JSX.Element => {
                   return (
                     <div>
@@ -309,15 +333,36 @@ export default function CharacterSheet(): JSX.Element {
                   );
                 })}
               </div>
+              <div
+                className={`${styles.characterSheet__main__right__grid__features} ${styles.box}`}
+              >
+                <div>
+                  <h3>Features</h3>
+                </div>
+                <div>
+                  {featureData?.map(
+                    (feature: any): JSX.Element => (
+                      <div>{feature.name}</div>
+                    )
+                  )}
+                </div>
+              </div>
             </div>
           </div>
+          <div></div>
         </div>
 
         <div>
           {10 +
             calculateAbilityModifier(abilities.WIS) +
             (skills.perception.value ? calculateProfBonus(level) : 0)}{" "}
-          Passive Wisdom (Perception)
+          <h3>Passive Wisdom (Perception)</h3>
+        </div>
+        <div>
+          <h3>Proficiencies</h3>
+        </div>
+        <div>
+          <h3>Languages</h3>
         </div>
       </main>
     </>

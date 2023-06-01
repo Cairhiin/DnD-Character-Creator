@@ -40,6 +40,14 @@ $warning: hsl(27, 100%, 47%);
   align-items: flex-start;
 }
 
+@mixin backgroundArea {
+  position: relative;
+  background: linear-gradient(rgba($tertiary-color, 0.3) 20%, rgba($tertiary-color, 0.1));
+  border: 1px solid rgba($tertiary-color, 0.4);
+  min-height: 250px;
+  padding: 1rem 2rem;
+}
+
 @mixin dot {
   border-radius: 50%;
   outline: 2px solid $on-background-color;
