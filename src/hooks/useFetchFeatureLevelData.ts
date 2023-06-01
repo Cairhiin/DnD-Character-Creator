@@ -11,13 +11,19 @@ export const useFetchFeatureLevelData: (dndClass: ApiClass, classLevel: number) 
 useEffect(() => {
     setLoading(true);
     let ignore = false;
-    if (!ignore) {
-      fetch(`https://www.dnd5eapi.co${dndClass.url}/levels/${classLevel}/features`)
-        .then((res) => res.json())
-        .then((data) => {
-            setFeatureData(data.results);
+    if (!ignore && dndClass.index) {
+        try {
+            fetch(`https://www.dnd5eapi.co${dndClass.url}/levels/${classLevel}/features`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setFeatureData(data.results);
+                });
+        } catch (err) {
+            console.error(err);
+            setError("Failed to retrieve class feature data.");
+        } finally {
             setLoading(false);
-        });
+        }
     }
 
     return () => {

@@ -11,13 +11,19 @@ export const useFetchRaceProficiencies: (race: ApiRace) => {
 useEffect(() => {
     setLoading(true);
     let ignore = false;
-    if (!ignore) {
-      fetch(`https://www.dnd5eapi.co${race.url}/proficiencies/`)
-        .then((res) => res.json())
-        .then((data) => {
-            setRaceProficiencies(data.results);
+    if (!ignore && race.index) {
+        try {
+            fetch(`https://www.dnd5eapi.co${race.url}/proficiencies/`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setRaceProficiencies(data.results);       
+                });
+        } catch (err) {
+            console.error(err);
+            setError("Failed to retrieve race proficiencies.");
+        } finally {
             setLoading(false);
-        });
+        }
     }
 
     return () => {

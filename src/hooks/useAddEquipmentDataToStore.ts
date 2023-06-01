@@ -18,7 +18,7 @@ export const useAddEquipmentDataToStore: (equipment: Equipment[]) => {
     setLoading(true);
     let ignore = false;
 
-    if (!ignore) {
+    if (!ignore && equipment) {
         try {
             equipment.forEach((item: Equipment): void => {
                 fetch(`https://www.dnd5eapi.co${item.url}`)
@@ -46,7 +46,7 @@ export const useAddEquipmentDataToStore: (equipment: Equipment[]) => {
                 });       
       });
         } catch (err) {
-            console.log(err)
+            console.error(err)
             setError("Failed to load equipment data");
         } finally {
             setLoading(false);

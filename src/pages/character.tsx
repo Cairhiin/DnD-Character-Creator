@@ -233,11 +233,11 @@ export default function CharacterSheet(): JSX.Element {
                 <div>Dex Mod</div>
               </div>
               <div>
-                <div>{armors[0]?.armor_class?.base}</div>
+                <div>{armors[0]?.armor_class?.base || 10}</div>
                 <div>Armor</div>
               </div>
               <div>
-                <div>{shields[0]?.armor_class?.base}</div>
+                <div>{shields[0]?.armor_class?.base || 0}</div>
                 <div>Shield</div>
               </div>
               <div>
