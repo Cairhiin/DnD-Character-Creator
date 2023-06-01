@@ -77,12 +77,15 @@ export const formatAttribute = (attr: string): string => {
     return baseSpeed - 10;
   }
 
-  export const calculateAttackBonus = (weapon: Item, abilities: AbilityScores, level: number, dndClass: ApiClass): number => {
+  export const calculateAttackBonus = (weapon: Item, abilities: AbilityScores, level: number, dndClass: ApiClass, raceProf: any): number => {
     let attackBonus: number = 0;
-    const hasWeaponProficiency = dndClass.proficiencies?.filter(({name}: {name: string}) => name === `${weapon.weapon_category} Weapons`).length || 0 > 0;
-    const isFinesseWeapon = weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0 > 0;
+    
+    const raceHasProficiency = (raceProf.filter(({index}: {index: string}): boolean => index.substring(0, index.length-1) === weapon.index).length || 0) > 0;
+    const hasWeaponProficiency = (dndClass.proficiencies?.filter(({name}: {name: string}) => name === `${weapon.weapon_category} Weapons`).length || 0) > 0;
+    const isFinesseWeapon = (weapon.properties?.filter(({index}: {index: string}): boolean => index === "finesse" ).length || 0) > 0;
 
-    if (hasWeaponProficiency) {
+    // Check if the class or race has proficiency with the weapon
+    if (hasWeaponProficiency || raceHasProficiency) {
       attackBonus += calculateProfBonus(level);
     }
     if ((isFinesseWeapon && abilities.STR < abilities.DEX) || weapon.weapon_range === "Ranged") {

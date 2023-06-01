@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { useFetchFeatureLevelData } from "@/hooks/useFetchFeatureLevelData";
 import { Item } from "@/types";
+import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
 
 export default function CharacterSheet(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -38,6 +39,11 @@ export default function CharacterSheet(): JSX.Element {
     isLoading: charLevelDataIsLoading,
     error: charLevelDataError,
   } = useFetchFeatureLevelData(dndClass, level);
+  const {
+    raceProficiencies,
+    isLoading: raceProfIsLoading,
+    error: raceProfError,
+  } = useFetchRaceProficiencies(race);
 
   return (
     <>
@@ -264,7 +270,7 @@ export default function CharacterSheet(): JSX.Element {
                 <div>
                   <div>Features</div>
                   <div>
-                    {featureData.map(
+                    {featureData?.map(
                       (feature: any): JSX.Element => (
                         <div>{feature.name}</div>
                       )
@@ -289,7 +295,8 @@ export default function CharacterSheet(): JSX.Element {
                             weapon,
                             abilities,
                             level,
-                            dndClass
+                            dndClass,
+                            raceProficiencies
                           )}
                         </span>{" "}
                         <span>
