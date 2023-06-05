@@ -80,12 +80,27 @@ export default function CharacterSheet(): JSX.Element {
         {/* end of intro */}
         <div className={styles.characterSheet__main}>
           <div className={styles.characterSheet__main__left}>
-            <div>
+            <div className={styles.characterSheet__main__left__abilities}>
               {Object.entries(abilities).map(
                 ([key, value]): JSX.Element => (
                   <div key={key}>
-                    <div>{key}</div>
-                    <div>{value}</div>
+                    <div>
+                      <h3>{key}</h3>
+                    </div>
+                    <div
+                      className={
+                        styles.characterSheet__main__left__abilities__score
+                      }
+                    >
+                      {value}
+                    </div>
+                    <div
+                      className={
+                        styles.characterSheet__main__left__abilities__mod
+                      }
+                    >
+                      {calculateAbilityModifier(value)}
+                    </div>
                   </div>
                 )
               )}
@@ -299,7 +314,7 @@ export default function CharacterSheet(): JSX.Element {
                   <div>
                     <h3>Hit Die</h3>
                   </div>
-                  <div>{dndClass.hit_die}</div>
+                  <div>{dndClass.hit_die || 0}</div>
                 </div>
               </div>
               <div

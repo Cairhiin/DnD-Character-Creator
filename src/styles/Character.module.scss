@@ -22,7 +22,7 @@
     @include backgroundArea;
     max-width: 1200px;
     margin: 1rem auto;
-    line-height: 1.4;
+    line-height: 1.6;
 
     h3 {
         text-align: center;
@@ -33,11 +33,18 @@
 
     .characterSheet__intro {
         @include flex;
+        margin-bottom: 1rem;
 
         .characterSheet__details {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 0.5rem;
+            flex-grow: 1;
+
+            & > div {
+                background-color: darken($background-color, 5);
+                padding: 0.5rem 2rem;
+            }
         }
     }
 
@@ -54,7 +61,7 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 2fr;
-                column-gap: 1rem;
+                gap: 1rem;
                 grid-template-areas: 
                 'hp features'
                 'weapons features';
@@ -115,6 +122,31 @@
 
         &__left {
             @include flex;
+
+            &__abilities {
+                text-align: center;
+                line-height: 1.2;
+
+                & > div {
+                    background-color: darken($background-color, 5);
+                    margin-bottom: 1rem;
+                    padding: 0.5rem 2rem;
+                    @include roundedBorder;
+                }
+
+                &__score {
+                    font-size: 2.5rem;
+                }
+
+                &__mod {
+                    background-color: darken($secondary-color, 15);
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    @include boxShadow;
+                }
+            }
 
             & > div:first-child {
                 min-width: 20%;
