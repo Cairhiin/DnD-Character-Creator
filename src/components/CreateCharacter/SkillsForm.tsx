@@ -46,8 +46,10 @@ export default function SkillsForm({
       .filter(
         ({ item }: any): boolean =>
           raceFromContext.starting_proficiencies!.filter(
-            ({ name }: { name: string }): boolean => name !== item.name
-          ).length > 0
+            ({ name }: { name: string }): boolean => {
+              return name !== item.name;
+            }
+          ).length > 0 || true
       )
       .map(({ item }: any): any => {
         return (selectedSkills as any)[
