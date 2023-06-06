@@ -112,43 +112,88 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
   },
   character: {},
   setCharacter: (character) => set((state) => ({ character: character })),
-  setRace: (race: ApiRace) => set((state) => ({ race: race })),
-  setClass: (dndClass: ApiClass) => set((state) => ({ dndClass: dndClass })),
+  setRace: (race: ApiRace) =>
+    set(
+      produce((state) => {
+        state.race = race;
+      })
+    ),
+  setClass: (dndClass: ApiClass) =>
+    set(
+      produce((state) => {
+        state.class = dndClass;
+      })
+    ),
   setBackground: (background: Background) =>
-    set((state) => ({ background: background })),
+    set(
+      produce((state) => {
+        state.background = background;
+      })
+    ),
   setHitpoints: (hitpoints: number) =>
-    set((state) => ({ hitpoints: hitpoints })),
+    set(
+      produce((state) => {
+        state.hitpoints = hitpoints;
+      })
+    ),
   setAbilityScores: (scores: AbilityScores) =>
-    set((state) => ({ abilityScores: scores })),
+    set(
+      produce((state) => {
+        state.abilities = scores;
+      })
+    ),
   setDescription: (description: CharacterDescription) =>
-    set((state) => ({ description: description })),
-  setSkills: (skills: Skills) => set((state) => ({ skills: skills })),
-  setGold: (gold: number) => set((state) => ({ gold: gold })),
+    set(
+      produce((state) => {
+        state.description = description;
+      })
+    ),
+  setSkills: (skills: Skills) =>
+    set(
+      produce((state) => {
+        state.skills = skills;
+      })
+    ),
+  setGold: (gold: number) =>
+    set(
+      produce((state) => {
+        state.gold = gold;
+      })
+    ),
   setExperience: (experience: number) =>
-    set((state) => ({ experience: experience })),
-  setLevel: (level: number) => set((state) => ({ level: level })),
+    set(
+      produce((state) => {
+        state.experience = experience;
+      })
+    ),
+  setLevel: (level: number) =>
+    set(
+      produce((state) => {
+        state.level = level;
+      })
+    ),
   addMisc: (item: Equipment) =>
     set(
       produce((state) => {
-        state.equipment.misc.push(item);
+        state.character.equipment.misc.push(item);
       })
     ),
   addShield: (item: Equipment) =>
     set(
       produce((state) => {
-        state.equipment.shields.push(item);
+        state.character.equipment.shields.push(item);
       })
     ),
   addArmor: (item: Equipment) =>
     set(
       produce((state) => {
-        state.equipment.armors.push(item);
+        state.character.equipment.armors.push(item);
       })
     ),
   addWeapon: (item: Equipment) =>
     set(
       produce((state) => {
-        state.equipment.weapons.push(item);
+        state.character.equipment.weapons.push(item);
       })
     ),
   setEquipment: (items: {
@@ -156,12 +201,22 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     armors: Item[];
     shields: Item[];
     misc: Item[];
-  }) => set((state) => ({ equipment: items })),
+  }) =>
+    set(
+      produce((state) => {
+        state.character.equipment = items;
+      })
+    ),
   addSpell: (spell: Spell, level: number) =>
     set(
       produce((state) => {
-        (state.spells as any)[level] = spell;
+        (state.character.spells as any)[level].push(spell);
       })
     ),
-  setSpells: (spells: Spells) => set((state) => ({ spells: spells })),
+  setSpells: (spells: Spells) =>
+    set(
+      produce((state) => {
+        state.character.spells = spells;
+      })
+    ),
 }));
