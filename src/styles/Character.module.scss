@@ -16,10 +16,12 @@
     background-color: darken($background-color, 5);
     padding: 0.5rem;
     @include roundedBorder;
+    padding-inline: 1rem;
 }
 
 .characterSheet {
     @include backgroundArea;
+    @include roundedBorder;
     max-width: 1200px;
     margin: 1rem auto;
     line-height: 1.6;
@@ -34,6 +36,15 @@
     .characterSheet__intro {
         @include flex;
         margin-bottom: 1rem;
+        align-items: center;
+
+        span {
+            @include textHighlight;
+        }
+
+        & > div:first-child {
+            flex-grow: 1;
+        }
 
         .characterSheet__details {
             display: grid;
@@ -84,6 +95,14 @@
                     text-align: left;
                     grid-area: weapons;
                     height: 100%;
+
+                    & > div {
+                        margin-block: 0.5rem;
+                    }
+
+                    span {
+                        @include textHighlight;
+                    }
                 }
             }
 
@@ -146,6 +165,8 @@
                     height: 40px;
                     line-height: 40px;
                     @include boxShadow;
+                    font-weight: 700;
+                    font-size: 1.6rem;
                 }
             }
 
@@ -159,6 +180,10 @@
 
             &__area {
                 margin-bottom: 1rem;
+
+                &__prof {
+                    text-align: center;
+                }
             }
 
             &__flex {

@@ -61,18 +61,27 @@ export default function CharacterSheet(): JSX.Element {
           <div className={styles.characterSheet__details}>
             <div>
               <div>
-                {dndClass?.name}
-                <span>{level}</span>
+                <span>Class</span> {dndClass?.name} {level}
               </div>
-              <div>{background?.name}</div>
+              <div>
+                <span>Background</span> {background?.name}
+              </div>
             </div>
             <div>
-              <div>{race?.name}</div>
-              <div>{description?.details.alignment}</div>
+              <div>
+                <span>Race</span> {race?.name}
+              </div>
+              <div>
+                <span>Alignment</span> {description?.details.alignment}
+              </div>
             </div>
             <div>
-              <div>{session?.user?.name}</div>
-              <div>{experience}</div>
+              <div>
+                <span>XP</span> {experience}
+              </div>
+              <div>
+                <span>Player</span> {session?.user?.name}
+              </div>
             </div>
           </div>
           {/* end of details */}
@@ -114,7 +123,11 @@ export default function CharacterSheet(): JSX.Element {
                   <div>
                     <h3>Proficiency Bonus</h3>
                   </div>
-                  <div>{calculateProfBonus(level)}</div>
+                  <div
+                    className={styles.characterSheet__main__left__area__prof}
+                  >
+                    +{calculateProfBonus(level)}
+                  </div>
                 </div>
                 <div
                   className={`${styles.characterSheet__main__left__area} ${styles.box}`}
@@ -326,16 +339,34 @@ export default function CharacterSheet(): JSX.Element {
               <div
                 className={`${styles.characterSheet__main__right__grid__weapons} ${styles.box}`}
               >
+                <h3>Weapons</h3>
                 {equipment.weapons.map((weapon: Item): JSX.Element => {
                   return (
                     <div>
-                      <div>
-                        {weapon.name}{" "}
-                        <span>{weapon.damage?.damage_type.name}</span>
+                      <div className={styles.flex}>
+                        <div>
+                          <span>Name </span>
+                          {weapon.name}
+                        </div>
+                        <div>
+                          <span>Type </span>
+                          {weapon.damage?.damage_type.name}
+                        </div>
                       </div>
-                      <div>
-                        {weapon.range?.normal}{" "}
-                        <span>
+                      <div className={styles.flex}>
+                        <div>
+                          <span>Range </span>
+                          {weapon.range?.normal}{" "}
+                        </div>
+                        <div>
+                          <span>Attack </span>
+                          {calculateAttackBonus(
+                            weapon,
+                            abilities,
+                            level,
+                            dndClass!,
+                            raceProficiencies
+                          ) >= 0 && "+"}
                           {calculateAttackBonus(
                             weapon,
                             abilities,
@@ -343,12 +374,13 @@ export default function CharacterSheet(): JSX.Element {
                             dndClass!,
                             raceProficiencies
                           )}
-                        </span>{" "}
-                        <span>
+                        </div>
+                        <div>
+                          <span>Damage </span>
                           {weapon.damage?.damage_dice}
                           {calculateDamage(weapon, abilities) >= 0 && "+"}
                           {calculateDamage(weapon, abilities)}
-                        </span>
+                        </div>
                       </div>
                     </div>
                   );

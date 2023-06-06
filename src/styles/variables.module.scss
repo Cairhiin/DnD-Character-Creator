@@ -48,6 +48,12 @@ $warning: hsl(27, 100%, 47%);
   padding: 1rem 2rem;
 }
 
+@mixin textHighlight {
+    color: lighten($secondary-color, 30);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
 @mixin dot {
   border-radius: 50%;
   outline: 2px solid $on-background-color;
