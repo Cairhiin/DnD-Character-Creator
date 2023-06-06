@@ -110,6 +110,8 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     8: [],
     9: [],
   },
+  character: {},
+  setCharacter: (character) => set((state) => ({ character: character })),
   setRace: (race: ApiRace) => set((state) => ({ race: race })),
   setClass: (dndClass: ApiClass) => set((state) => ({ dndClass: dndClass })),
   setBackground: (background: Background) =>
