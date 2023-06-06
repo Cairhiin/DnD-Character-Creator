@@ -60,7 +60,7 @@
                 margin-top: 1rem;
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr 2fr;
+                grid-template-rows: auto 1fr;
                 gap: 1rem;
                 grid-template-areas: 
                 'hp features'
@@ -83,6 +83,7 @@
                 &__weapons {
                     text-align: left;
                     grid-area: weapons;
+                    height: 100%;
                 }
             }
 

@@ -336,17 +336,17 @@ export interface EquipmentChoices {
 } 
 
 export interface Character {
-    race?: ApiRace;
-    class?: ApiClass;
-    background?: Background;
-    hitpoints?: number;
-    abilityScores?: AbilityScores;
+    race: ApiRace;
+    dndClass: ApiClass;
+    background: Background;
+    hitpoints: number;
+    abilities: AbilityScores;
     description?: CharacterDescription;
-    skills?: Skills;
-    gold?: number;
-    experience?: number;
-    level?: number;
-    equipment?: {
+    skills: Skills;
+    gold: number;
+    experience: number;
+    level: number;
+    equipment: {
         armors: Array<Item>;
         shields: Array<Item>;
         weapons: Array<Item>;

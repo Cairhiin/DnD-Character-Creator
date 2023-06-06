@@ -19,20 +19,20 @@ import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
 export default function CharacterSheet(): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const race = useCharacterStore((state) => state.race);
-  const dndClass = useCharacterStore((state) => state.dndClass);
-  const abilities = useCharacterStore((state) => state.abilityScores);
-  const background = useCharacterStore((state) => state.background);
-  const description = useCharacterStore((state) => state.description);
-  const skills = useCharacterStore((state) => state.skills);
-  const { armors, weapons, misc, shields } = useCharacterStore(
-    (state) => state.equipment
-  );
-  const hitpoints = useCharacterStore((state) => state.hitpoints);
-  const spells = useCharacterStore((state) => state.spells);
-  const level = useCharacterStore((state) => state.level);
-  const experience = useCharacterStore((state) => state.experience);
-  const gold = useCharacterStore((state) => state.gold);
+  const {
+    race,
+    dndClass,
+    background,
+    abilities,
+    description,
+    skills,
+    hitpoints,
+    equipment,
+    spells,
+    level,
+    experience,
+    gold,
+  } = useCharacterStore((state) => state.character);
   const { data: session, status } = useSession();
   const {
     featureData,
@@ -44,7 +44,7 @@ export default function CharacterSheet(): JSX.Element {
     isLoading: raceProfIsLoading,
     error: raceProfError,
   } = useFetchRaceProficiencies(race);
-
+  console.log(dndClass);
   return (
     <>
       <Head>
@@ -56,19 +56,19 @@ export default function CharacterSheet(): JSX.Element {
       <main className={styles.characterSheet}>
         <div className={styles.characterSheet__intro}>
           <div>
-            <h2>{description.details.name}</h2>
+            <h2>{description?.details.name}</h2>
           </div>
           <div className={styles.characterSheet__details}>
             <div>
               <div>
-                {dndClass.name}
+                {dndClass?.name}
                 <span>{level}</span>
               </div>
-              <div>{background.name}</div>
+              <div>{background?.name}</div>
             </div>
             <div>
-              <div>{race.name}</div>
-              <div>{description.details.alignment}</div>
+              <div>{race?.name}</div>
+              <div>{description?.details.alignment}</div>
             </div>
             <div>
               <div>{session?.user?.name}</div>
@@ -81,7 +81,7 @@ export default function CharacterSheet(): JSX.Element {
         <div className={styles.characterSheet__main}>
           <div className={styles.characterSheet__main__left}>
             <div className={styles.characterSheet__main__left__abilities}>
-              {Object.entries(abilities).map(
+              {Object.entries(abilities!).map(
                 ([key, value]): JSX.Element => (
                   <div key={key}>
                     <div>
@@ -123,13 +123,13 @@ export default function CharacterSheet(): JSX.Element {
                     <h3>Saving Throws</h3>
                   </div>
                   <div>
-                    {Object.entries(abilities).map(
+                    {Object.entries(abilities!).map(
                       ([key, value]): JSX.Element => (
                         <div
                           key={key}
                           className={styles.characterSheet__main__left__flex}
                         >
-                          {dndClass.proficiencies?.filter(
+                          {dndClass?.proficiencies?.filter(
                             (prof: any): boolean =>
                               prof.name.substring(14) === key
                           )?.length ? (
@@ -139,7 +139,7 @@ export default function CharacterSheet(): JSX.Element {
                           )}
                           <div>{key}</div>
                           <div>
-                            {dndClass.proficiencies?.filter(
+                            {dndClass?.proficiencies?.filter(
                               (prof: any): boolean =>
                                 prof.name.substring(14) === key
                             )?.length
@@ -197,16 +197,16 @@ export default function CharacterSheet(): JSX.Element {
                   <h3>Spellcasting Ability</h3>
                 </div>
                 <div>
-                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                  {dndClass?.spellcasting?.spellcasting_ability.name ? (
                     calculateAbilityModifier(
                       (abilities as any)[
-                        dndClass.spellcasting?.spellcasting_ability.name
+                        dndClass?.spellcasting?.spellcasting_ability.name
                       ]
                     )
                   ) : (
                     <span>-</span>
                   )}
-                  {dndClass.spellcasting?.spellcasting_ability.name && (
+                  {dndClass?.spellcasting?.spellcasting_ability.name && (
                     <span>
                       {" "}
                       ({dndClass.spellcasting?.spellcasting_ability.name})
@@ -219,7 +219,7 @@ export default function CharacterSheet(): JSX.Element {
                   <h3>Spell Save DC</h3>
                 </div>
                 <div>
-                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                  {dndClass?.spellcasting?.spellcasting_ability.name ? (
                     8 +
                     calculateAbilityModifier(
                       (abilities as any)[
@@ -237,7 +237,7 @@ export default function CharacterSheet(): JSX.Element {
                   <h3>Spell Attack Bonus</h3>
                 </div>
                 <div>
-                  {dndClass.spellcasting?.spellcasting_ability.name ? (
+                  {dndClass?.spellcasting?.spellcasting_ability.name ? (
                     calculateAbilityModifier(
                       (abilities as any)[
                         dndClass.spellcasting?.spellcasting_ability.name
@@ -253,10 +253,10 @@ export default function CharacterSheet(): JSX.Element {
               <div>
                 <div>
                   {calculateArmorClass(
-                    dndClass.index,
+                    dndClass?.index!,
                     abilities,
-                    armors[0]?.armor_class?.base || 0,
-                    shields[0]?.armor_class?.base || 0
+                    equipment.armors[0]?.armor_class?.base || 0,
+                    equipment.shields[0]?.armor_class?.base || 0
                   )}
                 </div>
                 <div>
@@ -264,38 +264,44 @@ export default function CharacterSheet(): JSX.Element {
                 </div>
               </div>
               <div>
-                <div>{calculateAbilityModifier(abilities.DEX)}</div>
+                <div>{calculateAbilityModifier(abilities.DEX!)}</div>
                 <div>
                   <h3>Dex Mod</h3>
                 </div>
               </div>
               <div>
-                <div>{armors[0]?.armor_class?.base || 10}</div>
+                <div>{equipment.armors[0]?.armor_class?.base || 10}</div>
                 <div>
                   <h3>Armor</h3>
                 </div>
               </div>
               <div>
-                <div>{shields[0]?.armor_class?.base || 0}</div>
+                <div>{equipment.shields[0]?.armor_class?.base || 0}</div>
                 <div>
                   <h3>Shield</h3>
                 </div>
               </div>
               <div>
-                <div>{calculateMiscArmorBonus(dndClass.index, abilities)}</div>
+                <div>
+                  {calculateMiscArmorBonus(dndClass?.index!, abilities)}
+                </div>
                 <div>
                   <h3>Misc</h3>
                 </div>
               </div>
               <div>
-                <div>{calculateAbilityModifier(abilities.DEX)}</div>
+                <div>{calculateAbilityModifier(abilities.DEX!)}</div>
                 <div>
                   <h3>Initiative</h3>
                 </div>
               </div>
               <div>
                 <div>
-                  {calculateSpeed(abilities.STR, armors[0], race.speed)}
+                  {calculateSpeed(
+                    abilities.STR,
+                    equipment.armors[0],
+                    race?.speed
+                  )}
                 </div>
                 <div>
                   <h3>Speed</h3>
@@ -314,13 +320,13 @@ export default function CharacterSheet(): JSX.Element {
                   <div>
                     <h3>Hit Die</h3>
                   </div>
-                  <div>{dndClass.hit_die || 0}</div>
+                  <div>{dndClass?.hit_die || 0}</div>
                 </div>
               </div>
               <div
                 className={`${styles.characterSheet__main__right__grid__weapons} ${styles.box}`}
               >
-                {weapons.map((weapon: Item): JSX.Element => {
+                {equipment.weapons.map((weapon: Item): JSX.Element => {
                   return (
                     <div>
                       <div>
@@ -334,7 +340,7 @@ export default function CharacterSheet(): JSX.Element {
                             weapon,
                             abilities,
                             level,
-                            dndClass,
+                            dndClass!,
                             raceProficiencies
                           )}
                         </span>{" "}
@@ -370,7 +376,7 @@ export default function CharacterSheet(): JSX.Element {
         <div>
           {10 +
             calculateAbilityModifier(abilities.WIS) +
-            (skills.perception.value ? calculateProfBonus(level) : 0)}{" "}
+            (skills?.perception.value ? calculateProfBonus(level) : 0)}{" "}
           <h3>Passive Wisdom (Perception)</h3>
         </div>
         <div>
