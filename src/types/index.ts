@@ -92,23 +92,6 @@ export interface CharacterDescription {
 }
 
 export interface CharacterFormState {
-    race: ApiRace;
-    dndClass: ApiClass;
-    background: Background;
-    hitpoints: number;
-    abilityScores: AbilityScores;
-    equipment: {
-        armors: Array<Item>;
-        shields: Array<Item>;
-        weapons: Array<Item>;
-        misc: Array<Item>;
-    };
-    description: CharacterDescription;
-    skills: Skills;
-    gold: number;
-    experience: number;
-    level: number;
-    spells: Spells;
     character: Character;
     setCharacter: (character: Character) => void;
     setRace: (race: ApiRace) => void;
