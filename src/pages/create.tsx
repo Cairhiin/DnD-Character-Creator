@@ -2,13 +2,12 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import { Background, Equipment } from "@/types";
+import { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
-import { useCharacterStore } from "@/store";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
-import { useAddEquipmentDataToStore } from "@/hooks/useAddEquipmentDataToStore";
+import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
 
 interface CardProps {
   children: ReactNode;
@@ -44,21 +43,8 @@ export default function Create({ backgrounds, items }: Props) {
 
   /* NOTE: Splits the chosen equipment from the form in different categories,
   retrieves data from the API and adds it directly to the store */
-  const { equipmentError, equipmentIsLoading } = useAddEquipmentDataToStore(
-    form.steps.equipmentSelection.value
-  );
-  const setRace = useCharacterStore((state) => state.setRace);
-  const setClass = useCharacterStore((state) => state.setClass);
-  const setBackground = useCharacterStore((state) => state.setBackground);
-  const setHitpoints = useCharacterStore((state) => state.setHitpoints);
-  const setExperience = useCharacterStore((state) => state.setExperience);
-  const setAbilityScores = useCharacterStore((state) => state.setAbilityScores);
-  const setDescription = useCharacterStore((state) => state.setDescription);
-  const setSkills = useCharacterStore((state) => state.setSkills);
-  const setGold = useCharacterStore((state) => state.setGold);
-  const setLevel = useCharacterStore((state) => state.setLevel);
-  const setEquipment = useCharacterStore((state) => state.setEquipment);
-  const setSpells = useCharacterStore((state) => state.setSpells);
+  const { equipment, equipmentError, equipmentIsLoading } =
+    useFetchEquipmentData(form.steps.equipmentSelection.value);
 
   const setActiveIndex = (e: any) => {
     const clickedIndex = parseInt(e.dataset.tabId);
@@ -85,25 +71,45 @@ export default function Create({ backgrounds, items }: Props) {
   };
 
   const onComplete = (): void => {
-    setRace(form.steps.raceSelection.value.race);
-    setClass(form.steps.classSelection.value.dndClass);
-    setAbilityScores(form.steps.abilitiesSelection.value.abilities);
-    setBackground(form.steps.backgroundSelection.value.background);
-    setDescription(form.steps.descriptionForm.value);
-    setSkills(form.steps.skillsSelection.value);
-    setSpells(form.steps.spellSelection.value);
-    setLevel(1);
-    setGold(10);
-    setExperience(0);
-    setHitpoints(
-      calculateHP(
+    console.log("EQUIPMENT", equipment);
+    const data: Character = {
+      race: form.steps.raceSelection.value.race,
+      dndClass: form.steps.classSelection.value.dndClass,
+      abilities: form.steps.abilitiesSelection.value.abilities,
+      background: form.steps.backgroundSelection.value.background,
+      description: form.steps.descriptionForm.value,
+      skills: form.steps.skillsSelection.value,
+      spells: form.steps.spellSelection.value,
+      level: 1,
+      gold: 10,
+      experience: 0,
+      hitpoints: calculateHP(
         form.steps.classSelection.value.dndClass.hit_die,
         1,
         calculateAbilityModifier(
           form.steps.abilitiesSelection.value.abilities.CON
         )
-      )
-    );
+      ),
+      equipment: equipment,
+    };
+
+    console.log(data);
+
+    try {
+      fetch("http://localhost:3001/api/characters", {
+        method: "POST",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {});
+    } catch (err) {
+      console.error(err);
+    } finally {
+      console.log("Character saved!");
+    }
 
     router.push("/character");
   };
@@ -209,7 +215,6 @@ export default function Create({ backgrounds, items }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   let backgrounds,
-    spells,
     items = [];
   try {
     const res = await fetch("http://localhost:3000/api/backgrounds");

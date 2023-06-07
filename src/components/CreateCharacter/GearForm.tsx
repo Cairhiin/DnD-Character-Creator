@@ -131,9 +131,7 @@ export default function GearForm({
         };
       })
     );
-    if (!isLoading) {
-      nextTab();
-    }
+    nextTab();
   };
 
   const addItem: (items: Equipment[], index: number) => void = (
@@ -369,7 +367,7 @@ export default function GearForm({
               Previous
             </AnimatedButton>
           </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton variant="secondary">Save Character</AnimatedButton>
         </div>
       </form>
       <div></div>

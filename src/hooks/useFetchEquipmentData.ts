@@ -1,31 +1,31 @@
 import { produce } from 'immer';
-import { Equipment, Item } from "@/types";
+import { Equipment } from "@/types";
 import { useEffect, useState } from "react";
-import { useCharacterStore } from '@/store';
 
-export const useAddEquipmentDataToStore: (equipment: Equipment[]) => { 
-    equipmentIsLoading: boolean, equipmentError: string
-} = (equipment) => {
+export const useFetchEquipmentData: (items: Equipment[]) => { 
+    equipment: { armors: Equipment[], weapons: Equipment[], misc: Equipment[], shields: Equipment[] }, equipmentIsLoading: boolean, equipmentError: string
+} = (items) => {
 
   const [equipmentIsLoading, setLoading] = useState<boolean>(false);
   const [equipmentError, setError] = useState<string>("");
-  const addWeapon = useCharacterStore((state) => state.addWeapon);
-  const addArmor = useCharacterStore((state) => state.addArmor);
-  const addShield = useCharacterStore((state) => state.addShield);
-  const addMisc = useCharacterStore((state) => state.addMisc);
+  const [armors, setArmors] = useState<Equipment[]>([]);
+  const [weapons, setWeapons] = useState<Equipment[]>([]);
+  const [misc, setMisc] = useState<Equipment[]>([]);
+  const [shields, setShields] = useState<Equipment[]>([]);
 
   useEffect(() => {
     setLoading(true);
     let ignore = false;
 
-    if (!ignore && equipment) {
+    if (!ignore && items) {
         try {
-            equipment.forEach((item: Equipment): void => {
+            items.forEach((item: Equipment): void => {
                 fetch(`https://www.dnd5eapi.co${item.url}`)
                 .then((res) => res.json())
                 .then((data) => {
+
                     if (data.armor_category === "Shield") {
-                        addShield(data);
+                        setShields(shields => [...shields, data]);
                     }
                     
                     else if (
@@ -33,15 +33,15 @@ export const useAddEquipmentDataToStore: (equipment: Equipment[]) => {
                     data.armor_category === "Medium" ||
                     data.armor_category === "Heavy"
                     ) {
-                        addArmor(data);
+                        setArmors(armors => [...armors, data]);
                     }
                     
                     else if (data.equipment_category?.name === "Weapon") {
-                        addWeapon(data);
+                        setWeapons(weapons => [...weapons, data]);
                     }
 
                     else {
-                        addMisc(data);
+                        setMisc(misc => [...misc, data]);
                     }
                 });       
       });
@@ -56,7 +56,16 @@ export const useAddEquipmentDataToStore: (equipment: Equipment[]) => {
     return () => {
       ignore = true;
     };
-  }, [equipment]);
+  }, [items]);
 
-  return { equipmentIsLoading, equipmentError };
+  return { 
+    equipment: { 
+        armors: armors, 
+        weapons: weapons, 
+        misc: misc, 
+        shields: shields 
+    }, 
+    equipmentIsLoading, 
+    equipmentError 
+};
 }
