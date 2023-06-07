@@ -7,6 +7,7 @@ import cors from 'cors';
 import passport from 'passport';
 import mongoose from 'mongoose';
 import users from './routes/users.js';
+import characters from './routes/characters.js';
 
 mongoose.connect(process.env.DATABASE);
 mongoose.connection.on('connected', () => {
@@ -39,6 +40,7 @@ import pass from './config/passport.js';
 pass(passport);
 
 app.use('/api/users', users);
+app.use('/api/characters', characters);
 
 app.listen(port, () => {
     console.log(`Server started on port: ${port}`);

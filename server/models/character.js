@@ -1,41 +1,67 @@
-import mongoose from'mongoose';
+import mongoose from 'mongoose';
 
 const CharacterSchema = mongoose.Schema({
     name: String,
-    race: String,
-    class: String,
-    subclass: String,
+    race: Object,
+    dndClass: Object,
+    subClass: Object,
+    background: Object,
+    level: Number,
+    gold: Number,
+    xp: Number,
     attributes: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
     skills: {
-        acrobatics: Number,
-        animalHandling: Number,
-        arcana: Number,
-        athletics: Number,
-        deception: Number,
-        history: Number,
-        insight: Number,
-        intimidation: Number,
-        investigation: Number,
-        medicine: Number,
-        nature: Number,
-        perception: Number,
-        performance: Number,
-        persuasion: Number,
-        religion: Number,
-        sleightOfHand: Number,
-        stealth: Number,
-        survival: Number
+        acrobatics: Boolean,
+        animalHandling: Boolean,
+        arcana: Boolean,
+        athletics: Boolean,
+        deception: Boolean,
+        history: Boolean,
+        insight: Boolean,
+        intimidation: Boolean,
+        investigation: Boolean,
+        medicine: Boolean,
+        nature: Boolean,
+        perception: Boolean,
+        performance: Boolean,
+        persuasion: Boolean,
+        religion: Boolean,
+        sleightOfHand: Boolean,
+        stealth: Boolean,
+        survival: Boolean
     },
-    date: { type: Date, default: Date.now }
-});
+    spells: {
+        0: Array,
+        1: Array,
+        2: Array,
+        3: Array,
+        4: Array,
+        5: Array,
+        6: Array,
+        7: Array,
+        8: Array,
+        9: Array,
+    },
+    equipment: {
+        armors: Array,
+        weapons: Array,
+        shields: Array,
+        misc: Array
+    }
+}, );
 
-const Character = module.exports = mongoose.model('Character', CharacterSchema);
+export const Character = mongoose.model('Character', CharacterSchema);
 
-export const getCharacterById = async function(id) {
+Character.getCharacters = async function() {
+    const characters = await Character.find();
+    return characters;
+};
+
+Character.getCharacterById = async function(id) {
     const character = await Character.findById(id);
     return character;
 };
 
-export const addCharacter = async function(character) {
+Character.addCharacter = async function(character) {
     await character.save();
 };
