@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from'mongoose';
 
 const CharacterSchema = mongoose.Schema({
     name: String,
@@ -31,11 +31,11 @@ const CharacterSchema = mongoose.Schema({
 
 const Character = module.exports = mongoose.model('Character', CharacterSchema);
 
-module.exports.getCharacterById = async function(id) {
+export const getCharacterById = async function(id) {
     const character = await Character.findById(id);
     return character;
 };
 
-module.exports.addCharacter = async function(character) {
+export const addCharacter = async function(character) {
     await character.save();
 };

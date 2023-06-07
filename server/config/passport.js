@@ -1,7 +1,7 @@
-const { Strategy, ExtractJwt } = require('passport-jwt');
-const User = require('../models/user');
+import { Strategy, ExtractJwt } from 'passport-jwt';
+import { User } from '../models/user.js';
 
-module.exports = function(passport) {
+export default function(passport) {
     let opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
     opts.secretOrKey = process.env.DATABASE_SECRET;
