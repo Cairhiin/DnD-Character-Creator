@@ -15,6 +15,7 @@ const CharacterSchema = mongoose.Schema({
     gold: Number,
     xp: Number,
     attributes: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
+    description: Object,
     skills: {
         acrobatics: { value: Boolean, name: String, modifier: String },
         animalHandling: { value: Boolean, name: String, modifier: String },

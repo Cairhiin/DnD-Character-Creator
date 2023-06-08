@@ -59,4 +59,19 @@ router.get('/profile', (req, res, next) => {
     return res.json({ user: req.user });
 });
 
+router.get('/:id/characters', async (req, res, next) => {
+    try {
+        const characters = await User.getCharacters(req.params.id);
+
+        if (!characters) {
+            return res.json({ success: false, message: 'No characters found'});
+        }
+
+        return res.json({ success: true, characters: characters});
+    } catch (err) {
+        console.error(err);
+        return res.json({ success: false, message: 'An error occured while retrieving the characters' });
+    }
+});
+
 export default router;

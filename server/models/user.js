@@ -23,15 +23,10 @@ const UserSchema = mongoose.Schema({
 export const User = mongoose.model('User', UserSchema);
 
 User.getUserById = async function(id) {
-    const user = await User.findById(id);
-    return user;
-};
-
-User.getUserByUsername = async function(username) {
-    let user = await User.aggregate([
+    const users = await User.aggregate([
         {
             $match: {
-                username: username
+                _id: new mongoose.Types.ObjectId(id)
             }
         },
         {
@@ -43,7 +38,17 @@ User.getUserByUsername = async function(username) {
             },        
         }
     ]);
-    return user[0];
+    
+    if (users) {
+        return users[0];
+    }
+
+    return [];
+};
+
+User.getUserByUsername = async function(username) {
+    const user = await User.findOne({ username: username });
+    return user;
 }
 
 User.addUser = async function(user) {
@@ -58,4 +63,14 @@ User.comparePassword = async function(candidatePassword, hash, callback) {
         if (err) throw err;
         callback(null, isMatch);
     });
+}
+
+User.getCharacters = async function(userId) {
+    const user = await User.getUserById(userId);
+    
+    if (user) {
+        return user.characters;   
+    }
+
+    return [];
 }
