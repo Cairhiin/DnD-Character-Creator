@@ -21,16 +21,16 @@ router.post('/register', async (req, res, next) => {
 router.post('/authenticate', async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-
+ 
     try {
         const user = await User.getUserByUsername(username);
-     
+        
         if (!user) {
             return res.json({ success: false, message: 'No such user'} );
         } 
 
         User.comparePassword(password, user.password, (err, isMatch) => {
-            if (err) throw err;
+            if (err) throw err;           
             if (isMatch) {
                 return res.json({
                     success: true,
@@ -38,7 +38,8 @@ router.post('/authenticate', async (req, res, next) => {
                         id: user._id,
                         name: user.name,
                         username: user.username,
-                        email: user.email
+                        email: user.email,
+                        characters: user.characters
                     }
                 });
             } else {
@@ -46,6 +47,7 @@ router.post('/authenticate', async (req, res, next) => {
             }
         });
     } catch (err) {
+        console.error(err)
         return res.json({ 
             success: false, 
             message: 'An error occured while trying to retrieve the user' 

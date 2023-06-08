@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const CharacterSchema = mongoose.Schema({
+    userId: { 
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+        required: true
+    },
     name: String,
     race: Object,
     dndClass: Object,
@@ -11,24 +16,24 @@ const CharacterSchema = mongoose.Schema({
     xp: Number,
     attributes: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
     skills: {
-        acrobatics: Boolean,
-        animalHandling: Boolean,
-        arcana: Boolean,
-        athletics: Boolean,
-        deception: Boolean,
-        history: Boolean,
-        insight: Boolean,
-        intimidation: Boolean,
-        investigation: Boolean,
-        medicine: Boolean,
-        nature: Boolean,
-        perception: Boolean,
-        performance: Boolean,
-        persuasion: Boolean,
-        religion: Boolean,
-        sleightOfHand: Boolean,
-        stealth: Boolean,
-        survival: Boolean
+        acrobatics: { value: Boolean, name: String, modifier: String },
+        animalHandling: { value: Boolean, name: String, modifier: String },
+        arcana: { value: Boolean, name: String, modifier: String },
+        athletics: { value: Boolean, name: String, modifier: String },
+        deception: { value: Boolean, name: String, modifier: String },
+        history: { value: Boolean, name: String, modifier: String },
+        insight: { value: Boolean, name: String, modifier: String },
+        intimidation: { value: Boolean, name: String, modifier: String },
+        investigation: { value: Boolean, name: String, modifier: String },
+        medicine: { value: Boolean, name: String, modifier: String },
+        nature: { value: Boolean, name: String, modifier: String },
+        perception: { value: Boolean, name: String, modifier: String },
+        performance: { value: Boolean, name: String, modifier: String },
+        persuasion: { value: Boolean, name: String, modifier: String },
+        religion: { value: Boolean, name: String, modifier: String },
+        sleightOfHand: { value: Boolean, name: String, modifier: String },
+        stealth: { value: Boolean, name: String, modifier: String },
+        survival: { value: Boolean, name: String, modifier: String }
     },
     spells: {
         0: Array,

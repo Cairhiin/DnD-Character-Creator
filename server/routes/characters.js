@@ -9,7 +9,7 @@ router.post('', async (req, res, next) => {
         await Character.addCharacter(character);
         return res.json({ success: true, message: 'Character added successfully' });
     } catch (err) {
-        console.lerrorog(err)
+        console.error(err)
         return res.json({ success: false, message: 'Failed to add character' });
     }
 });

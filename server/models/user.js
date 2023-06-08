@@ -28,8 +28,22 @@ User.getUserById = async function(id) {
 };
 
 User.getUserByUsername = async function(username) {
-    const user = await User.findOne({ username: username });
-    return user;
+    let user = await User.aggregate([
+        {
+            $match: {
+                username: username
+            }
+        },
+        {
+            $lookup: {
+                from: "characters",
+                localField: "_id",
+                foreignField: "userId",
+                as: "characters"
+            },        
+        }
+    ]);
+    return user[0];
 }
 
 User.addUser = async function(user) {
