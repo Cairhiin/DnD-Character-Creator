@@ -1,11 +1,19 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import styles from "@/styles/Dashboard.module.scss";
 import { Character } from "@/types";
+import { GetServerSideProps } from "next";
 
-export default function Dashboard() {
-  const { data: session, status } = useSession();
-  console.log(session?.user);
+interface Props {
+  characters: Array<Character>;
+}
+
+export default function Dashboard({
+  characters,
+}: {
+  characters: Array<Character>;
+}) {
+  console.log(characters);
   return (
     <>
       <Head>
@@ -17,9 +25,40 @@ export default function Dashboard() {
       <main className={styles.characterSheet}>
         <div>
           <h2>Dashboard</h2>
-          <section></section>
+          <section>
+            {characters.map(
+              (char: Character): JSX.Element => (
+                <article key={char._id}>
+                  {char.description?.details.name}
+                </article>
+              )
+            )}
+          </section>
         </div>
       </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const session = await getSession(context);
+  let characters: Array<Character> = [];
+
+  try {
+    const res = await fetch(
+      `http://localhost:3001/api/users/${session?.user?.id}/characters`
+    );
+    const result = await res.json();
+    characters = result.characters;
+  } catch (err) {
+    console.error(err);
+  }
+
+  return {
+    props: {
+      characters,
+    },
+  };
+};

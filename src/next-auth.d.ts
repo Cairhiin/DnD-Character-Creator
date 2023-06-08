@@ -4,6 +4,7 @@ declare module "next-auth" {
     export interface User {
         role?: string;
         username?: string;
+        characters: Array<Character>;
     };
 
     interface Session extends DefaultSession {

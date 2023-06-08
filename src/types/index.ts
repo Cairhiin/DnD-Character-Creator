@@ -319,6 +319,7 @@ export interface EquipmentChoices {
 } 
 
 export interface Character {
+    _id?: string;
     userId: string;
     race: { name: string, index: string};
     dndClass: { name: string, index: string};
