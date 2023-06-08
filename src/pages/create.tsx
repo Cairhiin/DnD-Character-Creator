@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
 import { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/components/CreateCharacter";
@@ -38,6 +39,7 @@ export const FormStateContext = createContext({
 export default function Create({ backgrounds, items }: Props) {
   const [form, setForm] = useState(FORM_STATE);
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
 
@@ -71,12 +73,22 @@ export default function Create({ backgrounds, items }: Props) {
   };
 
   const onComplete = (): void => {
-    console.log("EQUIPMENT", equipment);
+    // Removing unnecessary data to reduce size of the object
     const data: Character = {
-      race: form.steps.raceSelection.value.race,
-      dndClass: form.steps.classSelection.value.dndClass,
+      userId: session?.user?.id!,
+      race: {
+        name: form.steps.raceSelection.value.race.name,
+        index: form.steps.raceSelection.value.race.index,
+      },
+      dndClass: {
+        name: form.steps.classSelection.value.dndClass.name,
+        index: form.steps.classSelection.value.dndClass.index,
+      },
       abilities: form.steps.abilitiesSelection.value.abilities,
-      background: form.steps.backgroundSelection.value.background,
+      background: {
+        name: form.steps.backgroundSelection.value.background.name,
+        index: form.steps.backgroundSelection.value.background.name,
+      },
       description: form.steps.descriptionForm.value,
       skills: form.steps.skillsSelection.value,
       spells: form.steps.spellSelection.value,
@@ -93,8 +105,6 @@ export default function Create({ backgrounds, items }: Props) {
       equipment: equipment,
     };
 
-    console.log(data);
-
     try {
       fetch("http://localhost:3001/api/characters", {
         method: "POST",
@@ -104,20 +114,27 @@ export default function Create({ backgrounds, items }: Props) {
         body: JSON.stringify(data),
       })
         .then((res) => res.json())
-        .then((data) => {});
+        .then((data) => {
+          console.log(data);
+        });
     } catch (err) {
       console.error(err);
     } finally {
       console.log("Character saved!");
+      router.push("/dashboard");
     }
-
-    router.push("/character");
   };
 
   useEffect(() => {
-    if (activeTabIndex === 9) {
+    let ignore = false;
+
+    if (activeTabIndex === 9 && !ignore) {
       onComplete();
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [activeTabIndex, onComplete]);
 
   return (

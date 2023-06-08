@@ -44,7 +44,7 @@ export default function CharacterSheet(): JSX.Element {
     isLoading: raceProfIsLoading,
     error: raceProfError,
   } = useFetchRaceProficiencies(race);
-  console.log(dndClass);
+
   return (
     <>
       <Head>

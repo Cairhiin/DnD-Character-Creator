@@ -319,9 +319,10 @@ export interface EquipmentChoices {
 } 
 
 export interface Character {
-    race: ApiRace;
-    dndClass: ApiClass;
-    background: Background;
+    userId: string;
+    race: { name: string, index: string};
+    dndClass: { name: string, index: string};
+    background: { name: string, index: string};
     hitpoints: number;
     abilities: AbilityScores;
     description?: CharacterDescription;
