@@ -14,7 +14,7 @@ const CharacterSchema = mongoose.Schema({
     level: Number,
     gold: Number,
     xp: Number,
-    attributes: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
+    abilities: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
     description: Object,
     skills: {
         acrobatics: { value: Boolean, name: String, modifier: String },
@@ -71,3 +71,11 @@ Character.getCharacterById = async function(id) {
 Character.addCharacter = async function(character) {
     await character.save();
 };
+
+Character.updateCharacter = async function(id, character) {
+    await Character.findOneAndUpdate({ _id: id }, character);
+}
+
+Character.deleteCharacter = async function(id) {
+    await Character.deleteOne({ _id: id });
+}
