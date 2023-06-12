@@ -43,7 +43,7 @@ export default function Dashboard({
                         attr: string,
                         val: number
                       ]): JSX.Element => (
-                        <li>
+                        <li key={attr}>
                           <span>{attr}:</span> {val}
                         </li>
                       )
@@ -51,7 +51,10 @@ export default function Dashboard({
                   </ul>
                   <div className={styles.buttonRow}>
                     <AnimatedButton variant="secondary" type="outline">
-                      <Link href="/character/[id]" as={`character/${char._id}`}>
+                      <Link
+                        href="/characters/[id]"
+                        as={`characters/${char._id}`}
+                      >
                         VIEW
                       </Link>
                     </AnimatedButton>

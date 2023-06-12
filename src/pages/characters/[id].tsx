@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCharacterStore } from "@/store";
-import styles from "@/styles/Character.module.scss";
+import styles from "@/styles/Characters.module.scss";
 import { useSession } from "next-auth/react";
 import {
   calculateAbilityModifier,
@@ -14,10 +14,28 @@ import {
 } from "@/utils";
 import { useEffect, useState } from "react";
 import { useFetchFeatureLevelData } from "@/hooks/useFetchFeatureLevelData";
-import { Item } from "@/types";
+import { Character, Item } from "@/types";
 import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-export default function CharacterSheet(): JSX.Element {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch("http://localhost:3001/api/characters");
+  const { results } = await res.json();
+  const paths = results.map((character: Character) => {
+    return {
+      params: {
+        id: character._id,
+      },
+    };
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export default function character(): JSX.Element {
   const router = useRouter();
   const { id } = router.query;
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -48,29 +66,6 @@ export default function CharacterSheet(): JSX.Element {
     isLoading: raceProfIsLoading,
     error: raceProfError,
   } = useFetchRaceProficiencies(race);
-
-  useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      try {
-        setLoading(true);
-        fetch(`http://locahost:3001/api/characters/${id}`)
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            setCharacter(data);
-          });
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
 
   return (
     <>
@@ -448,3 +443,11 @@ export default function CharacterSheet(): JSX.Element {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { id } = params;
+
+  const res = await fetch(`http://localhost:3001/api/characters/${id}`);
+  const { results } = await res.json();
+  return { props: results };
+};
