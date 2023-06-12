@@ -3,7 +3,7 @@ const router = express.Router();
 import passport from 'passport';
 import { Character } from '../models/character.js';
 
-router.post('',passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.post('', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const character = new Character(req.body);
 
     try {
