@@ -3,12 +3,14 @@ import Head from "next/head";
 import withTypeWriterEffect from "@/components/TypewriterEffect";
 import Hero from "@/components/Hero";
 import styles from "@/styles/Home.module.scss";
+import { useSession } from "next-auth/react";
 
 interface Props {
   children: ReactNode;
 }
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const Header = ({ children }: Props) => (
     <div className={styles.card}>
       <h2 className={styles.header}>{children}</h2>

@@ -5,6 +5,7 @@ import { Character } from "@/types";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
 import AnimatedButton from "@/components/AnimatedButton";
+import Link from "next/link";
 
 interface Props {
   characters: Array<Character>;
@@ -15,7 +16,6 @@ export default function Dashboard({
 }: {
   characters: Array<Character>;
 }) {
-  console.log(characters[0].abilities);
   return (
     <>
       <Head>
@@ -51,7 +51,9 @@ export default function Dashboard({
                   </ul>
                   <div className={styles.buttonRow}>
                     <AnimatedButton variant="secondary" type="outline">
-                      VIEW
+                      <Link href="/character/[id]" as={`character/${char._id}`}>
+                        VIEW
+                      </Link>
                     </AnimatedButton>
                     <AnimatedButton variant="secondary" type="outline">
                       LEVEL
@@ -76,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   try {
     const res = await fetch(
-      `http://localhost:3001/api/users/${session?.user?.id}/characters`
+      `http://localhost:3001/api/users/${session?.user?.user.id}/characters`
     );
     const result = await res.json();
     characters = result.characters;

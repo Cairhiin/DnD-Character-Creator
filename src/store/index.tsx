@@ -16,6 +16,8 @@ import type {
 
 export const useCharacterStore = create<CharacterFormState>((set) => ({
   character: {
+    id_: "",
+    userId: "",
     race: { name: "", index: "" },
     dndClass: {
       name: "",
@@ -29,7 +31,7 @@ export const useCharacterStore = create<CharacterFormState>((set) => ({
     },
     background: {
       name: "",
-      id: "",
+      index: "",
       skill_proficiencies: [],
       tool_proficiencies: [],
       languages: 0,

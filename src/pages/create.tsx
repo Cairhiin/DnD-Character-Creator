@@ -75,7 +75,7 @@ export default function Create({ backgrounds, items }: Props) {
   const onComplete = (): void => {
     // Removing unnecessary data to reduce size of the object
     const data: Character = {
-      userId: session?.user?.id!,
+      userId: session?.user?.user.id!,
       race: {
         name: form.steps.raceSelection.value.race.name,
         index: form.steps.raceSelection.value.race.index,
@@ -106,11 +106,15 @@ export default function Create({ backgrounds, items }: Props) {
     };
 
     try {
+      console.log(session?.user?.token);
       fetch("http://localhost:3001/api/characters", {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${session?.user?.token}`,
+        },
         method: "POST",
         mode: "cors",
         credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       })
         .then((res) => res.json())

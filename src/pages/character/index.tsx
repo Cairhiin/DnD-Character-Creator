@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useCharacterStore } from "@/store";
 import styles from "@/styles/Character.module.scss";
 import { useSession } from "next-auth/react";
@@ -11,14 +12,17 @@ import {
   calculateProfBonus,
   calculateSpeed,
 } from "@/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetchFeatureLevelData } from "@/hooks/useFetchFeatureLevelData";
 import { Item } from "@/types";
 import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
 
 export default function CharacterSheet(): JSX.Element {
+  const router = useRouter();
+  const { id } = router.query;
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const setCharacter = useCharacterStore((state) => state.setCharacter);
   const {
     race,
     dndClass,
@@ -44,6 +48,29 @@ export default function CharacterSheet(): JSX.Element {
     isLoading: raceProfIsLoading,
     error: raceProfError,
   } = useFetchRaceProficiencies(race);
+
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      try {
+        setLoading(true);
+        fetch(`http://locahost:3001/api/characters/${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            setCharacter(data);
+          });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <>
