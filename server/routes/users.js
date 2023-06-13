@@ -67,7 +67,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
     return res.json({ user: req.user });
 });
 
-router.get('/:id/characters', async (req, res, next) => {
+router.get('/:id([0-9a-fA-F]{24})/characters', async (req, res, next) => {
     try {
         const characters = await User.getCharacters(req.params.id);
 

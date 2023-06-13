@@ -25,7 +25,7 @@ router.get('', async (req, res, next) => {
     } 
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id([0-9a-fA-F]{24})', async (req, res, next) => {
     try {
         const character = await Character.getCharacterById(req.params.id);
         return res.status(200).json({ success: true, results: character });
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.put('/:id([0-9a-fA-F]{24})',passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     try {
         await Character.updateCharacter(req.params.id, req.body);
         return res.status(200).json({ success: true, message: 'Character updated successfully' });
@@ -45,7 +45,7 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
     }
 });
 
-router.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.delete('/:id([0-9a-fA-F]{24})', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     try {
         await Character.deleteCharacter(req.params.id);
         return res.status(200).json({ success: true, message: 'Character deleted successfully' });
