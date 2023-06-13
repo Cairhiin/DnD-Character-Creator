@@ -76,19 +76,10 @@ export default function Create({ backgrounds, items }: Props) {
     // Removing unnecessary data to reduce size of the object
     const data: Character = {
       userId: session?.user?.user.id!,
-      race: {
-        name: form.steps.raceSelection.value.race.name,
-        index: form.steps.raceSelection.value.race.index,
-      },
-      dndClass: {
-        name: form.steps.classSelection.value.dndClass.name,
-        index: form.steps.classSelection.value.dndClass.index,
-      },
+      race: form.steps.raceSelection.value.race,
+      dndClass: form.steps.classSelection.value.dndClass,
       abilities: form.steps.abilitiesSelection.value.abilities,
-      background: {
-        name: form.steps.backgroundSelection.value.background.name,
-        index: form.steps.backgroundSelection.value.background.name,
-      },
+      background: form.steps.backgroundSelection.value.background,
       description: form.steps.descriptionForm.value,
       skills: form.steps.skillsSelection.value,
       spells: form.steps.spellSelection.value,

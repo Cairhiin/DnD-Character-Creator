@@ -12,30 +12,26 @@ import {
   calculateProfBonus,
   calculateSpeed,
 } from "@/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetchFeatureLevelData } from "@/hooks/useFetchFeatureLevelData";
 import { Character, Item } from "@/types";
 import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
+import { ParsedUrlQuery } from "querystring";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch("http://localhost:3001/api/characters");
-  const { results } = await res.json();
-  const paths = results.map((character: Character) => {
-    return {
-      params: {
-        id: character._id,
-      },
-    };
-  });
+interface Params extends ParsedUrlQuery {
+  id: string;
+}
 
-  return {
-    paths,
-    fallback: false,
-  };
-};
+interface Props {
+  character: Character;
+}
 
-export default function character(): JSX.Element {
+export default function character({
+  character,
+}: {
+  character: Character;
+}): JSX.Element {
   const router = useRouter();
   const { id } = router.query;
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -54,7 +50,7 @@ export default function character(): JSX.Element {
     level,
     experience,
     gold,
-  } = useCharacterStore((state) => state.character);
+  } = character;
   const { data: session, status } = useSession();
   const {
     featureData,
@@ -444,10 +440,15 @@ export default function character(): JSX.Element {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { id } = params;
-
-  const res = await fetch(`http://localhost:3001/api/characters/${id}`);
-  const { results } = await res.json();
-  return { props: results };
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
+  params,
+}) => {
+  const { id } = params!;
+  const character = await fetch(`http://localhost:3001/api/characters/${id}`);
+  const { results } = await character.json();
+  return {
+    props: {
+      character: results,
+    },
+  };
 };
