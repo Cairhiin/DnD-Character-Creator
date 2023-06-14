@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
-import AnimatedButton from "../AnimatedButton";
+import AnimatedButton from "../../components/AnimatedButton";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";

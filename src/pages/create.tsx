@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
 import { Background, Character, Equipment } from "@/types";
-import CreateCharacterTabs from "@/components/CreateCharacter";
+import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { calculateAbilityModifier, calculateHP } from "@/utils";

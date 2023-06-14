@@ -8,7 +8,7 @@ import {
   useFormState,
 } from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
-import AnimatedButton from "../AnimatedButton";
+import AnimatedButton from "../../components/AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import type { Spell } from "@/types";
 import { useFetchSpellsByLevel } from "@/hooks/useFetchSpellsByLevel";

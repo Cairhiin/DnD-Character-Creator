@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useImmer } from "use-immer";
 import { produce } from "immer";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
-import AnimatedButton from "../AnimatedButton";
+import AnimatedButton from "../../components/AnimatedButton";
 import type { AbilityScores, AbilityFormInput } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
