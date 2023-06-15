@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
-import { Background, Character, CharacterFormState, Equipment } from "@/types";
+import { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
@@ -15,6 +15,20 @@ interface Props {
   backgrounds: Array<Background>;
   items: Array<Equipment>;
 }
+
+interface CardProps {
+  children: ReactNode;
+  header: string;
+}
+
+export const CreateCharacterCard = ({ children, header }: CardProps) => {
+  return (
+    <div className={styles.create__card}>
+      <h2 className={styles.create__card__header}>{header}</h2>
+      <div className={styles.create__card__content}>{children}</div>
+    </div>
+  );
+};
 
 export const FormStateContext = createContext({
   form: FORM_STATE,

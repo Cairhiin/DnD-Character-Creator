@@ -1,9 +1,11 @@
 import Head from "next/head";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import styles from "@/styles/Dashboard.module.scss";
 import { Character } from "@/types";
 import { GetServerSideProps } from "next";
 import CharacterList from "@/features/characters/CharacterList";
+import character from "./characters/[id]";
+import { useState } from "react";
 
 interface Props {
   characters: Array<Character>;
@@ -14,6 +16,30 @@ export default function Dashboard({
 }: {
   characters: Array<Character>;
 }) {
+  const { data: session, status } = useSession();
+  const [characterList, setCharacterList] = useState<Character[]>(characters);
+  const handleDelete: (id: string | undefined) => void = (id) => {
+    try {
+      fetch(`http://localhost:3001/api/characters/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${session?.user?.token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setCharacterList((characters: Character[]) =>
+            characters.filter(
+              (character: Character): boolean => character._id !== id
+            )
+          );
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -26,7 +52,7 @@ export default function Dashboard({
         <div>
           <h2>Dashboard</h2>
           <section>
-            <CharacterList characters={characters} />
+            <CharacterList characters={characterList} onDelete={handleDelete} />
           </section>
         </div>
       </main>

@@ -7,8 +7,9 @@
 
     ul {
         list-style-type: none;
-        display: flex;
+        display: grid;
         grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 1fr;
         gap: 1rem;
     
         .character__card {

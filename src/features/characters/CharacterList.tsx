@@ -1,13 +1,23 @@
-import type { Character } from "@/types";
+import { useState } from "react";
 import styles from "@/styles/CharacterList.module.scss";
 import Link from "next/link";
+import Modal from "@/components/Modal";
 import AnimatedButton from "../../components/AnimatedButton";
+import type { Character } from "@/types";
 
 const CharacterListItem: ({
   character,
+  onDelete,
 }: {
   character: Character;
-}) => JSX.Element = ({ character }) => {
+  onDelete: (id: string) => void;
+}) => JSX.Element = ({ character, onDelete }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const handleDelete: (id: string) => void = (id) => {
+    onDelete(character._id!);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div key={character._id} className={styles.character__card__header}>
@@ -35,7 +45,23 @@ const CharacterListItem: ({
           <AnimatedButton variant="secondary" type="outline">
             LEVEL
           </AnimatedButton>
-          <AnimatedButton>DELETE</AnimatedButton>
+          <AnimatedButton onClick={() => setIsOpen(true)}>
+            DELETE
+          </AnimatedButton>
+          <Modal
+            onClick={() => {
+              handleDelete(character._id!);
+            }}
+            onClose={() => setIsOpen(false)}
+            title={`${character.description?.details.name}`}
+            isOpen={isOpen}
+          >
+            <p>Are you certain you want to delete this character?</p>{" "}
+            <p>
+              Deletion is final - once deleted the character can no longer be
+              recovered
+            </p>
+          </Modal>
         </div>
       </div>
     </>
@@ -44,16 +70,18 @@ const CharacterListItem: ({
 
 const CharacterList: ({
   characters,
+  onDelete,
 }: {
   characters: Character[];
-}) => JSX.Element = ({ characters }) => {
+  onDelete: (id: string) => void;
+}) => JSX.Element = ({ characters, onDelete }) => {
   return (
     <div className={styles.character__list}>
       <ul>
         {characters.map(
           (character: Character): JSX.Element => (
             <li className={styles.character__card} key={character._id}>
-              <CharacterListItem character={character} />
+              <CharacterListItem character={character} onDelete={onDelete} />
             </li>
           )
         )}
