@@ -3,12 +3,13 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
-import { Background, Character, Equipment } from "@/types";
+import { Background, Character, CharacterFormState, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
 import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
+import { FormState } from "@/constants/formState";
 
 interface CardProps {
   children: ReactNode;
@@ -37,7 +38,8 @@ export const FormStateContext = createContext({
 });
 
 export default function Create({ backgrounds, items }: Props) {
-  const [form, setForm] = useState(FORM_STATE);
+  const [form, setForm] = useState<FormState>(FORM_STATE);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const router = useRouter();
   const { data: session, status } = useSession();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
@@ -96,27 +98,28 @@ export default function Create({ backgrounds, items }: Props) {
       equipment: equipment,
     };
 
-    try {
-      console.log(session?.user?.token);
-      fetch("http://localhost:3001/api/characters", {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${session?.user?.token}`,
-        },
-        method: "POST",
-        mode: "cors",
-        credentials: "same-origin",
-        body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      console.log("Character saved!");
-      router.push("/dashboard");
+    if (!isCompleted) {
+      try {
+        fetch("http://localhost:3001/api/characters", {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${session?.user?.token}`,
+          },
+          method: "POST",
+          mode: "cors",
+          credentials: "same-origin",
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsCompleted(true);
+        router.push("/dashboard");
+      }
     }
   };
 
@@ -130,7 +133,7 @@ export default function Create({ backgrounds, items }: Props) {
     return () => {
       ignore = true;
     };
-  }, [activeTabIndex, onComplete]);
+  }, [activeTabIndex, onComplete, isCompleted]);
 
   return (
     <FormStateContext.Provider

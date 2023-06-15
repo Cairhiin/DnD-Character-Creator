@@ -1,6 +1,6 @@
 import type { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
 
-interface FormState {
+export interface FormState {
     steps: {
         raceSelection: {
             valid: boolean;
@@ -86,7 +86,8 @@ const FORM_STATE: FormState = {
                 dndClass: {
                     name: "",
                     index: "",
-                    url: "",                 
+                    url: "", 
+                    spellcasting: { level: 1, spellcasting_ability: { index: "", name: "", url: ""}, info: [{ name: "", desc: "" }]}                
                 }
             }
         },
