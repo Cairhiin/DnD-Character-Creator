@@ -11,24 +11,10 @@ import { calculateAbilityModifier, calculateHP } from "@/utils";
 import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
 import { FormState } from "@/constants/formState";
 
-interface CardProps {
-  children: ReactNode;
-  header: string;
-}
-
 interface Props {
   backgrounds: Array<Background>;
   items: Array<Equipment>;
 }
-
-export const CreateCharacterCard = ({ children, header }: CardProps) => {
-  return (
-    <div className={styles.create__card}>
-      <h2 className={styles.create__card__header}>{header}</h2>
-      <div className={styles.create__card__content}>{children}</div>
-    </div>
-  );
-};
 
 export const FormStateContext = createContext({
   form: FORM_STATE,

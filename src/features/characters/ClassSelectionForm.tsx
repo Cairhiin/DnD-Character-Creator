@@ -1,12 +1,12 @@
 import { CLASSES } from "@/constants";
-import { CreateCharacterCard, FormStateContext } from "@/pages/create";
+import { FormStateContext } from "@/pages/create";
 import { produce } from "immer";
 import styles from "@/styles/Create.module.scss";
 import type { ApiClass as DndClass } from "@/types";
 import { formatAttribute } from "@/utils";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import AnimatedButton from "../../components/AnimatedButton";
 
@@ -19,11 +19,25 @@ interface Props {
   previousTab: () => void;
 }
 
+interface CardProps {
+  children: ReactNode;
+  header: string;
+}
+
 export const ErrorField = ({ error }: { error: string }) => (
   <div className={styles.error}>
     <FontAwesomeIcon icon={faWarning} /> {error}
   </div>
 );
+
+const CreateCharacterCard = ({ children, header }: CardProps) => {
+  return (
+    <div className={styles.create__card}>
+      <h2 className={styles.create__card__header}>{header}</h2>
+      <div className={styles.create__card__content}>{children}</div>
+    </div>
+  );
+};
 
 export default function ClassSelection({ nextTab, previousTab }: Props) {
   const [isLoading, setLoading] = useState<boolean>(false);
