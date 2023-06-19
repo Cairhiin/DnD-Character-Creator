@@ -1,15 +1,8 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
-import { produce } from "immer";
 import type { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
@@ -46,13 +39,6 @@ export const FormStateContext = createContext({
 export default function Create({ backgrounds, items }: Props) {
   const [form, setForm] = useState<FormState>(FORM_STATE);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [equipment, setEquipment] = useState<{
-    shields: [];
-    armors: [];
-    weapons: [];
-    misc: [];
-  }>({ shields: [], armors: [], weapons: [], misc: [] });
   const router = useRouter();
   const { data: session, status } = useSession();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
@@ -82,48 +68,7 @@ export default function Create({ backgrounds, items }: Props) {
     );
   };
 
-  const fetchEquipmentData: (item: Equipment) => void = useCallback((item) => {
-    fetch(`https://www.dnd5eapi.co${item.url}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEquipment(
-          produce<any>((draftState: any) => {
-            switch (data.armor_category) {
-              case "Shield":
-                draftState.shields.push(data);
-              case "Light":
-              case "Heavy":
-              case "Medium":
-                draftState.armors.push(data);
-              case "Weapon":
-                draftState.weapons.push(data);
-              default:
-                draftState.misc.push(data);
-            }
-          })
-        );
-      });
-  }, []);
-
-  useEffect(() => {
-    let ignore = false;
-
-    if (!ignore) {
-      setIsLoading(true);
-      form.steps.equipmentSelection.value.forEach((item) =>
-        fetchEquipmentData(item)
-      );
-    }
-    setIsLoading(false);
-
-    return () => {
-      ignore = true;
-    };
-  }, [form.steps.equipmentSelection.value]);
-
   const onComplete = (): void => {
-    // Removing unnecessary data to reduce size of the object
-
     const data: Character = {
       userId: session?.user?.user.id!,
       race: form.steps.raceSelection.value.race,
@@ -143,7 +88,7 @@ export default function Create({ backgrounds, items }: Props) {
           form.steps.abilitiesSelection.value.abilities.CON
         )
       ),
-      equipment: equipment,
+      equipment: form.steps.equipmentSelection.value,
     };
 
     if (!isCompleted) {
@@ -174,14 +119,14 @@ export default function Create({ backgrounds, items }: Props) {
   useEffect(() => {
     let ignore = false;
 
-    if (activeTabIndex === 9 && !ignore && !isLoading) {
+    if (activeTabIndex === 9 && !ignore) {
       onComplete();
     }
 
     return () => {
       ignore = true;
     };
-  }, [activeTabIndex, onComplete, isCompleted, isLoading]);
+  }, [activeTabIndex]);
 
   return (
     <FormStateContext.Provider

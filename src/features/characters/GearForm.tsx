@@ -53,12 +53,6 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const [equipment, setEquipment] = useState<{
-    shields: [];
-    armors: [];
-    weapons: [];
-    misc: [];
-  }>({ shields: [], armors: [], weapons: [], misc: [] });
   const {
     isLoading: simpleWeaponsLoading,
     error: simpleWeaponsError,
@@ -84,6 +78,12 @@ export default function GearForm({
   const { starting_equipment, starting_equipment_options } =
     form.steps.classSelection.value.dndClass;
   const equipmentFromContext = form.steps.equipmentSelection.value;
+  const [equipment, setEquipment] = useState<{
+    shields: [];
+    armors: [];
+    weapons: [];
+    misc: [];
+  }>({ shields: [], armors: [], weapons: [], misc: [] });
 
   // Remove the choices flagged as equipment_category as they only have 1 option and not really a choice
   const equipmentChoices = starting_equipment_options?.filter(
@@ -91,42 +91,18 @@ export default function GearForm({
   );
 
   // If the user has already chosen equipment set all buttons to inactive - NOTE: implement reset button!!!
-  if (equipmentFromContext.length && buttonIsActive[0] === true) {
+  if (
+    (equipmentFromContext.armors.length ||
+      equipmentFromContext.weapons.length ||
+      equipmentFromContext.misc.length ||
+      equipmentFromContext.shields.length) &&
+    buttonIsActive[0] === true
+  ) {
     const activeButtons = buttonIsActive.map(
       (isActive: boolean): boolean => (isActive = false)
     );
     setButtonIsActive(activeButtons);
   }
-
-  const fetchEquipmentData: (item: Item) => void = useCallback((item) => {
-    setLoading(true);
-    fetch(`https://www.dnd5eapi.co${item.url}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEquipment(
-          produce<any>((draftState: any) => {
-            console.log(data);
-            switch (data.armor_category) {
-              case "Shield":
-                draftState.shields.push(data);
-              case "Light":
-              case "Heavy":
-              case "Medium":
-                draftState.armors.push(data);
-              case "Weapon":
-                draftState.weapons.push(data);
-              default:
-                draftState.misc.push(data);
-            }
-          })
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Failed to retrieve equipment data from API");
-      })
-      .finally(() => setLoading(false));
-  }, []);
 
   const {
     handleSubmit,
@@ -135,7 +111,7 @@ export default function GearForm({
     formState: { errors },
   } = useForm<EquipmentFormInput>({
     defaultValues: {
-      items: form.steps.equipmentSelection.value,
+      // items: form.steps.equipmentSelection.value,
     },
     mode: "onSubmit",
   });
@@ -143,6 +119,38 @@ export default function GearForm({
   const { isDirty } = useFormState({
     control,
   });
+
+  const fetchEquipmentData: (item: Equipment) => any = useCallback((item) => {
+    fetch(`https://www.dnd5eapi.co${item.url}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEquipment(
+          produce<any>((draftState: any) => {
+            if (data.armor_category) {
+              switch (data.armor_category) {
+                case "Shield":
+                  draftState.shields.push(data);
+                  break;
+                case "Light":
+                case "Heavy":
+                case "Medium":
+                  draftState.armors.push(data);
+                  break;
+                default:
+                  break;
+              }
+            }
+
+            if (data.weapon_category) {
+              draftState.weapons.push(data);
+            } else {
+              draftState.misc.push(data);
+            }
+          })
+        );
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   useEffect(() => {
     setForm(
@@ -158,11 +166,10 @@ export default function GearForm({
   });
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
-    console.log(equipment);
     setForm(
       produce((formState) => {
         formState.steps.equipmentSelection = {
-          value: items,
+          value: equipment,
           valid: true,
           dirty: false,
         };
@@ -178,7 +185,10 @@ export default function GearForm({
     let buttons = buttonIsActive;
     buttons[index] = false;
     setButtonIsActive(buttons);
-    items.forEach((item: Equipment): void => append(item));
+    items.forEach((item: Equipment): void => {
+      append(item);
+      fetchEquipmentData(item);
+    });
   };
 
   const changeItem: (e: any, index: number, items: Item[]) => void = (
@@ -186,21 +196,35 @@ export default function GearForm({
     index,
     items
   ) => {
-    fetchEquipmentData(items[e.target.value]);
     update(index, { ...items[e.target.value], amount: 1 });
+    fetchEquipmentData(items[e.target.value] as Equipment);
   };
 
   /* If there are available items already in store use those else use the current form values
   Only necessary to display the selected items in the starting equipment card */
-  const selectedItems = equipmentFromContext.length
-    ? equipmentFromContext
+  const selectedItems = [
+    ...equipmentFromContext.armors,
+    ...equipmentFromContext.weapons,
+    ...equipmentFromContext.shields,
+    ...equipmentFromContext.misc,
+  ].length
+    ? [
+        ...equipmentFromContext.armors,
+        ...equipmentFromContext.weapons,
+        ...equipmentFromContext.shields,
+        ...equipmentFromContext.misc,
+      ]
     : Object.values(fields);
 
   return (
     <div className={styles.create__layout}>
       <div></div>
       <aside>
-        {!fields.length && !equipmentFromContext.length ? (
+        {!fields.length &&
+        (!equipmentFromContext.armors.length ||
+          !equipmentFromContext.weapons.length ||
+          !equipmentFromContext.misc.length ||
+          !equipmentFromContext.shields.length) ? (
           <CreateCharacterCard header="Starting Equipment">
             <div className={styles.create__description__text}>
               <p>

@@ -61,7 +61,12 @@ export interface FormState {
         equipmentSelection: {
             valid: boolean;
             dirty: boolean;
-            value: Array<Equipment>;
+            value: {
+                armors: Array<Equipment>;
+                shields: Array<Equipment>;
+                weapons: Array<Equipment>;
+                misc: Array<Equipment>;
+            };
         }
     }
 };
@@ -200,7 +205,7 @@ const FORM_STATE: FormState = {
         equipmentSelection: {
             valid: false,
             dirty: false,
-            value: []
+            value: { armors: [], weapons: [], shields: [], misc: []}
         },
     }
 };
