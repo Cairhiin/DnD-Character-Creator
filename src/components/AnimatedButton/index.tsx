@@ -7,7 +7,7 @@ interface Props {
   variant?: string;
   children: ReactNode;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: any | undefined) => void;
 }
 
 const AnimatedButton = ({

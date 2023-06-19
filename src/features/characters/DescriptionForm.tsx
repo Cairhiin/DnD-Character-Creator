@@ -3,12 +3,12 @@ import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import AnimatedButton from "../AnimatedButton";
-import Accordion from "../Accordion";
+import AnimatedButton from "../../components/AnimatedButton";
+import Accordion from "../../components/Accordion";
 import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
-import PersonalFormElement from "@/components/CreateCharacter/Description/PersonalFormElement";
+import PersonalFormElement from "./Description/PersonalFormElement";
 import { ErrorField } from "./ClassSelectionForm";
 import styles from "@/styles/Create.module.scss";
 

@@ -7,18 +7,27 @@ export const useFetchWeapons: (weaponType: string) => { isLoading: boolean, erro
     
     useEffect(() => {
         setLoading(true);
-        try {
-          fetch(`http://www.dnd5eapi.co/api/equipment-categories/${weaponType}`)
-            .then((res) => res.json())
-            .then(({ equipment }) => {
-              setWeapons(equipment);
-            });
-        } catch (err: any) {
-          console.error(err);
-          setError(`API not responding: unable to load ${weaponType}.`);
+        let ignore = false;
+        
+        if (!ignore && weaponType) {
+          try {
+            fetch(`http://www.dnd5eapi.co/api/equipment-categories/${weaponType}`)
+              .then((res) => res.json())
+              .then(({ equipment }) => {
+                setWeapons(equipment);
+              });
+          } catch (err: any) {
+            console.error(err);
+            setError(`API not responding: unable to load ${weaponType}.`);
+          } finally {
+            setLoading(false);
+          }
+        
         }
-        setLoading(false);
-      }, []);
+        return () => {
+          ignore = true;
+        };
+      }, [weaponType]);
 
     return { isLoading, error, weapons };
 }

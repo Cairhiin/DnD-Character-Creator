@@ -92,26 +92,11 @@ export interface CharacterDescription {
 }
 
 export interface CharacterFormState {
-    race: ApiRace;
-    dndClass: ApiClass;
-    background: Background;
-    hitpoints: number;
-    abilityScores: AbilityScores;
-    equipment: {
-        armors: Array<Item>;
-        shields: Array<Item>;
-        weapons: Array<Item>;
-        misc: Array<Item>;
-    };
-    description: CharacterDescription;
-    skills: Skills;
-    gold: number;
-    experience: number;
-    level: number;
-    spells: Spells;
-    setRace: (race: ApiRace) => void
-    setClass: (dndClass: ApiClass) => void
-    setBackground: (background: Background) => void
+    character: Character;
+    setCharacter: (character: Character) => void;
+    setRace: (race: ApiRace) => void;
+    setClass: (dndClass: ApiClass) => void;
+    setBackground: (background: Background) => void;
     setAbilityScores: (scores: AbilityScores) => void;
     setDescription: (description: CharacterDescription) => void;
     setSkills: (skills: Skills) => void;
@@ -332,3 +317,25 @@ export interface EquipmentChoices {
             items: Array<{ index: string; name: string; url: string; amount: number; }>
         }>
 } 
+
+export interface Character {
+    _id?: string;
+    userId: string;
+    race: ApiRace;
+    dndClass: ApiClass;
+    background: Background;
+    hitpoints: number;
+    abilities: AbilityScores;
+    description?: CharacterDescription;
+    skills: Skills;
+    gold: number;
+    experience: number;
+    level: number;
+    equipment: {
+        armors: Array<Item>;
+        shields: Array<Item>;
+        weapons: Array<Item>;
+        misc: Array<Item>;
+    };
+    spells?: Spells;
+}

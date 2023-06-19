@@ -1,0 +1,204 @@
+@import './variables.module';
+
+.dot {
+    @include dot;
+}
+
+.filledDot {
+    @include filledDot;
+}
+
+.flex {
+    @include flex;
+}
+
+.box {
+    background-color: darken($background-color, 5);
+    padding: 0.5rem;
+    @include roundedBorder;
+    padding-inline: 1rem;
+}
+
+.characterSheet {
+    @include backgroundArea;
+    @include roundedBorder;
+    max-width: 1200px;
+    margin: 1rem auto;
+    line-height: 1.6;
+
+    h3 {
+        text-align: center;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: darken($on-background-color, 5);
+    }
+
+    .characterSheet__intro {
+        @include flex;
+        margin-bottom: 1rem;
+        align-items: center;
+
+        span {
+            @include textHighlight;
+        }
+
+        & > div:first-child {
+            flex-grow: 1;
+        }
+
+        .characterSheet__details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            flex-grow: 1;
+
+            & > div {
+                background-color: darken($background-color, 5);
+                padding: 0.5rem 2rem;
+            }
+        }
+    }
+
+    .characterSheet__main {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 1rem;
+
+        &__right {
+            text-align: center;
+
+            &__grid {
+                margin-top: 1rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto 1fr;
+                gap: 1rem;
+                grid-template-areas: 
+                'hp features'
+                'weapons features';
+
+                &__HP {
+                    @include flex;
+                    grid-area: hp;
+
+                    & > div {
+                        width: 50%;
+                    }
+                }
+
+                &__features {
+                    text-align: left;
+                    grid-area: features;
+                }
+
+                &__weapons {
+                    text-align: left;
+                    grid-area: weapons;
+                    height: 100%;
+
+                    & > div {
+                        margin-block: 0.5rem;
+                    }
+
+                    span {
+                        @include textHighlight;
+                    }
+                }
+            }
+
+            &__gridRow {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1rem;
+                
+                & > div {
+                    background-color: darken($background-color, 5);
+                    padding: 0.5rem;
+                    margin-bottom: 1rem;
+                    @include roundedBorder;
+                }
+            }
+
+            &__armorRow {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 1rem;
+                
+                & > div {
+                    background-color: darken($background-color, 5);
+                    padding: 0.5rem;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    @include roundedBorder;
+                }
+            }
+
+            &__profs {
+                text-align: left;
+            }
+        }
+
+        &__left {
+            @include flex;
+
+            &__abilities {
+                text-align: center;
+                line-height: 1.2;
+
+                & > div {
+                    background-color: darken($background-color, 5);
+                    margin-bottom: 1rem;
+                    padding: 0.5rem 2rem;
+                    @include roundedBorder;
+                }
+
+                &__score {
+                    font-size: 2.5rem;
+                }
+
+                &__mod {
+                    background-color: darken($secondary-color, 15);
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    @include boxShadow;
+                    font-weight: 700;
+                    font-size: 1.6rem;
+                }
+            }
+
+            & > div:first-child {
+                min-width: 20%;
+            }
+
+            & > div:last-child {
+                flex-grow: 1;
+            }
+
+            &__area {
+                margin-bottom: 1rem;
+
+                &__prof {
+                    text-align: center;
+                }
+            }
+
+            &__flex {
+                @include flex;
+                align-items: center;
+
+                & > div:nth-child(2) {
+                    width: 60%;
+                }
+
+                & > div:last-child {
+                    width: 20%;
+                    text-align: right;
+                }
+            }
+        }
+    }
+}

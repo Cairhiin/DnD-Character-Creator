@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = mongoose.Schema({
     name: {
@@ -20,28 +20,57 @@ const UserSchema = mongoose.Schema({
     }
 });
 
-const User = module.exports = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);
 
-module.exports.getUserById = async function(id) {
-    const user = await User.findById(id);
-    return user;
+User.getUserById = async function(id) {
+    const users = await User.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup: {
+                from: "characters",
+                localField: "_id",
+                foreignField: "userId",
+                as: "characters"
+            },        
+        }
+    ]);
+    
+    if (users) {
+        return users[0];
+    }
+
+    return [];
 };
 
-module.exports.getUserByUsername = async function(username) {
+User.getUserByUsername = async function(username) {
     const user = await User.findOne({ username: username });
     return user;
 }
 
-module.exports.addUser = async function(user) {
+User.addUser = async function(user) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(user.password, salt);
     user.password = hash;
     await user.save();
 };
 
-module.exports.comparePassword = async function(candidatePassword, hash, callback) {
+User.comparePassword = async function(candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
         if (err) throw err;
         callback(null, isMatch);
     });
+}
+
+User.getCharacters = async function(userId) {
+    const user = await User.getUserById(userId);
+    
+    if (user) {
+        return user.characters;   
+    }
+
+    return [];
 }

@@ -5,7 +5,7 @@ import styles from "@/styles/Create.module.scss";
 import { formatAttribute } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
-import AnimatedButton from "../AnimatedButton";
+import AnimatedButton from "../../components/AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import { FormStateContext } from "@/pages/create";
 import type { ApiRace } from "@/types";

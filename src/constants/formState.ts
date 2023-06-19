@@ -1,6 +1,6 @@
 import type { AbilityScores, ApiClass, ApiRace, Background, CharacterDescription, Equipment, Skills } from "@/types";
 
-interface FormState {
+export interface FormState {
     steps: {
         raceSelection: {
             valid: boolean;
@@ -61,7 +61,12 @@ interface FormState {
         equipmentSelection: {
             valid: boolean;
             dirty: boolean;
-            value: Array<Equipment>;
+            value: {
+                armors: Array<Equipment>;
+                shields: Array<Equipment>;
+                weapons: Array<Equipment>;
+                misc: Array<Equipment>;
+            };
         }
     }
 };
@@ -86,7 +91,8 @@ const FORM_STATE: FormState = {
                 dndClass: {
                     name: "",
                     index: "",
-                    url: "",                 
+                    url: "", 
+                    spellcasting: { level: 1, spellcasting_ability: { index: "", name: "", url: ""}, info: [{ name: "", desc: "" }]}                
                 }
             }
         },
@@ -199,7 +205,7 @@ const FORM_STATE: FormState = {
         equipmentSelection: {
             valid: false,
             dirty: false,
-            value: []
+            value: { armors: [], weapons: [], shields: [], misc: []}
         },
     }
 };

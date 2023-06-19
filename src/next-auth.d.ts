@@ -2,8 +2,13 @@ import 'next-auth';
 
 declare module "next-auth" {
     export interface User {
-        role?: string;
-        username?: string;
+        token: string;
+        user: {
+            role?: string;
+            username?: string;
+            characters: Array<Character>;
+            id: string;
+        }
     };
 
     interface Session extends DefaultSession {

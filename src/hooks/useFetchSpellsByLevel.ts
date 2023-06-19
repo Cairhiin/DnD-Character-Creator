@@ -11,20 +11,21 @@ export const useFetchSpellsByLevel: (dndClass: ApiClass, classLevel: number) => 
     useEffect(() => {
         setLoading(true);
         let ignore = false;
-        if (!ignore) {
+        if (!ignore && dndClass.index) {
             try {
                 fetch(
                     `https://www.dnd5eapi.co${dndClass.url}/levels/${classLevel}/spells`
                 )
                     .then((res) => res.json())
                     .then((data) => {
-                    setSpells(data.results);
-                    setLoading(false);
+                    setSpells(data.results);                   
                     });
                 }
             catch (err) {
                 console.error("Error: ", err);
                 setError("Failed to load to spells.");
+            } finally {
+                setLoading(false);
             }
         }
 

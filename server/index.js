@@ -1,12 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const passport = require('passport');
-const mongoose = require('mongoose');
-const users = require('./routes/users');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import passport from 'passport';
+import mongoose from 'mongoose';
+import users from './routes/users.js';
+import characters from './routes/characters.js';
 
 mongoose.connect(process.env.DATABASE);
 mongoose.connection.on('connected', () => {
@@ -28,15 +29,18 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.use(session({ secret: process.env.DATABASE_SECRET, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport);
+
+import pass from './config/passport.js';
+pass(passport);
 
 app.use('/api/users', users);
+app.use('/api/characters', characters);
 
 app.listen(port, () => {
     console.log(`Server started on port: ${port}`);

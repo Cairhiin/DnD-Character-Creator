@@ -1,0 +1,30 @@
+@import 'variables.module';
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+
+    .modal__content {
+        place-self: center;
+        background: $tertiary-color;
+
+        .modal__header {
+            padding: 1rem;       
+            color: $secondary-color;
+        }
+
+        .modal__body {
+            padding: 1rem;
+            color: $on-background-color;
+            border-top: 1px solid darken($tertiary-color, 5);
+            border-bottom: 1px solid darken($tertiary-color, 5);
+        }
+
+        .modal__footer {
+            padding: 1rem;
+            @include flex;
+        }
+    }
+}
