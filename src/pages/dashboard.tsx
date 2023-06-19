@@ -4,7 +4,6 @@ import styles from "@/styles/Dashboard.module.scss";
 import { Character } from "@/types";
 import { GetServerSideProps } from "next";
 import CharacterList from "@/features/characters/CharacterList";
-import character from "./characters/[id]";
 import { useState } from "react";
 
 interface Props {
@@ -18,6 +17,7 @@ export default function Dashboard({
 }) {
   const { data: session, status } = useSession();
   const [characterList, setCharacterList] = useState<Character[]>(characters);
+
   const handleDelete: (id: string | undefined) => void = (id) => {
     try {
       fetch(`http://localhost:3001/api/characters/${id}`, {

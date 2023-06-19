@@ -6,7 +6,7 @@ import {
 } from "react-hook-form";
 import { produce } from "immer";
 import { ErrorField } from "./ClassSelectionForm";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import type { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import AnimatedButton from "../../components/AnimatedButton";
@@ -53,6 +53,12 @@ export default function GearForm({
 }: Props): JSX.Element {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [equipment, setEquipment] = useState<{
+    shields: [];
+    armors: [];
+    weapons: [];
+    misc: [];
+  }>({ shields: [], armors: [], weapons: [], misc: [] });
   const {
     isLoading: simpleWeaponsLoading,
     error: simpleWeaponsError,
@@ -92,6 +98,36 @@ export default function GearForm({
     setButtonIsActive(activeButtons);
   }
 
+  const fetchEquipmentData: (item: Item) => void = useCallback((item) => {
+    setLoading(true);
+    fetch(`https://www.dnd5eapi.co${item.url}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEquipment(
+          produce<any>((draftState: any) => {
+            console.log(data);
+            switch (data.armor_category) {
+              case "Shield":
+                draftState.shields.push(data);
+              case "Light":
+              case "Heavy":
+              case "Medium":
+                draftState.armors.push(data);
+              case "Weapon":
+                draftState.weapons.push(data);
+              default:
+                draftState.misc.push(data);
+            }
+          })
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to retrieve equipment data from API");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const {
     handleSubmit,
     register,
@@ -122,6 +158,7 @@ export default function GearForm({
   });
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
+    console.log(equipment);
     setForm(
       produce((formState) => {
         formState.steps.equipmentSelection = {
@@ -149,6 +186,7 @@ export default function GearForm({
     index,
     items
   ) => {
+    fetchEquipmentData(items[e.target.value]);
     update(index, { ...items[e.target.value], amount: 1 });
   };
 

@@ -1,14 +1,20 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { GetStaticProps } from "next";
-import { Background, Character, Equipment } from "@/types";
+import { produce } from "immer";
+import type { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
 import styles from "@/styles/Create.module.scss";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
-import { useFetchEquipmentData } from "@/hooks/useFetchEquipmentData";
 import { FormState } from "@/constants/formState";
 
 interface Props {
@@ -40,15 +46,17 @@ export const FormStateContext = createContext({
 export default function Create({ backgrounds, items }: Props) {
   const [form, setForm] = useState<FormState>(FORM_STATE);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [equipment, setEquipment] = useState<{
+    shields: [];
+    armors: [];
+    weapons: [];
+    misc: [];
+  }>({ shields: [], armors: [], weapons: [], misc: [] });
   const router = useRouter();
   const { data: session, status } = useSession();
   const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
   const [availableMaxIndex, setAvailableMaxIndex] = useState<number>(1);
-
-  /* NOTE: Splits the chosen equipment from the form in different categories,
-  retrieves data from the API and adds it directly to the store */
-  const { equipment, equipmentError, equipmentIsLoading } =
-    useFetchEquipmentData(form.steps.equipmentSelection.value);
 
   const setActiveIndex = (e: any) => {
     const clickedIndex = parseInt(e.dataset.tabId);
@@ -74,8 +82,48 @@ export default function Create({ backgrounds, items }: Props) {
     );
   };
 
+  const fetchEquipmentData: (item: Equipment) => void = useCallback((item) => {
+    fetch(`https://www.dnd5eapi.co${item.url}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEquipment(
+          produce<any>((draftState: any) => {
+            switch (data.armor_category) {
+              case "Shield":
+                draftState.shields.push(data);
+              case "Light":
+              case "Heavy":
+              case "Medium":
+                draftState.armors.push(data);
+              case "Weapon":
+                draftState.weapons.push(data);
+              default:
+                draftState.misc.push(data);
+            }
+          })
+        );
+      });
+  }, []);
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (!ignore) {
+      setIsLoading(true);
+      form.steps.equipmentSelection.value.forEach((item) =>
+        fetchEquipmentData(item)
+      );
+    }
+    setIsLoading(false);
+
+    return () => {
+      ignore = true;
+    };
+  }, [form.steps.equipmentSelection.value]);
+
   const onComplete = (): void => {
     // Removing unnecessary data to reduce size of the object
+
     const data: Character = {
       userId: session?.user?.user.id!,
       race: form.steps.raceSelection.value.race,
@@ -126,14 +174,14 @@ export default function Create({ backgrounds, items }: Props) {
   useEffect(() => {
     let ignore = false;
 
-    if (activeTabIndex === 9 && !ignore) {
+    if (activeTabIndex === 9 && !ignore && !isLoading) {
       onComplete();
     }
 
     return () => {
       ignore = true;
     };
-  }, [activeTabIndex, onComplete, isCompleted]);
+  }, [activeTabIndex, onComplete, isCompleted, isLoading]);
 
   return (
     <FormStateContext.Provider

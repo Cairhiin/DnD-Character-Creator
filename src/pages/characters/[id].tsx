@@ -36,7 +36,7 @@ export default function character({
   const { id } = router.query;
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const setCharacter = useCharacterStore((state) => state.setCharacter);
+
   const {
     race,
     dndClass,
