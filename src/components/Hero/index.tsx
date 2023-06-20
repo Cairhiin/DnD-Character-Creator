@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "@/styles/Hero.module.scss";
+import styles from "@/styles/Components/Hero.module.scss";
 
 interface HeroProps {
   children: ReactNode;

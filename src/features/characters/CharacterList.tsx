@@ -1,9 +1,9 @@
 import { useState } from "react";
-import styles from "@/styles/CharacterList.module.scss";
 import Link from "next/link";
 import Modal from "@/components/Modal";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/components/AnimatedButton";
 import type { Character } from "@/types";
+import styles from "@/styles/Characters/CharacterList.module.scss";
 
 const CharacterListItem: ({
   character,

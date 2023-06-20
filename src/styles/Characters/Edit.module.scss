@@ -1,0 +1,10 @@
+@import "../variables.module";
+
+.levelUp {
+  max-width: 50ch;
+
+  .buttonRow {
+    @include flex;
+    margin-block: 1rem;
+  }
+}

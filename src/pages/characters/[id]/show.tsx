@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import styles from "@/styles/Characters.module.scss";
 import { useSession } from "next-auth/react";
 import {
   calculateAbilityModifier,
@@ -17,6 +16,7 @@ import { Character, Item } from "@/types";
 import { useFetchRaceProficiencies } from "@/hooks/useFetchRaceProficiencies";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
+import styles from "@/styles/Characters/Characters.module.scss";
 
 interface Params extends ParsedUrlQuery {
   id: string;

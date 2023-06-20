@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "@/styles/Modal.module.scss";
+import styles from "@/styles/Components/Modal.module.scss";
 import AnimatedButton from "../AnimatedButton";
 
 const Modal: ({

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "@/styles/Nav.module.scss";
+import styles from "@/styles/Components/Nav.module.scss";
 import { Inter } from "next/font/google";
 import { useSession, signOut } from "next-auth/react";
 

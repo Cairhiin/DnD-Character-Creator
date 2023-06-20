@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import styles from "@/styles/TypeWriterEffect.module.scss";
+import styles from "@/styles/Components/TypeWriterEffect.module.scss";
 
 interface TypeWriterProps {
   children: ReactNode;

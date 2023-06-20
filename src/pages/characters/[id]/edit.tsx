@@ -1,10 +1,11 @@
-import AnimatedButton from "@/components/AnimatedButton";
-import styles from "@/styles/Character/Edit.module.scss";
+import { useState } from "react";
 import { Character, LevelData } from "@/types";
 import { calculateAbilityModifier } from "@/utils";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { useState } from "react";
+import AnimatedButton from "@/components/AnimatedButton";
+import styles from "@/styles/Characters/Edit.module.scss";
+import Card from "@/components/Card";
 
 interface Params extends ParsedUrlQuery {
   id: string;
@@ -42,46 +43,53 @@ export default function EditCharacter({
 
   return (
     <section className={styles.levelUp}>
-      <h2>
-        {`${character.description?.details.name} ${character.dndClass.name} ${newLevel}`}
-      </h2>
-      <div>
-        <h3>New {character.dndClass.name} Features</h3>
-        <ul>
-          {levelData.features.map((feature) => (
-            <div key={feature.index}>{feature.name}</div>
-          ))}
-        </ul>
-        <h3>Hitpoints</h3>
-        <div className={styles.levelUp__hitpoints}>
-          <div>
-            Current max HP: <span>{character.hitpoints}</span>
+      <Card
+        header={`${character.description?.details.name} ${character.dndClass.name} ${newLevel}`}
+      >
+        <div>
+          <h4>New {character.dndClass.name} Features</h4>
+          <ul>
+            {levelData.features.map((feature) => (
+              <div key={feature.index}>{feature.name}</div>
+            ))}
+          </ul>
+          <h4>Hitpoints</h4>
+          <div className={styles.levelUp__hitpoints}>
+            <div>
+              Current max HP: <span>{character.hitpoints}</span>
+            </div>
+            <div>
+              New max HP:{" "}
+              <span>
+                {character.hitpoints +
+                  (character.dndClass.hit_die ?? 6) / 2 +
+                  calculateAbilityModifier(character.abilities.CON) +
+                  1}
+              </span>
+              <AnimatedButton size="small">Choose</AnimatedButton>
+            </div>
+            <div>
+              Roll HP: <span>{newHP ?? "--"}</span>
+              <AnimatedButton
+                size="small"
+                onClick={handleClick}
+                disabled={isDisabled}
+              >
+                Roll
+              </AnimatedButton>
+              <AnimatedButton size="small" onClick={handleReset}>
+                Reset
+              </AnimatedButton>
+            </div>
           </div>
-          <div>
-            New max HP:{" "}
-            <span>
-              {character.hitpoints +
-                (character.dndClass.hit_die ?? 6) / 2 +
-                calculateAbilityModifier(character.abilities.CON) +
-                1}
-            </span>
-            <AnimatedButton size="small">Choose</AnimatedButton>
-          </div>
-          <div>
-            Roll HP: <span>{newHP ?? "--"}</span>
-            <AnimatedButton
-              size="small"
-              onClick={handleClick}
-              disabled={isDisabled}
-            >
-              Roll
-            </AnimatedButton>
-            <AnimatedButton size="small" onClick={handleReset}>
-              Reset
+          <div className={styles.buttonRow}>
+            <AnimatedButton>Save Character</AnimatedButton>
+            <AnimatedButton type="outline" variant="secondary">
+              Cancel
             </AnimatedButton>
           </div>
         </div>
-      </div>
+      </Card>
     </section>
   );
 }

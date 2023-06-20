@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
-import styles from "@/styles/Dashboard.module.scss";
 import { Character } from "@/types";
 import { GetServerSideProps } from "next";
-import CharacterList from "@/features/characters/CharacterList";
 import { useState } from "react";
+import CharacterList from "@/features/characters/CharacterList";
+import styles from "@/styles/Dashboard.module.scss";
 
 interface Props {
   characters: Array<Character>;

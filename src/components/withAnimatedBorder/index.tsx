@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import styles from "@/styles/AnimatedBorderCard.module.scss";
+import styles from "@/styles/Components/AnimatedBorderCard.module.scss";
 
 /*
     animationDuration: string formatted with time in seconds followed by an 's' fe: '10s'

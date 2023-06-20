@@ -1,4 +1,4 @@
-@import "./variables.module";
+@import "../variables.module";
 
 .btn {
   border-radius: 2px;
@@ -91,7 +91,7 @@
     }
 
     &.outline {
-      border: 2px solid $primary-color;
+      border: 1px solid $primary-color;
     }
   }
 
@@ -101,7 +101,7 @@
     }
 
     &.outline {
-      border: 2px solid darken($secondary-color, 35);
+      border: 1px solid darken($secondary-color, 35);
     }
   }
 
@@ -109,7 +109,7 @@
     background-color: $tertiary-color;
 
     &.outline {
-      border: 2px solid $tertiary-color;
+      border: 1px solid $tertiary-color;
     }
   }
 

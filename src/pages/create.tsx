@@ -6,9 +6,9 @@ import { GetStaticProps } from "next";
 import type { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
-import styles from "@/styles/Create.module.scss";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
 import { FormState } from "@/constants/formState";
+import styles from "@/styles/Create.module.scss";
 
 interface Props {
   backgrounds: Array<Background>;

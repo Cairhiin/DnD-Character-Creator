@@ -1,5 +1,5 @@
-import styles from "@/styles/Accordion.module.scss";
 import { ReactNode, useState } from "react";
+import styles from "@/styles/Components/Accordion.module.scss";
 
 interface AccordionProps {
   data: Data[];

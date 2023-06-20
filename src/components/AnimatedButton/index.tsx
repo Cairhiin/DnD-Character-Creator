@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "@/styles/AnimatedButton.module.scss";
+import styles from "@/styles/Components/AnimatedButton.module.scss";
 
 interface Props {
   type?: string;
