@@ -38,12 +38,20 @@ const CharacterListItem: ({
         </ul>
         <div className={styles.buttonRow}>
           <AnimatedButton variant="secondary" type="outline">
-            <Link href="/characters/[id]" as={`characters/${character._id}`}>
+            <Link
+              href="/characters/[id]/show"
+              as={`characters/${character._id}/show`}
+            >
               VIEW
             </Link>
           </AnimatedButton>
           <AnimatedButton variant="secondary" type="outline">
-            LEVEL
+            <Link
+              href="/characters/[id]/edit"
+              as={`characters/${character._id}/edit`}
+            >
+              LEVEL
+            </Link>
           </AnimatedButton>
           <AnimatedButton onClick={() => setIsOpen(true)}>
             DELETE
