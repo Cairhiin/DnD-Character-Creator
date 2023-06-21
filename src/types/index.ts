@@ -357,20 +357,20 @@ export interface LevelData {
     url: string;
   }>;
   spellcasting: {
-    spell_slots_level_1: 3;
-    spell_slots_level_2: 0;
-    spell_slots_level_3: 0;
-    spell_slots_level_4: 0;
-    spell_slots_level_5: 0;
+    spell_slots_level_1: number;
+    spell_slots_level_2: number;
+    spell_slots_level_3: number;
+    spell_slots_level_4: number;
+    spell_slots_level_5: number;
   };
   class_specific: {
-    aura_range: 0;
+    aura_range: number;
   };
-  index: "paladin-3";
+  index: string;
   class: {
-    index: "paladin";
-    name: "Paladin";
-    url: "/api/classes/paladin";
+    index: string;
+    name: string;
+    url: string;
   };
-  url: "/api/classes/paladin/levels/3";
+  url: string;
 }

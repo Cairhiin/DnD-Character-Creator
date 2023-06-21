@@ -4,6 +4,7 @@ import Modal from "@/components/Modal";
 import AnimatedButton from "@/components/AnimatedButton";
 import type { Character } from "@/types";
 import styles from "@/styles/Characters/CharacterList.module.scss";
+import Card from "@/components/Card";
 
 const CharacterListItem: ({
   character,
@@ -20,6 +21,8 @@ const CharacterListItem: ({
 
   return (
     <>
+      <Card title="Test">Content</Card>
+
       <div key={character._id} className={styles.character__card__header}>
         <h2>{character.description?.details.name}</h2>
         <h3>

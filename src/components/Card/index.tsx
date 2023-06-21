@@ -1,29 +1,25 @@
 import { ReactNode } from "react";
+import Image from "next/image";
 import styles from "@/styles/Components/Card.module.scss";
 
 interface Props {
-  backgroundColor?: string;
-  borderColor?: string;
-  header: string;
+  image?: string;
+  title: string;
   children: ReactNode;
 }
 
-export default function Card({
-  children,
-  backgroundColor,
-  borderColor,
-  header,
-}: Props): JSX.Element {
+export default function Card({ children, image, title }: Props): JSX.Element {
   return (
-    <div
-      className={styles.card}
-      style={{
-        backgroundColor: backgroundColor ?? "",
-        borderColor: borderColor ?? "",
-      }}
-    >
-      <h2 className={styles.card__header}>{header}</h2>
-      <div className={styles.card__content}>{children}</div>
+    <div className={styles.card}>
+      <div className={styles.card__header}>
+        <div className={styles.card__header__image}>
+          <Image src="/images/avatar.jpg" fill={true} alt="Avatar" />
+        </div>
+      </div>
+      <div className={styles.card__content}>
+        <h2 className={styles.card__title}>{title}</h2>
+        {children}
+      </div>
     </div>
   );
 }

@@ -1,19 +1,33 @@
 @import "../variables.module.scss";
 
 .card {
-  @include roundedBorder;
-  @include boxShadow;
-  background-color: $background-color;
-  border: 1px solid darken($secondary-color, 25);
+  background-color: transparent;
   color: $on-background-color;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: 1fr;
 
   &__header {
-    background-color: darken($tertiary-color, 15);
-    border-radius: 6px 6px 0 0;
-    padding: 1rem;
+    grid-row: 1 / 3;
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: subgrid;
+
+    &__image {
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      outline: 5px solid $background-color;
+    }
   }
 
   &__content {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    background-color: $background-color;
     padding: 1rem;
   }
 

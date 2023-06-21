@@ -1,308 +1,305 @@
-@import './variables.module';
+@import "./variables.module";
 
 .error {
-    @include errorMessage;
-    margin-top: 2rem;
+  @include errorMessage;
+  margin-top: 2rem;
 }
 
 .backstory {
-    height: 200px; 
+  height: 200px;
 }
 
 .main {
-    // The topbar stepper
-    .nav {
-        background-color: $tertiary-color;
-        padding: 0.3rem;
+  // The topbar stepper
+  .nav {
+    background-color: $tertiary-color;
+    padding: 0.3rem;
 
-        .create__topbar {  
-            padding: 0.6rem; 
-            max-width: 1024px;
-            margin: 0 auto;
-            text-align: center;
-            
-            ul {
-                li {
-                    display: inline;
-                    padding: 1rem 0;
+    .create__topbar {
+      padding: 0.6rem;
+      max-width: 1024px;
+      margin: 0 auto;
+      text-align: center;
 
-                    &::after {
-                        cursor: default;
-                        display: inline-block;
-                        width: 25px;
-                        height: 3px;
-                        border-top: 2px solid $on-background-color;
-                        margin: 0 0.5rem;
-                    }
+      ul {
+        li {
+          display: inline;
+          padding: 1rem 0;
 
-                    &:not(:last-child) {
-                        &::after {
-                            content: "";     
-                        }
-                    }
-                    
-                    span {
-                        font-weight: 700;
-                        padding: 0.3rem 0.6rem;
-                        border-radius: 50%;
-                        color: $primary-color-900;
-                        background-color: $on-background-color;
-                        margin-right: 0.3rem;                            
-                    }
+          &::after {
+            cursor: default;
+            display: inline-block;
+            width: 25px;
+            height: 3px;
+            border-top: 2px solid $on-background-color;
+            margin: 0 0.5rem;
+          }
 
-                    &.finished {
-                        cursor: pointer;
-                        
-                        &::after {
-                            border-top: 2px solid $success;
-                        }
-
-                        span {
-                            background-color: $success;
-                            color: $on-background-color;
-                        }
-                    }
-                }
+          &:not(:last-child) {
+            &::after {
+              content: "";
             }
+          }
+
+          span {
+            font-weight: 700;
+            padding: 0.3rem 0.6rem;
+            border-radius: 50%;
+            color: $primary-color-900;
+            background-color: $on-background-color;
+            margin-right: 0.3rem;
+          }
+
+          &.finished {
+            cursor: pointer;
+
+            &::after {
+              border-top: 2px solid $success;
+            }
+
+            span {
+              background-color: $success;
+              color: $on-background-color;
+            }
+          }
         }
+      }
+    }
+  }
+
+  .create__card {
+    padding: 0 1rem;
+    line-height: 1.5rem;
+    border-left: 5px solid $secondary-color;
+    font-weight: 700;
+    color: lighten($secondary-color, 35);
+
+    &__header {
+      color: $secondary-color;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
     }
 
-    .create__card {
-        padding: 0 1rem;
-        line-height: 1.5rem;
-        border-left: 5px solid $secondary-color;
-        font-weight: 700;
-        color: lighten($secondary-color, 35);
+    &__content {
+      .skill__list {
+        font-weight: 400;
+        color: $on-background-color;
 
-        &__header {
-            color: $secondary-color;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        
-        &__content {
-            .skill__list {
-                font-weight: 400;
-                color: $on-background-color;
-
-                span {
-                    color: $secondary-color;
-                }
-
-                h3 {
-                    margin-top: 0.5rem;
-                    text-transform: uppercase;
-                    color: lighten($secondary-color, 35);
-                }
-            }
-
-            ul, span {
-                font-weight: 400;
-                color: $on-background-color;
-                display: inline;
-                text-transform: lowercase;
-
-                li {
-                    display: inline;
-                }
-            }
-
-            div {
-                padding-top: 0.5rem;
-            }
-
-            .create__description__text {
-                p {
-                    color: $on-background-color;
-                    text-transform: none;
-                    font-weight: 400;
-                }
-
-                span {
-                    color: $secondary-color
-                }
-            }
-        }
-    }
-}
-
-.create__layout {   
-    display: grid;
-    grid-template-columns: 1fr 4fr 6fr 1fr;
-    grid-auto-rows: 1fr;
-    gap: 2rem;
-
-    .character__creation__form {
-        position: relative;
-        background: linear-gradient(rgba($tertiary-color, 0.3) 20%, rgba($tertiary-color, 0.1));
-        border: 1px solid rgba($tertiary-color, 0.4);
-        min-height: 250px;
-        padding: 1rem 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        justify-content: space-between;
-        @include roundedBorder;
-
-        &__column {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.5rem;
-
-            .character__creation__form__flex {
-                display: flex;
-                gap: 1rem;
-                align-items: center;
-                justify-content: flex-start;
-                margin: 1rem 0;
-
-                &.choose__weapon {
-                    p {
-                        margin: 0;
-                    }
-                    :last-child {
-                        flex-grow: 1;
-                    }
-                }
-            }
-
-            .create__form__special__button {
-                border-radius: 4px;
-                background-color: $primary-color;
-                color: white;
-                text-transform: uppercase;
-                padding: 0.5rem 1rem;
-                cursor: pointer;
-                @include transitionAll;
-                min-width: 50px;
-                text-align: center;
-                border: none;
-
-                &:focus-visible {                  
-                    outline: 2px solid white;
-                }
-
-                &:hover {
-                    background-color: darken($primary-color, 25);
-                }
-            }
-
-            label {
-                display: inline-block;
-                vertical-align: middle;
-                position: relative;
-                line-height: 18px;
-                padding-left: 25px;
-                cursor: pointer;
-    
-                &:hover {
-                    color: lighten($secondary-color, 35);
-                }
-
-                &.checkbox {
-                    padding: 0;
-                    @include roundedBorder;
-
-                    &::after {
-                        // Hack to set the data-label attribute as label text
-                        content: attr(data-label); 
-                        text-transform: capitalize;
-                        margin-left: 2rem;
-                        display: inline-block;
-                        min-width: 200px;
-                        vertical-align: middle;
-                    }
-
-                    &::before {
-                        position: absolute;
-                    }
-                }
-            }
-
-            .create__form__points {
-                margin-top: 1rem;
-                padding: 0;
-                font-size: 1rem;
-                text-align: right;
-
-                span {
-                    margin-left: 1rem;
-                    display: inline-block;
-                    color: lighten($secondary-color, 35);
-                    font-weight: 700;
-                    font-size: 1.5rem;
-                    background-color: $tertiary-color;
-                    border-radius: 50%;
-                    padding: 5px;
-                    width: 40px;
-                    text-align: center;
-                }
-            }    
-
-            .create__form__abilities__label {
-                padding-left: 0;
-                margin-bottom: 0.5rem;
-
-                &:hover {
-                    color: $on-background-color;
-                }
-            }
-        }
-
-        .create__form__buttonRow {
-            margin: 2rem 0 0 0;
-            display: flex;
-            gap: 1rem;
+        span {
+          color: $secondary-color;
         }
 
         h3 {
-            text-transform: uppercase;
-            margin: 0 0 1rem 0;
-            text-align: center;
-            color: lighten($secondary-color, 35);
-            position: relative;
+          margin-top: 0.5rem;
+          text-transform: uppercase;
+          color: lighten($secondary-color, 35);
+        }
+      }
+
+      ul,
+      span {
+        font-weight: 400;
+        color: $on-background-color;
+        display: inline;
+        text-transform: lowercase;
+
+        li {
+          display: inline;
+        }
+      }
+
+      div {
+        padding-top: 0.5rem;
+      }
+
+      .create__description__text {
+        p {
+          color: $on-background-color;
+          text-transform: none;
+          font-weight: 400;
         }
 
-        &__method {
-            padding: 0 0 1rem 0;
-            
-            label {
-                margin-right: 1rem;
-            }
-
-            select {
-                width: 150px;
-            }
+        span {
+          color: $secondary-color;
         }
-
-        .create__form__abilities {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-            gap: 0.5rem;
-            
-            .create__form__abilities__ab {
-                display: flex;
-                gap: 0.5rem;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-        
-            select {
-                width: 75px;
-            }           
-        }
+      }
     }
+  }
+}
+
+.create__layout {
+  display: grid;
+  grid-template-columns: 1fr 4fr 6fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 2rem;
+
+  .character__creation__form {
+    @include backgroundArea;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    @include roundedBorder;
+
+    &__column {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+
+      .character__creation__form__flex {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 1rem 0;
+
+        &.choose__weapon {
+          p {
+            margin: 0;
+          }
+          :last-child {
+            flex-grow: 1;
+          }
+        }
+      }
+
+      .create__form__special__button {
+        border-radius: 4px;
+        background-color: $primary-color;
+        color: white;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        @include transitionAll;
+        min-width: 50px;
+        text-align: center;
+        border: none;
+
+        &:focus-visible {
+          outline: 2px solid white;
+        }
+
+        &:hover {
+          background-color: darken($primary-color, 25);
+        }
+      }
+
+      label {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        line-height: 18px;
+        padding-left: 25px;
+        cursor: pointer;
+
+        &:hover {
+          color: lighten($secondary-color, 35);
+        }
+
+        &.checkbox {
+          padding: 0;
+          @include roundedBorder;
+
+          &::after {
+            // Hack to set the data-label attribute as label text
+            content: attr(data-label);
+            text-transform: capitalize;
+            margin-left: 2rem;
+            display: inline-block;
+            min-width: 200px;
+            vertical-align: middle;
+          }
+
+          &::before {
+            position: absolute;
+          }
+        }
+      }
+
+      .create__form__points {
+        margin-top: 1rem;
+        padding: 0;
+        font-size: 1rem;
+        text-align: right;
+
+        span {
+          margin-left: 1rem;
+          display: inline-block;
+          color: lighten($secondary-color, 35);
+          font-weight: 700;
+          font-size: 1.5rem;
+          background-color: $tertiary-color;
+          border-radius: 50%;
+          padding: 5px;
+          width: 40px;
+          text-align: center;
+        }
+      }
+
+      .create__form__abilities__label {
+        padding-left: 0;
+        margin-bottom: 0.5rem;
+
+        &:hover {
+          color: $on-background-color;
+        }
+      }
+    }
+
+    .create__form__buttonRow {
+      margin: 2rem 0 0 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    h3 {
+      text-transform: uppercase;
+      margin: 0 0 1rem 0;
+      text-align: center;
+      color: lighten($secondary-color, 35);
+      position: relative;
+    }
+
+    &__method {
+      padding: 0 0 1rem 0;
+
+      label {
+        margin-right: 1rem;
+      }
+
+      select {
+        width: 150px;
+      }
+    }
+
+    .create__form__abilities {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+
+      .create__form__abilities__ab {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      select {
+        width: 75px;
+      }
+    }
+  }
 }
 
 .create__accordion__grid {
-    display: grid;
-    grid-template-columns: 3fr 9fr;
-    row-gap: 1rem;
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  row-gap: 1rem;
 }
 
 .create__attributes__card {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }

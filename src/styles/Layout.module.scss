@@ -1,1 +1,49 @@
-@import 'variables.module';
+@import "variables.module";
+
+.main {
+  font-size: $fs-000;
+  overflow-x: hidden;
+  min-height: 100svh;
+  background: radial-gradient(
+      at 40% 69%,
+      hsla(200, 46%, 5%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 100% 100%, hsla(0, 47%, 11%, 1) 0px, transparent 50%),
+    radial-gradient(at 3% 5%, hsla(0, 72%, 11%, 1) 0px, transparent 50%),
+    radial-gradient(at 44% 4%, hsla(200, 47%, 5%, 1) 0px, transparent 50%);
+  background-size: 400% 400%;
+  animation: gradient 25s ease infinite;
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion) {
+    animation: gradient 125s ease infinite;
+  }
+
+  h2 {
+    font-size: $fs-400;
+  }
+
+  h3 {
+    font-size: $fs-300;
+  }
+
+  h4 {
+    font-size: $fs-200;
+  }
+
+  h5 {
+    font-size: $fs-100;
+  }
+}
