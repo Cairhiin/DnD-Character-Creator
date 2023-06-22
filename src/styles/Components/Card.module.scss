@@ -9,30 +9,17 @@
 
   &:hover {
     .card__header__image {
-      animation: bounce 1s ease;
+      border-radius: 0;
+      width: 100%;
+      outline: none;
+      transition: border-radius 0.5s ease-in, width 0.5s 0.5s ease-in-out;
 
-      @keyframes bounce {
-        20% {
-          transform: translateY(0%);
-        }
-        40% {
-          transform: translateY(-15%);
-        }
-        60% {
-          transform: translateY(0%);
-        }
-        80% {
-          transform: translateY(-7%);
-        }
-        90% {
-          transform: translateY(0%);
-        }
-        95% {
-          transform: translateY(-3%);
-        }
-        100% {
-          transform: translateY(0);
-        }
+      @media (prefers-reduced-motion) {
+        width: 100px;
+        outline: 5px solid $background-color;
+        border-radius: 50%;
+        @include transitionAll;
+        transform: scale(1.1);
       }
     }
   }
@@ -47,10 +34,15 @@
       margin: 0 auto;
       position: relative;
       overflow: hidden;
+      transition: width 0.5s 0s ease-in-out, border-radius 0.5s 0.5s ease-out;
       height: 100px;
       width: 100px;
       border-radius: 50%;
       outline: 5px solid $background-color;
+
+      @media (prefers-reduced-motion) {
+        transition: transform 1s ease-in-out;
+      }
 
       img {
         object-fit: cover;
@@ -61,27 +53,28 @@
   &__content {
     grid-row: 2 / 4;
     grid-column: 1;
-    background-color: $background-color;
-    padding: 55px 1rem 1rem 1rem;
+    background-color: rgba($background-color, 0.7);
+    text-align: center;
+    padding: 60px 1rem 1rem 1rem;
+    @include roundedBorder;
+    @include boxShadow;
   }
 
   h2 {
     color: $secondary-color;
+    text-align: center;
   }
 
   h3,
   h4 {
     font-weight: 400;
     color: lighten($secondary-color, 35);
+    margin-bottom: 1rem;
   }
 
   h2,
   h3,
   h4 {
     text-transform: uppercase;
-
-    &:not(&:first-child) {
-      margin-top: 1em;
-    }
   }
 }

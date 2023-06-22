@@ -21,16 +21,11 @@ const CharacterListItem: ({
 
   return (
     <>
-      <Card title="Test">Content</Card>
-
-      <div key={character._id} className={styles.character__card__header}>
-        <h2>{character.description?.details.name}</h2>
-        <h3>
-          {character.race.name} {character.dndClass.name} {character.level}
-        </h3>
-      </div>
-      <div className={styles.character__card__content}>
-        <ul className={styles.character__card__abilities}>
+      <Card
+        title={character.description?.details.name}
+        subtitle={`${character.race.name} ${character.dndClass.name} ${character.level}`}
+      >
+        <ul>
           {Object.entries(character.abilities).map(
             ([attr, val]: [attr: string, val: number]): JSX.Element => (
               <li key={attr}>
@@ -74,7 +69,7 @@ const CharacterListItem: ({
             </p>
           </Modal>
         </div>
-      </div>
+      </Card>
     </>
   );
 };
