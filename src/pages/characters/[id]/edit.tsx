@@ -5,7 +5,6 @@ import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import AnimatedButton from "@/components/AnimatedButton";
 import styles from "@/styles/Characters/Edit.module.scss";
-import Card from "@/components/Card";
 
 interface Params extends ParsedUrlQuery {
   id: string;
