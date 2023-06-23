@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Character, LevelData } from "@/types";
 import { calculateAbilityModifier } from "@/utils";
 import { GetServerSideProps } from "next";
+import { useSession } from "next-auth/react";
 import { ParsedUrlQuery } from "querystring";
 import AnimatedButton from "@/components/AnimatedButton";
 import styles from "@/styles/Characters/Edit.module.scss";
@@ -19,7 +20,9 @@ export default function EditCharacter({
   character,
   levelData,
 }: Props): JSX.Element {
+  const { data: session, status } = useSession();
   const [newHP, setNewHP] = useState<number>();
+  const [error, setError] = useState<string>();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const newLevel = character.level + 1;
 
@@ -38,6 +41,35 @@ export default function EditCharacter({
   const handleReset: () => void = () => {
     setIsDisabled(false);
     setNewHP(undefined);
+    setError(undefined);
+  };
+
+  const saveCharacter: () => void = () => {
+    const { _id } = character;
+    if (newHP && !error) {
+      console.log(_id);
+      character.hitpoints = newHP;
+      character.level++;
+      fetch(`http://localhost:3001/api/characters/${_id}`, {
+        method: "PUT",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.user?.token}`,
+        },
+        body: JSON.stringify(character),
+      })
+        .then((res) => res)
+        .then((data) => {
+          console.log(data);
+          return data.json;
+        })
+        .catch((err) => console.error(err))
+        .finally((data) => console.log(data));
+    } else {
+      setError("Please adjust the hitpoint value of your character.");
+    }
   };
 
   return (
@@ -80,7 +112,9 @@ export default function EditCharacter({
           </div>
         </div>
         <div className={styles.buttonRow}>
-          <AnimatedButton>Save Character</AnimatedButton>
+          <AnimatedButton onClick={saveCharacter}>
+            Save Character
+          </AnimatedButton>
           <AnimatedButton type="outline" variant="secondary">
             Cancel
           </AnimatedButton>

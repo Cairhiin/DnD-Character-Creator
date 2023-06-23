@@ -19,7 +19,12 @@ export default function Card({
     <div className={styles.card}>
       <div className={styles.card__header}>
         <div className={styles.card__header__image}>
-          <Image src={image ?? "/images/avatar.jpg"} fill={true} alt="Avatar" />
+          <Image
+            src={image ?? "/images/avatar.jpg"}
+            fill={true}
+            sizes="(max-width: 300px)"
+            alt="Avatar"
+          />
         </div>
       </div>
       <div className={styles.card__content}>
