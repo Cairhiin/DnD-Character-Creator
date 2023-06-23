@@ -65,8 +65,7 @@ export default function EditCharacter({
           console.log(data);
           return data.json;
         })
-        .catch((err) => console.error(err))
-        .finally((data) => console.log(data));
+        .catch((err) => console.error(err));
     } else {
       setError("Please adjust the hitpoint value of your character.");
     }

@@ -25,7 +25,7 @@ const CharacterListItem: ({
         title={character.description?.details.name}
         subtitle={`${character.race.name} ${character.dndClass.name} ${character.level}`}
       >
-        <ul>
+        <ul className={styles.character__list__attributes}>
           {Object.entries(character.abilities).map(
             ([attr, val]: [attr: string, val: number]): JSX.Element => (
               <li key={attr}>

@@ -20,6 +20,7 @@
 }
 
 .characterSheet {
+  grid-column: 2 / 3;
   @include backgroundArea;
   @include roundedBorder;
   max-width: 1200px;

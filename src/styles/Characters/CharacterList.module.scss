@@ -11,9 +11,26 @@
     grid-template-rows: 1fr;
     gap: 1rem;
 
+    .character__list__attributes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      span {
+        color: lighten($secondary-color, 35);
+      }
+    }
+
     .buttonRow {
-      @include flex;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
       margin-top: 2rem;
+
+      & > * {
+        flex: 1;
+      }
     }
   }
 }

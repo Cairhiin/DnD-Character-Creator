@@ -1,6 +1,9 @@
 @import "../variables.module";
 
 .levelUp {
+  margin-block: 2rem;
+  grid-column: 2 / 3;
+
   .buttonRow {
     @include flex;
     margin-block: 1rem;
