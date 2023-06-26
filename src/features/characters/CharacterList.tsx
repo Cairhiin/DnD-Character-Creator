@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import Modal from "@/components/Modal";
+import Modal from "@/features/ui/Modal/";
 import AnimatedButton from "@/features/ui/AnimatedButton";
 import type { Character } from "@/types";
 import styles from "@/styles/Characters/CharacterList.module.scss";

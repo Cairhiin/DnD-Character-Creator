@@ -3,6 +3,8 @@
 .layout {
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 50px 1fr;
+  row-gap: 2rem;
   overflow-x: hidden;
   min-height: 100svh;
   background: linear-gradient(hsla(200, 46%, 5%, 1), $primary-color-900);

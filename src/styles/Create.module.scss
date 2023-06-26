@@ -9,119 +9,121 @@
   height: 200px;
 }
 
-.main {
-  // The topbar stepper
-  .nav {
-    background-color: $tertiary-color;
-    padding: 0.3rem;
+.nav {
+  grid-column: 1 / 4;
+  background-color: $tertiary-color;
+  padding: 0.3rem;
 
-    .create__topbar {
-      padding: 0.6rem;
-      max-width: 1024px;
-      margin: 0 auto;
-      text-align: center;
+  .create__topbar {
+    padding: 0.6rem;
+    max-width: 1024px;
+    margin: 0 auto;
+    text-align: center;
 
-      ul {
-        li {
-          display: inline;
-          padding: 1rem 0;
+    ul {
+      li {
+        display: inline;
+        padding: 1rem 0;
+
+        &::after {
+          cursor: default;
+          display: inline-block;
+          width: 25px;
+          height: 3px;
+          border-top: 2px solid $on-background-color;
+          margin: 0 0.5rem;
+        }
+
+        &:not(:last-child) {
+          &::after {
+            content: "";
+          }
+        }
+
+        span {
+          font-weight: 700;
+          padding: 0.3rem 0.6rem;
+          border-radius: 50%;
+          color: $primary-color-900;
+          background-color: $on-background-color;
+          margin-right: 0.3rem;
+        }
+
+        &.finished {
+          cursor: pointer;
 
           &::after {
-            cursor: default;
-            display: inline-block;
-            width: 25px;
-            height: 3px;
-            border-top: 2px solid $on-background-color;
-            margin: 0 0.5rem;
-          }
-
-          &:not(:last-child) {
-            &::after {
-              content: "";
-            }
+            border-top: 2px solid $success;
           }
 
           span {
-            font-weight: 700;
-            padding: 0.3rem 0.6rem;
-            border-radius: 50%;
-            color: $primary-color-900;
-            background-color: $on-background-color;
-            margin-right: 0.3rem;
-          }
-
-          &.finished {
-            cursor: pointer;
-
-            &::after {
-              border-top: 2px solid $success;
-            }
-
-            span {
-              background-color: $success;
-              color: $on-background-color;
-            }
+            background-color: $success;
+            color: $on-background-color;
           }
         }
       }
     }
   }
+}
 
-  .create__card {
-    padding: 0 1rem;
-    line-height: 1.5rem;
-    border-left: 5px solid $secondary-color;
-    font-weight: 700;
-    color: lighten($secondary-color, 35);
+.create__main {
+  grid-column: 2 / 3;
+}
 
-    &__header {
-      color: $secondary-color;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
+.create__card {
+  padding: 0 1rem;
+  line-height: 1.5rem;
+  border-left: 5px solid $secondary-color;
+  font-weight: 700;
+  color: lighten($secondary-color, 35);
+
+  &__header {
+    color: $secondary-color;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  &__content {
+    .skill__list {
+      font-weight: 400;
+      color: $on-background-color;
+
+      span {
+        color: $secondary-color;
+      }
+
+      h3 {
+        margin-top: 0.5rem;
+        text-transform: uppercase;
+        color: lighten($secondary-color, 35);
+      }
     }
 
-    &__content {
-      .skill__list {
-        font-weight: 400;
-        color: $on-background-color;
+    ul,
+    span {
+      font-weight: 400;
+      color: $on-background-color;
+      display: inline;
+      text-transform: lowercase;
 
-        span {
-          color: $secondary-color;
-        }
-
-        h3 {
-          margin-top: 0.5rem;
-          text-transform: uppercase;
-          color: lighten($secondary-color, 35);
-        }
-      }
-
-      ul,
-      span {
-        font-weight: 400;
-        color: $on-background-color;
+      li {
         display: inline;
-        text-transform: lowercase;
+      }
+    }
 
-        li {
-          display: inline;
-        }
+    div {
+      padding-top: 0.5rem;
+    }
+
+    .create__description__text {
+      p {
+        color: $on-background-color;
+        text-transform: none;
+        font-weight: 400;
       }
 
-      div {
-        padding-top: 0.5rem;
-      }
-
-      .create__description__text {
-        p {
-          color: $on-background-color;
-          text-transform: none;
-          font-weight: 400;
-        }
-
-        span {
-          color: $secondary-color;
-        }
+      span {
+        color: $secondary-color;
       }
     }
   }
