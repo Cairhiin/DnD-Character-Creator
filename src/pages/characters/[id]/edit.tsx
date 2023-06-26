@@ -4,7 +4,7 @@ import { calculateAbilityModifier } from "@/utils";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import { ParsedUrlQuery } from "querystring";
-import AnimatedButton from "@/components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import styles from "@/styles/Characters/Edit.module.scss";
 
 interface Params extends ParsedUrlQuery {

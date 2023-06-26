@@ -8,7 +8,7 @@ import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 
 interface ClassFormInput {
   dndClass: DndClass;

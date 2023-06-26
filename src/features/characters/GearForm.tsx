@@ -9,7 +9,7 @@ import { ErrorField } from "./ClassSelectionForm";
 import { useCallback, useContext, useEffect, useState } from "react";
 import type { EquipmentFormInput, Equipment, Item } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import styles from "@/styles/Create.module.scss";
 import { useFetchWeapons } from "@/hooks/useFetchWeapons";
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Modal from "@/components/Modal";
-import AnimatedButton from "@/components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import type { Character } from "@/types";
 import styles from "@/styles/Characters/CharacterList.module.scss";
-import Card from "@/components/Card";
+import Card from "@/features/ui/Card";
 
 const CharacterListItem: ({
   character,
