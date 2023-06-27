@@ -325,11 +325,18 @@ export interface EquipmentChoices {
   }>;
 }
 
+export interface SubClass {
+  index: string;
+  name: string;
+  url: string;
+}
+
 export interface Character {
   _id?: string;
   userId: string;
   race: ApiRace;
   dndClass: ApiClass;
+  subClass: SubClass;
   background: Background;
   hitpoints: number;
   abilities: AbilityScores;

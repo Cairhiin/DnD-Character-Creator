@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Head from "next/head";
-import withTypeWriterEffect from "@/components/TypewriterEffect";
-import Hero from "@/components/Hero";
+import withTypeWriterEffect from "@/features/ui/TypewriterEffect";
+import Hero from "@/features/ui/Hero";
 import styles from "@/styles/Home.module.scss";
 import { useSession } from "next-auth/react";
 

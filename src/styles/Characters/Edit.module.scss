@@ -1,8 +1,31 @@
 @import "../variables.module";
 
 .levelUp {
+  color: $on-background-color;
   margin-block: 2rem;
   grid-column: 2 / 3;
+
+  &__hitpoints {
+    @include flex;
+
+    & > * {
+      flex: 1;
+      max-width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    input {
+      display: block;
+      color: white;
+      font-weight: 700;
+      width: 6ch;
+      padding-inline: 0;
+      text-align: right;
+    }
+  }
 
   .buttonRow {
     @include flex;

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Character, LevelData } from "@/types";
+import { Character, LevelData, SubClass } from "@/types";
 import { calculateAbilityModifier } from "@/utils";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import { ParsedUrlQuery } from "querystring";
-import AnimatedButton from "@/features/ui/AnimatedButton";
 import styles from "@/styles/Characters/Edit.module.scss";
+import EditCharacterForm from "@/features/characters/EditCharacterForm";
 
 interface Params extends ParsedUrlQuery {
   id: string;
@@ -14,17 +14,18 @@ interface Params extends ParsedUrlQuery {
 interface Props {
   character: Character;
   levelData: LevelData;
+  subClass: SubClass;
 }
 
 export default function EditCharacter({
   character,
   levelData,
+  subClass,
 }: Props): JSX.Element {
   const { data: session, status } = useSession();
   const [newHP, setNewHP] = useState<number>();
-  const [error, setError] = useState<string>();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const newLevel = character.level + 1;
+  const [error, setError] = useState<string>();
 
   const handleClick: () => void = () => {
     const diceRoll = Math.floor(
@@ -43,6 +44,8 @@ export default function EditCharacter({
     setNewHP(undefined);
     setError(undefined);
   };
+
+  const newLevel = character.level + 1;
 
   const saveCharacter: () => void = () => {
     const { _id } = character;
@@ -74,51 +77,16 @@ export default function EditCharacter({
   return (
     <section className={styles.levelUp}>
       <h2>{`${character.description?.details.name} ${character.dndClass.name} ${newLevel}`}</h2>
-      <div>
-        <h4>New {character.dndClass.name} Features</h4>
-        <ul>
-          {levelData.features.map((feature) => (
-            <div key={feature.index}>{feature.name}</div>
-          ))}
-        </ul>
-        <h4>Hitpoints</h4>
-        <div className={styles.levelUp__hitpoints}>
-          <div>
-            Current max HP: <span>{character.hitpoints}</span>
-          </div>
-          <div>
-            New max HP:{" "}
-            <span>
-              {character.hitpoints +
-                (character.dndClass.hit_die ?? 6) / 2 +
-                calculateAbilityModifier(character.abilities.CON) +
-                1}
-            </span>
-            <AnimatedButton size="small">Choose</AnimatedButton>
-          </div>
-          <div>
-            Roll HP: <span>{newHP ?? "--"}</span>
-            <AnimatedButton
-              size="small"
-              onClick={handleClick}
-              disabled={isDisabled}
-            >
-              Roll
-            </AnimatedButton>
-            <AnimatedButton size="small" onClick={handleReset}>
-              Reset
-            </AnimatedButton>
-          </div>
-        </div>
-        <div className={styles.buttonRow}>
-          <AnimatedButton onClick={saveCharacter}>
-            Save Character
-          </AnimatedButton>
-          <AnimatedButton type="outline" variant="secondary">
-            Cancel
-          </AnimatedButton>
-        </div>
-      </div>
+      <EditCharacterForm
+        character={character}
+        levelData={levelData}
+        subClass={subClass}
+        newHP={newHP}
+        isDisabled={isDisabled}
+        saveCharacter={saveCharacter}
+        handleClick={handleClick}
+        handleReset={handleReset}
+      ></EditCharacterForm>
     </section>
   );
 }
@@ -136,10 +104,33 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   );
   const levelRes: LevelData = await level.json();
 
+  const levelUp = results.level + 1;
+  const isEligbleForSubClass =
+    (levelUp === 2 &&
+      (results.dndClass.index === "druid" ||
+        results.dndClass.index === "wizard")) ||
+    (levelUp === 3 &&
+      !(
+        results.dndClass.index === "druid" ||
+        results.dndClass.index === "wizard" ||
+        results.dndClass.index === "cleric" ||
+        results.dndClass.index === "sorcerer" ||
+        results.dndClass.index === "warlock"
+      ));
+  let subClassRes;
+  if (isEligbleForSubClass) {
+    const subClass = await fetch(
+      `https://www.dnd5eapi.co/api/classes/${results.dndClass.index}/subclasses`
+    );
+
+    subClassRes = await subClass.json();
+  }
+
   return {
     props: {
       character: results,
       levelData: levelRes,
+      subClass: subClassRes.results[0],
     },
   };
 };
