@@ -1,5 +1,22 @@
 @import "../variables.module";
 
+.attr__button {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: $tertiary-color;
+  display: inline-block;
+  @include roundedBorder;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($tertiary-color, 15);
+  }
+}
+
 .levelUp {
   color: $on-background-color;
   margin-block: 2rem;

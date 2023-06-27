@@ -49,9 +49,21 @@ export default function EditCharacterForm({
     console.log(data);
   };
 
-  const handleRemove: (attr: string) => void = (attr) => {
-    if (availableAttrPoints < 2) {
-      console.log((character.abilities as any)[attr]);
+  const handleRemove: (
+    e:
+      | React.MouseEvent<HTMLDivElement>
+      | React.KeyboardEvent<HTMLDivElement>
+      | undefined,
+    attr: string
+  ) => void = (e, attr) => {
+    let pressedkey;
+    if (e?.type === "keyup") {
+      pressedkey = (e as any)["keyCode"];
+    }
+    if (
+      availableAttrPoints < 2 &&
+      (!pressedkey || pressedkey === 32 || pressedkey === 13)
+    ) {
       if ((attributes as any)[attr] > (character.abilities as any)[attr]) {
         setAttributes(
           produce((draft) => {
@@ -63,8 +75,21 @@ export default function EditCharacterForm({
     }
   };
 
-  const handleAdd: (attr: string) => void = (attr) => {
-    if (availableAttrPoints > 0) {
+  const handleAdd: (
+    e:
+      | React.MouseEvent<HTMLDivElement>
+      | React.KeyboardEvent<HTMLDivElement>
+      | undefined,
+    attr: string
+  ) => void = (e, attr) => {
+    let pressedkey;
+    if (e?.type === "keyup") {
+      pressedkey = (e as any)["keyCode"];
+    }
+    if (
+      availableAttrPoints > 0 &&
+      (!pressedkey || pressedkey === 32 || pressedkey === 13)
+    ) {
       setAttributes(
         produce((draft) => {
           (draft as any)[attr]++;
@@ -121,14 +146,28 @@ export default function EditCharacterForm({
             <div onClick={handleReset}>Reset</div>
           </div>
         </div>
-        {(character.level + 1) % 4 === 0 && <h4>Add Attribute Points</h4>}
+        {(character.level + 1) % 4 === 0 && <h4>Asign 2 Attribute Points</h4>}
         {
           /* (character.level + 1) % 4 === 0 && */
           Object.entries(attributes).map(([ability, value]) => (
             <div key={ability}>
               {ability}: {value}{" "}
-              <div onClick={() => handleRemove(ability)}>-</div>
-              <div onClick={() => handleAdd(ability)}>+</div>
+              <div
+                onClick={(e) => handleRemove(e, ability)}
+                className={styles.attr__button}
+                tabIndex={0}
+                onKeyUp={(e) => handleRemove(e, ability)}
+              >
+                -
+              </div>
+              <div
+                onClick={(e) => handleAdd(e, ability)}
+                className={styles.attr__button}
+                tabIndex={0}
+                onKeyUp={(e) => handleAdd(e, ability)}
+              >
+                +
+              </div>
             </div>
           ))
         }
