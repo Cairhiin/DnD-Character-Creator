@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Character, LevelData, SubClass } from "@/types";
+import { Character, LevelData, SubClass, SubClassFeatures } from "@/types";
 import { calculateAbilityModifier } from "@/utils";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
@@ -16,12 +16,14 @@ interface Props {
   character: Character;
   levelData: LevelData;
   subClass: SubClass;
+  subClassFeatures: SubClassFeatures;
 }
 
 export default function EditCharacter({
   character,
   levelData,
   subClass,
+  subClassFeatures,
 }: Props): JSX.Element {
   const { data: session, status } = useSession();
   const [newHP, setNewHP] = useState<number>();
@@ -81,6 +83,7 @@ export default function EditCharacter({
         character={character}
         levelData={levelData}
         subClass={subClass}
+        subClassFeatures={subClassFeatures}
         newHP={newHP}
         isDisabled={isDisabled}
         saveCharacter={saveCharacter}
@@ -106,6 +109,12 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
 
   const levelUp = results.level + 1;
   const isEligble = isEligbleForSubClass(levelUp, results.dndClass.index);
+  const subClassFeatures = await fetch(
+    `https://www.dnd5eapi.co/api/subclasses/${results.subClass?.index}/levels/${
+      results.level + 1
+    }/features`
+  );
+  const subClassFeaturesRes = await subClassFeatures.json();
 
   let subClassRes;
   if (isEligble) {
@@ -121,6 +130,7 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
       character: results,
       levelData: levelRes,
       subClass: subClassRes.results[0],
+      subClassFeatures: subClassFeaturesRes,
     },
   };
 };

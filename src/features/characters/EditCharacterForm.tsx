@@ -1,15 +1,22 @@
+import { useState } from "react";
 import { produce } from "immer";
-import type { AbilityScores, Character, LevelData, SubClass } from "@/types";
+import type {
+  AbilityScores,
+  Character,
+  LevelData,
+  SubClass,
+  SubClassFeatures,
+} from "@/types";
 import { calculateAbilityModifier } from "@/utils";
-import { SubmitHandler, set, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import AnimatedButton from "@/features/ui/AnimatedButton";
 import styles from "@/styles/Characters/Edit.module.scss";
-import { useState } from "react";
 
 interface Props {
   character: Character;
   levelData: LevelData;
   subClass?: SubClass;
+  subClassFeatures?: SubClassFeatures;
   isDisabled: boolean;
   newHP?: number;
   saveCharacter: () => void;
@@ -19,12 +26,14 @@ interface Props {
 
 interface FormData {
   hitpoints: number;
+  roll: number;
 }
 
 export default function EditCharacterForm({
   character,
   levelData,
   subClass,
+  subClassFeatures,
   isDisabled,
   newHP,
   saveCharacter,
@@ -38,7 +47,7 @@ export default function EditCharacterForm({
   const {
     handleSubmit,
     register,
-    control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {},
@@ -48,6 +57,12 @@ export default function EditCharacterForm({
   const saveData: SubmitHandler<FormData> = (data): void => {
     console.log(data);
   };
+
+  const newHitpoints =
+    character.hitpoints +
+    (character.dndClass.hit_die ?? 6) / 2 +
+    calculateAbilityModifier(character.abilities.CON) +
+    1;
 
   const handleRemove: (
     e:
@@ -109,6 +124,10 @@ export default function EditCharacterForm({
           ))}
         </ul>
         {!!subClass && <h4>New subclass: {subClass.name}</h4>}
+        {subClassFeatures?.count !== 0 && <h4>Subclass New Features</h4>}
+        {subClassFeatures?.results.map((feature) => (
+          <div>{feature.name}</div>
+        ))}
         <h4>Hitpoints</h4>
         <div>
           Current max HP: <span>{character.hitpoints}</span>
@@ -120,12 +139,7 @@ export default function EditCharacterForm({
               {...register("hitpoints")}
               type="number"
               readOnly
-              value={
-                character.hitpoints +
-                (character.dndClass.hit_die ?? 6) / 2 +
-                calculateAbilityModifier(character.abilities.CON) +
-                1
-              }
+              value={newHitpoints}
             />
             <div>Choose</div>
           </div>
@@ -134,19 +148,14 @@ export default function EditCharacterForm({
             <input
               readOnly
               type="number"
-              value={
-                newHP ??
-                character.hitpoints +
-                  (character.dndClass.hit_die ?? 6) / 2 +
-                  calculateAbilityModifier(character.abilities.CON) +
-                  1
-              }
+              {...register("roll")}
+              value={newHP ?? newHitpoints}
             />
             <div onClick={handleClick}>Roll</div>
             <div onClick={handleReset}>Reset</div>
           </div>
         </div>
-        {(character.level + 1) % 4 === 0 && <h4>Asign 2 Attribute Points</h4>}
+        {(character.level + 1) % 4 === 0 && <h4>Assign 2 Attribute Points</h4>}
         {
           /* (character.level + 1) % 4 === 0 && */
           Object.entries(attributes).map(([ability, value]) => (
@@ -175,11 +184,21 @@ export default function EditCharacterForm({
           <AnimatedButton onClick={handleSubmit(saveData)}>
             Save Character
           </AnimatedButton>
-          <div onClick={handleReset}>
-            <AnimatedButton type="outline" variant="secondary">
-              Cancel
-            </AnimatedButton>
-          </div>
+          <input
+            type="button"
+            value="Reset"
+            onClick={() => {
+              reset(
+                {
+                  roll: newHitpoints,
+                },
+                {
+                  keepErrors: true,
+                  keepDirty: true,
+                }
+              );
+            }}
+          />
         </div>
       </div>
     </form>

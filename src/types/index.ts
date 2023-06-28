@@ -331,6 +331,15 @@ export interface SubClass {
   url: string;
 }
 
+export interface SubClassFeatures {
+  count: number;
+  results: {
+    index: string;
+    name: string;
+    url: string;
+  }[];
+}
+
 export interface Character {
   _id?: string;
   userId: string;
