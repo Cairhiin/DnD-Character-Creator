@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { ParsedUrlQuery } from "querystring";
 import styles from "@/styles/Characters/Edit.module.scss";
 import EditCharacterForm from "@/features/characters/EditCharacterForm";
+import { isEligbleForSubClass } from "@/utils";
 
 interface Params extends ParsedUrlQuery {
   id: string;
@@ -50,7 +51,6 @@ export default function EditCharacter({
   const saveCharacter: () => void = () => {
     const { _id } = character;
     if (newHP && !error) {
-      console.log(_id);
       character.hitpoints = newHP;
       character.level++;
       fetch(`http://localhost:3001/api/characters/${_id}`, {
@@ -105,20 +105,10 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   const levelRes: LevelData = await level.json();
 
   const levelUp = results.level + 1;
-  const isEligbleForSubClass =
-    (levelUp === 2 &&
-      (results.dndClass.index === "druid" ||
-        results.dndClass.index === "wizard")) ||
-    (levelUp === 3 &&
-      !(
-        results.dndClass.index === "druid" ||
-        results.dndClass.index === "wizard" ||
-        results.dndClass.index === "cleric" ||
-        results.dndClass.index === "sorcerer" ||
-        results.dndClass.index === "warlock"
-      ));
+  const isEligble = isEligbleForSubClass(levelUp, results.dndClass.index);
+
   let subClassRes;
-  if (isEligbleForSubClass) {
+  if (isEligble) {
     const subClass = await fetch(
       `https://www.dnd5eapi.co/api/classes/${results.dndClass.index}/subclasses`
     );
