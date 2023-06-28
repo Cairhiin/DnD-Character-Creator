@@ -181,12 +181,10 @@ export default function EditCharacterForm({
           ))
         }
         <div className={styles.buttonRow}>
-          <AnimatedButton onClick={handleSubmit(saveData)}>
+          <AnimatedButton onClick={handleSubmit(saveData)} type="submit">
             Save Character
           </AnimatedButton>
-          <input
-            type="button"
-            value="Reset"
+          <AnimatedButton
             onClick={() => {
               reset(
                 {
@@ -198,7 +196,9 @@ export default function EditCharacterForm({
                 }
               );
             }}
-          />
+          >
+            Reset
+          </AnimatedButton>
         </div>
       </div>
     </form>

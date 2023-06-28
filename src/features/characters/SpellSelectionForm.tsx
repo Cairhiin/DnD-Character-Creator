@@ -1,6 +1,6 @@
+import { useState, useContext, useEffect } from "react";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { produce } from "immer";
-import { useState, useContext, useEffect } from "react";
 import {
   SubmitHandler,
   useFieldArray,

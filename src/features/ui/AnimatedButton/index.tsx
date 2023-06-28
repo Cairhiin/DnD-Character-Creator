@@ -2,7 +2,8 @@ import { ReactNode } from "react";
 import styles from "@/styles/Components/AnimatedButton.module.scss";
 
 interface Props {
-  type?: string;
+  outline?: string;
+  type?: "submit" | "reset" | "button" | undefined;
   size?: string;
   variant?: string;
   children: ReactNode;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const AnimatedButton = ({
+  outline,
   type,
   size,
   variant,
@@ -19,11 +21,12 @@ const AnimatedButton = ({
   onClick,
 }: Props): JSX.Element => (
   <button
+    type={type ?? "button"}
     onClick={onClick}
     disabled={disabled}
     className={`${styles.btn} ${variant ? styles[variant] : styles.primary} ${
       size ? styles[size] : styles.regular
-    } ${type ? styles[type] : styles.solid}`}
+    } ${outline ? styles[outline] : styles.solid}`}
   >
     <span></span>
     {children}
