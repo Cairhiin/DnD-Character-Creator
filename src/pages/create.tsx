@@ -200,9 +200,7 @@ export default function Create({ backgrounds, items }: Props) {
         </div>
       </nav>
       <section className={styles.create__main}>
-        <div></div>
-        <aside className={styles.create__chardata}></aside>
-        <aside className={styles.create__choices}>
+        <div className={styles.create__choices}>
           <div className={styles.create__tabs}>
             <CreateCharacterTabs
               activeIndex={activeTabIndex}
@@ -212,8 +210,7 @@ export default function Create({ backgrounds, items }: Props) {
               items={items}
             />
           </div>
-        </aside>
-        <div></div>
+        </div>
       </section>
     </FormStateContext.Provider>
   );

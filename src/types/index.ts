@@ -345,7 +345,7 @@ export interface Character {
   userId: string;
   race: ApiRace;
   dndClass: ApiClass;
-  subClass: SubClass;
+  subClass?: SubClass;
   background: Background;
   hitpoints: number;
   abilities: AbilityScores;

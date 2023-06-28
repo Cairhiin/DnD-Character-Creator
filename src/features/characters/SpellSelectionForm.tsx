@@ -253,12 +253,16 @@ export default function SpellSelection({
         </div>
 
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
-              Previous
-            </AnimatedButton>
-          </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton
+            variant="secondary"
+            outline="outline"
+            onClick={previousTab}
+          >
+            Previous
+          </AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Next
+          </AnimatedButton>
         </div>
       </form>
       <div></div>
