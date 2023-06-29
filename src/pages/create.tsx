@@ -164,37 +164,43 @@ export default function Create({ backgrounds, items }: Props) {
               data-tab-id="3"
               className={availableMaxIndex >= 4 ? styles.finished : ""}
             >
-              <span>3</span> Abilities
+              <span>3</span> Subclass
+            </li>
+            <li
+              data-tab-id="3"
+              className={availableMaxIndex >= 5 ? styles.finished : ""}
+            >
+              <span>4</span> Abilities
             </li>
             <li
               data-tab-id="4"
-              className={availableMaxIndex >= 5 ? styles.finished : ""}
+              className={availableMaxIndex >= 6 ? styles.finished : ""}
             >
-              <span>4</span> Background
+              <span>5</span> Background
             </li>
             <li
               data-tab-id="5"
-              className={availableMaxIndex >= 6 ? styles.finished : ""}
+              className={availableMaxIndex >= 7 ? styles.finished : ""}
             >
-              <span>5</span> Description
+              <span>6</span> Description
             </li>
             <li
               data-tab-id="6"
-              className={availableMaxIndex >= 7 ? styles.finished : ""}
+              className={availableMaxIndex >= 8 ? styles.finished : ""}
             >
-              <span>6</span> Skills
+              <span>7</span> Skills
             </li>
             <li
               data-tab-id="7"
-              className={availableMaxIndex >= 8 ? styles.finished : ""}
+              className={availableMaxIndex >= 9 ? styles.finished : ""}
             >
-              <span>7</span> Spells
+              <span>8</span> Spells
             </li>
             <li
               data-tab-id="8"
-              className={availableMaxIndex >= 9 ? styles.finished : ""}
+              className={availableMaxIndex >= 10 ? styles.finished : ""}
             >
-              <span>8</span> Equipment
+              <span>9</span> Equipment
             </li>
           </ul>
         </div>

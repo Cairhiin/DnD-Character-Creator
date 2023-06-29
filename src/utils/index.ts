@@ -167,6 +167,10 @@ export const isEligbleForSubClass: (
   level: number,
   className: string
 ) => boolean = (level, className) =>
+  (level === 1 &&
+    (className === "cleric" ||
+      className === "sorcerer" ||
+      className === "warlock")) ||
   (level === 2 && (className === "druid" || className === "wizard")) ||
   (level === 3 &&
     !(
