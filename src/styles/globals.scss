@@ -7,6 +7,10 @@
   margin: 0;
 }
 
+body {
+  background: linear-gradient($primary-color-900, hsla(200, 46%, 7%, 1));
+}
+
 p {
   margin: 0 0 0.5rem 0;
   color: $on-background-color;
