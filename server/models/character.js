@@ -14,6 +14,7 @@ const CharacterSchema = mongoose.Schema({
     level: Number,
     gold: Number,
     xp: Number,
+    hitpoints: Number,
     abilities: { STR: Number, DEX: Number, CON: Number, INT: Number, WIS: Number, CHA: Number },
     description: Object,
     skills: {
