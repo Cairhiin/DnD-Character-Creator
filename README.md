@@ -1,6 +1,7 @@
 # DnD-Character-Creator
 D&amp;D Character Manager - create, level up and manage your D&D 5e characters. 
-Share your characters with others, and check out characters made by others
+Share your characters with others, and check out characters made by others.
+
 This is a work in progress!
 
 ## Running the project
