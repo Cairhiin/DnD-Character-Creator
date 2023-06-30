@@ -58,7 +58,7 @@ export default function SubClassForm({
     subClass,
   }) => {
     if (!subClass) {
-      return setError("Please choose a background before continuing.");
+      return setError("Please choose a subclass before continuing.");
     }
 
     setForm(
