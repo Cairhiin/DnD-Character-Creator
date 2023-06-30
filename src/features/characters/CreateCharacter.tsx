@@ -8,6 +8,7 @@ import SpellSelectionForm from "./SpellSelectionForm";
 import GearSelectionForm from "./GearForm";
 import styles from "@/styles/Create.module.scss";
 import type { Background, Equipment } from "@/types";
+import SubClassForm from "./SubClassForm";
 
 type Props = {
   activeIndex: number;
@@ -31,25 +32,28 @@ export default function CreateCharacterTabs({
         <ClassSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 3 && (
-        <AbilitySelectionForm nextTab={nextTab} previousTab={previousTab} />
+        <SubClassForm nextTab={nextTab} previousTab={previousTab} />
       )}
       {activeIndex === 4 && (
+        <AbilitySelectionForm nextTab={nextTab} previousTab={previousTab} />
+      )}
+      {activeIndex === 5 && (
         <BackgroundSelectionForm
           nextTab={nextTab}
           previousTab={previousTab}
           backgrounds={backgrounds}
         />
       )}
-      {activeIndex === 5 && (
+      {activeIndex === 6 && (
         <CharacterDescriptionForm nextTab={nextTab} previousTab={previousTab} />
       )}
-      {activeIndex === 6 && (
+      {activeIndex === 7 && (
         <SkillsSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
-      {activeIndex === 7 && (
+      {activeIndex === 8 && (
         <SpellSelectionForm nextTab={nextTab} previousTab={previousTab} />
       )}
-      {activeIndex === 8 && (
+      {activeIndex === 9 && (
         <GearSelectionForm
           nextTab={nextTab}
           previousTab={previousTab}

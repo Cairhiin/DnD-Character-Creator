@@ -1,0 +1,51 @@
+@import "../variables.module";
+
+.attr__button {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: $tertiary-color;
+  display: inline-block;
+  @include roundedBorder;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($tertiary-color, 15);
+  }
+}
+
+.levelUp {
+  color: $on-background-color;
+  margin-block: 2rem;
+  grid-column: 2 / 3;
+
+  &__hitpoints {
+    @include flex;
+
+    & > * {
+      flex: 1;
+      max-width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    input {
+      display: block;
+      color: white;
+      font-weight: 700;
+      width: 6ch;
+      padding-inline: 0;
+      text-align: right;
+    }
+  }
+
+  .buttonRow {
+    @include flex;
+    margin-block: 1rem;
+  }
+}

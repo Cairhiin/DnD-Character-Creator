@@ -1,1 +1,29 @@
-@import 'variables.module';
+@import "variables.module";
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 50px 1fr;
+  row-gap: 2rem;
+  min-height: 100svh;
+}
+
+.main {
+  font-size: $fs-000;
+
+  h2 {
+    font-size: $fs-400;
+  }
+
+  h3 {
+    font-size: $fs-300;
+  }
+
+  h4 {
+    font-size: $fs-200;
+  }
+
+  h5 {
+    font-size: $fs-100;
+  }
+}

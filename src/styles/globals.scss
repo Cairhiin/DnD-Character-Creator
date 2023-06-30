@@ -1,5 +1,5 @@
-@import './variables.module';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import "./variables.module";
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
 
 * {
   box-sizing: border-box;
@@ -7,42 +7,13 @@
   margin: 0;
 }
 
-html,
 body {
-  overflow-x: hidden;
-  min-height: 100svh;
-  background:  radial-gradient(at 40% 69%, hsla(200,46%,5%,1) 0px, transparent 50%),
-  radial-gradient(at 100% 100%, hsla(0,47%,11%,1) 0px, transparent 50%),
-  radial-gradient(at 3% 5%, hsla(0,72%,11%,1) 0px, transparent 50%),
-  radial-gradient(at 44% 4%, hsla(200,47%,5%,1) 0px, transparent 50%);
-  background-size: 400% 400%;
-  animation: gradient 25s ease infinite;
-
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
-  @media (prefers-reduced-motion) {
-    animation: gradient 125s ease infinite;
-  }
+  background: linear-gradient($primary-color-900, hsla(200, 46%, 7%, 1));
 }
 
 p {
   margin: 0 0 0.5rem 0;
   color: $on-background-color;
-}
-
-section {
-  max-width: 1200px;
-  margin: 2rem auto;
 }
 
 a {
@@ -56,7 +27,9 @@ a {
 }
 
 select {
-  background: transparent url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png') no-repeat 95% 50%;
+  background: transparent
+    url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png")
+    no-repeat 95% 50%;
   filter: invert(1); // HACK: Make the icon white
   background-size: 20px;
   background-color: #f5cebc;
@@ -64,21 +37,24 @@ select {
   border: none;
 }
 
-input, textarea { 
+input,
+textarea {
   color: $on-background-color;
   background: $tertiary-color;
   border: 1px solid $tertiary-color;
 }
 
-select, input, textarea {
+select,
+input,
+textarea {
   font-size: 1rem;
   padding: 0.4rem 2rem 0.4rem 1rem;
   @include roundedBorder;
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; 
+  appearance: none;
   font-weight: 400;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 select option {
@@ -86,7 +62,7 @@ select option {
   color: #333;
 }
 
-input[type=text]:disabled {
+input[type="text"]:disabled {
   margin: -0.5rem 0 1rem 0;
   background-color: $tertiary-color;
   padding: 0.5rem;
@@ -99,14 +75,15 @@ input[type=text]:disabled {
 textarea {
   --line-height: 16px;
   width: 100%;
-  height: calc(5 * var(--line-height)); 
-}              
+  height: calc(5 * var(--line-height));
+}
 
-input[type=radio], input[type=checkbox] {
+input[type="radio"],
+input[type="checkbox"] {
   display: none;
 }
 
-input[type=checkbox] + label {
+input[type="checkbox"] + label {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -114,8 +91,8 @@ input[type=checkbox] + label {
   outline: 2px solid lighten($secondary-color, 25);
 }
 
-input[type=checkbox]:checked + label::before {
-  content: '\2714';
+input[type="checkbox"]:checked + label::before {
+  content: "\2714";
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -124,7 +101,7 @@ input[type=checkbox]:checked + label::before {
   color: lighten($secondary-color, 45);
 }
 
-input[type=radio] + label::before {
+input[type="radio"] + label::before {
   content: "";
   position: absolute;
   top: 0;
@@ -133,14 +110,15 @@ input[type=radio] + label::before {
   height: 12px;
 }
 
-input[type=radio] + label::before, input[type=checkbox] + label {
+input[type="radio"] + label::before,
+input[type="checkbox"] + label {
   margin-right: 1rem;
   border: 2px solid $primary-color-900;
   outline: 2px solid lighten($secondary-color, 25);
   border-radius: 50%;
 }
 
-input[type=radio]:checked + label::before {
+input[type="radio"]:checked + label::before {
   background-color: lighten($secondary-color, 25);
   border: 2px solid $primary-color-900;
   outline: 2px solid lighten($secondary-color, 25);

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import styles from "@/styles/CharacterList.module.scss";
 import Link from "next/link";
-import Modal from "@/components/Modal";
-import AnimatedButton from "../../components/AnimatedButton";
+import Modal from "@/features/ui/Modal/";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import type { Character } from "@/types";
+import styles from "@/styles/Characters/CharacterList.module.scss";
+import Card from "@/features/ui/Card";
 
 const CharacterListItem: ({
   character,
@@ -20,14 +21,11 @@ const CharacterListItem: ({
 
   return (
     <>
-      <div key={character._id} className={styles.character__card__header}>
-        <h2>{character.description?.details.name}</h2>
-        <h3>
-          {character.race.name} {character.dndClass.name} {character.level}
-        </h3>
-      </div>
-      <div className={styles.character__card__content}>
-        <ul className={styles.character__card__abilities}>
+      <Card
+        title={character.description?.details.name}
+        subtitle={`${character.race.name} ${character.dndClass.name} ${character.level}`}
+      >
+        <ul className={styles.character__list__attributes}>
           {Object.entries(character.abilities).map(
             ([attr, val]: [attr: string, val: number]): JSX.Element => (
               <li key={attr}>
@@ -38,12 +36,20 @@ const CharacterListItem: ({
         </ul>
         <div className={styles.buttonRow}>
           <AnimatedButton variant="secondary" type="outline">
-            <Link href="/characters/[id]" as={`characters/${character._id}`}>
+            <Link
+              href="/characters/[id]/show"
+              as={`characters/${character._id}/show`}
+            >
               VIEW
             </Link>
           </AnimatedButton>
           <AnimatedButton variant="secondary" type="outline">
-            LEVEL
+            <Link
+              href="/characters/[id]/edit"
+              as={`characters/${character._id}/edit`}
+            >
+              LEVEL
+            </Link>
           </AnimatedButton>
           <AnimatedButton onClick={() => setIsOpen(true)}>
             DELETE
@@ -63,7 +69,7 @@ const CharacterListItem: ({
             </p>
           </Modal>
         </div>
-      </div>
+      </Card>
     </>
   );
 };

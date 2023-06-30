@@ -1,0 +1,36 @@
+@import "../variables.module";
+
+.character__list {
+  color: $on-background-color;
+  max-width: 1024px;
+
+  ul {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    gap: 1rem;
+
+    .character__list__attributes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+
+      span {
+        color: lighten($secondary-color, 35);
+      }
+    }
+
+    .buttonRow {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      & > * {
+        flex: 1;
+      }
+    }
+  }
+}

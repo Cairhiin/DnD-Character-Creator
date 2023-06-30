@@ -8,7 +8,7 @@ import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 
 interface ClassFormInput {
   dndClass: DndClass;
@@ -240,11 +240,13 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
         }
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
+            <AnimatedButton variant="secondary" outline="outline">
               Previous
             </AnimatedButton>
           </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Next
+          </AnimatedButton>
         </div>
       </form>
       <div></div>

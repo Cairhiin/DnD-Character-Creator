@@ -360,7 +360,7 @@ export default function character({
                 <h3>Weapons</h3>
                 {equipment.weapons.map((weapon: Item): JSX.Element => {
                   return (
-                    <div>
+                    <div key={weapon.index}>
                       <div className={styles.flex}>
                         <div>
                           <span>Name </span>
@@ -413,7 +413,7 @@ export default function character({
                 <div>
                   {featureData?.map(
                     (feature: any): JSX.Element => (
-                      <div>{feature.name}</div>
+                      <div key={feature.name}>{feature.name}</div>
                     )
                   )}
                 </div>

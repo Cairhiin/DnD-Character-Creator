@@ -6,9 +6,9 @@ import { GetStaticProps } from "next";
 import type { Background, Character, Equipment } from "@/types";
 import CreateCharacterTabs from "@/features/characters/CreateCharacter";
 import FORM_STATE from "@/constants/formState";
-import styles from "@/styles/Create.module.scss";
 import { calculateAbilityModifier, calculateHP } from "@/utils";
 import { FormState } from "@/constants/formState";
+import styles from "@/styles/Create.module.scss";
 
 interface Props {
   backgrounds: Array<Background>;
@@ -141,82 +141,83 @@ export default function Create({ backgrounds, items }: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <nav className={styles.nav}>
-          <div className={styles.create__topbar}>
-            <ul
-              onClick={(e: React.MouseEvent<HTMLElement>) =>
-                setActiveIndex(e.target as any)
-              }
+      <nav className={styles.nav}>
+        <div className={styles.create__topbar}>
+          <ul
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              setActiveIndex(e.target as any)
+            }
+          >
+            <li
+              data-tab-id="1"
+              className={availableMaxIndex >= 2 ? styles.finished : ""}
             >
-              <li
-                data-tab-id="1"
-                className={availableMaxIndex >= 2 ? styles.finished : ""}
-              >
-                <span>1</span> Race
-              </li>
-              <li
-                data-tab-id="2"
-                className={availableMaxIndex >= 3 ? styles.finished : ""}
-              >
-                <span>2</span> Class
-              </li>
-              <li
-                data-tab-id="3"
-                className={availableMaxIndex >= 4 ? styles.finished : ""}
-              >
-                <span>3</span> Abilities
-              </li>
-              <li
-                data-tab-id="4"
-                className={availableMaxIndex >= 5 ? styles.finished : ""}
-              >
-                <span>4</span> Background
-              </li>
-              <li
-                data-tab-id="5"
-                className={availableMaxIndex >= 6 ? styles.finished : ""}
-              >
-                <span>5</span> Description
-              </li>
-              <li
-                data-tab-id="6"
-                className={availableMaxIndex >= 7 ? styles.finished : ""}
-              >
-                <span>6</span> Skills
-              </li>
-              <li
-                data-tab-id="7"
-                className={availableMaxIndex >= 8 ? styles.finished : ""}
-              >
-                <span>7</span> Spells
-              </li>
-              <li
-                data-tab-id="8"
-                className={availableMaxIndex >= 9 ? styles.finished : ""}
-              >
-                <span>8</span> Equipment
-              </li>
-            </ul>
+              <span>1</span> Race
+            </li>
+            <li
+              data-tab-id="2"
+              className={availableMaxIndex >= 3 ? styles.finished : ""}
+            >
+              <span>2</span> Class
+            </li>
+            <li
+              data-tab-id="3"
+              className={availableMaxIndex >= 4 ? styles.finished : ""}
+            >
+              <span>3</span> Subclass
+            </li>
+            <li
+              data-tab-id="3"
+              className={availableMaxIndex >= 5 ? styles.finished : ""}
+            >
+              <span>4</span> Abilities
+            </li>
+            <li
+              data-tab-id="4"
+              className={availableMaxIndex >= 6 ? styles.finished : ""}
+            >
+              <span>5</span> Background
+            </li>
+            <li
+              data-tab-id="5"
+              className={availableMaxIndex >= 7 ? styles.finished : ""}
+            >
+              <span>6</span> Description
+            </li>
+            <li
+              data-tab-id="6"
+              className={availableMaxIndex >= 8 ? styles.finished : ""}
+            >
+              <span>7</span> Skills
+            </li>
+            <li
+              data-tab-id="7"
+              className={availableMaxIndex >= 9 ? styles.finished : ""}
+            >
+              <span>8</span> Spells
+            </li>
+            <li
+              data-tab-id="8"
+              className={availableMaxIndex >= 10 ? styles.finished : ""}
+            >
+              <span>9</span> Equipment
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <section className={styles.create__main}>
+        <div className={styles.create__choices}>
+          <div className={styles.create__tabs}>
+            <CreateCharacterTabs
+              activeIndex={activeTabIndex}
+              nextTab={nextTab}
+              previousTab={previousTab}
+              backgrounds={backgrounds}
+              items={items}
+            />
           </div>
-        </nav>
-        <section className={styles.create__main}>
-          <div></div>
-          <aside className={styles.create__chardata}></aside>
-          <aside className={styles.create__choices}>
-            <div className={styles.create__tabs}>
-              <CreateCharacterTabs
-                activeIndex={activeTabIndex}
-                nextTab={nextTab}
-                previousTab={previousTab}
-                backgrounds={backgrounds}
-                items={items}
-              />
-            </div>
-          </aside>
-          <div></div>
-        </section>
-      </main>
+        </div>
+      </section>
     </FormStateContext.Provider>
   );
 }

@@ -1,6 +1,6 @@
+import { useState, useContext, useEffect } from "react";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { produce } from "immer";
-import { useState, useContext, useEffect } from "react";
 import {
   SubmitHandler,
   useFieldArray,
@@ -8,7 +8,7 @@ import {
   useFormState,
 } from "react-hook-form";
 import styles from "@/styles/Create.module.scss";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import type { Spell } from "@/types";
 import { useFetchSpellsByLevel } from "@/hooks/useFetchSpellsByLevel";
@@ -253,12 +253,16 @@ export default function SpellSelection({
         </div>
 
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
-              Previous
-            </AnimatedButton>
-          </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton
+            variant="secondary"
+            outline="outline"
+            onClick={previousTab}
+          >
+            Previous
+          </AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Next
+          </AnimatedButton>
         </div>
       </form>
       <div></div>

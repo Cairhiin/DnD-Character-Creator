@@ -1,0 +1,134 @@
+@import "../variables.module";
+
+.btn {
+  border-radius: 2px;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: "Roboto Condensed", sans-serif;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: background-color 250ms;
+
+  &:has(:first-child:hover)::before {
+    margin-left: 0;
+  }
+
+  &:has(:last-child:hover)::before {
+    margin-right: 0;
+  }
+
+  &:has(:first-child:hover)::before,
+  &:has(:last-child:hover)::before {
+    transition: transform 500ms, opacity 250ms;
+  }
+
+  &::before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    width: 15%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+    transition: transform 1000ms 200ms, opacity 200ms;
+  }
+
+  &:disabled {
+    &:hover::before,
+    &:hover::after,
+    &:hover,
+    &::before {
+      transition: none;
+      background: inherit;
+      cursor: default;
+    }
+  }
+
+  &.primary::before {
+    background: darken($primary-color, 15);
+  }
+
+  &.secondary::before {
+    background: darken($secondary-color, 15);
+  }
+
+  &.tertiary::before {
+    background: darken($tertiary-color, 15);
+  }
+
+  &:hover::before {
+    transform: scale(20);
+    opacity: 1;
+    transition: transform 1000ms, opacity 500ms;
+  }
+
+  & > span {
+    position: absolute;
+    width: 33.333%;
+    height: 100%;
+    top: 0;
+    background: transparent;
+    opacity: 0.5;
+    z-index: -1;
+
+    &:first-child {
+      left: 0;
+    }
+
+    &:last-child {
+      right: 0;
+    }
+  }
+
+  &.primary {
+    &.solid {
+      background-color: $primary-color;
+    }
+
+    &.outline {
+      border: 1px solid $primary-color;
+    }
+  }
+
+  &.secondary {
+    &.solid {
+      background-color: $secondary-color;
+    }
+
+    &.outline {
+      border: 1px solid darken($secondary-color, 35);
+    }
+  }
+
+  &.teriary {
+    background-color: $tertiary-color;
+
+    &.outline {
+      border: 1px solid $tertiary-color;
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+  }
+
+  &.regular {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  &.small {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  &.large {
+    font-size: 1rem;
+    padding: 1rem 2rem;
+  }
+}

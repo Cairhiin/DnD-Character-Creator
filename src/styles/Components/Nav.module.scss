@@ -1,0 +1,52 @@
+@import "../variables.module";
+
+.nav {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  display: flex;
+  position: sticky;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 0 1rem;
+  color: $on-background-color;
+  height: 60px;
+  z-index: 10;
+
+  ul {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .auth {
+    padding-right: 1rem;
+  }
+
+  .nav__left {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+
+    .logo {
+      font-size: 1.2rem;
+
+      .secondaryColor__highlight {
+        color: $secondary-color;
+        font-weight: 800;
+      }
+    }
+  }
+
+  li {
+    height: 60px;
+    line-height: 60px;
+    font-size: 0.9rem;
+    display: inline-block;
+    text-align: center;
+    padding-inline: 1rem;
+
+    &:hover {
+      background-color: $primary-color-800;
+    }
+  }
+}

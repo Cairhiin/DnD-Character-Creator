@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
-import AnimatedButton from "../../components/AnimatedButton";
+import AnimatedButton from "@/features/ui/AnimatedButton";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
 import { cleanUpSkillDescription } from "@/utils";
 import type { Skills } from "@/types";
@@ -259,12 +259,16 @@ export default function SkillsForm({
             ))}
         </div>
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
-              Previous
-            </AnimatedButton>
-          </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton
+            variant="secondary"
+            outline="outline"
+            onClick={previousTab}
+          >
+            Previous
+          </AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Next
+          </AnimatedButton>
         </div>
       </form>
       <div></div>

@@ -1,0 +1,30 @@
+@import "../variables.module";
+
+.typewriter__effect {
+  .typewriter__effect__typearea {
+    padding: 0.5rem 0;
+  }
+
+  .typewriter__effect__typearea {
+    display: flex;
+    align-items: center;
+
+    .cursor {
+      height: 30px;
+      width: 1px;
+      margin-left: 5px;
+      border-left: 3px solid lighten($secondary-color, 35);
+      animation: 1s blink step-end infinite;
+
+      @keyframes blink {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: lighten($secondary-color, 35);
+        }
+      }
+    }
+  }
+}

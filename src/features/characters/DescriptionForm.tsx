@@ -3,8 +3,8 @@ import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import { produce } from "immer";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import AnimatedButton from "../../components/AnimatedButton";
-import Accordion from "../../components/Accordion";
+import AnimatedButton from "@/features/ui/AnimatedButton";
+import Accordion from "@/features/ui/Accordion";
 import { ALIGNMENT } from "@/constants";
 import type { CharacterDescription } from "@/types";
 import { CreateCharacterCard, FormStateContext } from "@/pages/create";
@@ -253,12 +253,16 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
       >
         <Accordion data={accordionData}></Accordion>
         <div className={styles.create__form__buttonRow}>
-          <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
-              Previous
-            </AnimatedButton>
-          </div>
-          <AnimatedButton variant="secondary">Next</AnimatedButton>
+          <AnimatedButton
+            variant="secondary"
+            outline="outline"
+            onClick={previousTab}
+          >
+            Previous
+          </AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Next
+          </AnimatedButton>
         </div>
       </form>
       <div></div>
