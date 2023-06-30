@@ -53,11 +53,14 @@
   &__content {
     grid-row: 2 / 4;
     grid-column: 1;
-    background-color: rgba($background-color, 0.7);
+    background: linear-gradient(
+      180deg,
+      rgba($tertiary-color, 0.85),
+      rgba($background-color, 0.7)
+    );
     text-align: center;
     padding: 60px 1rem 1rem 1rem;
     @include roundedBorder;
-    @include boxShadow;
   }
 
   h2 {

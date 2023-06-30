@@ -1,14 +1,5 @@
 @import "./variables.module";
 
-.main {
-  width: 75%;
-  margin: 2rem auto;
-
-  .card {
-    .header {
-      font-size: 2rem;
-      text-transform: uppercase;
-      color: $secondary-color;
-    }
-  }
+.home {
+  grid-column: 1 / 4;
 }

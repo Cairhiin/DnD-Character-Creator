@@ -1,128 +1,134 @@
-@import '../variables.module';
+@import "../variables.module";
 
 .main {
-    display: grid;
-    min-height: calc(100svh - 60px - 64px);
+  grid-column: 1 / 4;
+  display: grid;
+  min-height: calc(100svh - 60px - 64px);
 
-    .auth {
-        width: 800px;
-        place-self: center;     
-        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.15);
+  .auth {
+    max-width: 800px;
+    place-self: center;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.15);
 
-        .header {
-            background-color: $tertiary-color;
-            padding: 0.5rem;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .form {      
-            min-height: 500px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        
-            .form__image__login {
-                background-image: url('/images/background2.jpg');
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-
-            .form__image__register {
-                background-image: url('/images/background1.jpg');
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-        
-            .form__content {
-                background: radial-gradient(65.8% 65.8% at 50% 50%, rgba(10, 46, 64, 0) 0%, rgba(10, 46, 64, 0.2) 0%, rgba(55, 2, 15, 0.17) 100%), #171717;
-                padding: 2rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                gap: 5rem;
-        
-                .form__buttons {
-                    
-                    .btn {
-                        width: 100%;
-                        margin-bottom: 1rem;
-                        text-transform: uppercase;
-                        font-weight: 700;
-                        padding: 0.6rem 1.2rem;
-                        border: 0;
-                        @include roundedBorder;
-                        @include transitionAll;
-                        font-size: 1rem;
-                    
-                        &.primary {
-                            background-color: $secondary-color;
-                            color: $on-background-color;
-                    
-                            &:hover {
-                                background-color: darken($secondary-color, 15);
-                            }
-                        }
-                    }
-                }
-        
-                .form__data {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-        
-                    .form__row {
-                        text-transform: uppercase;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        gap: 1rem;
-
-                        .form__input {
-                            flex: 1;
-                            height: 2rem;
-                            @include roundedBorder;
-                            border: 0;
-                        }
-                        
-                        .form__label {
-                            min-width: 75px;
-                            flex: 0;
-                        }
-                    }
-                }
-            }
-        }
+    .header {
+      background-color: $tertiary-color;
+      padding: 0.5rem;
+      text-align: center;
+      text-transform: uppercase;
     }
+
+    .form {
+      min-height: 500px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .form__image__login {
+        background-image: url("/images/background2.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .form__image__register {
+        background-image: url("/images/background1.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .form__content {
+        background: radial-gradient(
+            65.8% 65.8% at 50% 50%,
+            rgba(10, 46, 64, 0) 0%,
+            rgba(10, 46, 64, 0.2) 0%,
+            rgba(55, 2, 15, 0.17) 100%
+          ),
+          #171717;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 5rem;
+
+        .form__buttons {
+          .btn {
+            width: 100%;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 0.6rem 1.2rem;
+            border: 0;
+            @include roundedBorder;
+            @include transitionAll;
+            font-size: 1rem;
+
+            &.primary {
+              background-color: $secondary-color;
+              color: $on-background-color;
+
+              &:hover {
+                background-color: darken($secondary-color, 15);
+              }
+            }
+          }
+        }
+
+        .form__data {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          .form__row {
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+
+            .form__input {
+              flex: 1;
+              height: 2rem;
+              @include roundedBorder;
+              border: 0;
+            }
+
+            .form__label {
+              min-width: 75px;
+              flex: 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @include mediaLg {
-    .main {
-        .auth {
-            max-width: 500px;
+  .main {
+    .auth {
+      max-width: 500px;
 
-            .form {
-                grid-template-columns: 1fr;
+      .form {
+        grid-template-columns: 1fr;
 
-                .form__image {
-                    display: none;
-                }
-            }
+        .form__image {
+          display: none;
         }
+      }
     }
+  }
 }
 
 @include mediaMd {
-    .main {
-        .auth {
-            width: 400px;
+  .main {
+    .auth {
+      width: 400px;
 
-            .form {
-                grid-template-columns: 1fr;
+      .form {
+        grid-template-columns: 1fr;
 
-                .form__image {
-                    display: none;
-                }
-            }
+        .form__image {
+          display: none;
         }
+      }
     }
+  }
 }
