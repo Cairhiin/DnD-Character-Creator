@@ -3,7 +3,7 @@
 .layout {
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: auto;
   row-gap: 2rem;
   min-height: 100svh;
 }

@@ -12,19 +12,17 @@
 .nav {
   grid-column: 1 / 1;
   padding: 0.3rem;
-  position: sticky;
-  top: 60px;
-  z-index: 10;
 
   .create__topbar {
     padding: 0.6rem;
     max-width: 1200px;
     margin: 0 auto;
     text-align: left;
+    position: sticky;
+    top: 5rem;
 
     ul {
-      margin: 1rem 0;
-      padding: 1rem;
+      padding: 0 1rem;
       display: flex;
       flex-direction: column;
       list-style: none;

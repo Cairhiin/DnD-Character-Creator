@@ -99,6 +99,7 @@ export default function SubClassForm({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose your subclass</h3>
         {isEligible && (
           <div className={styles.character__creation__form__method}>
             <label htmlFor="subClass">Choose a subclass</label>

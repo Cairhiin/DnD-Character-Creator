@@ -261,6 +261,7 @@ export default function AbilitySelection({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose or roll your ability scores</h3>
         <div>
           <div className={styles.character__creation__form__method}>
             <label htmlFor="method">Choose a method</label>

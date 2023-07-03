@@ -142,6 +142,7 @@ export default function BackgroundSelectionForm({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose your background</h3>
         <div className={styles.character__creation__form__method}>
           <label htmlFor="backgroundName">Choose a background</label>
           <select

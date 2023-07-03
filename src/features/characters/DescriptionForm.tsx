@@ -251,6 +251,7 @@ export default function CharacterDescription({ nextTab, previousTab }: Props) {
         className={`${styles.character__creation__form} ${styles.description}`}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Describe your character</h3>
         <Accordion data={accordionData}></Accordion>
         <div className={styles.create__form__buttonRow}>
           <AnimatedButton

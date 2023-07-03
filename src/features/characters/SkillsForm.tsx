@@ -236,6 +236,7 @@ export default function SkillsForm({
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose your skill proficiencies</h3>
         <div className={styles.character__creation__form__column}>
           {availableSkills &&
             availableSkills.map(({ name }: { name: string }) => (

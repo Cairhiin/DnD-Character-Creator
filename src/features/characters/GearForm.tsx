@@ -282,7 +282,7 @@ export default function GearForm({
         onSubmit={handleSubmit(saveData)}
       >
         <div>
-          <h3>Choose starting gear</h3>
+          <h3>Choose your starting gear</h3>
           <div className={styles.character__creation__form__column}>
             {starting_equipment_options?.map(
               (option, index): JSX.Element => (
@@ -302,7 +302,7 @@ export default function GearForm({
                             return (
                               <AnimatedButton
                                 variant="secondary"
-                                type="outline"
+                                outline="outline"
                                 key={option.of.index}
                                 onClick={() =>
                                   addItem(
@@ -340,7 +340,7 @@ export default function GearForm({
                             return (
                               <AnimatedButton
                                 variant="secondary"
-                                type="outline"
+                                outline="outline"
                                 disabled={!buttonIsActive[index]}
                                 key={`${option.desc}`}
                                 onClick={() => addItem(items, index)}
@@ -365,7 +365,7 @@ export default function GearForm({
                             return (
                               <AnimatedButton
                                 variant="secondary"
-                                type="outline"
+                                outline="outline"
                                 disabled={!buttonIsActive[index]}
                                 key={`${option.desc}${index}`}
                                 onClick={() => addItem(items, index)}
@@ -425,7 +425,7 @@ export default function GearForm({
         </div>
         <div className={styles.create__form__buttonRow}>
           <div onClick={previousTab}>
-            <AnimatedButton variant="secondary" type="outline">
+            <AnimatedButton variant="secondary" outline="outline">
               Previous
             </AnimatedButton>
           </div>

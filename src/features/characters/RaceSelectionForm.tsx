@@ -176,6 +176,7 @@ export default function RaceSelection({ nextTab }: Props) {
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose your race</h3>
         {
           <div className={styles.character__creation__form__column}>
             {RACES.map((race: string) => (

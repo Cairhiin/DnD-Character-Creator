@@ -220,6 +220,7 @@ export default function ClassSelection({ nextTab, previousTab }: Props) {
         className={styles.character__creation__form}
         onSubmit={handleSubmit(saveData)}
       >
+        <h3>Choose your class</h3>
         {
           <div className={styles.character__creation__form__column}>
             {CLASSES.map(({ id, name }) => (
