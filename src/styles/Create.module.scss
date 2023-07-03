@@ -23,7 +23,8 @@
     text-align: left;
 
     ul {
-      padding: 1rem 0;
+      margin: 1rem 0;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
       list-style: none;
@@ -34,18 +35,21 @@
         justify-content: flex-start;
         align-items: center;
         position: relative;
+        font-size: $fs-000;
+        gap: 0.3rem;
 
         span {
           flex-grow: 0;
+          font-size: 1rem;
         }
 
         &::after {
           position: absolute;
           bottom: -35px;
-          left: 10px;
+          left: 11px;
           flex-grow: 1;
           height: 30px;
-          width: 4px;
+          width: 3px;
           background-color: $on-background-color;
         }
 
@@ -72,7 +76,7 @@
           cursor: pointer;
 
           &::after {
-            border-top: 2px solid $success;
+            background-color: $success;
           }
 
           span {
@@ -87,6 +91,7 @@
 
 .create__main {
   grid-column: 2 / 3;
+  margin-top: 2rem;
 }
 
 .create__card {
@@ -157,7 +162,7 @@
   aside {
     align-self: start;
     position: sticky;
-    top: 10rem;
+    top: 6rem;
   }
 
   .character__creation__form {
