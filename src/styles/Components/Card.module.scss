@@ -1,6 +1,9 @@
 @import "../variables.module.scss";
 
 .card {
+  transform-style: preserve-3d;
+  transform: perspective(10000px) rotateY(var(--rotateX))
+    rotateX(var(--rotateY));
   background-color: transparent;
   color: $on-background-color;
   display: grid;

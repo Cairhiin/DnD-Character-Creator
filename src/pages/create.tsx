@@ -73,6 +73,7 @@ export default function Create({ backgrounds, items }: Props) {
       userId: session?.user?.user.id!,
       race: form.steps.raceSelection.value.race,
       dndClass: form.steps.classSelection.value.dndClass,
+      subClass: form.steps.subClassSelection.value.subClass,
       abilities: form.steps.abilitiesSelection.value.abilities,
       background: form.steps.backgroundSelection.value.background,
       description: form.steps.descriptionForm.value,
