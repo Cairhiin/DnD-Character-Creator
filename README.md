@@ -9,7 +9,7 @@ This is a work in progress!
 cd server
 npm install
 npm run start
-cd ..
+
 cd src
 npm install
 npm run dev
