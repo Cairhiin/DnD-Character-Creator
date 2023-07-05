@@ -3,3 +3,63 @@
 .home {
   grid-column: 1 / 4;
 }
+
+.features__wrapper {
+  background-color: $background-color;
+
+  .features {
+    margin: 0 auto;
+    padding: 4rem 1rem 2rem 1rem;
+    max-width: 1024px;
+    @include flex;
+    align-items: stretch;
+    gap: 2rem;
+    line-height: 1.4;
+    font-size: $fs-000;
+
+    .features__card {
+      flex: 1;
+      text-align: center;
+      background: darken($background-color, 2);
+      padding: 70px 1em 1em 1em;
+      position: relative;
+
+      @keyframes bounce {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+        to {
+          transform: translate3d(0, -20px, 0);
+        }
+      }
+
+      &:hover svg {
+        animation: bounce 0.5s;
+        animation-direction: alternate;
+        animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
+        animation-iteration-count: 2;
+      }
+
+      &__icon > svg {
+        @include transitionAll;
+        top: -40px;
+        left: calc(50% - 35px - 1rem);
+        margin-bottom: 0.5em;
+        width: 50px;
+        height: 50px;
+        padding: 1rem;
+        border-radius: 50%;
+        color: $primary-color-900;
+        font-size: 2rem;
+        background: $on-background-color;
+        border: 10px solid $background-color;
+        position: absolute;
+      }
+
+      h2 {
+        color: $secondary-color;
+        text-transform: uppercase;
+      }
+    }
+  }
+}

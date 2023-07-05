@@ -1,5 +1,12 @@
 import { ReactNode } from "react";
 import Head from "next/head";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faUserShield,
+  faUsers,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import withTypeWriterEffect from "@/features/ui/TypewriterEffect";
 import Hero from "@/features/ui/Hero";
 import styles from "@/styles/Home.module.scss";
@@ -32,42 +39,45 @@ export default function Home() {
             Create, Level Up, Store, Manage.
           </HeaderWithTypeWriterEffect>
         </Hero>
-        <div className={styles.features}>
-          <div className={styles.features__card}>
-            <h2>Header</h2>
-            <p>
-              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
-              assumenda optio aliquid, repellendus molestiae laborum distinctio
-              ratione veritatis, soluta officiis eum illo commodi.
-            </p>
-          </div>
-          <div className={styles.features__card}>
-            <h2>Header</h2>
-            <p>
-              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
-              assumenda optio aliquid, repellendus molestiae laborum distinctio
-              ratione veritatis, soluta officiis eum illo commodi.
-            </p>
-          </div>
-          <div className={styles.features__card}>
-            <h2>Header</h2>
-            <p>
-              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
-              assumenda optio aliquid, repellendus molestiae laborum distinctio
-              ratione veritatis, soluta officiis eum illo commodi.
-            </p>
-          </div>
-          <div className={styles.features__card}>
-            <h2>Header</h2>
-            <p>
-              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
-              assumenda optio aliquid, repellendus molestiae laborum distinctio
-              ratione veritatis, soluta officiis eum illo commodi.
-            </p>
+        <div className={styles.features__wrapper}>
+          <div className={styles.features}>
+            <div className={styles.features__card}>
+              <div className={styles.features__card__icon}>
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+              <h2>Create</h2>
+              <p>
+                Create your D&D 5th edition characters with a robust character
+                creator.
+              </p>
+            </div>
+            <div className={styles.features__card}>
+              <div className={styles.features__card__icon}>
+                <FontAwesomeIcon icon={faUserPlus} />
+              </div>
+              <h2>Level</h2>
+              <p>
+                Level up your characters and adjust hitpoints and choose your
+                ASIs.
+              </p>
+            </div>
+            <div className={styles.features__card}>
+              <div className={styles.features__card__icon}>
+                <FontAwesomeIcon icon={faUserShield} />
+              </div>
+              <h2>Store</h2>
+              <p>Save your characters so you can revisit them later.</p>
+            </div>
+            <div className={styles.features__card}>
+              <div className={styles.features__card__icon}>
+                <FontAwesomeIcon icon={faUsers} />
+              </div>
+              <h2>Manage</h2>
+              <p>
+                Manage all your characters: delete them, edit them or just check
+                them out in greater detail.
+              </p>
+            </div>
           </div>
         </div>
       </div>
