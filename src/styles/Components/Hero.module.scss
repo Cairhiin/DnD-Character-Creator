@@ -1,19 +1,17 @@
 @import "../variables.module";
 
 .hero {
-  background: url("/images/wave.svg");
+  background: url("/images/dragons-bg.jpg");
+  background-position: bottom;
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
-  height: 500px;
+  filter: opacity(0.9);
+  padding: 5rem 0;
 
   .hero__content {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 0 4rem;
-    width: 600px;
-    padding: 3rem 0;
+    display: grid;
+    justify-content: center;
+    align-content: center;
     font-size: 1.7rem;
     text-shadow: 1px 1px 2px $primary-color-900;
   }

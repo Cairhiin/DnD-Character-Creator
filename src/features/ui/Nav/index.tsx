@@ -15,9 +15,11 @@ const Nav = (): JSX.Element => {
       <div className={styles.nav__left}>
         <div className={styles.logo}>
           <h1>
-            D<span className={styles.secondaryColor__highlight}>&</span>D
-            Character
-            <span className={styles.secondaryColor__highlight}>Manager</span>
+            <Link href="/">
+              D<span className={styles.secondaryColor__highlight}>&</span>D
+              Character
+              <span className={styles.secondaryColor__highlight}>Manager</span>
+            </Link>
           </h1>
         </div>
         <div className={styles.menu}>

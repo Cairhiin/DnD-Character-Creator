@@ -32,6 +32,44 @@ export default function Home() {
             Create, Level Up, Store, Manage.
           </HeaderWithTypeWriterEffect>
         </Hero>
+        <div className={styles.features}>
+          <div className={styles.features__card}>
+            <h2>Header</h2>
+            <p>
+              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
+              assumenda optio aliquid, repellendus molestiae laborum distinctio
+              ratione veritatis, soluta officiis eum illo commodi.
+            </p>
+          </div>
+          <div className={styles.features__card}>
+            <h2>Header</h2>
+            <p>
+              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
+              assumenda optio aliquid, repellendus molestiae laborum distinctio
+              ratione veritatis, soluta officiis eum illo commodi.
+            </p>
+          </div>
+          <div className={styles.features__card}>
+            <h2>Header</h2>
+            <p>
+              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
+              assumenda optio aliquid, repellendus molestiae laborum distinctio
+              ratione veritatis, soluta officiis eum illo commodi.
+            </p>
+          </div>
+          <div className={styles.features__card}>
+            <h2>Header</h2>
+            <p>
+              ipsum Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Autem, ducimus quaerat. Quas aliquam explicabo, provident sapiente
+              assumenda optio aliquid, repellendus molestiae laborum distinctio
+              ratione veritatis, soluta officiis eum illo commodi.
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
