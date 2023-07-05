@@ -113,13 +113,13 @@ $fs-500: clamp(2.18rem, calc(2.01rem + 0.84vw), 3.05rem);
 }
 
 @mixin mediaLg {
-  @media screen and (min-width: 769px) and (max-width: 1170px) {
+  @media screen and (min-width: 769px) and (max-width: 1399px) {
     @content;
   }
 }
 
 @mixin mediaXL {
-  @media screen and (min-width: 1171px) {
+  @media screen and (min-width: 1400px) {
     @content;
   }
 }

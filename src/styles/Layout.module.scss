@@ -1,11 +1,18 @@
 @import "variables.module";
 
 .layout {
-  display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
-  grid-template-rows: auto;
-  row-gap: 2rem;
   min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1rem 1fr 1rem;
+  grid-template-rows: auto;
+  row-gap: 1rem;
+}
+
+@include mediaXL {
+  .layout {
+    grid-template-columns: 2fr 8fr 2fr;
+    row-gap: 2rem;
+  }
 }
 
 .main {
