@@ -40,7 +40,7 @@ $fs-500: clamp(2.18rem, calc(2.01rem + 0.84vw), 3.05rem);
 }
 
 @mixin boxShadow {
-  box-shadow: rgba(7, 1, 1, 0.856) 1px 1px 4px;
+  box-shadow: rgba(7, 1, 1, 0.556) 1px 1px 2px;
 }
 
 @mixin flex {
