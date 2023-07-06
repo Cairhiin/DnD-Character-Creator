@@ -56,7 +56,7 @@ export default function SubClassForm({
   const saveData: ({ subClass }: { subClass: number }) => void = ({
     subClass,
   }) => {
-    if (!subClass) {
+    if (!subClass && isEligible) {
       return setError("Please choose a subclass before continuing.");
     }
 
