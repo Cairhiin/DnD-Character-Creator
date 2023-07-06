@@ -165,12 +165,25 @@
   @include mediaLg {
     grid-template-columns: 1rem 4fr 6fr 1rem;
     gap: 2rem;
+
+    aside {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  @include mediaXL {
+    grid-template-columns: 1rem 4fr 6fr 1rem;
+    gap: 2rem;
+
+    aside {
+      position: sticky;
+      top: 6rem;
+    }
   }
 
   aside {
     align-self: start;
-    position: sticky;
-    top: 6rem;
   }
 
   .character__creation__form {
@@ -314,9 +327,10 @@
     }
 
     .create__form__abilities {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-      gap: 0.5rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
 
       .create__form__abilities__ab {
         display: flex;

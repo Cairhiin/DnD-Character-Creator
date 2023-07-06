@@ -275,7 +275,6 @@ export default function AbilitySelection({
             </select>
           </div>
           <div className={styles.character__creation__form__column}>
-            <h3>Ability Scores</h3>
             {
               // Check which method is selected to determine how to assign the attributes
               watch("method") === "roll" && (
