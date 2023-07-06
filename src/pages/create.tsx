@@ -53,7 +53,7 @@ export default function Create({ backgrounds, items }: Props) {
 
   const nextTab = (): void => {
     setActiveTabIndex((prevIndex) => {
-      if (prevIndex >= 9) {
+      if (prevIndex >= 10) {
         return prevIndex;
       }
 
@@ -120,7 +120,7 @@ export default function Create({ backgrounds, items }: Props) {
   useEffect(() => {
     let ignore = false;
 
-    if (activeTabIndex === 9 && !ignore) {
+    if (activeTabIndex === 10 && !ignore) {
       onComplete();
     }
 
@@ -168,37 +168,37 @@ export default function Create({ backgrounds, items }: Props) {
               <span>3</span> Subclass
             </li>
             <li
-              data-tab-id="3"
+              data-tab-id="4"
               className={availableMaxIndex >= 5 ? styles.finished : ""}
             >
               <span>4</span> Abilities
             </li>
             <li
-              data-tab-id="4"
+              data-tab-id="5"
               className={availableMaxIndex >= 6 ? styles.finished : ""}
             >
               <span>5</span> Background
             </li>
             <li
-              data-tab-id="5"
+              data-tab-id="6"
               className={availableMaxIndex >= 7 ? styles.finished : ""}
             >
               <span>6</span> Description
             </li>
             <li
-              data-tab-id="6"
+              data-tab-id="7"
               className={availableMaxIndex >= 8 ? styles.finished : ""}
             >
               <span>7</span> Skills
             </li>
             <li
-              data-tab-id="7"
+              data-tab-id="8"
               className={availableMaxIndex >= 9 ? styles.finished : ""}
             >
               <span>8</span> Spells
             </li>
             <li
-              data-tab-id="8"
+              data-tab-id="9"
               className={availableMaxIndex >= 10 ? styles.finished : ""}
             >
               <span>9</span> Equipment

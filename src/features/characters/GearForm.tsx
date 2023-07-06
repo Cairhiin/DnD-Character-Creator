@@ -166,6 +166,7 @@ export default function GearForm({
   });
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
+    console.log("SUBMIT");
     setForm(
       produce((formState) => {
         formState.steps.equipmentSelection = {
@@ -429,7 +430,9 @@ export default function GearForm({
               Previous
             </AnimatedButton>
           </div>
-          <AnimatedButton variant="secondary">Save Character</AnimatedButton>
+          <AnimatedButton variant="secondary" type="submit">
+            Save Character
+          </AnimatedButton>
         </div>
       </form>
       <div></div>
