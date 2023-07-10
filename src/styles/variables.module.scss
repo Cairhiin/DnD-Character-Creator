@@ -43,10 +43,10 @@ $fs-500: clamp(2.18rem, calc(2.01rem + 0.84vw), 3.05rem);
   box-shadow: rgba(7, 1, 1, 0.556) 1px 1px 2px;
 }
 
-@mixin flex {
+@mixin flex($gap: 1rem, $flex: flex-start) {
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+  gap: $gap;
+  align-items: $flex;
 }
 
 @mixin backgroundArea {
