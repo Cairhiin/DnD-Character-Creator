@@ -35,6 +35,7 @@ export default function character({ character }: Props): JSX.Element {
   const {
     race,
     dndClass,
+    subClass,
     background,
     abilities,
     description,
@@ -74,7 +75,8 @@ export default function character({ character }: Props): JSX.Element {
           <div className={styles.characterSheet__details}>
             <div>
               <div>
-                <span>Class</span> {dndClass?.name} {level}
+                <span>Class</span> {dndClass?.name}{" "}
+                {!!subClass && `(${subClass.name})`} {level}
               </div>
               <div>
                 <span>Background</span> {background?.name}
@@ -90,10 +92,10 @@ export default function character({ character }: Props): JSX.Element {
             </div>
             <div>
               <div>
-                <span>XP</span> {experience}
+                <span>XP</span> {experience || 0}
               </div>
               <div>
-                <span>Player</span> {session?.user?.name}
+                <span>Player</span> {session?.user?.user.username}
               </div>
             </div>
           </div>
