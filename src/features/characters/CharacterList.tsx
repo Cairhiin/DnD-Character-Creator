@@ -35,7 +35,7 @@ const CharacterListItem: ({
           )}
         </ul>
         <div className={styles.buttonRow}>
-          <AnimatedButton variant="secondary" type="outline">
+          <AnimatedButton variant="secondary" outline="outline">
             <Link
               href="/characters/[id]/show"
               as={`characters/${character._id}/show`}
@@ -43,7 +43,7 @@ const CharacterListItem: ({
               VIEW
             </Link>
           </AnimatedButton>
-          <AnimatedButton variant="secondary" type="outline">
+          <AnimatedButton variant="secondary" outline="outline">
             <Link
               href="/characters/[id]/edit"
               as={`characters/${character._id}/edit`}
@@ -54,22 +54,22 @@ const CharacterListItem: ({
           <AnimatedButton onClick={() => setIsOpen(true)}>
             DELETE
           </AnimatedButton>
-          <Modal
-            onClick={() => {
-              handleDelete(character._id!);
-            }}
-            onClose={() => setIsOpen(false)}
-            title={`${character.description?.details.name}`}
-            isOpen={isOpen}
-          >
-            <p>Are you certain you want to delete this character?</p>{" "}
-            <p>
-              Deletion is final - once deleted the character can no longer be
-              recovered
-            </p>
-          </Modal>
         </div>
       </Card>
+      <Modal
+        onClick={() => {
+          handleDelete(character._id!);
+        }}
+        onClose={() => setIsOpen(false)}
+        title={`${character.description?.details.name}`}
+        isOpen={isOpen}
+      >
+        <p>Are you certain you want to delete this character?</p>{" "}
+        <p>
+          Deletion is final - once deleted the character can no longer be
+          recovered
+        </p>
+      </Modal>
     </>
   );
 };

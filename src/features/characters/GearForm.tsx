@@ -166,7 +166,6 @@ export default function GearForm({
   });
 
   const saveData: SubmitHandler<EquipmentFormInput> = ({ items }): void => {
-    console.log("SUBMIT");
     setForm(
       produce((formState) => {
         formState.steps.equipmentSelection = {

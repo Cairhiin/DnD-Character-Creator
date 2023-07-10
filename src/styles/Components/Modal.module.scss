@@ -1,6 +1,7 @@
 @import "../variables.module";
 
 .modal {
+  z-index: 10;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
