@@ -15,9 +15,8 @@ const Modal: ({
   onClick: (id: string) => void;
   onClose: () => void;
 }) => JSX.Element | null = ({ title, children, isOpen, onClick, onClose }) => {
-  if (!isOpen) return null;
   return (
-    <div className={styles.modal}>
+    <div className={`${styles.modal} ${isOpen && styles.modal__show}`}>
       <div className={styles.modal__content}>
         <div className={styles.modal__header}>
           <h3>{title}</h3>

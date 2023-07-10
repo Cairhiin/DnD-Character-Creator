@@ -6,10 +6,24 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: grid;
+  opacity: 0;
+  @include transitionAll;
+  pointer-events: none;
+
+  &.modal__show {
+    opacity: 1;
+    pointer-events: visible;
+
+    .modal__content {
+      transform: translateY(0);
+    }
+  }
 
   .modal__content {
+    transform: translateY(-200px);
     place-self: center;
     background: $tertiary-color;
+    @include transitionAll;
 
     .modal__header {
       padding: 1rem;
@@ -26,6 +40,14 @@
     .modal__footer {
       padding: 1rem;
       @include flex;
+    }
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .modal {
+    .modal__content {
+      transform: translateY(0);
     }
   }
 }
