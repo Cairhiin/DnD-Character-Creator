@@ -166,7 +166,8 @@ export default function RaceSelection({ nextTab }: Props) {
               <p>
                 Each race increases one or more of a character's ability scores
                 and may offer various other benefits in the form of racial
-                traits. Size and speed may also differ.
+                traits. Size and speed may also differ. Some races have a
+                subclass but the SRD has only one option available.
               </p>
             </div>
           </CreateCharacterCard>

@@ -3,7 +3,7 @@ import { useImmer } from "use-immer";
 import { produce } from "immer";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import AnimatedButton from "@/features/ui/AnimatedButton";
-import type { AbilityScores, AbilityFormInput } from "@/types";
+import type { AbilityScores, AbilityFormInput, ApiRace } from "@/types";
 import { POINT_BUY_TOTAL } from "@/constants";
 import Rolled from "./AbilitySelection/Rolled";
 import StandardArray from "./AbilitySelection/StandardArray";
@@ -31,6 +31,7 @@ export default function AbilitySelection({
 
   // Get the ability bonuses from the race choice
   const { ability_bonuses } = form.steps.raceSelection.value.race;
+  const race: ApiRace = form.steps.raceSelection.value.race;
   const [abilityScores, setAbilityScores] = useState<AbilityScores>({
     STR: 0,
     DEX: 0,
@@ -46,6 +47,14 @@ export default function AbilitySelection({
     );
     if (ab?.length !== 0) {
       abilityBonusPerAttribute.push(ab ? ab[0].bonus : 0);
+    } else if (race.index === "dwarf" && key === "WIS") {
+      abilityBonusPerAttribute.push(1);
+    } else if (race.index === "gnome" && key === "CON") {
+      abilityBonusPerAttribute.push(1);
+    } else if (race.index === "halfling" && key === "INT") {
+      abilityBonusPerAttribute.push(1);
+    } else if (race.index === "elf" && key === "CHA") {
+      abilityBonusPerAttribute.push(1);
     } else {
       abilityBonusPerAttribute.push(0);
     }
