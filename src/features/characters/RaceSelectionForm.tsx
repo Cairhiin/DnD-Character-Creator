@@ -195,6 +195,16 @@ export default function RaceSelection({ nextTab }: Props) {
             {error && <ErrorField error={error} />}
           </div>
         }
+        <div className={styles.character__creation__form__column}>
+          <h3>Subrace</h3>
+          {!!watch("race").subraces &&
+            watch("race").subraces!.length > 0 &&
+            watch("race").subraces?.map(
+              ({ name }: { name: string }): JSX.Element => (
+                <div key={name}>{name}</div>
+              )
+            )}
+        </div>
         <div className={styles.create__form__buttonRow}>
           <AnimatedButton variant="secondary" type="submit">
             Next

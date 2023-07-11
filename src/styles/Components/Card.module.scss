@@ -54,9 +54,10 @@
     grid-row: 2 / 4;
     grid-column: 1;
     background: linear-gradient(
-      180deg,
-      rgba($tertiary-color, 0.85),
-      rgba($background-color, 0.7)
+      -45deg,
+      hsl(0, 9%, 9%),
+      hsl(216, 23%, 13%),
+      hsl(199, 74%, 15%)
     );
     text-align: center;
     padding: 60px 1rem 1rem 1rem;
