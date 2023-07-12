@@ -47,13 +47,12 @@ export default function AbilitySelection({
     );
     if (ab?.length !== 0) {
       abilityBonusPerAttribute.push(ab ? ab[0].bonus : 0);
-    } else if (race.index === "dwarf" && key === "WIS") {
-      abilityBonusPerAttribute.push(1);
-    } else if (race.index === "gnome" && key === "CON") {
-      abilityBonusPerAttribute.push(1);
-    } else if (race.index === "halfling" && key === "INT") {
-      abilityBonusPerAttribute.push(1);
-    } else if (race.index === "elf" && key === "CHA") {
+    } else if (
+      (race.index === "dwarf" && key === "WIS") ||
+      (race.index === "gnome" && key === "CON") ||
+      (race.index === "halfling" && key === "CHA") ||
+      (race.index === "elf" && key === "INT")
+    ) {
       abilityBonusPerAttribute.push(1);
     } else {
       abilityBonusPerAttribute.push(0);
