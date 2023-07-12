@@ -1,0 +1,47 @@
+@import "../variables.module";
+
+.skeleton {
+  animation: opacity 5s ease-in-out infinite;
+
+  &__header {
+    @include flex(1rem);
+    align-items: center;
+    margin-bottom: 1rem;
+
+    &__avatar {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background-color: $tertiary-color;
+    }
+
+    &__title {
+      height: 35px;
+      flex: 1;
+      background: $tertiary-color;
+    }
+  }
+
+  &__content {
+    display: grid;
+    gap: 0.3rem;
+
+    & > p {
+      background: $tertiary-color;
+
+      height: 25px;
+    }
+
+    @keyframes opacity {
+      0% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.5;
+      }
+    }
+  }
+}

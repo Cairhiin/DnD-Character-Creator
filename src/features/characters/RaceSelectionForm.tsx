@@ -9,6 +9,7 @@ import AnimatedButton from "@/features/ui/AnimatedButton";
 import { ErrorField } from "./ClassSelectionForm";
 import { FormStateContext } from "@/pages/create";
 import type { ApiRace } from "@/types";
+import Skeleton from "../ui/Skeleton";
 
 interface RaceFormInput {
   race: ApiRace;
@@ -206,6 +207,7 @@ export default function RaceSelection({ nextTab }: Props) {
               )
             )}
         </div>
+        <Skeleton rows={5} hasAvatar={true} />
         <div className={styles.create__form__buttonRow}>
           <AnimatedButton variant="secondary" type="submit">
             Next
