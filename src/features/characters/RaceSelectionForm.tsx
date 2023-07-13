@@ -207,7 +207,6 @@ export default function RaceSelection({ nextTab }: Props) {
               )
             )}
         </div>
-        <Skeleton rows={5} hasAvatar={true} />
         <div className={styles.create__form__buttonRow}>
           <AnimatedButton variant="secondary" type="submit">
             Next

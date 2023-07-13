@@ -13,6 +13,7 @@ import { ErrorField } from "./ClassSelectionForm";
 import type { Spell } from "@/types";
 import { useFetchSpellsByLevel } from "@/hooks/useFetchSpellsByLevel";
 import { useFetchCharacterLevelData } from "@/hooks/useFetchCharacterLevelData";
+import Skeleton from "../ui/Skeleton";
 
 interface Props {
   nextTab: () => void;
@@ -200,6 +201,9 @@ export default function SpellSelection({
           {cantrips.length !== 0 ? (
             <>
               <h3>Choose {numberOfSpells[0]} cantrips</h3>
+              {cantripSpellsIsLoading && (
+                <Skeleton rows={10} hasAvatar={false} />
+              )}
               {cantrips.map((field: any, index: number): JSX.Element => {
                 return (
                   <div key={field.id}>
@@ -227,6 +231,9 @@ export default function SpellSelection({
           {spells.length !== 0 ? (
             <>
               <h3>Choose {numberOfSpells[1]} level 1 spells</h3>
+              {level1SpellsIsLoading && (
+                <Skeleton rows={10} hasAvatar={false} />
+              )}
               {spells.map((field: any, index: number): JSX.Element => {
                 return (
                   <div key={field.id}>
