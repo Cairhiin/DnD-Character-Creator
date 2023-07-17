@@ -111,8 +111,14 @@ export default function AbilitySelection({
     setFormError((error) => null);
     let formHasError = false;
 
+    if (abilityBonuses.filter((ab: number): boolean => ab === 1).length < 2) {
+      setFormError((error) => "Please select two attributes to increase by 1!");
+      formHasError = true;
+    }
+
     if (method === "array") {
       const abilities: number[] = [STR, DEX, CON, INT, WIS, CHA];
+
       if (new Set(abilities).size !== abilities.length) {
         setFormError(
           (error) =>
@@ -291,6 +297,10 @@ export default function AbilitySelection({
         onSubmit={handleSubmit(saveData)}
       >
         <h3>Choose or roll your ability scores</h3>
+        <p>
+          Your half-elf lineage grants you access to an ability increase in two
+          attributes of your choice
+        </p>
         <div className={styles.character__creation__form__column}>
           {race.index === "half-elf" &&
             Object.keys(abilityScores).map(
