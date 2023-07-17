@@ -270,6 +270,25 @@ export default function AbilitySelection({
         onSubmit={handleSubmit(saveData)}
       >
         <h3>Choose or roll your ability scores</h3>
+        <div className={styles.character__creation__form__column}>
+          {race.index === "half-elf" &&
+            Object.keys(abilityScores).map(
+              (key: string): JSX.Element | null => {
+                // Charisma cannot be chosen for +1 as it already gets +2
+                if (key === "CHA") return null;
+                return (
+                  <div key={key}>
+                    <input type="checkbox" key={key} />
+                    <label
+                      htmlFor={key}
+                      className={styles.checkbox}
+                      data-label={key}
+                    ></label>
+                  </div>
+                );
+              }
+            )}
+        </div>
         <div>
           <div className={styles.character__creation__form__method}>
             <label htmlFor="method">Choose a method</label>
