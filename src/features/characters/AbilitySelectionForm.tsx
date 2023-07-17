@@ -58,6 +58,9 @@ export default function AbilitySelection({
       abilityBonusPerAttribute.push(0);
     }
   }
+  const [abilityBonuses, setAbilityBonuses] = useState<number[]>(
+    abilityBonusPerAttribute
+  );
 
   const {
     handleSubmit,
@@ -142,11 +145,11 @@ export default function AbilitySelection({
             value: {
               method: method,
               abilities: {
-                STR: STR,
-                DEX: DEX,
-                CON: CON,
-                WIS: WIS,
-                INT: INT,
+                STR: STR + abilityBonuses[0],
+                DEX: DEX + abilityBonuses[1],
+                CON: CON + abilityBonuses[2],
+                WIS: WIS + abilityBonuses[3],
+                INT: INT + abilityBonuses[4],
                 CHA: CHA,
               },
             },
@@ -179,6 +182,26 @@ export default function AbilitySelection({
       draft.WIS = 0;
       draft.CHA = 0;
     });
+  };
+
+  const handleChange: (e: any) => void = (e) => {
+    const updatedAbilities = [...abilityBonuses];
+    const numberOfAbilitiesChosen = updatedAbilities.filter(
+      (ab: number): boolean => ab === 1
+    ).length;
+
+    let index = 0;
+    if (e === "DEX") index = 1;
+    if (e === "CON") index = 2;
+    if (e === "INT") index = 3;
+    if (e === "WIS") index = 4;
+    if (updatedAbilities[index] === 1) {
+      updatedAbilities[index] = 0;
+      setAbilityBonuses(updatedAbilities);
+    } else if (numberOfAbilitiesChosen < 2) {
+      updatedAbilities[index] = 1;
+      setAbilityBonuses(updatedAbilities);
+    }
   };
 
   return (
@@ -246,7 +269,7 @@ export default function AbilitySelection({
               {Object.values(abilityScores).map(
                 (ability: number, index: number) => (
                   <div key={index}>
-                    <span>{ability + abilityBonusPerAttribute[index]}</span>
+                    <span>{ability + abilityBonuses[index]}</span>
                   </div>
                 )
               )}
@@ -255,9 +278,7 @@ export default function AbilitySelection({
               {Object.values(abilityScores).map((ab: number, index: number) => (
                 <div key={index}>
                   <span>
-                    {calculateAbilityModifier(
-                      ab + abilityBonusPerAttribute[index]
-                    )}
+                    {calculateAbilityModifier(ab + abilityBonuses[index])}
                   </span>
                 </div>
               ))}
@@ -273,12 +294,17 @@ export default function AbilitySelection({
         <div className={styles.character__creation__form__column}>
           {race.index === "half-elf" &&
             Object.keys(abilityScores).map(
-              (key: string): JSX.Element | null => {
+              (key: string, index: number): JSX.Element | null => {
                 // Charisma cannot be chosen for +1 as it already gets +2
                 if (key === "CHA") return null;
                 return (
                   <div key={key}>
-                    <input type="checkbox" key={key} />
+                    <input
+                      id={key}
+                      checked={(abilityBonuses as any)[index] === 1}
+                      type="checkbox"
+                      onClick={() => handleChange(key)}
+                    />
                     <label
                       htmlFor={key}
                       className={styles.checkbox}
